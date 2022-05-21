@@ -1,0 +1,410 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Quick guide</title>
+
+<para>This page contains quick guide on system startup and important implementation details.</para>
+<section xml:id="quick_guide_1usage_generic">
+<title>Using TNeo in your application</title>
+
+<para>The easiest way is to download version archive from <link xlink:href="https://bitbucket.org/dfrank/tneokernel/downloads">downloads page</link>: it contains <computeroutput>bin</computeroutput> folder with library files for various platforms. These library files were built with default configuration file (<computeroutput><link linkend="tn__cfg__default_8h">src/tn_cfg_default.h</link></computeroutput>, see the section <link linkend="building_1configuration_file">Configuration file</link>).</para>
+
+<para>If you use MPLABX, it is probably better to add <emphasis>library project</emphasis> to your main project instead; library projects reside in the <computeroutput>&lt;tneo_path&gt;/lib_project</computeroutput> directory.</para>
+
+<para>In either case, all you need is the following:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Add library file for appropriate platform to your project (or probably <emphasis>library project</emphasis> in case of MPLABX);</para>
+</listitem><listitem>
+<para>Add C include path: <computeroutput>&lt;tneo_path&gt;/src</computeroutput>;</para>
+</listitem><listitem>
+<para>Copy default configuration file as current configuration file: <computeroutput>cp &lt;tneo_path&gt;/src/tn_cfg_default.h &lt;tneo_path&gt;/src/tn_cfg.h</computeroutput> (for more information about configuration file and better ways to manage it, refer to the section <link linkend="building_1configuration_file">Configuration file</link>)</para>
+</listitem><listitem>
+<para>Add the file <computeroutput>&lt;tneo_path&gt;/src/tn_app_check.c</computeroutput> to your application project (see <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput> for details on it).</para>
+</listitem></itemizedlist>
+</para>
+
+<para>That&apos;s all; you can use it in your project now. See below how to do this.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>If you need to change the configuration, you can&apos;t just edit <computeroutput>tn_cfg.h</computeroutput> and keep using pre-built library file: you need to rebuild the library after editing <computeroutput>tn_cfg.h</computeroutput>. Refer to the page <link linkend="building">Building TNeo</link> for details.</para>
+</formalpara>
+</para>
+</section>
+<section xml:id="quick_guide_1quick_guide__time_ticks">
+<title>Time ticks</title>
+
+<para>The kernel needs to calculate timeouts. There are two schemes available: <emphasis>static tick</emphasis> and <emphasis>dynamic tick</emphasis>. For a quick guide, it&apos;s quite enough to just read about static tick, so, for the details on it, refer to the section <link linkend="time_ticks_1time_ticks__static_tick">Static tick</link> and then return back here.</para>
+</section>
+<section xml:id="quick_guide_1starting_the_kernel">
+<title>Starting the kernel</title>
+
+<para><formalpara><title>Quick guide on startup process</title></formalpara>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>You allocate arrays for idle task stack and interrupt stack, there is a convenience macro <computeroutput><link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF()</link></computeroutput> for that. It is good idea to consult the <computeroutput><link linkend="tn__arch__example_8h_1ad465f81e8ea15a530747b1147dbe4605">TN_MIN_STACK_SIZE</link></computeroutput> to determine stack sizes (see example below).</para>
+</listitem><listitem>
+<para>You provide callback function like <computeroutput>void init_task_create(void) { ... }</computeroutput>, in which at least one (and typically just one) your own task should be created and activated. This task should perform application initialization and create all the rest of tasks. See details in <computeroutput><link linkend="tn__sys_8h_1a94f785ff88dfca8746f34de59784883d">TN_CBUserTaskCreate()</link></computeroutput>.</para>
+</listitem><listitem>
+<para>You provide idle callback function to be called periodically from idle task. It&apos;s quite fine to leave it empty.</para>
+</listitem><listitem>
+<para>In the <computeroutput>main()</computeroutput> you should:<itemizedlist>
+<listitem>
+<para>disable <emphasis>system interrupts</emphasis> by calling <computeroutput><link linkend="tn__arch_8h_1a2b3f2294ac42a599662c573394b14c75">tn_arch_int_dis()</link></computeroutput>;</para>
+</listitem><listitem>
+<para>perform some essential CPU configuration, such as oscillator settings and similar things.</para>
+</listitem><listitem>
+<para>setup <emphasis><link linkend="time_ticks">system timer</link></emphasis> interrupt (from which <computeroutput><link linkend="tn__sys_8h_1aa44d297639e0520420890ef2bb7e2c1c">tn_tick_int_processing()</link></computeroutput> gets called)</para>
+</listitem><listitem>
+<para>call <computeroutput><link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start()</link></computeroutput> providing all necessary information: pointers to stacks, their sizes and your callback functions.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>Kernel acts as follows:<itemizedlist>
+<listitem>
+<para>performs all necessary housekeeping;</para>
+</listitem><listitem>
+<para>creates idle task;</para>
+</listitem><listitem>
+<para>calls your <computeroutput><link linkend="tn__sys_8h_1a94f785ff88dfca8746f34de59784883d">TN_CBUserTaskCreate()</link></computeroutput> callback, in which your initial task is created with <computeroutput><link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link></computeroutput> option;</para>
+</listitem><listitem>
+<para>performs first context switch (to your task with highest priority).</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>At this point, system operates normally: your initial task gets executed and you can call whatever system services you need. Typically, your initial task acts then as follows:<itemizedlist>
+<listitem>
+<para>Perform initialization of various on-board peripherals (displays, flash memory chips, or whatever);</para>
+</listitem><listitem>
+<para>Initialize software modules used by application;</para>
+</listitem><listitem>
+<para>Create all the rest of your tasks (since everything is initialized already so that they can proceed with their job);</para>
+</listitem><listitem>
+<para>Eventually, perform its primary job (the job for which task was created at all).</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+
+<para><formalpara><title>Basic example for PIC32</title></formalpara>
+</para>
+
+<para>This example project can be found in the TNeo repository, in the <computeroutput>examples/basic/arch/pic32</computeroutput> directory.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>Before trying to build examples, please read <link linkend="building">Building TNeo</link> page carefully: you need to copy configuration file in the tneo directory to build it. Each example has <computeroutput>tn_cfg_appl.h</computeroutput> file, and you should either create a symbolic link to this file from <computeroutput>tneo/src/tn_cfg.h</computeroutput> or just copy this file as <computeroutput>tneo/src/tn_cfg.h</computeroutput>.</para>
+</formalpara>
+<literallayout><computeroutput><emphasis class="comment">/**</emphasis>
+<emphasis class="comment">&#32;*&#32;TNeo&#32;PIC32&#32;basic&#32;example</emphasis>
+<emphasis class="comment">&#32;*/</emphasis>
+
+<emphasis class="comment">/*******************************************************************************</emphasis>
+<emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;INCLUDED&#32;FILES</emphasis>
+<emphasis class="comment">&#32;******************************************************************************/</emphasis>
+
+<emphasis class="preprocessor">#include&#32;&lt;xc.h&gt;</emphasis>
+<emphasis class="preprocessor">#include&#32;&lt;plib.h&gt;</emphasis>
+<emphasis class="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+<emphasis class="preprocessor">#include&#32;&quot;<link linkend="tn_8h">tn.h</link>&quot;</emphasis>
+
+
+
+
+<emphasis class="comment">/*******************************************************************************</emphasis>
+<emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;PIC32&#32;HARDWARE&#32;CONFIGURATION</emphasis>
+<emphasis class="comment">&#32;******************************************************************************/</emphasis>
+
+<emphasis class="preprocessor">#pragma&#32;config&#32;FNOSC&#32;&#32;&#32;&#32;=&#32;PRIPLL&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Oscillator&#32;Selection</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FPLLIDIV&#32;=&#32;DIV_4&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;PLL&#32;Input&#32;Divider&#32;(PIC32&#32;Starter&#32;Kit:&#32;use&#32;divide&#32;by&#32;2&#32;only)</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FPLLMUL&#32;&#32;=&#32;MUL_20&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;PLL&#32;Multiplier</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FPLLODIV&#32;=&#32;DIV_1&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;PLL&#32;Output&#32;Divider</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FPBDIV&#32;&#32;&#32;=&#32;DIV_2&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Peripheral&#32;Clock&#32;divisor</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FWDTEN&#32;&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Watchdog&#32;Timer</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;WDTPS&#32;&#32;&#32;&#32;=&#32;PS1&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Watchdog&#32;Timer&#32;Postscale</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FCKSM&#32;&#32;&#32;&#32;=&#32;CSDCMD&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Clock&#32;Switching&#32;&amp;&#32;Fail&#32;Safe&#32;Clock&#32;Monitor</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;OSCIOFNC&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;CLKO&#32;Enable</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;POSCMOD&#32;&#32;=&#32;HS&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Primary&#32;Oscillator</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;IESO&#32;&#32;&#32;&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Internal/External&#32;Switch-over</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;FSOSCEN&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Secondary&#32;Oscillator&#32;Enable</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;CP&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Code&#32;Protect</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;BWP&#32;&#32;&#32;&#32;&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Boot&#32;Flash&#32;Write&#32;Protect</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;PWP&#32;&#32;&#32;&#32;&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Program&#32;Flash&#32;Write&#32;Protect</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;ICESEL&#32;&#32;&#32;=&#32;ICS_PGx2&#32;&#32;&#32;&#32;&#32;&#32;//&#32;ICE/ICD&#32;Comm&#32;Channel&#32;Select</emphasis>
+<emphasis class="preprocessor">#pragma&#32;config&#32;DEBUG&#32;&#32;&#32;&#32;=&#32;OFF&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;Debugger&#32;Disabled&#32;for&#32;Starter&#32;Kit</emphasis>
+
+
+
+
+<emphasis class="comment">/*******************************************************************************</emphasis>
+<emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;MACROS</emphasis>
+<emphasis class="comment">&#32;******************************************************************************/</emphasis>
+
+<emphasis class="comment">//--&#32;instruction&#32;that&#32;causes&#32;debugger&#32;to&#32;halt</emphasis>
+<emphasis class="preprocessor">#define&#32;PIC32_SOFTWARE_BREAK()&#32;&#32;__asm__&#32;volatile&#32;(&quot;sdbbp&#32;0&quot;)</emphasis>
+
+<emphasis class="comment">//--&#32;system&#32;frequency</emphasis>
+<emphasis class="preprocessor">#define&#32;SYS_FREQ&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;80000000UL</emphasis>
+
+<emphasis class="comment">//--&#32;peripheral&#32;bus&#32;frequency</emphasis>
+<emphasis class="preprocessor">#define&#32;PB_FREQ&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;40000000UL</emphasis>
+
+<emphasis class="comment">//--&#32;kernel&#32;ticks&#32;(system&#32;timer)&#32;frequency</emphasis>
+<emphasis class="preprocessor">#define&#32;SYS_TMR_FREQ&#32;&#32;&#32;&#32;&#32;&#32;&#32;1000</emphasis>
+
+<emphasis class="comment">//--&#32;system&#32;timer&#32;prescaler</emphasis>
+<emphasis class="preprocessor">#define&#32;SYS_TMR_PRESCALER&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;T5_PS_1_8</emphasis>
+<emphasis class="preprocessor">#define&#32;SYS_TMR_PRESCALER_VALUE&#32;&#32;&#32;&#32;&#32;8</emphasis>
+
+<emphasis class="comment">//--&#32;system&#32;timer&#32;period&#32;(auto-calculated)</emphasis>
+<emphasis class="preprocessor">#define&#32;SYS_TMR_PERIOD&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\</emphasis>
+<emphasis class="preprocessor">&#32;&#32;&#32;(PB_FREQ&#32;/&#32;SYS_TMR_PRESCALER_VALUE&#32;/&#32;SYS_TMR_FREQ)</emphasis>
+
+
+
+
+<emphasis class="comment">//--&#32;idle&#32;task&#32;stack&#32;size,&#32;in&#32;words</emphasis>
+<emphasis class="preprocessor">#define&#32;IDLE_TASK_STACK_SIZE&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(TN_MIN_STACK_SIZE&#32;+&#32;16)</emphasis>
+
+<emphasis class="comment">//--&#32;interrupt&#32;stack&#32;size,&#32;in&#32;words</emphasis>
+<emphasis class="preprocessor">#define&#32;INTERRUPT_STACK_SIZE&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(TN_MIN_STACK_SIZE&#32;+&#32;64)</emphasis>
+
+<emphasis class="comment">//--&#32;stack&#32;sizes&#32;of&#32;user&#32;tasks</emphasis>
+<emphasis class="preprocessor">#define&#32;TASK_A_STK_SIZE&#32;&#32;&#32;&#32;(TN_MIN_STACK_SIZE&#32;+&#32;96)</emphasis>
+<emphasis class="preprocessor">#define&#32;TASK_B_STK_SIZE&#32;&#32;&#32;&#32;(TN_MIN_STACK_SIZE&#32;+&#32;96)</emphasis>
+<emphasis class="preprocessor">#define&#32;TASK_C_STK_SIZE&#32;&#32;&#32;&#32;(TN_MIN_STACK_SIZE&#32;+&#32;96)</emphasis>
+
+<emphasis class="comment">//--&#32;user&#32;task&#32;priorities</emphasis>
+<emphasis class="preprocessor">#define&#32;TASK_A_PRIORITY&#32;&#32;&#32;&#32;7</emphasis>
+<emphasis class="preprocessor">#define&#32;TASK_B_PRIORITY&#32;&#32;&#32;&#32;6</emphasis>
+<emphasis class="preprocessor">#define&#32;TASK_C_PRIORITY&#32;&#32;&#32;&#32;5</emphasis>
+
+
+
+<emphasis class="comment">/*******************************************************************************</emphasis>
+<emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;DATA</emphasis>
+<emphasis class="comment">&#32;******************************************************************************/</emphasis>
+
+<emphasis class="comment">//--&#32;Allocate&#32;arrays&#32;for&#32;stacks:&#32;stack&#32;for&#32;idle&#32;task</emphasis>
+<emphasis class="comment">//&#32;&#32;&#32;and&#32;for&#32;interrupts&#32;are&#32;the&#32;requirement&#32;of&#32;the&#32;kernel;</emphasis>
+<emphasis class="comment">//&#32;&#32;&#32;others&#32;are&#32;application-dependent.</emphasis>
+<emphasis class="comment">//</emphasis>
+<emphasis class="comment">//&#32;&#32;&#32;We&#32;use&#32;convenience&#32;macro&#32;TN_STACK_ARR_DEF()&#32;for&#32;that.</emphasis>
+
+<link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF</link>(idle_task_stack,&#32;IDLE_TASK_STACK_SIZE);
+<link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF</link>(interrupt_stack,&#32;INTERRUPT_STACK_SIZE);
+
+<link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF</link>(task_a_stack,&#32;TASK_A_STK_SIZE);
+<link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF</link>(task_b_stack,&#32;TASK_B_STK_SIZE);
+<link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF</link>(task_c_stack,&#32;TASK_C_STK_SIZE);
+
+
+
+<emphasis class="comment">//--&#32;task&#32;structures</emphasis>
+
+<emphasis class="keyword">struct&#32;</emphasis><link linkend="structTN__Task">TN_Task</link>&#32;task_a&#32;=&#32;{};
+<emphasis class="keyword">struct&#32;</emphasis><link linkend="structTN__Task">TN_Task</link>&#32;task_b&#32;=&#32;{};
+<emphasis class="keyword">struct&#32;</emphasis><link linkend="structTN__Task">TN_Task</link>&#32;task_c&#32;=&#32;{};
+
+
+
+<emphasis class="comment">/*******************************************************************************</emphasis>
+<emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;ISRs</emphasis>
+<emphasis class="comment">&#32;******************************************************************************/</emphasis>
+<emphasis class="comment"></emphasis>
+<emphasis class="comment">/**</emphasis>
+<emphasis class="comment">&#32;*&#32;system&#32;timer&#32;ISR</emphasis>
+<emphasis class="comment">&#32;*/</emphasis>
+<link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr</link>(_TIMER_5_VECTOR)
+{
+&#32;&#32;&#32;INTClearFlag(INT_T5);
+&#32;&#32;&#32;<link linkend="tn__sys_8h_1aa44d297639e0520420890ef2bb7e2c1c">tn_tick_int_processing</link>();
+}
+
+
+
+<emphasis class="comment">/*******************************************************************************</emphasis>
+<emphasis class="comment">&#32;*&#32;&#32;&#32;&#32;FUNCTIONS</emphasis>
+<emphasis class="comment">&#32;******************************************************************************/</emphasis>
+
+<emphasis class="keywordtype">void</emphasis>&#32;appl_init(<emphasis class="keywordtype">void</emphasis>);
+
+<emphasis class="keywordtype">void</emphasis>&#32;task_a_body(<emphasis class="keywordtype">void</emphasis>&#32;*par)
+{
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;this&#32;is&#32;a&#32;first&#32;created&#32;application&#32;task,&#32;so&#32;it&#32;needs&#32;to&#32;perform</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">//&#32;&#32;&#32;all&#32;the&#32;application&#32;initialization.</emphasis>
+&#32;&#32;&#32;appl_init();
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;and&#32;then,&#32;let&apos;s&#32;get&#32;to&#32;the&#32;primary&#32;job&#32;of&#32;the&#32;task</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">//&#32;&#32;&#32;(job&#32;for&#32;which&#32;task&#32;was&#32;created&#32;at&#32;all)</emphasis>
+&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(;;)
+&#32;&#32;&#32;{
+&#32;&#32;&#32;&#32;&#32;&#32;mPORTEToggleBits(BIT_0);
+&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="tn__tasks_8h_1ae768a72ca0efde5767796cc1770bd45e">tn_task_sleep</link>(500);
+&#32;&#32;&#32;}
+}
+
+<emphasis class="keywordtype">void</emphasis>&#32;task_b_body(<emphasis class="keywordtype">void</emphasis>&#32;*par)
+{
+&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(;;)
+&#32;&#32;&#32;{
+&#32;&#32;&#32;&#32;&#32;&#32;mPORTEToggleBits(BIT_1);
+&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="tn__tasks_8h_1ae768a72ca0efde5767796cc1770bd45e">tn_task_sleep</link>(1000);
+&#32;&#32;&#32;}
+}
+
+<emphasis class="keywordtype">void</emphasis>&#32;task_c_body(<emphasis class="keywordtype">void</emphasis>&#32;*par)
+{
+&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(;;)
+&#32;&#32;&#32;{
+&#32;&#32;&#32;&#32;&#32;&#32;mPORTEToggleBits(BIT_2);
+&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="tn__tasks_8h_1ae768a72ca0efde5767796cc1770bd45e">tn_task_sleep</link>(1500);
+&#32;&#32;&#32;}
+}
+<emphasis class="comment"></emphasis>
+<emphasis class="comment">/**</emphasis>
+<emphasis class="comment">&#32;*&#32;Hardware&#32;init:&#32;called&#32;from&#32;main()&#32;with&#32;interrupts&#32;disabled</emphasis>
+<emphasis class="comment">&#32;*/</emphasis>
+<emphasis class="keywordtype">void</emphasis>&#32;hw_init(<emphasis class="keywordtype">void</emphasis>)
+{
+&#32;&#32;&#32;SYSTEMConfig(SYS_FREQ,&#32;SYS_CFG_WAIT_STATES&#32;|&#32;SYS_CFG_PCACHE);
+
+&#32;&#32;&#32;<emphasis class="comment">//turn&#32;off&#32;ADC&#32;function&#32;for&#32;all&#32;pins</emphasis>
+&#32;&#32;&#32;AD1PCFG&#32;=&#32;0xffffffff;
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;enable&#32;timer5&#32;interrupt</emphasis>
+&#32;&#32;&#32;OpenTimer5((0
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;T5_ON
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;T5_IDLE_STOP
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;SYS_TMR_PRESCALER
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;T5_SOURCE_INT
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;),
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(SYS_TMR_PERIOD&#32;-&#32;1)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;set&#32;timer5&#32;interrupt&#32;priority&#32;to&#32;2,&#32;enable&#32;it</emphasis>
+&#32;&#32;&#32;INTSetVectorPriority(INT_TIMER_5_VECTOR,&#32;INT_PRIORITY_LEVEL_2);
+&#32;&#32;&#32;INTSetVectorSubPriority(INT_TIMER_5_VECTOR,&#32;INT_SUB_PRIORITY_LEVEL_0);
+&#32;&#32;&#32;INTClearFlag(INT_T5);
+&#32;&#32;&#32;INTEnable(INT_T5,&#32;INT_ENABLED);
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;enable&#32;multi-vectored&#32;interrupt&#32;mode</emphasis>
+&#32;&#32;&#32;INTConfigureSystem(INT_SYSTEM_CONFIG_MULT_VECTOR);
+}
+<emphasis class="comment"></emphasis>
+<emphasis class="comment">/**</emphasis>
+<emphasis class="comment">&#32;*&#32;Application&#32;init:&#32;called&#32;from&#32;the&#32;first&#32;created&#32;application&#32;task</emphasis>
+<emphasis class="comment">&#32;*/</emphasis>
+<emphasis class="keywordtype">void</emphasis>&#32;appl_init(<emphasis class="keywordtype">void</emphasis>)
+{
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;configure&#32;LED&#32;port&#32;pins</emphasis>
+&#32;&#32;&#32;mPORTESetPinsDigitalOut(BIT_0&#32;|&#32;BIT_1&#32;|&#32;BIT_2);
+&#32;&#32;&#32;mPORTEClearBits(BIT_0&#32;|&#32;BIT_1&#32;|&#32;BIT_2);
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;initialize&#32;various&#32;on-board&#32;peripherals,&#32;such&#32;as</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">//&#32;&#32;&#32;flash&#32;memory,&#32;displays,&#32;etc.</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">//&#32;&#32;&#32;(in&#32;this&#32;sample&#32;project&#32;there&apos;s&#32;nothing&#32;to&#32;init)</emphasis>
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;initialize&#32;various&#32;program&#32;modules</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">//&#32;&#32;&#32;(in&#32;this&#32;sample&#32;project&#32;there&apos;s&#32;nothing&#32;to&#32;init)</emphasis>
+
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;create&#32;all&#32;the&#32;rest&#32;application&#32;tasks</emphasis>
+&#32;&#32;&#32;<link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create</link>(
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&amp;task_b,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;task_b_body,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TASK_B_PRIORITY,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;task_b_stack,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TASK_B_STK_SIZE,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NULL,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link>)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+
+&#32;&#32;&#32;<link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create</link>(
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&amp;task_c,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;task_c_body,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TASK_C_PRIORITY,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;task_c_stack,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TASK_C_STK_SIZE,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NULL,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link>)
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+}
+
+<emphasis class="comment">//--&#32;idle&#32;callback&#32;that&#32;is&#32;called&#32;periodically&#32;from&#32;idle&#32;task</emphasis>
+<emphasis class="keywordtype">void</emphasis>&#32;idle_task_callback&#32;(<emphasis class="keywordtype">void</emphasis>)
+{
+}
+
+<emphasis class="comment">//--&#32;create&#32;first&#32;application&#32;task(s)</emphasis>
+<emphasis class="keywordtype">void</emphasis>&#32;init_task_create(<emphasis class="keywordtype">void</emphasis>)
+{
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;A&#32;performs&#32;complete&#32;application&#32;initialization,</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">//&#32;&#32;&#32;it&apos;s&#32;the&#32;first&#32;created&#32;application&#32;task</emphasis>
+&#32;&#32;&#32;<link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create</link>(
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&amp;task_a,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;structure</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;task_a_body,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;body&#32;function</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TASK_A_PRIORITY,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;priority</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;task_a_stack,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;stack</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TASK_A_STK_SIZE,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;stack&#32;size&#32;(in&#32;words)</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NULL,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="comment">//--&#32;task&#32;function&#32;parameter</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link>&#32;&#32;&#32;<emphasis class="comment">//--&#32;creation&#32;option</emphasis>
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+
+}
+
+int32_t&#32;main(<emphasis class="keywordtype">void</emphasis>)
+{
+<emphasis class="preprocessor">#ifndef&#32;PIC32_STARTER_KIT</emphasis>
+&#32;&#32;&#32;<emphasis class="comment">/*The&#32;JTAG&#32;is&#32;on&#32;by&#32;default&#32;on&#32;POR.&#32;&#32;A&#32;PIC32&#32;Starter&#32;Kit&#32;uses&#32;the&#32;JTAG,&#32;but</emphasis>
+<emphasis class="comment">&#32;&#32;&#32;&#32;&#32;for&#32;other&#32;debug&#32;tool&#32;use,&#32;like&#32;ICD&#32;3&#32;and&#32;Real&#32;ICE,&#32;the&#32;JTAG&#32;should&#32;be&#32;off</emphasis>
+<emphasis class="comment">&#32;&#32;&#32;&#32;&#32;to&#32;free&#32;up&#32;the&#32;JTAG&#32;I/O&#32;*/</emphasis>
+&#32;&#32;&#32;DDPCONbits.JTAGEN&#32;=&#32;0;
+<emphasis class="preprocessor">#endif</emphasis>
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;unconditionally&#32;disable&#32;interrupts</emphasis>
+&#32;&#32;&#32;<link linkend="tn__arch_8h_1a2b3f2294ac42a599662c573394b14c75">tn_arch_int_dis</link>();
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;init&#32;hardware</emphasis>
+&#32;&#32;&#32;hw_init();
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;call&#32;to&#32;tn_sys_start()&#32;never&#32;returns</emphasis>
+&#32;&#32;&#32;<link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start</link>(
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idle_task_stack,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IDLE_TASK_STACK_SIZE,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;interrupt_stack,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;INTERRUPT_STACK_SIZE,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;init_task_create,
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idle_task_callback
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+
+&#32;&#32;&#32;<emphasis class="comment">//--&#32;unreachable</emphasis>
+&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;1;
+}
+
+<emphasis class="keywordtype">void</emphasis>&#32;__attribute__((naked,&#32;nomips16,&#32;noreturn))&#32;_general_exception_handler(<emphasis class="keywordtype">void</emphasis>)
+{
+&#32;&#32;&#32;PIC32_SOFTWARE_BREAK();
+&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>&#32;(;;)&#32;;
+}
+
+</computeroutput></literallayout></para>
+</section>
+<section xml:id="quick_guide_1round_robin">
+<title>Round-robin scheduling</title>
+
+<para>TNKernel has the ability to make round robin scheduling for tasks with identical priority. By default, round robin scheduling is turned off for all priorities. To enable round robin scheduling for tasks on certain priority level and to set time slices for these priority, user must call the <computeroutput><link linkend="tn__sys_8h_1a05fc370b6faa604fd8ff9411361c4cd0">tn_sys_tslice_set()</link></computeroutput> function. The time slice value is the same for all tasks with identical priority but may be different for each priority level. If the round robin scheduling is enabled, every system time tick interrupt increments the currently running task time slice counter. When the time slice interval is completed, the task is placed at the tail of the ready to run queue of its priority level (this queue contains tasks in the <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc"><computeroutput>RUNNABLE</computeroutput></link> state) and the time slice counter is cleared. Then the task may be preempted by tasks of higher or equal priority.</para>
+
+<para>In most cases, there is no reason to enable round robin scheduling. For applications running multiple copies of the same code, however, (GUI windows, etc), round robin scheduling is an acceptable solution.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>Round-robin is not supported in <link linkend="time_ticks_1time_ticks__dynamic_tick">Dynamic tick</link> mode. </para>
+</formalpara>
+</para>
+</section>
+
+</chapter>

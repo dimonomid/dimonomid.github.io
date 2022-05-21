@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__eventgrp_8h">
+    <title>tn_eventgrp.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_sys.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__EventGrp">TN_EventGrp</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__EGrpTaskWait">TN_EGrpTaskWait</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__EGrpLink">TN_EGrpLink</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbd">TN_EGrpWaitMode</link> {
+<link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbdae5b489c071cb5e8807877526221de4b0">TN_EVENTGRP_WMODE_OR</link>= (1 &lt;&lt; 0),
+<link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbda8eff85a7369195424724af772dfcc8fa">TN_EVENTGRP_WMODE_AND</link>= (1 &lt;&lt; 1),
+<link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573">TN_EVENTGRP_WMODE_AUTOCLR</link>= (1 &lt;&lt; 2)
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__eventgrp_8h_1ac9a2c46d690feaf04505ed7b7459d335">TN_EGrpOp</link> {
+<link linkend="tn__eventgrp_8h_1ac9a2c46d690feaf04505ed7b7459d335a99218a684d58413298b6b05a8e939eab">TN_EVENTGRP_OP_SET</link>,
+<link linkend="tn__eventgrp_8h_1ac9a2c46d690feaf04505ed7b7459d335a96662be438016ecf6690ee4ab3b60c93">TN_EVENTGRP_OP_CLEAR</link>,
+<link linkend="tn__eventgrp_8h_1ac9a2c46d690feaf04505ed7b7459d335a25a252a0fb358e51dd86cccafda33aa0">TN_EVENTGRP_OP_TOGGLE</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__eventgrp_8h_1aca5ed3b60cdaa2e2db8b88f4b5e33d3f">TN_EGrpAttr</link> {
+<link linkend="tn__eventgrp_8h_1aca5ed3b60cdaa2e2db8b88f4b5e33d3fa43efdb2745838e224c83a99b1b193c5f">TN_EVENTGRP_ATTR_SINGLE</link>= (1 &lt;&lt; 0),
+<link linkend="tn__eventgrp_8h_1aca5ed3b60cdaa2e2db8b88f4b5e33d3fa259a30414ed85922670df476cb675683">TN_EVENTGRP_ATTR_MULTI</link>= (1 &lt;&lt; 1),
+<link linkend="tn__eventgrp_8h_1aca5ed3b60cdaa2e2db8b88f4b5e33d3fae1c96dbad9879c7cf30b3d718a11292a">TN_EVENTGRP_ATTR_CLR</link>= (1 &lt;&lt; 2),
+<link linkend="tn__eventgrp_8h_1aca5ed3b60cdaa2e2db8b88f4b5e33d3fa1adfe6cfcb1dee045f59b2025537fd5a">TN_EVENTGRP_ATTR_NONE</link>= (0)
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a772da8298e7d62ae5109c5dbe792f8f0">tn_eventgrp_create_wattr</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, enum <link linkend="tn__eventgrp_8h_1aca5ed3b60cdaa2e2db8b88f4b5e33d3f">TN_EGrpAttr</link> attr, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> initial_pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static <link linkend="tn__arch__example_8h_1ad7d8039ee539dd492556f83a7a27aba6">_TN_INLINE</link> enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a666279adbb670eb8a7f8fd0547d1d68e">tn_eventgrp_create</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> initial_pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a422ce1b22908602cee6fa8301948ab35">tn_eventgrp_delete</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a16906b6c4633087a3865c8e732dcb958">tn_eventgrp_wait</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> wait_pattern, enum <link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbd">TN_EGrpWaitMode</link> wait_mode, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * p_flags_pattern, <link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a787501b26f934aeb7a3a506805e253de">tn_eventgrp_wait_polling</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> wait_pattern, enum <link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbd">TN_EGrpWaitMode</link> wait_mode, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * p_flags_pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a1203b6dd58325c8a60513180ad6b538d">tn_eventgrp_iwait_polling</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> wait_pattern, enum <link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbd">TN_EGrpWaitMode</link> wait_mode, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * p_flags_pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a259b92fc12d98a203cb58c2be1b07cad">tn_eventgrp_modify</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, enum <link linkend="tn__eventgrp_8h_1ac9a2c46d690feaf04505ed7b7459d335">TN_EGrpOp</link> operation, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__eventgrp_8h_1a1a421a5ee44c2d619567656f52ea870f">tn_eventgrp_imodify</link> (
+struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, enum <link linkend="tn__eventgrp_8h_1ac9a2c46d690feaf04505ed7b7459d335">TN_EGrpOp</link> operation, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Event group. </para>
+
+<para>An event group has an internal variable (of type <computeroutput><link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link></computeroutput>), which is interpreted as a bit pattern where each bit represents an event. An event group also has a wait queue for the tasks waiting on these events. A task may set specified bits when an event occurs and may clear specified bits when necessary.</para>
+
+<para>The tasks waiting for an event(s) are placed in the event group&apos;s wait queue. An event group is a very suitable synchronization object for cases where (for some reasons) one task has to wait for many tasks, or vice versa, many tasks have to wait for one task.</para>
+<section xml:id="tn__eventgrp_8h_1eventgrp_connect">
+<title>Connecting an event group to other system objects</title>
+
+<para>Sometimes task needs to wait for different system events, the most common examples are:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>wait for a message from the queue(s) plus wait for some application-dependent event (such as a flag to finish the task, or whatever);</para>
+</listitem><listitem>
+<para>wait for messages from multiple queues.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>If the kernel doesn&apos;t offer a mechanism for that, programmer usually have to use polling services on these queues and sleep for a few system ticks. Obviously, this approach has serious drawbacks: we have a lot of useless context switches, and response for the message gets much slower. Actually, we lost the main goal of the preemptive kernel when we use polling services like that.</para>
+
+<para>TNeo offers a solution: an event group can be connected to other kernel objects, and these objects will maintain certain flags inside that event group automatically.</para>
+
+<para>So, in case of multiple queues, we can act as follows (assume we have two queues: Q1 and Q2) :</para>
+
+<para><itemizedlist>
+<listitem>
+<para>create event group EG;</para>
+</listitem><listitem>
+<para>connect EG with flag 1 to Q1;</para>
+</listitem><listitem>
+<para>connect EG with flag 2 to Q2;</para>
+</listitem><listitem>
+<para>when task needs to receive a message from either Q1 or Q2, it just waits for the any of flags 1 or 2 in the EG, this is done in the single call to <computeroutput><link linkend="tn__eventgrp_8h_1a16906b6c4633087a3865c8e732dcb958">tn_eventgrp_wait()</link></computeroutput>.</para>
+</listitem><listitem>
+<para>when that event happened, task checks which flag is set, and receive message from the appropriate queue.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Please note that task waiting for the event should <emphasis role="bold">not</emphasis> clear the flag manually: this flag is maintained completely by the queue. If the queue is non-empty, the flag is set. If the queue becomes empty, the flag is cleared.</para>
+
+<para>For the information on system services related to queue, refer to the <link linkend="tn__dqueue_8h">queue reference</link>.</para>
+
+<para>There is an example project available that demonstrates event group connection technique: <computeroutput>examples/queue_eventgrp_conn</computeroutput>. Be sure to examine the readme there. </para>
+</section>
+    <para>Definition in file /home/dimon/projects/tntest/lib/mc/tnkernel_df/src/core/tn_eventgrp.h</para>
+    </simplesect>
+</section>

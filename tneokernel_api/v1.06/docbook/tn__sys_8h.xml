@@ -1,0 +1,253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__sys_8h">
+    <title>tn_sys.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;../arch/tn_arch.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_cfg_dispatch.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_timer.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="struct__TN__BuildCfg">_TN_BuildCfg</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__sys_8h_1ad61af0f0e9ab96bdf1ac1bf1e03e3c75">TN_STACK_ARR_DEF</link> <link linkend="tn__arch__example_8h_1ae245dddb19cd7c12b7038a62d576fafa">TN_ARCH_STK_ATTR_BEFORE</link>                   \
+   <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> name[ (size) ]                   \
+   <link linkend="tn__arch__example_8h_1ab082613959b539182b8b47bc87d18d6a">TN_ARCH_STK_ATTR_AFTER</link><para><emphasis>Convenience macro for the definition of stack array.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__sys_8h_1ad98662c1f06abe650958bbf208414e18">_TN_BUILD_CFG_ARCH_STRUCT_FILL</link><para><emphasis>For internal kernel usage: helper macro that fills architecture-dependent
+values.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__sys_8h_1a7784d4218225b2cbd087628bad0d544a">_TN_BUILD_CFG_STRUCT_FILL</link> {                                                                       \
+   memset((_p_struct), 0x00, sizeof(*(_p_struct)));                     \
+                                                                        \
+   (_p_struct)-&gt;priorities_cnt            = TN_PRIORITIES_CNT;          \
+   (_p_struct)-&gt;check_param               = TN_CHECK_PARAM;             \
+   (_p_struct)-&gt;debug                     = TN_DEBUG;                   \
+   (_p_struct)-&gt;use_mutexes               = TN_USE_MUTEXES;             \
+   (_p_struct)-&gt;mutex_rec                 = TN_MUTEX_REC;               \
+   (_p_struct)-&gt;mutex_deadlock_detect     = TN_MUTEX_DEADLOCK_DETECT;   \
+   (_p_struct)-&gt;tick_lists_cnt_minus_one  = (TN_TICK_LISTS_CNT - 1);    \
+   (_p_struct)-&gt;api_make_alig_arg         = TN_API_MAKE_ALIG_ARG;       \
+   (_p_struct)-&gt;profiler                  = TN_PROFILER;                \
+   (_p_struct)-&gt;profiler_wait_time        = TN_PROFILER_WAIT_TIME;      \
+   (_p_struct)-&gt;stack_overflow_check      = TN_STACK_OVERFLOW_CHECK;    \
+   (_p_struct)-&gt;dynamic_tick              = TN_DYNAMIC_TICK;            \
+   (_p_struct)-&gt;old_events_api            = TN_OLD_EVENT_API;           \
+                                                                        \
+   _TN_BUILD_CFG_ARCH_STRUCT_FILL(_p_struct);                           \
+}<para><emphasis>For internal kernel usage: fill the structure &lt;tt&gt;#_TN_BuildCfg&lt;/tt&gt; with
+current build-time configuration values.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__sys_8h_1ab389cb36d15c2390d7868b10391c9b49">TN_NO_TIME_SLICE</link> 0<para><emphasis>Value to pass to &lt;tt&gt;tn_sys_tslice_set()&lt;/tt&gt; to turn round-robin off.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__sys_8h_1a546b128561cc3bf46d0423bad1f5c8c7">TN_MAX_TIME_SLICE</link> 0xFFFE<para><emphasis>Max value of time slice.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__sys_8h_1ace9542d94b996fb2070cd57d6658a2d8">TN_StateFlag</link> {
+<link linkend="tn__sys_8h_1ace9542d94b996fb2070cd57d6658a2d8aa5085b1c78bc7e75aeac04a76cab6a52">TN_STATE_FLAG__SYS_RUNNING</link>= (1 &lt;&lt; 0),
+<link linkend="tn__sys_8h_1ace9542d94b996fb2070cd57d6658a2d8a188c405a2cde555e7aaaeaa1189a4580">TN_STATE_FLAG__DEADLOCK</link>= (1 &lt;&lt; 1)
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__sys_8h_1a54b0c697dfdb3b59e7bcc6eb7badda51">TN_Context</link> {
+<link linkend="tn__sys_8h_1a54b0c697dfdb3b59e7bcc6eb7badda51ac6015804609fb2bb71335015c51c40a3">TN_CONTEXT_NONE</link>,
+<link linkend="tn__sys_8h_1a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6">TN_CONTEXT_TASK</link>,
+<link linkend="tn__sys_8h_1a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626">TN_CONTEXT_ISR</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__sys_8h_1a94f785ff88dfca8746f34de59784883d">TN_CBUserTaskCreate</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__sys_8h_1ac53892c962d429fadf7cf508024eec66">TN_CBIdle</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__sys_8h_1a58213672897062fb3389ffece2a8f2aa">TN_CBStackOverflow</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__sys_8h_1a3b66b641f86c86851633748dc968fde7">TN_CBDeadlock</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start</link> (
+<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * idle_task_stack, unsigned int idle_task_stack_size, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * int_stack, unsigned int int_stack_size, <link linkend="tn__sys_8h_1a94f785ff88dfca8746f34de59784883d">TN_CBUserTaskCreate</link> * cb_user_task_create, <link linkend="tn__sys_8h_1ac53892c962d429fadf7cf508024eec66">TN_CBIdle</link> * cb_idle)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sys_8h_1a05fc370b6faa604fd8ff9411361c4cd0">tn_sys_tslice_set</link> (
+int priority, int ticks)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link> <link linkend="tn__sys_8h_1a4864ca85d87bab0fa95ce11aefcd1a92">tn_sys_time_get</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__sys_8h_1aaa4a5c2feb4a0db5993b81dde496edc3">tn_callback_deadlock_set</link> (
+<link linkend="tn__sys_8h_1a3b66b641f86c86851633748dc968fde7">TN_CBDeadlock</link> * cb)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__sys_8h_1ab40a7069739439d7b70cc4e19d0b9fe3">tn_callback_stack_overflow_set</link> (
+<link linkend="tn__sys_8h_1a58213672897062fb3389ffece2a8f2aa">TN_CBStackOverflow</link> * cb)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__sys_8h_1ace9542d94b996fb2070cd57d6658a2d8">TN_StateFlag</link> <link linkend="tn__sys_8h_1a202fb30400101599c1e39ba4e58d2fd5">tn_sys_state_flags_get</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__sys_8h_1a54b0c697dfdb3b59e7bcc6eb7badda51">TN_Context</link> <link linkend="tn__sys_8h_1ac3233931746c9d8b84ebd34a2a3a468a">tn_sys_context_get</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static <link linkend="tn__arch__example_8h_1ad7d8039ee539dd492556f83a7a27aba6">_TN_INLINE</link> <link linkend="tn__common_8h_1a9f76389d1506addfc7542f54e484a92c">TN_BOOL</link> <link linkend="tn__sys_8h_1a77aab9748bbca8609e3daf6d18855a06">tn_is_task_context</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>static <link linkend="tn__arch__example_8h_1ad7d8039ee539dd492556f83a7a27aba6">_TN_INLINE</link> <link linkend="tn__common_8h_1a9f76389d1506addfc7542f54e484a92c">TN_BOOL</link> <link linkend="tn__sys_8h_1a8ebeb4c866520c49318d32c5e7de25f8">tn_is_isr_context</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__Task">TN_Task</link> * <link linkend="tn__sys_8h_1a2ca353dcf362a5aa8d2e5a3960e51410">tn_cur_task_get</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="tn__common_8h_1a82f7de9034cbbb373c4dbcff45942343">TN_TaskBody</link> * <link linkend="tn__sys_8h_1afa3c83dce52b17c9ee07b34af0fcebab">tn_cur_task_body_get</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__sys_8h_1ab4e879240635c8f73e20905b8e499c1c">tn_callback_dyn_tick_set</link> (
+<link linkend="tn__timer_8h_1ae69b982cc5443dc4072fe0d6493d96cd">TN_CBTickSchedule</link> * cb_tick_schedule, <link linkend="tn__timer_8h_1a06ed8be45bc0445892789ec0a13f0704">TN_CBTickCntGet</link> * cb_tick_cnt_get)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Kernel system routines: system start, tick processing, time slice managing. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_sys.h</para>
+    </simplesect>
+</section>

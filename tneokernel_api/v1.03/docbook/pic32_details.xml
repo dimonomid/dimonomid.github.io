@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PIC32 details</title>
+
+<para>PIC32 port implementation details</para>
+<section xml:id="pic32_details_1pic32_context_switch">
+<title>Context switch</title>
+
+<para>The context switch is implemented using the core software 0 interrupt. It should be configured to use the lowest priority in the system:</para>
+
+<para><literallayout><computeroutput>//&#32;set&#32;up&#32;the&#32;software&#32;interrupt&#32;0&#32;with&#32;a&#32;priority&#32;of&#32;1,&#32;subpriority&#32;0
+INTSetVectorPriority(INT_CORE_SOFTWARE_0_VECTOR,&#32;INT_PRIORITY_LEVEL_1);
+INTSetVectorSubPriority(INT_CORE_SOFTWARE_0_VECTOR,&#32;INT_SUB_PRIORITY_LEVEL_0);
+INTEnable(INT_CS0,&#32;INT_ENABLED);
+</computeroutput></literallayout></para>
+
+<para>The interrupt priority level used by the context switch interrupt should not be configured to use shadow register sets.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>if tneokernel is built as a separate library, then the file <computeroutput>src/arch/pic32/tn_arch_pic32_int_vec1.S</computeroutput> must be included in the main project itself, in order to dispatch vector1 (core software interrupt 0) correctly. Do note that if we include this file in the TNeoKernel library project, it doesn&apos;t work for vector, unfortunately.</para>
+<simplesect/>
+<para>If you forgot to include this file, you got an error on the link step, like this: <literallayout><computeroutput>undefined&#32;reference&#32;to&#32;`_you_should_add_file___tn_arch_pic32_int_vec1_S___to_the_project&apos;
+</computeroutput></literallayout> Which is much more informative than if you just get to <computeroutput>_DefaultInterrupt</computeroutput> when it&apos;s time to switch context.</para>
+</formalpara>
+</para>
+</section>
+<section xml:id="pic32_details_1pic32_interrupts">
+<title>Interrupts</title>
+
+<para>For detailed information about interrupts in TNeoKernel, refer to the page <link linkend="interrupts">Interrupts</link>.</para>
+
+<para>PIC32 port supports nested interrupts. The kernel provides C-language macros for calling C-language interrupt service routines, which can use either MIPS32 or MIPS16e mode. Both software and shadow register interrupt context saving is supported. Usage is as follows:</para>
+
+<para><literallayout><computeroutput>/*&#32;Timer&#32;1&#32;interrupt&#32;handler&#32;using&#32;software&#32;interrupt&#32;context&#32;saving&#32;*/
+tn_soft_isr(_TIMER_1_VECTOR)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+
+/*&#32;High-priority&#32;UART&#32;interrupt&#32;handler&#32;using&#32;shadow&#32;register&#32;set&#32;*/
+tn_srs_isr(_UART_1_VECTOR)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+</computeroutput></literallayout></para>
+
+<para>Alternatively, you can define your ISR in a standard way, like this:</para>
+
+<para><literallayout><computeroutput>void&#32;__ISR(_TIMER_1_VECTOR)&#32;timer_1_isr(void)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+</computeroutput></literallayout></para>
+
+<para>Then, context is saved on the task&apos;s stack instead of interrupt stack (and takes therefore much more RAM), but you save about 20 cycles for each interrupt. See the page <link linkend="interrupts">Interrupts</link> for details. </para>
+</section>
+
+</chapter>

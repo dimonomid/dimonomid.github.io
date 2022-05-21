@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Foreword</title>
+
+<para>Foreword.</para>
+
+<para>This project was initially a fork of <link xlink:href="https://github.com/andersm/TNKernel-PIC32">PIC32 TNKernel port</link> by Anders Montonen. I don&apos;t like several design decisions of original TNKernel, as well as <emphasis role="bold">many</emphasis> of the implementation details, but Anders wants to keep his port as close to original TNKernel as possible. So I decided to fork it and have fun implementing what I want.</para>
+
+<para>The more I get into how TNKernel works, the less I like its code. It appears as a very hastily-written project: there is a lot of code duplication and a lot of inconsistency, all of this leads to bugs. More, TNKernel is not documented well enough and there are no unit tests for it, so I decided to reimplement it almost completely. Refer to the page <link linkend="why_reimplement">Why reimplement TNKernel</link> for details.</para>
+
+<para>I decided not to care much about compatibility with original TNKernel API because I really don&apos;t like several API decisions, so, I actually had to choose new name for this project, in order to avoid confusion, hence &quot;TNeoKernel&quot;. Refer to the <link linkend="tnkernel_diff">Differences from TNKernel API</link> page for details.</para>
+
+<para>Together with almost totally re-writing TNKernel, I&apos;ve implemented detailed <link linkend="unit_tests">unit tests</link> for it, to make sure I didn&apos;t break anything, and of course I&apos;ve found several bugs in original TNKernel 2.7: refer to the section <link linkend="why_reimplement_1why_reimplement__bugs">Bugs of TNKernel 2.7</link>. Unit tests are, or course, a &quot;must-have&quot; for the project like this; it&apos;s so strange bug original TNKernel seems untested.</para>
+
+<para>Note that PIC32-dependent routines (such as context switch and so on) are originally implemented by Anders Montonen; I examined them in detail and changed several things which I believe should be implemented differently. Anders, great thanks for sharing your job.</para>
+
+<para>Another existing PIC32 port, <link xlink:href="http://www.tnkernel.com/tn_port_pic24_dsPIC_PIC32.html">the one by Alex Borisov</link>, also affected my project a bit. In fact, I used to use Alex&apos;s port for a long time, but it has several concepts that I don&apos;t like, so I had to move eventually. Nevertheless, Alex&apos;s port has several nice ideas and solutions, so I didn&apos;t hesitate to take what I like from his port. Alex, thank you too.</para>
+
+<para>And, of course, great thanks to the author of original TNKernel, Yuri Tiomkin. Although the implementation of TNKernel is far from perfect in my opinion, the ideas behind the implementation are generally really nice (that&apos;s why I decided to reimplement it instead of starting from scratch), and it was great entry point to the real-time kernels for me.</para>
+
+<para>I would also like to thank my chiefs in the <link xlink:href="http://orionspb.ru/">ORION</link> company, Alexey Morozov and Alexey Gromov, for being flexible about my time. </para>
+
+</chapter>

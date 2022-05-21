@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Changelog</title>
+
+<para>TNeoKernel changelog</para>
+<section xml:id="changelog_1changelog_v1_02">
+<title>v1.02</title>
+
+<para>Release date: 2014-10-14.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added <link linkend="tn__timer_8h">timers</link>: kernel objects that are used to ask the kernel to call some user-provided function at a particular time in the future;</para>
+</listitem><listitem>
+<para>Removed <computeroutput>tn_sys_time_set()</computeroutput> function, because now TNeoKernel uses internal system tick count for timers, and modifying system tick counter by user is a <emphasis>really</emphasis> bad idea.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_01">
+<title>v1.01</title>
+
+<para>Release date: 2014-10-09.</para>
+
+<para><itemizedlist>
+<listitem>
+<para><emphasis role="bold">FIX:</emphasis> <computeroutput><link linkend="tn__dqueue_8h_1a589bfb4d3966bc7405dcf959d7114544">tn_queue_receive()</link></computeroutput> and <computeroutput><link linkend="tn__fmem_8h_1afb45a1f427b531b22f1f4b013f415ae0">tn_fmem_get()</link></computeroutput> : if non-zero <computeroutput>timeout</computeroutput> is in effect, then <computeroutput><link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb">TN_RC_TIMEOUT</link></computeroutput> is returned, but user-provided pointer is altered anyway (some garbage data is written there). This bug was inherited from TNKernel.</para>
+</listitem><listitem>
+<para>Added <computeroutput><link linkend="tn__tasks_8h_1a18408d825c0dab03511f3aaeeb3ffbb3">tn_task_state_get()</link></computeroutput></para>
+</listitem><listitem>
+<para><computeroutput><link linkend="tn__oldsymbols_8h_1abdc5c428590ff525cdb566da613015ce">tn_sem_acquire()</link></computeroutput> and friends are renamed to <computeroutput><link linkend="tn__sem_8h_1a6bf88a78f4f8b2799f72ee671b52ed97">tn_sem_wait()</link></computeroutput> and friends. More on this read <link linkend="tnkernel_diff_1tnkernel_diff_api_rename_sem">here</link>. Old name is still available through <computeroutput><link linkend="tn__oldsymbols_8h">tn_oldsymbols.h</link></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_0">
+<title>v1.0</title>
+
+<para>Release date: 2014-10-01.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Initial stable version of TNeoKernel. Lots of work done: thorough review and re-implementation of TNKernel 2.7, implemented detailed unit tests, and so on. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+
+</chapter>

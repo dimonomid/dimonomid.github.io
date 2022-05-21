@@ -1,0 +1,218 @@
+\hypertarget{tn__arch__pic32__bfa_8h}{}\section{arch/pic32/tn\+\_\+arch\+\_\+pic32\+\_\+bfa.h File Reference}
+\label{tn__arch__pic32__bfa_8h}\index{arch/pic32/tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{arch/pic32/tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+
+
+\subsection{Detailed Description}
+Atomic bit-\/field access macros for P\+I\+C24/ds\+P\+IC. 
+
+Initially, the code was taken from the \href{http://www.pic24.ru/doku.php/articles/mchp/c30_atomic_access}{\tt article by Alex Borisov (russian)}, and modified a bit.
+
+The kernel would not probably provide that kind of functionality, but the kernel itself needs it, so, it is made public so that application can use it too. \subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_afb3b3db3cf42fd7a24eff3f5e5447ae6}{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET}~0x1111
+\begin{DoxyCompactList}\small\item\em Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Set bits in the bit field by mask; {\ttfamily ...} macro param should be set to the bit mask to set. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_aea0ed6f4978ea16f626851f17b93a9c0}{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR}~0x2222
+\begin{DoxyCompactList}\small\item\em Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Clear bits in the bit field by mask; {\ttfamily ...} macro param should be set to the bit mask to clear. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV}~0x3333
+\begin{DoxyCompactList}\small\item\em Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Invert bits in the bit field by mask; {\ttfamily ...} macro param should be set to the bit mask to invert. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}~0x\+A\+A\+AA
+\begin{DoxyCompactList}\small\item\em Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Write bit field; {\ttfamily ...} macro param should be set to the value to write. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}~0x\+B\+B\+BB
+\begin{DoxyCompactList}\small\item\em Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Read bit field; {\ttfamily ...} macro param ignored. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+FA}(comm,  reg\+\_\+name,  field\+\_\+name, ...)
+\begin{DoxyCompactList}\small\item\em Macro for atomic access to the structure bit field. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32__bfa_8h_a8d4b939f57687bf93c982917100c064b}{T\+N\+\_\+\+B\+F\+AR}(comm,  reg\+\_\+name,  lower,  upper, ...)
+\begin{DoxyCompactList}\small\item\em Macro for atomic access to the structure bit field specified as a range. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_afb3b3db3cf42fd7a24eff3f5e5447ae6}\label{tn__arch__pic32__bfa_8h_afb3b3db3cf42fd7a24eff3f5e5447ae6}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET@{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET}}
+\index{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET@{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET}{TN\_BFA\_SET}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET~0x1111}
+
+
+
+Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Set bits in the bit field by mask; {\ttfamily ...} macro param should be set to the bit mask to set. 
+
+
+
+Definition at line 76 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_aea0ed6f4978ea16f626851f17b93a9c0}\label{tn__arch__pic32__bfa_8h_aea0ed6f4978ea16f626851f17b93a9c0}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR@{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR}}
+\index{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR@{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR}{TN\_BFA\_CLR}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR~0x2222}
+
+
+
+Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Clear bits in the bit field by mask; {\ttfamily ...} macro param should be set to the bit mask to clear. 
+
+
+
+Definition at line 80 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}\label{tn__arch__pic32__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV@{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV}}
+\index{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV@{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV}{TN\_BFA\_INV}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV~0x3333}
+
+
+
+Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Invert bits in the bit field by mask; {\ttfamily ...} macro param should be set to the bit mask to invert. 
+
+
+
+Definition at line 84 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}\label{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+F\+A\+\_\+\+WR@{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}}
+\index{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR@{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}{TN\_BFA\_WR}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+F\+A\+\_\+\+WR~0x\+A\+A\+AA}
+
+
+
+Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Write bit field; {\ttfamily ...} macro param should be set to the value to write. 
+
+
+
+Definition at line 88 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}\label{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+F\+A\+\_\+\+RD@{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}}
+\index{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD@{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}{TN\_BFA\_RD}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+F\+A\+\_\+\+RD~0x\+B\+B\+BB}
+
+
+
+Command for {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{T\+N\+\_\+\+B\+F\+A()}} macro\+: Read bit field; {\ttfamily ...} macro param ignored. 
+
+
+
+Definition at line 92 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}\label{tn__arch__pic32__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+FA@{T\+N\+\_\+\+B\+FA}}
+\index{T\+N\+\_\+\+B\+FA@{T\+N\+\_\+\+B\+FA}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+FA}{TN\_BFA}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+FA(\begin{DoxyParamCaption}\item[{}]{comm,  }\item[{}]{reg\+\_\+name,  }\item[{}]{field\+\_\+name,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Macro for atomic access to the structure bit field. 
+
+The {\ttfamily B\+FA} acronym means Bit Field Access.
+
+
+\begin{DoxyParams}{Parameters}
+{\em comm} & command to execute\+:
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}} -\/ write bit field
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}} -\/ read bit field
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_afb3b3db3cf42fd7a24eff3f5e5447ae6}{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET}} -\/ set bits by mask
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_aea0ed6f4978ea16f626851f17b93a9c0}{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR}} -\/ clear bits by mask
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV}} -\/ invert bits by mask
+\end{DoxyItemize}\\
+\hline
+{\em reg\+\_\+name} & register name ({\ttfamily P\+O\+R\+TA}, {\ttfamily C\+M\+C\+ON}, ...).\\
+\hline
+{\em field\+\_\+name} & structure field name\\
+\hline
+{\em ...} & used if only {\ttfamily comm != \hyperlink{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}}. Meaning depends on the {\ttfamily comm}, see comments for specific command\+: {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}}, etc.\\
+\hline
+\end{DoxyParams}
+Usage examples\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} a = 0x02;
+
+\textcolor{comment}{//-- Set third bit of the INT0IP field in the IPC0 register:}
+\textcolor{comment}{//   IPC0bits.INT0IP |= (1 << 2);}
+\hyperlink{tn__arch__pic24__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{TN\_BFA}(\hyperlink{tn__arch__pic24__bfa_8h_afb3b3db3cf42fd7a24eff3f5e5447ae6}{TN\_BFA\_SET}, IPC0, INT0IP, (1 << 2));
+
+\textcolor{comment}{//-- Clear second bit of the INT0IP field in the IPC0 register:}
+\textcolor{comment}{//   IPC0bits.INT0IP &= ~(1 << 1);}
+\hyperlink{tn__arch__pic24__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{TN\_BFA}(\hyperlink{tn__arch__pic24__bfa_8h_aea0ed6f4978ea16f626851f17b93a9c0}{TN\_BFA\_CLR}, IPC0, INT0IP, (1 << 1));
+
+\textcolor{comment}{//-- Invert two less-significant bits of the INT0IP field }
+\textcolor{comment}{//   in the IPC0 register:}
+\textcolor{comment}{//   IPC0bits.INT0IP ^= 0x03;}
+\hyperlink{tn__arch__pic24__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{TN\_BFA}(\hyperlink{tn__arch__pic24__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}{TN\_BFA\_INV}, IPC0, INT0IP, 0x03);
+
+\textcolor{comment}{//-- Write value 0x05 to the INT0IP field of the IPC0 register:}
+\textcolor{comment}{//   IPC0bits.INT0IP = 0x05;}
+\hyperlink{tn__arch__pic24__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{TN\_BFA}(\hyperlink{tn__arch__pic24__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{TN\_BFA\_WR}, IPC0, INT0IP, 0x05);
+
+\textcolor{comment}{//-- Write value of the variable a to the INT0IP field of the IPC0 }
+\textcolor{comment}{//   register:}
+\textcolor{comment}{//   IPC0bits.INT0IP = a;}
+\hyperlink{tn__arch__pic24__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{TN\_BFA}(\hyperlink{tn__arch__pic24__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{TN\_BFA\_WR}, IPC0, INT0IP, a);
+
+\textcolor{comment}{//-- Read the value that is stored in the INT0IP field of the IPC0 }
+\textcolor{comment}{//   register, to the int variable a:}
+\textcolor{comment}{//   int a = IPC0bits.INT0IP;}
+a = \hyperlink{tn__arch__pic24__bfa_8h_a0ab285a4620fe66e07b62e83c199ff54}{TN\_BFA}(\hyperlink{tn__arch__pic24__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{TN\_BFA\_RD}, IPC0, INT0IP);
+\end{DoxyCode}
+ 
+
+Definition at line 154 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32__bfa_8h_a8d4b939f57687bf93c982917100c064b}\label{tn__arch__pic32__bfa_8h_a8d4b939f57687bf93c982917100c064b}} 
+\index{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}!T\+N\+\_\+\+B\+F\+AR@{T\+N\+\_\+\+B\+F\+AR}}
+\index{T\+N\+\_\+\+B\+F\+AR@{T\+N\+\_\+\+B\+F\+AR}!tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h@{tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h}}
+\subsubsection{\texorpdfstring{T\+N\+\_\+\+B\+F\+AR}{TN\_BFAR}}
+{\footnotesize\ttfamily \#define T\+N\+\_\+\+B\+F\+AR(\begin{DoxyParamCaption}\item[{}]{comm,  }\item[{}]{reg\+\_\+name,  }\item[{}]{lower,  }\item[{}]{upper,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Macro for atomic access to the structure bit field specified as a range. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em comm} & command to execute\+:
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}} -\/ write bit field
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}} -\/ read bit field
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_afb3b3db3cf42fd7a24eff3f5e5447ae6}{T\+N\+\_\+\+B\+F\+A\+\_\+\+S\+ET}} -\/ set bits by mask
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_aea0ed6f4978ea16f626851f17b93a9c0}{T\+N\+\_\+\+B\+F\+A\+\_\+\+C\+LR}} -\/ clear bits by mask
+\item {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}{T\+N\+\_\+\+B\+F\+A\+\_\+\+I\+NV}} -\/ invert bits by mask
+\end{DoxyItemize}\\
+\hline
+{\em reg\+\_\+name} & variable name ({\ttfamily P\+O\+R\+TA}, {\ttfamily C\+M\+C\+ON}, ...). Variable should be in the near memory (first 8 KB)\\
+\hline
+{\em lower} & number of lowest affected bit of the field\\
+\hline
+{\em upper} & number of highest affected bit of the field\\
+\hline
+{\em ...} & used if only {\ttfamily comm != \hyperlink{tn__arch__pic32__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{T\+N\+\_\+\+B\+F\+A\+\_\+\+RD}}. Meaning depends on the {\ttfamily comm}, see comments for specific command\+: {\ttfamily \hyperlink{tn__arch__pic32__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{T\+N\+\_\+\+B\+F\+A\+\_\+\+WR}}, etc.\\
+\hline
+\end{DoxyParams}
+Usage examples\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} a = 0x02;
+
+\textcolor{comment}{//-- Write constant 0xaa to the least significant byte of the TRISB}
+\textcolor{comment}{//   register:}
+\hyperlink{tn__arch__pic24__bfa_8h_a8d4b939f57687bf93c982917100c064b}{TN\_BFAR}(\hyperlink{tn__arch__pic24__bfa_8h_a883fc2ffdb105d460e575de78c877b62}{TN\_BFA\_WR}, TRISB, 0, 7, 0xaa);
+
+\textcolor{comment}{//-- Invert least significant nibble of the most significant byte }
+\textcolor{comment}{//   in the register TRISB:}
+\hyperlink{tn__arch__pic24__bfa_8h_a8d4b939f57687bf93c982917100c064b}{TN\_BFAR}(\hyperlink{tn__arch__pic24__bfa_8h_a5a6d5f573973d827c6eda13675cb6996}{TN\_BFA\_INV}, TRISB, 8, 15, 0x0f);
+
+\textcolor{comment}{//-- Get 5 least significant bits from the register TRISB and store}
+\textcolor{comment}{//   result to the variable a}
+a = \hyperlink{tn__arch__pic24__bfa_8h_a8d4b939f57687bf93c982917100c064b}{TN\_BFAR}(\hyperlink{tn__arch__pic24__bfa_8h_ac2d2bd0a156045085b452360be0d621b}{TN\_BFA\_RD}, TRISB, 0, 4);
+\end{DoxyCode}
+ 
+
+Definition at line 268 of file tn\+\_\+arch\+\_\+pic32\+\_\+bfa.\+h.
+

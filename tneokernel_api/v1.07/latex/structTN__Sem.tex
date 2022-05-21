@@ -1,0 +1,43 @@
+\hypertarget{structTN__Sem}{\section{T\+N\+\_\+\+Sem Struct Reference}
+\label{structTN__Sem}\index{T\+N\+\_\+\+Sem@{T\+N\+\_\+\+Sem}}
+}
+
+
+\subsection{Detailed Description}
+Semaphore. 
+
+Definition at line 88 of file tn\+\_\+sem.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__Sem_a810526e9b3d5595278ebb70e59a128e1}{id\+\_\+sem}
+\begin{DoxyCompactList}\small\item\em id for object validity verification. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Sem_ac6cf5b47221528a5ce024c60b92be280}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Sem_ac6cf5b47221528a5ce024c60b92be280}{wait\+\_\+queue}}\label{structTN__Sem_ac6cf5b47221528a5ce024c60b92be280}
+
+\begin{DoxyCompactList}\small\item\em List of tasks that wait for the semaphore. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Sem_a5a2358e2425da2930ef8e105a642822b}{int \hyperlink{structTN__Sem_a5a2358e2425da2930ef8e105a642822b}{count}}\label{structTN__Sem_a5a2358e2425da2930ef8e105a642822b}
+
+\begin{DoxyCompactList}\small\item\em Current semaphore counter value. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Sem_abd62d79c3aace05abd7252f2058b1e5b}{int \hyperlink{structTN__Sem_abd62d79c3aace05abd7252f2058b1e5b}{max\+\_\+count}}\label{structTN__Sem_abd62d79c3aace05abd7252f2058b1e5b}
+
+\begin{DoxyCompactList}\small\item\em Max value of {\ttfamily count} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structTN__Sem_a810526e9b3d5595278ebb70e59a128e1}{\index{T\+N\+\_\+\+Sem@{T\+N\+\_\+\+Sem}!id\+\_\+sem@{id\+\_\+sem}}
+\index{id\+\_\+sem@{id\+\_\+sem}!T\+N\+\_\+\+Sem@{T\+N\+\_\+\+Sem}}
+\subsubsection[{id\+\_\+sem}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Obj\+Id} T\+N\+\_\+\+Sem\+::id\+\_\+sem}}\label{structTN__Sem_a810526e9b3d5595278ebb70e59a128e1}
+
+
+id for object validity verification. 
+
+This field is in the beginning of the structure to make it easier to detect memory corruption. 
+
+Definition at line 93 of file tn\+\_\+sem.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__sem_8h}{tn\+\_\+sem.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Changelog</title>
+
+<para>TNeo changelog</para>
+<section xml:id="changelog_1changelog_v1_07">
+<title>v1.07</title>
+
+<para>Release date: 2015-03-17</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Fix: project was unable to build with <computeroutput><link linkend="tn__cfg__default_8h_1a1f197294df3276fec431930545acafd5">TN_CHECK_PARAM</link></computeroutput> set to 0</para>
+</listitem><listitem>
+<para>Fix: Cortex-M0/M0+ port didn&apos;t work if there is some on-context-switch handler (<computeroutput><link linkend="tn__cfg__default_8h_1a49a546b18cc1f75b51d4cf8b290634dd">TN_PROFILER</link></computeroutput> or <computeroutput><link linkend="tn__cfg__default_8h_1ac6a9bbac3b3b25d9b5bc8c21d2e09955">TN_STACK_OVERFLOW_CHECK</link></computeroutput>)</para>
+</listitem><listitem>
+<para>Added support of C++ compiler (experimental)</para>
+</listitem><listitem>
+<para>Added an option <computeroutput><link linkend="tn__cfg__default_8h_1aab948a5a8178594322f364800e0e53ee">TN_INIT_INTERRUPT_STACK_SPACE</link></computeroutput></para>
+</listitem><listitem>
+<para>Added services to get count of free and used memory blocks (<computeroutput><link linkend="tn__fmem_8h_1ae8b80e0a0a8b07e11acbc4f15f3ef32d">tn_fmem_free_blocks_cnt_get()</link></computeroutput> / <computeroutput><link linkend="tn__fmem_8h_1a2f23f2cdb3e6f3f2a1c1f9ebc4e6e8cb">tn_fmem_used_blocks_cnt_get()</link></computeroutput>) and items in the queue (<computeroutput><link linkend="tn__dqueue_8h_1af541f16598e13f980ddc2482e6af6044">tn_queue_free_items_cnt_get()</link></computeroutput> / <computeroutput><link linkend="tn__dqueue_8h_1aa17fd667cab2e4a41d9e89b8cba603cd">tn_queue_used_items_cnt_get()</link></computeroutput>).</para>
+</listitem><listitem>
+<para>Removed some checks from <computeroutput><link linkend="tn__sys_8h_1aa44d297639e0520420890ef2bb7e2c1c">tn_tick_int_processing()</link></computeroutput>, since they aren&apos;t too useful there, but they add overhead (See <link xlink:href="https://bitbucket.org/dfrank/tneokernel/issue/2/system-clock-service-routine-could-be-more">bitbucket issue #2</link> )</para>
+</listitem><listitem>
+<para>Added functions for disabling/enabling scheduler: <computeroutput><link linkend="tn__sys_8h_1ad0763ae1aa0b44ef4143ea06539974d5">tn_sched_dis_save()</link></computeroutput> / <computeroutput><link linkend="tn__sys_8h_1ac67d696d2efe349c6672a2c74f30b5fc">tn_sched_restore()</link></computeroutput>.</para>
+</listitem><listitem>
+<para>Id fields of objects (<computeroutput>enum <link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976">TN_ObjId</link></computeroutput>) are moved to the beginning of object structures, to make memory corruptions detected earlier.</para>
+</listitem><listitem>
+<para>Idle task is now created with name &quot;Idle&quot; specified.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_06">
+<title>v1.06</title>
+
+<para>Release date: 2015-01-02.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Cortex-M0/M0+/M1/M3/M4/M4F architectures are now supported.<itemizedlist>
+<listitem>
+<para>The following compilers are tested:<itemizedlist>
+<listitem>
+<para>ARMCC (Keil RealView)</para>
+</listitem><listitem>
+<para>GCC</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>Should work but not tested carefully:<itemizedlist>
+<listitem>
+<para>clang</para>
+</listitem><listitem>
+<para>IAR</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>Software task stack overflow check (optionally), see <computeroutput><link linkend="tn__cfg__default_8h_1ac6a9bbac3b3b25d9b5bc8c21d2e09955">TN_STACK_OVERFLOW_CHECK</link></computeroutput> for details.</para>
+</listitem><listitem>
+<para>Dynamic tick, or <emphasis>tickless</emphasis> (optionally): refer to the page <link linkend="time_ticks">Time ticks</link> for details.</para>
+</listitem><listitem>
+<para>Profiler (optionally): allows to see how much time task was running, how much time it was waiting and for what it was waiting, and so on. Refer to the documentation of <computeroutput>struct <link linkend="structTN__TaskTiming">TN_TaskTiming</link></computeroutput> for details.</para>
+</listitem><listitem>
+<para>Old TNKernel events compatibility mode, see <computeroutput><link linkend="tn__cfg__default_8h_1ac61d5f6a716cdcab205a2c8afbde4242">TN_OLD_EVENT_API</link></computeroutput> for details.</para>
+</listitem><listitem>
+<para>Event groups: added <computeroutput><link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573">TN_EVENTGRP_WMODE_AUTOCLR</link></computeroutput> flag which allows to clear event bits atomically when task successfully finishes waiting for these event bits.</para>
+</listitem><listitem>
+<para>PIC24/dsPIC: little optimization: ffs (find-first-set bit) is implemented in an efficient PIC24/dsPIC-specific way, so finding next task to run now works a bit faster.</para>
+</listitem><listitem>
+<para>Added run-time check which ensures that build-time options for the kernel match ones for the application. For details, refer to the option <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput>. <emphasis role="bold">Note</emphasis>: in your existing project that uses TNeo as a separate library, you need either:<itemizedlist>
+<listitem>
+<para>Include the file <computeroutput>&lt;tneo_path&gt;/src/tn_app_check.c</computeroutput> to the application project (recommended);</para>
+</listitem><listitem>
+<para>In your <computeroutput>tn_cfg.h</computeroutput> file, set <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput> to <computeroutput>0</computeroutput> and rebuild the kernel with the new configuration (not recommended).</para>
+</listitem></itemizedlist>
+</para>
+
+<para>But if you build TNeo together with the application, this option is useless, so then just set <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput> to <computeroutput>0</computeroutput>.</para>
+</listitem><listitem>
+<para>MPLABX projects for PIC32 and PIC24/dsPIC moved to <computeroutput>lib_project</computeroutput> directory. If you use these library projects from the repository directly in your application, you need to modify path to the library project in your application project.</para>
+</listitem><listitem>
+<para>The project&apos;s name is shortened to <emphasis role="bold">TNeo</emphasis>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_04">
+<title>v1.04</title>
+
+<para>Release date: 2014-11-04.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added PIC24/dsPIC support, refer to the page <link linkend="arch_specific_1pic24_details">PIC24/dsPIC port details</link>;</para>
+</listitem><listitem>
+<para>PIC32: Core Software Interrupt is now handled by the kernel completely, application shouldn&apos;t set it up anymore. Refer to the page <link linkend="arch_specific_1pic32_details">PIC32 port details</link>.</para>
+</listitem><listitem>
+<para>Refactor: the following symbols: <computeroutput>NULL</computeroutput>, <computeroutput>BOOL</computeroutput>, <computeroutput>TRUE</computeroutput>, <computeroutput>FALSE</computeroutput> now have the <computeroutput>TN_</computeroutput> prefix: <computeroutput><link linkend="tn__common_8h_1adbf9c425147511997eb1396c4afeac40">TN_NULL</link></computeroutput>, <computeroutput><link linkend="tn__common_8h_1a9f76389d1506addfc7542f54e484a92c">TN_BOOL</link></computeroutput>, <computeroutput><link linkend="tn__common_8h_1a87ed178a95496e2f19aa670adc4886b3">TN_TRUE</link></computeroutput>, <computeroutput><link linkend="tn__common_8h_1aa32a38a7d2e3b7983e53a61ab05417ee">TN_FALSE</link></computeroutput>. This is because non-prefixed symbols may be defined by some other program module, which leads to conflicts. The easiest and robust way is to add unique prefix.</para>
+</listitem><listitem>
+<para>Refactor: PIC32 MPLABX project renamed from <computeroutput>tneo.X</computeroutput> to <computeroutput>tneo_pic32.X</computeroutput>.</para>
+</listitem><listitem>
+<para>Refactor: PIC32 ISR macros renamed: <computeroutput><link linkend="tn__arch__pic32_8h_1afde61cfabbeed1562ea2135fea8e919b">tn_soft_isr()</link></computeroutput> -&gt; <computeroutput><link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr()</link></computeroutput>, <computeroutput><link linkend="tn__arch__pic32_8h_1a714962dd7eb6b94feee7f4d769b601c0">tn_srs_isr()</link></computeroutput> -&gt; <computeroutput><link linkend="tn__arch__pic32_8h_1a523bb667617e6bb6f68a8f85855030a5">tn_p32_srs_isr()</link></computeroutput>. It is much easier to maintain documentation for different macros if they have different names; more, the signature of these macros is architecture-dependent. Old names are also available for backward compatibility.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_03">
+<title>v1.03</title>
+
+<para>Release date: 2014-10-20.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added a capability to connect an <link linkend="tn__eventgrp_8h">event group</link> to other system objects, particularly to the <link linkend="tn__dqueue_8h">queue</link>. This offers a way to wait for messages from multiple queues with just a single system call. Refer to the section <link linkend="tn__eventgrp_8h_1eventgrp_connect">Connecting an event group to other system objects</link> for details. Example project that demonstrates that technique is also available: <computeroutput>examples/queue_eventgrp_conn</computeroutput>.</para>
+</listitem><listitem>
+<para>PIC32 Interrupts: this isn&apos;t a mandatory anymore to use kernel-provided macros <computeroutput><link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr()</link></computeroutput> or <computeroutput><link linkend="tn__arch__pic32_8h_1a523bb667617e6bb6f68a8f85855030a5">tn_p32_srs_isr()</link></computeroutput>: interrupts can be defined with standard way too: this particular ISR will use task&apos;s stack instead of interrupt stack, therefore it takes much more RAM and works a bit faster. There are no additional constraints on ISR defined without kernel-provided macro: in either ISR, you can call the same set of kernel services. Refer to the page <link linkend="interrupts">Interrupts</link> for details.</para>
+</listitem><listitem>
+<para>Priority 0 is now allowed to use by application (in the original TNKernel, it was reserved for the timer task, but TNeo <link linkend="tnkernel_diff_1tnkernel_diff_timer_task">does not have timer task</link>)</para>
+</listitem><listitem>
+<para>Application is now available to specify how many priority levels does it need for, it helps to save a bit of RAM. For details, refer to <computeroutput><link linkend="tn__cfg__default_8h_1aad74a059c61567c68a1e9067ab47a256">TN_PRIORITIES_CNT</link></computeroutput>.</para>
+</listitem><listitem>
+<para>Added example project <computeroutput>examples/queue</computeroutput> that demonstrates the pattern on how to use <link linkend="tn__dqueue_8h">queue</link> together with <link linkend="tn__fmem_8h">fixed memory pool</link> effectively.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_02">
+<title>v1.02</title>
+
+<para>Release date: 2014-10-14.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added <link linkend="tn__timer_8h">timers</link>: kernel objects that are used to ask the kernel to call some user-provided function at a particular time in the future;</para>
+</listitem><listitem>
+<para>Removed <computeroutput>tn_sys_time_set()</computeroutput> function, because now TNeo uses internal system tick count for timers, and modifying system tick counter by user is a <emphasis>really</emphasis> bad idea.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_01">
+<title>v1.01</title>
+
+<para>Release date: 2014-10-09.</para>
+
+<para><itemizedlist>
+<listitem>
+<para><emphasis role="bold">FIX:</emphasis> <computeroutput><link linkend="tn__dqueue_8h_1ab47ed49af7dffc5a71eaabd25422d0e4">tn_queue_receive()</link></computeroutput> and <computeroutput><link linkend="tn__fmem_8h_1a2ecd094041dbd0e92d61b852b7952444">tn_fmem_get()</link></computeroutput> : if non-zero <computeroutput>timeout</computeroutput> is in effect, then <computeroutput><link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb">TN_RC_TIMEOUT</link></computeroutput> is returned, but user-provided pointer is altered anyway (some garbage data is written there). This bug was inherited from TNKernel.</para>
+</listitem><listitem>
+<para>Added <computeroutput><link linkend="tn__tasks_8h_1a18408d825c0dab03511f3aaeeb3ffbb3">tn_task_state_get()</link></computeroutput></para>
+</listitem><listitem>
+<para><computeroutput><link linkend="tn__oldsymbols_8h_1abdc5c428590ff525cdb566da613015ce">tn_sem_acquire()</link></computeroutput> and friends are renamed to <computeroutput><link linkend="tn__sem_8h_1acfed2a27719c87638d2eb6edfdeea150">tn_sem_wait()</link></computeroutput> and friends. More on this read <link linkend="tnkernel_diff_1tnkernel_diff_api_rename_sem">here</link>. Old name is still available through <computeroutput><link linkend="tn__oldsymbols_8h">tn_oldsymbols.h</link></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_0">
+<title>v1.0</title>
+
+<para>Release date: 2014-10-01.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Initial stable version of TNeo. Lots of work done: thorough review and re-implementation of TNKernel 2.7, implemented detailed unit tests, and so on. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+
+</chapter>

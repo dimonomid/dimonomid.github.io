@@ -1,0 +1,365 @@
+\hypertarget{tn__dqueue_8h}{\section{core/tn\+\_\+dqueue.h File Reference}
+\label{tn__dqueue_8h}\index{core/tn\+\_\+dqueue.\+h@{core/tn\+\_\+dqueue.\+h}}
+}
+
+
+\subsection{Detailed Description}
+A data queue is a F\+I\+F\+O that stores pointer (of type {\ttfamily void $\ast$}) in each cell, called (in u\+I\+T\+R\+O\+N style) a data element. 
+
+A data queue also has an associated wait queue each for sending ({\ttfamily wait\+\_\+send} queue) and for receiving ({\ttfamily wait\+\_\+receive} queue). A task that sends a data element tries to put the data element into the F\+I\+F\+O. If there is no space left in the F\+I\+F\+O, the task is switched to the waiting state and placed in the data queue's {\ttfamily wait\+\_\+send} queue until space appears (another task gets a data element from the data queue).
+
+A task that receives a data element tries to get a data element from the F\+I\+F\+O. If the F\+I\+F\+O is empty (there is no data in the data queue), the task is switched to the waiting state and placed in the data queue's {\ttfamily wait\+\_\+receive} queue until data element arrive (another task puts some data element into the data queue). To use a data queue just for the synchronous message passing, set size of the F\+I\+F\+O to 0. The data element to be sent and received can be interpreted as a pointer or an integer and may have value 0 ({\ttfamily T\+N\+\_\+\+N\+U\+L\+L}).
+
+For the useful pattern on how to use queue together with \hyperlink{tn__fmem_8h}{fixed memory pool}, refer to the example\+: {\ttfamily examples/queue}. Be sure to examine the readme there.
+
+T\+Neo offers a way to wait for a message from multiple queues in just a single call, refer to the section \hyperlink{tn__eventgrp_8h_eventgrp_connect}{Connecting an event group to other system objects} for details. Related queue services\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__dqueue_8h_ad5d94cf59bebcbf245249896751bd902}{tn\+\_\+queue\+\_\+eventgrp\+\_\+connect()}}
+\item {\ttfamily \hyperlink{tn__dqueue_8h_ac57589cd905f39a6c4a6c8279f073a4a}{tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect()}}
+\end{DoxyItemize}
+
+There is an example project available that demonstrates event group connection technique\+: {\ttfamily examples/queue\+\_\+eventgrp\+\_\+conn}. Be sure to examine the readme there. 
+
+Definition in file \hyperlink{tn__dqueue_8h_source}{tn\+\_\+dqueue.\+h}.
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue}
+\begin{DoxyCompactList}\small\item\em Structure representing data queue object. \end{DoxyCompactList}\item 
+struct \hyperlink{structTN__DQueueTaskWait}{T\+N\+\_\+\+D\+Queue\+Task\+Wait}
+\begin{DoxyCompactList}\small\item\em D\+Queue-\/specific fields related to waiting task, to be included in struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_a01cb0256d0a7a5010bbe8cb14dbd5cbb}{tn\+\_\+queue\+\_\+create} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$$\ast$data\+\_\+fifo, int items\+\_\+cnt)
+\begin{DoxyCompactList}\small\item\em Construct data queue. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_a22fb38f88c9184fee615f47dca12e85a}{tn\+\_\+queue\+\_\+delete} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque)
+\begin{DoxyCompactList}\small\item\em Destruct data queue. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{tn\+\_\+queue\+\_\+send} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$p\+\_\+data, \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} timeout)
+\begin{DoxyCompactList}\small\item\em Send the data element specified by the {\ttfamily p\+\_\+data} to the data queue specified by the {\ttfamily dque}. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_af60c61c12ed90f4bcc7d13ca4da8562b}{tn\+\_\+queue\+\_\+send\+\_\+polling} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$p\+\_\+data)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{tn\+\_\+queue\+\_\+send()}} with zero timeout. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_ac059f15f07625ca25e4aac5790cce1ea}{tn\+\_\+queue\+\_\+isend\+\_\+polling} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$p\+\_\+data)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{tn\+\_\+queue\+\_\+send()}} with zero timeout, but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$$\ast$pp\+\_\+data, \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} timeout)
+\begin{DoxyCompactList}\small\item\em Receive the data element from the data queue specified by the {\ttfamily dque} and place it into the address specified by the {\ttfamily pp\+\_\+data}. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_a5759d8b6b487bbae486d766f88088247}{tn\+\_\+queue\+\_\+receive\+\_\+polling} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$$\ast$pp\+\_\+data)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive()}} with zero timeout. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_a22bf1175e35229e5358427c20d7f91e9}{tn\+\_\+queue\+\_\+ireceive\+\_\+polling} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, void $\ast$$\ast$pp\+\_\+data)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive()}} with zero timeout, but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+int \hyperlink{tn__dqueue_8h_af541f16598e13f980ddc2482e6af6044}{tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque)
+\begin{DoxyCompactList}\small\item\em Returns number of free items in the queue. \end{DoxyCompactList}\item 
+int \hyperlink{tn__dqueue_8h_aa17fd667cab2e4a41d9e89b8cba603cd}{tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque)
+\begin{DoxyCompactList}\small\item\em Returns number of used (non-\/free) items in the queue. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_ad5d94cf59bebcbf245249896751bd902}{tn\+\_\+queue\+\_\+eventgrp\+\_\+connect} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque, struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} pattern)
+\begin{DoxyCompactList}\small\item\em Connect an event group to the queue. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__dqueue_8h_ac57589cd905f39a6c4a6c8279f073a4a}{tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect} (struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue} $\ast$dque)
+\begin{DoxyCompactList}\small\item\em Disconnect a connected event group from the queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__dqueue_8h_a01cb0256d0a7a5010bbe8cb14dbd5cbb}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+create@{tn\+\_\+queue\+\_\+create}}
+\index{tn\+\_\+queue\+\_\+create@{tn\+\_\+queue\+\_\+create}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+create}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$$\ast$}]{data\+\_\+fifo, }
+\item[{int}]{items\+\_\+cnt}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_a01cb0256d0a7a5010bbe8cb14dbd5cbb}
+
+
+Construct data queue. 
+
+{\ttfamily id\+\_\+dque} member should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aaedaabfef8c2a7312d6b8ac2bbeb07a4}{T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E}}, otherwise, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & pointer to already allocated struct \hyperlink{structTN__DQueue}{T\+N\+\_\+\+D\+Queue}. \\
+\hline
+{\em data\+\_\+fifo} & pointer to already allocated array of {\ttfamily void $\ast$} to store data queue items. Can be {\ttfamily \hyperlink{tn__common_8h_adbf9c425147511997eb1396c4afeac40}{T\+N\+\_\+\+N\+U\+L\+L}}. \\
+\hline
+{\em items\+\_\+cnt} & capacity of queue (count of elements in the {\ttfamily data\+\_\+fifo} array) Can be 0.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if queue was successfully created;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return code is available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__dqueue_8h_a22fb38f88c9184fee615f47dca12e85a}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+delete@{tn\+\_\+queue\+\_\+delete}}
+\index{tn\+\_\+queue\+\_\+delete@{tn\+\_\+queue\+\_\+delete}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+delete}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_a22fb38f88c9184fee615f47dca12e85a}
+
+
+Destruct data queue. 
+
+All tasks that wait for writing to or reading from the queue become runnable with {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}} code returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & pointer to data queue to be deleted\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if queue was successfully deleted;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+send@{tn\+\_\+queue\+\_\+send}}
+\index{tn\+\_\+queue\+\_\+send@{tn\+\_\+queue\+\_\+send}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+send}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+send (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$}]{p\+\_\+data, }
+\item[{{\bf T\+N\+\_\+\+Tick\+Cnt}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}
+
+
+Send the data element specified by the {\ttfamily p\+\_\+data} to the data queue specified by the {\ttfamily dque}. 
+
+If there are tasks in the data queue's {\ttfamily wait\+\_\+receive} list already, the function releases the task from the head of the {\ttfamily wait\+\_\+receive} list, makes this task runnable and transfers the parameter {\ttfamily p\+\_\+data} to task's function, that caused it to wait.
+
+If there are no tasks in the data queue's {\ttfamily wait\+\_\+receive} list, parameter {\ttfamily p\+\_\+data} is placed to the tail of data F\+I\+F\+O. If the data F\+I\+F\+O is full, behavior depends on the {\ttfamily timeout} value\+: refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}    \includegraphics{attr_timeout.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & pointer to data queue to send data to \\
+\hline
+{\em p\+\_\+data} & value to send \\
+\hline
+{\em timeout} & refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if data was successfully sent;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item Other possible return codes depend on {\ttfamily timeout} value, refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__dqueue_8h_af60c61c12ed90f4bcc7d13ca4da8562b}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+send\+\_\+polling@{tn\+\_\+queue\+\_\+send\+\_\+polling}}
+\index{tn\+\_\+queue\+\_\+send\+\_\+polling@{tn\+\_\+queue\+\_\+send\+\_\+polling}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+send\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+send\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$}]{p\+\_\+data}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_af60c61c12ed90f4bcc7d13ca4da8562b}
+
+
+The same as {\ttfamily \hyperlink{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{tn\+\_\+queue\+\_\+send()}} with zero timeout. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__dqueue_8h_ac059f15f07625ca25e4aac5790cce1ea}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+isend\+\_\+polling@{tn\+\_\+queue\+\_\+isend\+\_\+polling}}
+\index{tn\+\_\+queue\+\_\+isend\+\_\+polling@{tn\+\_\+queue\+\_\+isend\+\_\+polling}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+isend\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+isend\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$}]{p\+\_\+data}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_ac059f15f07625ca25e4aac5790cce1ea}
+
+
+The same as {\ttfamily \hyperlink{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{tn\+\_\+queue\+\_\+send()}} with zero timeout, but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+receive@{tn\+\_\+queue\+\_\+receive}}
+\index{tn\+\_\+queue\+\_\+receive@{tn\+\_\+queue\+\_\+receive}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+receive}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+receive (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$$\ast$}]{pp\+\_\+data, }
+\item[{{\bf T\+N\+\_\+\+Tick\+Cnt}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}
+
+
+Receive the data element from the data queue specified by the {\ttfamily dque} and place it into the address specified by the {\ttfamily pp\+\_\+data}. 
+
+If the F\+I\+F\+O already has data, function removes an entry from the end of the data queue F\+I\+F\+O and returns it into the {\ttfamily pp\+\_\+data} function parameter.
+
+If there are task(s) in the data queue's {\ttfamily wait\+\_\+send} list, first one gets removed from the head of {\ttfamily wait\+\_\+send} list, becomes runnable and puts the data entry, stored in this task, to the tail of data F\+I\+F\+O. If there are no entries in the data F\+I\+F\+O and there are no tasks in the wait\+\_\+send list, behavior depends on the {\ttfamily timeout} value\+: refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}    \includegraphics{attr_timeout.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & pointer to data queue to receive data from \\
+\hline
+{\em pp\+\_\+data} & pointer to location to store the value \\
+\hline
+{\em timeout} & refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if data was successfully received;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item Other possible return codes depend on {\ttfamily timeout} value, refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__dqueue_8h_a5759d8b6b487bbae486d766f88088247}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+receive\+\_\+polling@{tn\+\_\+queue\+\_\+receive\+\_\+polling}}
+\index{tn\+\_\+queue\+\_\+receive\+\_\+polling@{tn\+\_\+queue\+\_\+receive\+\_\+polling}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+receive\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+receive\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$$\ast$}]{pp\+\_\+data}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_a5759d8b6b487bbae486d766f88088247}
+
+
+The same as {\ttfamily \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive()}} with zero timeout. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__dqueue_8h_a22bf1175e35229e5358427c20d7f91e9}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+ireceive\+\_\+polling@{tn\+\_\+queue\+\_\+ireceive\+\_\+polling}}
+\index{tn\+\_\+queue\+\_\+ireceive\+\_\+polling@{tn\+\_\+queue\+\_\+ireceive\+\_\+polling}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+ireceive\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+ireceive\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{void $\ast$$\ast$}]{pp\+\_\+data}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_a22bf1175e35229e5358427c20d7f91e9}
+
+
+The same as {\ttfamily \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive()}} with zero timeout, but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__dqueue_8h_af541f16598e13f980ddc2482e6af6044}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get@{tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get}}
+\index{tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get@{tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}int tn\+\_\+queue\+\_\+free\+\_\+items\+\_\+cnt\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_af541f16598e13f980ddc2482e6af6044}
+
+
+Returns number of free items in the queue. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & Pointer to queue.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of free items in the queue, or -\/1 if wrong params were given (the check is performed if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero) 
+\end{DoxyReturn}
+\hypertarget{tn__dqueue_8h_aa17fd667cab2e4a41d9e89b8cba603cd}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get@{tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get}}
+\index{tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get@{tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}int tn\+\_\+queue\+\_\+used\+\_\+items\+\_\+cnt\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_aa17fd667cab2e4a41d9e89b8cba603cd}
+
+
+Returns number of used (non-\/free) items in the queue. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & Pointer to queue.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Number of used (non-\/free) items in the queue, or -\/1 if wrong params were given (the check is performed if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero) 
+\end{DoxyReturn}
+\hypertarget{tn__dqueue_8h_ad5d94cf59bebcbf245249896751bd902}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+eventgrp\+\_\+connect@{tn\+\_\+queue\+\_\+eventgrp\+\_\+connect}}
+\index{tn\+\_\+queue\+\_\+eventgrp\+\_\+connect@{tn\+\_\+queue\+\_\+eventgrp\+\_\+connect}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+eventgrp\+\_\+connect}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+eventgrp\+\_\+connect (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque, }
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{pattern}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_ad5d94cf59bebcbf245249896751bd902}
+
+
+Connect an event group to the queue. 
+
+Refer to the section \hyperlink{tn__eventgrp_8h_eventgrp_connect}{Connecting an event group to other system objects} for details.
+
+Only one event group can be connected to the queue at a time. If you connect event group while another event group is already connected, the old link is discarded.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & queue to which event group should be connected \\
+\hline
+{\em eventgrp} & event groupt to connect \\
+\hline
+{\em pattern} & flags pattern that should be managed by the queue automatically\\
+\hline
+\end{DoxyParams}
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__dqueue_8h_ac57589cd905f39a6c4a6c8279f073a4a}{\index{tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}!tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect@{tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect}}
+\index{tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect@{tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect}!tn\+\_\+dqueue.\+h@{tn\+\_\+dqueue.\+h}}
+\subsubsection[{tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+queue\+\_\+eventgrp\+\_\+disconnect (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+D\+Queue} $\ast$}]{dque}
+\end{DoxyParamCaption}
+)}}\label{tn__dqueue_8h_ac57589cd905f39a6c4a6c8279f073a4a}
+
+
+Disconnect a connected event group from the queue. 
+
+Refer to the section \hyperlink{tn__eventgrp_8h_eventgrp_connect}{Connecting an event group to other system objects} for details.
+
+If there is no event group connected, nothing is changed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em dque} & queue from which event group should be disconnected\\
+\hline
+\end{DoxyParams}
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  

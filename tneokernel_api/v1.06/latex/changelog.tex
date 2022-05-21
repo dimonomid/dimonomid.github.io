@@ -1,0 +1,75 @@
+T\+Neo changelog\hypertarget{changelog_changelog_v1_06}{}\section{v1.\+06}\label{changelog_changelog_v1_06}
+Release date\+: 2015-\/01-\/02.
+
+
+\begin{DoxyItemize}
+\item Cortex-\/\+M0/\+M0+/\+M1/\+M3/\+M4/\+M4\+F architectures are now supported.
+\begin{DoxyItemize}
+\item The following compilers are tested\+:
+\begin{DoxyItemize}
+\item A\+R\+M\+C\+C (Keil Real\+View)
+\item G\+C\+C
+\end{DoxyItemize}
+\item Should work but not tested carefully\+:
+\begin{DoxyItemize}
+\item clang
+\item I\+A\+R
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Software task stack overflow check (optionally), see {\ttfamily \hyperlink{tn__cfg__default_8h_ac6a9bbac3b3b25d9b5bc8c21d2e09955}{T\+N\+\_\+\+S\+T\+A\+C\+K\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W\+\_\+\+C\+H\+E\+C\+K}} for details.
+\item Dynamic tick, or {\itshape tickless} (optionally)\+: refer to the page \hyperlink{time_ticks}{Time ticks} for details.
+\item Profiler (optionally)\+: allows to see how much time task was running, how much time it was waiting and for what it was waiting, and so on. Refer to the documentation of {\ttfamily struct \hyperlink{structTN__TaskTiming}{T\+N\+\_\+\+Task\+Timing}} for details.
+\item Old T\+N\+Kernel events compatibility mode, see {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} for details.
+\item Event groups\+: added {\ttfamily \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R}} flag which allows to clear event bits atomically when task successfully finishes waiting for these event bits.
+\item P\+I\+C24/ds\+P\+I\+C\+: little optimization\+: ffs (find-\/first-\/set bit) is implemented in an efficient P\+I\+C24/ds\+P\+I\+C-\/specific way, so finding next task to run now works a bit faster.
+\item Added run-\/time check which ensures that build-\/time options for the kernel match ones for the application. For details, refer to the option {\ttfamily \hyperlink{tn__cfg__default_8h_aacdc913eb66492cf69cf02a5de73578e}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+B\+U\+I\+L\+D\+\_\+\+C\+F\+G}}. {\bfseries Note}\+: in your existing project that uses T\+Neo as a separate library, you need either\+:
+\begin{DoxyItemize}
+\item Include the file {\ttfamily $<$tneo\+\_\+path$>$/src/tn\+\_\+app\+\_\+check.c} to the application project (recommended);
+\item In your {\ttfamily tn\+\_\+cfg.\+h} file, set {\ttfamily \hyperlink{tn__cfg__default_8h_aacdc913eb66492cf69cf02a5de73578e}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+B\+U\+I\+L\+D\+\_\+\+C\+F\+G}} to {\ttfamily 0} and rebuild the kernel with the new configuration (not recommended).
+\end{DoxyItemize}
+
+But if you build T\+Neo together with the application, this option is useless, so then just set {\ttfamily \hyperlink{tn__cfg__default_8h_aacdc913eb66492cf69cf02a5de73578e}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+B\+U\+I\+L\+D\+\_\+\+C\+F\+G}} to {\ttfamily 0}.
+\item M\+P\+L\+A\+B\+X projects for P\+I\+C32 and P\+I\+C24/ds\+P\+I\+C moved to {\ttfamily lib\+\_\+project} directory. If you use these library projects from the repository directly in your application, you need to modify path to the library project in your application project.
+\item The project's name is shortened to {\bfseries T\+Neo}.
+\end{DoxyItemize}\hypertarget{changelog_changelog_v1_04}{}\section{v1.\+04}\label{changelog_changelog_v1_04}
+Release date\+: 2014-\/11-\/04.
+
+
+\begin{DoxyItemize}
+\item Added P\+I\+C24/ds\+P\+I\+C support, refer to the page \hyperlink{arch_specific_pic24_details}{P\+I\+C24/ds\+P\+I\+C port details};
+\item P\+I\+C32\+: Core Software Interrupt is now handled by the kernel completely, application shouldn't set it up anymore. Refer to the page \hyperlink{arch_specific_pic32_details}{P\+I\+C32 port details}.
+\item Refactor\+: the following symbols\+: {\ttfamily N\+U\+L\+L}, {\ttfamily B\+O\+O\+L}, {\ttfamily T\+R\+U\+E}, {\ttfamily F\+A\+L\+S\+E} now have the {\ttfamily T\+N\+\_\+} prefix\+: {\ttfamily \hyperlink{tn__common_8h_adbf9c425147511997eb1396c4afeac40}{T\+N\+\_\+\+N\+U\+L\+L}}, {\ttfamily \hyperlink{tn__common_8h_a9f76389d1506addfc7542f54e484a92c}{T\+N\+\_\+\+B\+O\+O\+L}}, {\ttfamily \hyperlink{tn__common_8h_a87ed178a95496e2f19aa670adc4886b3}{T\+N\+\_\+\+T\+R\+U\+E}}, {\ttfamily \hyperlink{tn__common_8h_aa32a38a7d2e3b7983e53a61ab05417ee}{T\+N\+\_\+\+F\+A\+L\+S\+E}}. This is because non-\/prefixed symbols may be defined by some other program module, which leads to conflicts. The easiest and robust way is to add unique prefix.
+\item Refactor\+: P\+I\+C32 M\+P\+L\+A\+B\+X project renamed from {\ttfamily tneo.\+X} to {\ttfamily tneo\+\_\+pic32.\+X}.
+\item Refactor\+: P\+I\+C32 I\+S\+R macros renamed\+: {\ttfamily \hyperlink{tn__arch__pic32_8h_afde61cfabbeed1562ea2135fea8e919b}{tn\+\_\+soft\+\_\+isr()}} -\/$>$ {\ttfamily \hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\+\_\+p32\+\_\+soft\+\_\+isr()}}, {\ttfamily \hyperlink{tn__arch__pic32_8h_a714962dd7eb6b94feee7f4d769b601c0}{tn\+\_\+srs\+\_\+isr()}} -\/$>$ {\ttfamily \hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\+\_\+p32\+\_\+srs\+\_\+isr()}}. It is much easier to maintain documentation for different macros if they have different names; more, the signature of these macros is architecture-\/dependent. Old names are also available for backward compatibility.
+\end{DoxyItemize}\hypertarget{changelog_changelog_v1_03}{}\section{v1.\+03}\label{changelog_changelog_v1_03}
+Release date\+: 2014-\/10-\/20.
+
+
+\begin{DoxyItemize}
+\item Added a capability to connect an \hyperlink{tn__eventgrp_8h}{event group} to other system objects, particularly to the \hyperlink{tn__dqueue_8h}{queue}. This offers a way to wait for messages from multiple queues with just a single system call. Refer to the section \hyperlink{tn__eventgrp_8h_eventgrp_connect}{Connecting an event group to other system objects} for details. Example project that demonstrates that technique is also available\+: {\ttfamily examples/queue\+\_\+eventgrp\+\_\+conn}.
+\item P\+I\+C32 Interrupts\+: this isn't a mandatory anymore to use kernel-\/provided macros {\ttfamily \hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\+\_\+p32\+\_\+soft\+\_\+isr()}} or {\ttfamily \hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\+\_\+p32\+\_\+srs\+\_\+isr()}}\+: interrupts can be defined with standard way too\+: this particular I\+S\+R will use task's stack instead of interrupt stack, therefore it takes much more R\+A\+M and works a bit faster. There are no additional constraints on I\+S\+R defined without kernel-\/provided macro\+: in either I\+S\+R, you can call the same set of kernel services. Refer to the page \hyperlink{interrupts}{Interrupts} for details.
+\item Priority 0 is now allowed to use by application (in the original T\+N\+Kernel, it was reserved for the timer task, but T\+Neo \hyperlink{tnkernel_diff_tnkernel_diff_timer_task}{does not have timer task})
+\item Application is now available to specify how many priority levels does it need for, it helps to save a bit of R\+A\+M. For details, refer to {\ttfamily \hyperlink{tn__cfg__default_8h_aad74a059c61567c68a1e9067ab47a256}{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+C\+N\+T}}.
+\item Added example project {\ttfamily examples/queue} that demonstrates the pattern on how to use \hyperlink{tn__dqueue_8h}{queue} together with \hyperlink{tn__fmem_8h}{fixed memory pool} effectively.
+\end{DoxyItemize}\hypertarget{changelog_changelog_v1_02}{}\section{v1.\+02}\label{changelog_changelog_v1_02}
+Release date\+: 2014-\/10-\/14.
+
+
+\begin{DoxyItemize}
+\item Added \hyperlink{tn__timer_8h}{timers}\+: kernel objects that are used to ask the kernel to call some user-\/provided function at a particular time in the future;
+\item Removed {\ttfamily tn\+\_\+sys\+\_\+time\+\_\+set()} function, because now T\+Neo uses internal system tick count for timers, and modifying system tick counter by user is a {\itshape really} bad idea.
+\end{DoxyItemize}\hypertarget{changelog_changelog_v1_01}{}\section{v1.\+01}\label{changelog_changelog_v1_01}
+Release date\+: 2014-\/10-\/09.
+
+
+\begin{DoxyItemize}
+\item {\bfseries F\+I\+X\+:} {\ttfamily \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive()}} and {\ttfamily \hyperlink{tn__fmem_8h_a2ecd094041dbd0e92d61b852b7952444}{tn\+\_\+fmem\+\_\+get()}} \+: if non-\/zero {\ttfamily timeout} is in effect, then {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} is returned, but user-\/provided pointer is altered anyway (some garbage data is written there). This bug was inherited from T\+N\+Kernel.
+\item Added {\ttfamily \hyperlink{tn__tasks_8h_a18408d825c0dab03511f3aaeeb3ffbb3}{tn\+\_\+task\+\_\+state\+\_\+get()}}
+\item {\ttfamily \hyperlink{tn__oldsymbols_8h_abdc5c428590ff525cdb566da613015ce}{tn\+\_\+sem\+\_\+acquire()}} and friends are renamed to {\ttfamily \hyperlink{tn__sem_8h_acfed2a27719c87638d2eb6edfdeea150}{tn\+\_\+sem\+\_\+wait()}} and friends. More on this read \hyperlink{tnkernel_diff_tnkernel_diff_api_rename_sem}{here}. Old name is still available through {\ttfamily \hyperlink{tn__oldsymbols_8h}{tn\+\_\+oldsymbols.\+h}}.
+\end{DoxyItemize}\hypertarget{changelog_changelog_v1_0}{}\section{v1.\+0}\label{changelog_changelog_v1_0}
+Release date\+: 2014-\/10-\/01.
+
+
+\begin{DoxyItemize}
+\item Initial stable version of T\+Neo. Lots of work done\+: thorough review and re-\/implementation of T\+N\+Kernel 2.\+7, implemented detailed unit tests, and so on. 
+\end{DoxyItemize}

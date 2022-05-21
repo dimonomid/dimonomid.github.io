@@ -1,0 +1,88 @@
+@startuml
+
+IODev -> Project: emit readyRead()
+activate Project
+Project -> Appl: emit event(EventDataRaw)
+Project -> Codec: call addRawRxData()
+deactivate Project
+activate Codec
+Codec -> Codec: feed data to Rx buffer, \n check if message is ready. \n no messages.
+deactivate Codec
+
+IODev -> Project: emit readyRead()
+activate Project
+Project -> Appl: emit event(EventDataRaw)
+Project -> Codec: call addRawRxData()
+deactivate Project
+activate Codec
+Codec -> Codec: feed data to Rx buffer, \n check if message is ready. \n no messages.
+deactivate Codec
+
+IODev -> Project: emit readyRead()
+activate Project
+Project -> Appl: emit event(EventDataRaw)
+Project -> Codec: call addRawRxData()
+deactivate Project
+activate Codec
+Codec -> Codec: feed data to Rx buffer, \n check if message is ready. \n message is ready.
+
+Codec -> Project: emit messageDecoded(DataMsg)
+deactivate Codec
+activate Project
+Project -> Appl: emit event(EventDataMsg) (rx)
+
+Project -> Project: execute the sequence of handlers,\n 
+
+Project -> Codec: encode message
+activate Codec
+
+Project <-- Codec: message encoded (DataMsg)
+deactivate Codec
+
+Project -> Appl: create and emit event EventDataMsg (tx)
+
+Project -> Project: remember data to send (DataMsg), \n needed to handle "echo"
+
+Project -> IODev: send data
+deactivate Project
+
+
+
+
+
+
+IODev -> Dev: emit dataReceived()
+activate Dev
+Dev -> PacketCodec: call addRawRxData()
+deactivate Dev
+activate PacketCodec
+PacketCodec -> PacketCodec: parse data.\n no valid\n packets yet.
+deactivate PacketCodec
+
+IODev -> Dev: emit dataReceived()
+activate Dev
+Dev -> PacketCodec: call addRawRxData()
+deactivate Dev
+activate PacketCodec
+PacketCodec -> PacketCodec: parse data.\n packet decoded.
+PacketCodec -> Dev: emit packetDecoded()
+deactivate PacketCodec
+activate Dev
+
+Dev -> MsgCodec: call addRxPacket()
+deactivate Dev
+activate MsgCodec
+MsgCodec -> MsgCodec: check packet:\n dest address\n match.
+MsgCodec -> Dev: emit msgDecoded()
+deactivate MsgCodec
+activate Dev
+
+Dev -> Dev
+note right
+    Now, Dev handles received message
+    with its message visitor SlpMsgVisitor_Handle.
+    Further explanation follows.
+end note
+
+@enduml
+

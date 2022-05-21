@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__dqueue_8h">
+    <title>tn_dqueue.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_eventgrp.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__DQueue">TN_DQueue</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__DQueueTaskWait">TN_DQueueTaskWait</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1a01cb0256d0a7a5010bbe8cb14dbd5cbb">tn_queue_create</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void ** data_fifo, int items_cnt)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1a22fb38f88c9184fee615f47dca12e85a">tn_queue_delete</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1aa55c81d4b965ca09c85378481796fe4b">tn_queue_send</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void * p_data, <link linkend="tn__common_8h_1a34c07c1fa20ae71d17817d28a41957fe">TN_Timeout</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1af60c61c12ed90f4bcc7d13ca4da8562b">tn_queue_send_polling</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void * p_data)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1ac059f15f07625ca25e4aac5790cce1ea">tn_queue_isend_polling</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void * p_data)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1a589bfb4d3966bc7405dcf959d7114544">tn_queue_receive</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void ** pp_data, <link linkend="tn__common_8h_1a34c07c1fa20ae71d17817d28a41957fe">TN_Timeout</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1a5759d8b6b487bbae486d766f88088247">tn_queue_receive_polling</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void ** pp_data)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1a22bf1175e35229e5358427c20d7f91e9">tn_queue_ireceive_polling</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, void ** pp_data)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1ad5d94cf59bebcbf245249896751bd902">tn_queue_eventgrp_connect</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque, struct <link linkend="structTN__EventGrp">TN_EventGrp</link> * eventgrp, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> pattern)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__dqueue_8h_1ac57589cd905f39a6c4a6c8279f073a4a">tn_queue_eventgrp_disconnect</link> (
+struct <link linkend="structTN__DQueue">TN_DQueue</link> * dque)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>A data queue is a FIFO that stores pointer (of type <computeroutput>void *</computeroutput>) in each cell, called (in uITRON style) a data element. </para>
+
+<para>A data queue also has an associated wait queue each for sending (<computeroutput>wait_send</computeroutput> queue) and for receiving (<computeroutput>wait_receive</computeroutput> queue). A task that sends a data element tries to put the data element into the FIFO. If there is no space left in the FIFO, the task is switched to the waiting state and placed in the data queue&apos;s <computeroutput>wait_send</computeroutput> queue until space appears (another task gets a data element from the data queue).</para>
+
+<para>A task that receives a data element tries to get a data element from the FIFO. If the FIFO is empty (there is no data in the data queue), the task is switched to the waiting state and placed in the data queue&apos;s <computeroutput>wait_receive</computeroutput> queue until data element arrive (another task puts some data element into the data queue). To use a data queue just for the synchronous message passing, set size of the FIFO to 0. The data element to be sent and received can be interpreted as a pointer or an integer and may have value 0 (<computeroutput>NULL</computeroutput>).</para>
+
+<para>For the useful pattern on how to use queue together with <link linkend="tn__fmem_8h">fixed memory pool</link>, refer to the example: <computeroutput>examples/queue</computeroutput>. Be sure to examine the readme there.</para>
+
+<para>TNeoKernel offers a way to wait for a message from multiple queues in just a single call, refer to the section <link linkend="tn__eventgrp_8h_1eventgrp_connect">Connecting an event group to other system objects</link> for details. Related queue services:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput><link linkend="tn__dqueue_8h_1ad5d94cf59bebcbf245249896751bd902">tn_queue_eventgrp_connect()</link></computeroutput></para>
+</listitem><listitem>
+<para><computeroutput><link linkend="tn__dqueue_8h_1ac57589cd905f39a6c4a6c8279f073a4a">tn_queue_eventgrp_disconnect()</link></computeroutput></para>
+</listitem></itemizedlist>
+</para>
+
+<para>There is an example project available that demonstrates event group connection technique: <computeroutput>examples/queue_eventgrp_conn</computeroutput>. Be sure to examine the readme there. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_dqueue.h</para>
+    </simplesect>
+</section>

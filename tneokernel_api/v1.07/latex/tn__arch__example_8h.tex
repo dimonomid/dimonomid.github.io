@@ -1,0 +1,334 @@
+\hypertarget{tn__arch__example_8h}{\section{arch/example/tn\+\_\+arch\+\_\+example.h File Reference}
+\label{tn__arch__example_8h}\index{arch/example/tn\+\_\+arch\+\_\+example.\+h@{arch/example/tn\+\_\+arch\+\_\+example.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Example of architecture-\/dependent routines. 
+
+
+
+Definition in file \hyperlink{tn__arch__example_8h_source}{tn\+\_\+arch\+\_\+example.\+h}.
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__arch__example_8h_ab25ff526f86c290ce100816c5078b7b8}{\+\_\+\+T\+N\+\_\+\+F\+F\+S}(x)~(32 -\/ \+\_\+\+\_\+builtin\+\_\+clz((x) \& (0 -\/ (x))))
+\begin{DoxyCompactList}\small\item\em F\+F\+S -\/ find first set bit. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a782f83184c608149ce6e02a461927bab}{\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R}(error\+\_\+msg,...)~\{\+\_\+\+\_\+asm\+\_\+\+\_\+ volatile(\char`\"{} sdbbp 0\char`\"{}); \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\char`\"{}nop\char`\"{});\}
+\begin{DoxyCompactList}\small\item\em Used by the kernel as a signal that something really bad happened. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}
+\begin{DoxyCompactList}\small\item\em Compiler-\/specific attribute that should be placed {\bfseries before} declaration of array used for stack. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}~\+\_\+\+\_\+attribute\+\_\+\+\_\+((aligned(0x8)))
+\begin{DoxyCompactList}\small\item\em Compiler-\/specific attribute that should be placed {\bfseries after} declaration of array used for stack. \end{DoxyCompactList}\item 
+\hypertarget{tn__arch__example_8h_ad465f81e8ea15a530747b1147dbe4605}{\#define \hyperlink{tn__arch__example_8h_ad465f81e8ea15a530747b1147dbe4605}{T\+N\+\_\+\+M\+I\+N\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+Z\+E}~36}\label{tn__arch__example_8h_ad465f81e8ea15a530747b1147dbe4605}
+
+\begin{DoxyCompactList}\small\item\em Minimum task's stack size, in words, not in bytes; includes a space for context plus for parameters passed to task's body function. \end{DoxyCompactList}\item 
+\hypertarget{tn__arch__example_8h_a9f340cc02023c595904228372b9e7d12}{\#define \hyperlink{tn__arch__example_8h_a9f340cc02023c595904228372b9e7d12}{T\+N\+\_\+\+I\+N\+T\+\_\+\+W\+I\+D\+T\+H}~32}\label{tn__arch__example_8h_a9f340cc02023c595904228372b9e7d12}
+
+\begin{DoxyCompactList}\small\item\em Width of {\ttfamily int} type. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a9809516063a01ca2c2f5f009294839d3}{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T}~\hyperlink{tn__arch__example_8h_a9f340cc02023c595904228372b9e7d12}{T\+N\+\_\+\+I\+N\+T\+\_\+\+W\+I\+D\+T\+H}
+\begin{DoxyCompactList}\small\item\em Maximum number of priorities available, this value usually matches {\ttfamily \hyperlink{tn__arch__example_8h_a9f340cc02023c595904228372b9e7d12}{T\+N\+\_\+\+I\+N\+T\+\_\+\+W\+I\+D\+T\+H}}. \end{DoxyCompactList}\item 
+\hypertarget{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}{\#define \hyperlink{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+I\+N\+F\+I\+N\+I\+T\+E}~(\hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt})0x\+F\+F\+F\+F\+F\+F\+F\+F}\label{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}
+
+\begin{DoxyCompactList}\small\item\em Value for infinite waiting, usually matches {\ttfamily U\+L\+O\+N\+G\+\_\+\+M\+A\+X}, because {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}} is declared as {\ttfamily unsigned long}. \end{DoxyCompactList}\item 
+\hypertarget{tn__arch__example_8h_a52a8b7006a0b8bfb051956c4528a812c}{\#define \hyperlink{tn__arch__example_8h_a52a8b7006a0b8bfb051956c4528a812c}{T\+N\+\_\+\+F\+I\+L\+L\+\_\+\+S\+T\+A\+C\+K\+\_\+\+V\+A\+L}~0x\+F\+E\+E\+D\+F\+A\+C\+E}\label{tn__arch__example_8h_a52a8b7006a0b8bfb051956c4528a812c}
+
+\begin{DoxyCompactList}\small\item\em Value for initializing the unused space of task's stack. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}~int tn\+\_\+save\+\_\+status\+\_\+reg = 0;
+\begin{DoxyCompactList}\small\item\em Declares variable that is used by macros {\ttfamily \hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E()}} and {\ttfamily \hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E()}} for storing status register value. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}~\hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}} but for using in I\+S\+R together with {\ttfamily \hyperlink{tn__arch__example_8h_a3d03bcbee89062cd936b953843a9e381}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E()}}, {\ttfamily \hyperlink{tn__arch__example_8h_a256d532ba3fa1a0762d54e7933921206}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E()}}. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E}()~tn\+\_\+save\+\_\+status\+\_\+reg = \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis}()
+\begin{DoxyCompactList}\small\item\em Disable interrupts and return previous value of status register, atomically. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E}()~\hyperlink{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}{tn\+\_\+arch\+\_\+sr\+\_\+restore}(tn\+\_\+save\+\_\+status\+\_\+reg)
+\begin{DoxyCompactList}\small\item\em Restore previously saved status register. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a3d03bcbee89062cd936b953843a9e381}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E}()~\hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E}()
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E()}} but for using in I\+S\+R. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a256d532ba3fa1a0762d54e7933921206}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E}()~\hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E}()
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E()}} but for using in I\+S\+R. \end{DoxyCompactList}\item 
+\hypertarget{tn__arch__example_8h_a553f27305c21f230818a2329effb5bcc}{\#define \hyperlink{tn__arch__example_8h_a553f27305c21f230818a2329effb5bcc}{T\+N\+\_\+\+I\+S\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+A\+B\+L\+E\+D}()~((\+\_\+\+\_\+builtin\+\_\+mfc0(12, 0) \& 1) == 0)}\label{tn__arch__example_8h_a553f27305c21f230818a2329effb5bcc}
+
+\begin{DoxyCompactList}\small\item\em Returns nonzero if interrupts are disabled, zero otherwise. \end{DoxyCompactList}\item 
+\hypertarget{tn__arch__example_8h_ab0de88929634e7e719a7a50b9f5b3f5f}{\#define \hyperlink{tn__arch__example_8h_ab0de88929634e7e719a7a50b9f5b3f5f}{\+\_\+\+T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+S\+W\+I\+T\+C\+H\+\_\+\+I\+P\+E\+N\+D\+\_\+\+I\+F\+\_\+\+N\+E\+E\+D\+E\+D}()~\+\_\+tn\+\_\+context\+\_\+switch\+\_\+pend\+\_\+if\+\_\+needed()}\label{tn__arch__example_8h_ab0de88929634e7e719a7a50b9f5b3f5f}
+
+\begin{DoxyCompactList}\small\item\em Pend context switch from interrupt. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_af1305db9e9f6a4eb96957c3194f5e02f}{\+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S}(size\+\_\+in\+\_\+bytes)~((size\+\_\+in\+\_\+bytes) $>$$>$ 2)
+\begin{DoxyCompactList}\small\item\em Converts size in bytes to size in {\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_ad7d8039ee539dd492556f83a7a27aba6}{\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E}~inline
+\begin{DoxyCompactList}\small\item\em If compiler does not conform to c99 standard, there's no inline keyword. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__example_8h_a5b7a7de42a2672517fa626d2b15de142}{\+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D}~/$\ast$ nothing $\ast$/
+\begin{DoxyCompactList}\small\item\em Sometimes compilers are buggy in high-\/optimization modes, and these bugs are often could be worked around by adding the {\ttfamily volatile} keyword. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef unsigned int \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}
+\begin{DoxyCompactList}\small\item\em Unsigned integer type whose size is equal to the size of C\+P\+U register. \end{DoxyCompactList}\item 
+typedef unsigned int \hyperlink{tn__arch__example_8h_a8db91f8ae305eb6e2bf1f1866c3caf74}{T\+N\+\_\+\+U\+Int\+Ptr}
+\begin{DoxyCompactList}\small\item\em Unsigned integer type that is able to store pointers. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tn__arch__example_8h_ab25ff526f86c290ce100816c5078b7b8}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!\+\_\+\+T\+N\+\_\+\+F\+F\+S@{\+\_\+\+T\+N\+\_\+\+F\+F\+S}}
+\index{\+\_\+\+T\+N\+\_\+\+F\+F\+S@{\+\_\+\+T\+N\+\_\+\+F\+F\+S}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+F\+F\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+F\+F\+S(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~(32 -\/ \+\_\+\+\_\+builtin\+\_\+clz((x) \& (0 -\/ (x))))}}\label{tn__arch__example_8h_ab25ff526f86c290ce100816c5078b7b8}
+
+
+F\+F\+S -\/ find first set bit. 
+
+Used in {\ttfamily \+\_\+find\+\_\+next\+\_\+task\+\_\+to\+\_\+run()} function. Say, for {\ttfamily 0xa8} it should return {\ttfamily 3}.
+
+May be not defined\+: in this case, naive algorithm will be used. 
+
+Definition at line 53 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a782f83184c608149ce6e02a461927bab}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R@{\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R}}
+\index{\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R@{\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R(
+\begin{DoxyParamCaption}
+\item[{}]{error\+\_\+msg, }
+\item[{}]{...}
+\end{DoxyParamCaption}
+)~\{\+\_\+\+\_\+asm\+\_\+\+\_\+ volatile(\char`\"{} sdbbp 0\char`\"{}); \+\_\+\+\_\+asm\+\_\+\+\_\+ volatile (\char`\"{}nop\char`\"{});\}}}\label{tn__arch__example_8h_a782f83184c608149ce6e02a461927bab}
+
+
+Used by the kernel as a signal that something really bad happened. 
+
+Indicates T\+Neo bugs as well as illegal kernel usage, e.\+g. sleeping in the idle task callback or build-\/time configuration mismatch (see {\ttfamily \hyperlink{tn__cfg__default_8h_aacdc913eb66492cf69cf02a5de73578e}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+B\+U\+I\+L\+D\+\_\+\+C\+F\+G}} for details on the last one)
+
+Typically, set to assembler instruction that causes debugger to halt. 
+
+Definition at line 63 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E@{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}}
+\index{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E@{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}}\label{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}
+
+
+Compiler-\/specific attribute that should be placed {\bfseries before} declaration of array used for stack. 
+
+It is needed because there are often additional restrictions applied to alignment of stack, so, to meet them, stack arrays need to be declared with these macros.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R} 
+\end{DoxySeeAlso}
+
+
+Definition at line 77 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R@{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}}
+\index{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R@{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R~\+\_\+\+\_\+attribute\+\_\+\+\_\+((aligned(0x8)))}}\label{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}
+
+
+Compiler-\/specific attribute that should be placed {\bfseries after} declaration of array used for stack. 
+
+It is needed because there are often additional restrictions applied to alignment of stack, so, to meet them, stack arrays need to be declared with these macros.
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E} 
+\end{DoxySeeAlso}
+
+
+Definition at line 88 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a9809516063a01ca2c2f5f009294839d3}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T@{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T}}
+\index{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T@{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+M\+A\+X\+\_\+\+C\+N\+T~{\bf T\+N\+\_\+\+I\+N\+T\+\_\+\+W\+I\+D\+T\+H}}}\label{tn__arch__example_8h_a9809516063a01ca2c2f5f009294839d3}
+
+
+Maximum number of priorities available, this value usually matches {\ttfamily \hyperlink{tn__arch__example_8h_a9f340cc02023c595904228372b9e7d12}{T\+N\+\_\+\+I\+N\+T\+\_\+\+W\+I\+D\+T\+H}}. 
+
+\begin{DoxySeeAlso}{See also}
+\hyperlink{tn__cfg__default_8h_aad74a059c61567c68a1e9067ab47a256}{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+C\+N\+T} 
+\end{DoxySeeAlso}
+
+
+Definition at line 120 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A@{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}}
+\index{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A@{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A~int tn\+\_\+save\+\_\+status\+\_\+reg = 0;}}\label{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}
+
+
+Declares variable that is used by macros {\ttfamily \hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E()}} and {\ttfamily \hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E()}} for storing status register value. 
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E()}} 
+
+{\ttfamily \hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 143 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T@{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}}
+\index{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T@{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T~{\bf T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}}}\label{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}
+
+
+The same as {\ttfamily \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}} but for using in I\+S\+R together with {\ttfamily \hyperlink{tn__arch__example_8h_a3d03bcbee89062cd936b953843a9e381}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E()}}, {\ttfamily \hyperlink{tn__arch__example_8h_a256d532ba3fa1a0762d54e7933921206}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E()}}. 
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_a3d03bcbee89062cd936b953843a9e381}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E()}} 
+
+{\ttfamily \hyperlink{tn__arch__example_8h_a256d532ba3fa1a0762d54e7933921206}{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 152 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E}}
+\index{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~tn\+\_\+save\+\_\+status\+\_\+reg = {\bf tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis}()}}\label{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}
+
+
+Disable interrupts and return previous value of status register, atomically. 
+
+Similar {\ttfamily \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}}, but implemented as a macro, so it is potentially faster.
+
+Uses {\ttfamily \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}} as a temporary storage.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}} 
+
+{\ttfamily \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 164 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E}}
+\index{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~{\bf tn\+\_\+arch\+\_\+sr\+\_\+restore}(tn\+\_\+save\+\_\+status\+\_\+reg)}}\label{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}
+
+
+Restore previously saved status register. 
+
+Similar to {\ttfamily \hyperlink{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}{tn\+\_\+arch\+\_\+sr\+\_\+restore()}}, but implemented as a macro, so it is potentially faster.
+
+Uses {\ttfamily \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}} as a temporary storage.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A}} 
+
+{\ttfamily \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 176 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a3d03bcbee89062cd936b953843a9e381}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E}}
+\index{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+D\+I\+S\+\_\+\+S\+A\+V\+E(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~{\bf T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E}()}}\label{tn__arch__example_8h_a3d03bcbee89062cd936b953843a9e381}
+
+
+The same as {\ttfamily \hyperlink{tn__arch__example_8h_a213d605c9ff557fee2fe376e63cb559b}{T\+N\+\_\+\+I\+N\+T\+\_\+\+D\+I\+S\+\_\+\+S\+A\+V\+E()}} but for using in I\+S\+R. 
+
+Uses {\ttfamily \hyperlink{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}} as a temporary storage.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 185 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a256d532ba3fa1a0762d54e7933921206}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E}}
+\index{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E@{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+I\+N\+T\+\_\+\+I\+R\+E\+S\+T\+O\+R\+E(
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)~{\bf T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E}()}}\label{tn__arch__example_8h_a256d532ba3fa1a0762d54e7933921206}
+
+
+The same as {\ttfamily \hyperlink{tn__arch__example_8h_a727d4cdb7fb41f5fa5d15a676a4243b2}{T\+N\+\_\+\+I\+N\+T\+\_\+\+R\+E\+S\+T\+O\+R\+E()}} but for using in I\+S\+R. 
+
+Uses {\ttfamily \hyperlink{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}} as a temporary storage.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_aa80a572e7b4874a2b281c6718f31809c}{T\+N\+\_\+\+I\+N\+T\+S\+A\+V\+E\+\_\+\+D\+A\+T\+A\+\_\+\+I\+N\+T}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 194 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_af1305db9e9f6a4eb96957c3194f5e02f}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!\+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S@{\+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S}}
+\index{\+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S@{\+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+S\+I\+Z\+E\+\_\+\+B\+Y\+T\+E\+S\+\_\+\+T\+O\+\_\+\+U\+W\+O\+R\+D\+S(
+\begin{DoxyParamCaption}
+\item[{}]{size\+\_\+in\+\_\+bytes}
+\end{DoxyParamCaption}
+)~((size\+\_\+in\+\_\+bytes) $>$$>$ 2)}}\label{tn__arch__example_8h_af1305db9e9f6a4eb96957c3194f5e02f}
+
+
+Converts size in bytes to size in {\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}. 
+
+For 32-\/bit platforms, we should shift it by 2 bit to the right; for 16-\/bit platforms, we should shift it by 1 bit to the right. 
+
+Definition at line 213 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_ad7d8039ee539dd492556f83a7a27aba6}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E@{\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E}}
+\index{\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E@{\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E~inline}}\label{tn__arch__example_8h_ad7d8039ee539dd492556f83a7a27aba6}
+
+
+If compiler does not conform to c99 standard, there's no inline keyword. 
+
+So, there's a special macro for that. 
+
+Definition at line 219 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a5b7a7de42a2672517fa626d2b15de142}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!\+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D@{\+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D}}
+\index{\+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D@{\+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+V\+O\+L\+A\+T\+I\+L\+E\+\_\+\+W\+O\+R\+K\+A\+R\+O\+U\+N\+D~/$\ast$ nothing $\ast$/}}\label{tn__arch__example_8h_a5b7a7de42a2672517fa626d2b15de142}
+
+
+Sometimes compilers are buggy in high-\/optimization modes, and these bugs are often could be worked around by adding the {\ttfamily volatile} keyword. 
+
+It is compiler-\/dependent, so, there's a special macro for that. 
+
+Definition at line 227 of file tn\+\_\+arch\+\_\+example.\+h.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+U\+Word@{T\+N\+\_\+\+U\+Word}}
+\index{T\+N\+\_\+\+U\+Word@{T\+N\+\_\+\+U\+Word}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+U\+Word}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned int {\bf T\+N\+\_\+\+U\+Word}}}\label{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}
+
+
+Unsigned integer type whose size is equal to the size of C\+P\+U register. 
+
+Typically it's plain {\ttfamily unsigned int}. 
+
+Definition at line 105 of file tn\+\_\+arch\+\_\+example.\+h.
+
+\hypertarget{tn__arch__example_8h_a8db91f8ae305eb6e2bf1f1866c3caf74}{\index{tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}!T\+N\+\_\+\+U\+Int\+Ptr@{T\+N\+\_\+\+U\+Int\+Ptr}}
+\index{T\+N\+\_\+\+U\+Int\+Ptr@{T\+N\+\_\+\+U\+Int\+Ptr}!tn\+\_\+arch\+\_\+example.\+h@{tn\+\_\+arch\+\_\+example.\+h}}
+\subsubsection[{T\+N\+\_\+\+U\+Int\+Ptr}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned int {\bf T\+N\+\_\+\+U\+Int\+Ptr}}}\label{tn__arch__example_8h_a8db91f8ae305eb6e2bf1f1866c3caf74}
+
+
+Unsigned integer type that is able to store pointers. 
+
+We need it because some platforms don't define {\ttfamily uintptr\+\_\+t}. Typically it's {\ttfamily unsigned int}. 
+
+Definition at line 112 of file tn\+\_\+arch\+\_\+example.\+h.
+

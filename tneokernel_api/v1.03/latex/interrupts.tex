@@ -1,0 +1,21 @@
+\hypertarget{interrupts_interrupt_stack}{}\section{Interrupt stack}\label{interrupts_interrupt_stack}
+T\+Neo\+Kernel provides a separate stack for interrupt handlers. This approach could save a lot of R\+A\+M\+: interrupt can happen at any moment of time, and if there's no separate interrupt stack, then each task should have enough stack space for the worse case of interrupt nesting.
+
+Assume application's I\+S\+Rs take max 64 words (64 $\ast$ 4 = 256 bytes on P\+I\+C32) and application has 4 tasks (plus one idle task). Then, each of 5 tasks must have 64 words for interrupts\+: 64 $\ast$ 5 $\ast$ 4 = 1280 bytes of R\+A\+M just for 64 words for I\+S\+R.
+
+With separate stack for interrupts, these 64 words should be allocated just once. Interrupt stack array should be given to {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}}. For additional information, refer to the section \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel}.
+
+In order to make particular I\+S\+R use separate interrupt stack, this I\+S\+R should be defined by kernel-\/provided macro, which is platform-\/dependent\+: see \hyperlink{pic32_details}{P\+I\+C32 details}.
+
+In spite of the fact that the kernel provides separate stack for interrupt, this isn't a mandatory\+: you're able to define your I\+S\+R in a standard way, making it use stask of interrupted task and work a bit faster. There is always a tradeoff. There are {\bfseries no additional constraints} on I\+S\+R defined without kernel-\/provided macro\+: in either I\+S\+R, you can call the same set of kernel services.
+
+When you make a decision on whether particular I\+S\+R should use separate stack, consider the following\+:
+
+
+\begin{DoxyItemize}
+\item When I\+S\+R is defined in a standard way, and no function is called from that I\+S\+R, only necessary registers are saved on stack. If you have such an I\+S\+R (that doesn't call any function), and this I\+S\+R should work very fast, consider using standard way instead of kernel-\/provided macro.
+\item When I\+S\+R is defined in a standard way, but it calls any function and doesn't use shadow register set, compiler saves (almost) full context {\bfseries on the task's stack}, because it doesn't know which registers are used inside the function. In this case, it usually makes more sense to use kernel-\/provided macro (see below).
+\item Kernel-\/provided interrupt macros switch stack pointer between interrupt stack and task stack automatically, it takes additional time\+: e.\+g. on P\+I\+C32 it's about 20 cycles.
+\item Kernel-\/provided interrupt macro that doesn't use shadow register set always saves (almost) full context {\bfseries on the interrupt stack}, independently of whether any function is called from an I\+S\+R.
+\item Kernel-\/provided interrupt macro that uses shadow register set saves a little amount of registers {\bfseries on the interrupt stack}. 
+\end{DoxyItemize}

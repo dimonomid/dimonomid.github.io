@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Building the project</title>
+
+<para>Some notes on building the project</para>
+<section xml:id="building_1configuration_file">
+<title>Configuration file</title>
+
+<para>TNeoKernel is intended to be built as a library, separately from main project (although nothing prevents you from bundling things together, if you want to).</para>
+
+<para>There are various options available which affects API and behavior of the kernel. But these options are specific for particular project, and aren&apos;t related to the kernel itself, so we need to keep them separately.</para>
+
+<para>To this end, file <computeroutput><link linkend="tn_8h">tn.h</link></computeroutput> (the main kernel header file) includes <computeroutput>tn_cfg.h</computeroutput>, which isn&apos;t included in the repository (even more, it is added to <computeroutput>.hgignore</computeroutput> list actually). Instead, default configuration file <computeroutput><link linkend="tn__cfg__default_8h">tn_cfg_default.h</link></computeroutput> is provided, and when you just cloned the repository, you might want to copy it as <computeroutput>tn_cfg.h</computeroutput>. Or even better, if your filesystem supports symbolic links, copy it somewhere to your main project&apos;s directory (so that you can add it to your VCS there), and create symlink to it named <computeroutput>tn_cfg.h</computeroutput> in the TNeoKernel source directory, like this: <literallayout>$ cd /path/to/tneokernel/src
+$ cp ./tn_cfg_default.h /path/to/main/project/lib_cfg/tn_cfg.h
+$ ln -s /path/to/main/project/lib_cfg/tn_cfg.h ./tn_cfg.h
+</literallayout></para>
+
+<para>Default configuration file contains detailed comments, so you can read them and configure behavior as you like.</para>
+</section>
+<section xml:id="building_1building_generic">
+<title>Building the project</title>
+
+<para>For information on building TNeoKernel, please refer to the appropriate section for your platform:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><link linkend="pic24_details_1pic24_building">Building for PIC24/dsPIC</link></para>
+</listitem><listitem>
+<para><link linkend="pic32_details_1pic32_building">Building for PIC32</link> </para>
+</listitem></itemizedlist>
+</para>
+</section>
+
+</chapter>

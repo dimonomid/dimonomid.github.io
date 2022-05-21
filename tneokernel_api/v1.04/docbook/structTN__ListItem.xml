@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__ListItem">
+<title>TN_ListItem struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__list_8h">&lt;tn_list.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem * prev<para><emphasis>pointer to previous item</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem * next<para><emphasis>pointer to next item</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Circular doubly linked list item, for internal kernel usage. </para>
+    </simplesect>
+</section>

@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__Task">
+<title>TN_Task struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__tasks_8h">&lt;tn_tasks.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title> Classes </title>
+        </simplesect>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_UWord * stack_top<para><emphasis>pointer to task&apos;s current top of the stack;
+Note that this field &lt;strong&gt;must&lt;/strong&gt; be a first field in the struct,
+this fact is exploited by platform-specific routines.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem task_queue<para><emphasis>queue is used to include task in ready/wait lists</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_Timer timer<para><emphasis>timer object to implement task waiting for timeout</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem * pwait_queue<para><emphasis>pointer to object&apos;s (semaphore, mutex, event, etc) wait list in which 
+task is included for waiting</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem create_queue<para><emphasis>queue is used to include task in creation list
+(currently, this list is used for statistics only)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem mutex_queue<para><emphasis>list of all mutexes that are locked by task</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem deadlock_list<para><emphasis>list of other tasks involved in deadlock.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_UWord * base_stack_top<para><emphasis>base top of the stack for this task</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int stack_size<para><emphasis>size of task&apos;s stack (in &lt;tt&gt;sizeof(TN_UWord)&lt;/tt&gt;, not bytes)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_TaskBody * task_func_addr<para><emphasis>pointer to task&apos;s body function given to &lt;tt&gt;tn_task_create()&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * task_func_param<para><emphasis>pointer to task&apos;s parameter given to &lt;tt&gt;tn_task_create()&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int base_priority<para><emphasis>base priority of the task (actual current priority may be higher than 
+base priority because of mutex)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int priority<para><emphasis>current task priority</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_task<para><emphasis>id for object validity verification</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_TaskState task_state<para><emphasis>task state</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_WaitReason task_wait_reason<para><emphasis>reason for waiting (relevant if only &lt;tt&gt;task_state&lt;/tt&gt; is
+$(TN_TASK_STATE_WAIT) or $(TN_TASK_STATE_WAITSUSP))</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_RCode task_wait_rc<para><emphasis>waiting result code (reason why waiting finished)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int tslice_count<para><emphasis>time slice counter</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_EGrpTaskWait eventgrp<para><emphasis>fields specific to tn_eventgrp.h</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_DQueueTaskWait dqueue<para><emphasis>fields specific to tn_dqueue.h</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_FMemTaskWait fmem<para><emphasis>fields specific to tn_fmem.h</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>union TN_Task::@0 subsys_wait<para><emphasis>subsystem-specific fields that are used while task waits for something.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const char * name<para><emphasis>task name for debug purposes, user may want to set it by hand</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned priority_already_updated<para><emphasis>Internal flag used to optimize mutex priority algorithms.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned waited<para><emphasis>Flag indicates that task waited for something
+This flag is set automatially in &lt;tt&gt;_tn_task_set_waiting()&lt;/tt&gt;
+Must be cleared manually before calling any service that could sleep,
+if the caller is interested in the relevant value of this flag.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Task. </para>
+    </simplesect>
+        <simplesect>
+            <title>Member Documentation</title>
+            <simplesect>
+                <title>TN_UWord* TN_Task::stack_top</title>                
+                <para>Definition at line 177 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>struct TN_ListItem TN_Task::deadlock_list</title>                
+<para>This list is non-empty only in emergency cases, and it is here to help you fix your bug that led to deadlock.</para>
+
+<para><formalpara><title>See also: </title>
+
+<para><computeroutput><link linkend="tn__cfg__default_8h_1a6ed3ec7b0d4338e7f60dde86b7ea5fa4">TN_MUTEX_DEADLOCK_DETECT</link></computeroutput> </para>
+</formalpara>
+</para>
+
+                <para>Definition at line 190 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>union TN_Task::@0  TN_Task::subsys_wait</title>                
+<para>Do note that these fields are grouped by union, so, they must not interfere with each other. It&apos;s quite ok here because task can&apos;t wait for different things. </para>
+
+                <para>Definition at line 268 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>unsigned TN_Task::priority_already_updated</title>                
+<para>For the comments on it, see file tn_mutex.c, function <computeroutput>_mutex_do_unlock()</computeroutput>. </para>
+
+                <para>Definition at line 278 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>unsigned TN_Task::waited</title>                
+                <para>Definition at line 284 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </simplesect>
+</section>

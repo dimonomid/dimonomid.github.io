@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Building TNeo</title>
+
+<para>Some notes on building the project.</para>
+
+<para>Note: you don&apos;t <emphasis>have</emphasis> to build TNeo to use it. If you want to just use pre-built library (with default configuration), refer to the section <link linkend="quick_guide_1usage_generic">Using TNeo in your application</link>.</para>
+<section xml:id="building_1configuration_file">
+<title>Configuration file</title>
+
+<para>TNeo is intended to be built as a library, separately from main project (although nothing prevents you from bundling things together, if you want to).</para>
+
+<para>There are various options available which affects API and behavior of the kernel. But these options are specific for particular project, and aren&apos;t related to the kernel itself, so we need to keep them separately.</para>
+
+<para>To this end, file <computeroutput><link linkend="tn_8h">tn.h</link></computeroutput> (the main kernel header file) includes <computeroutput>tn_cfg.h</computeroutput>, which isn&apos;t included in the repository (even more, it is added to <computeroutput>.hgignore</computeroutput> list actually). Instead, default configuration file <computeroutput><link linkend="tn__cfg__default_8h">tn_cfg_default.h</link></computeroutput> is provided, and when you just cloned the repository, you might want to copy it as <computeroutput>tn_cfg.h</computeroutput>. Or even better, if your filesystem supports symbolic links, copy it somewhere to your main project&apos;s directory (so that you can add it to your VCS there), and create symlink to it named <computeroutput>tn_cfg.h</computeroutput> in the TNeo source directory, like this: <literallayout>$ cd /path/to/tneo/src
+$ cp ./tn_cfg_default.h /path/to/main/project/lib_cfg/tn_cfg.h
+$ ln -s /path/to/main/project/lib_cfg/tn_cfg.h ./tn_cfg.h
+</literallayout></para>
+
+<para>Default configuration file contains detailed comments, so you can read them and configure behavior as you like.</para>
+</section>
+<section xml:id="building_1building_generic__makefile_lib_project">
+<title>Makefile or library projects</title>
+
+<para>If you need to build TNeo with some non-default configuration, the easiest way is to use ready-made Makefile or library project.</para>
+<section xml:id="building_1building_generic__makefile">
+<title>Makefile</title>
+
+<para>It is tested only in Unix-like environment, so that you can&apos;t use makefile to build the kernel with Keil Realview or IAR. For Keil Realview or IAR, use library project (see the section below).</para>
+
+<para>There are two makefiles available: <computeroutput>Makefile-all-arch</computeroutput> and <computeroutput>Makefile</computeroutput>.</para>
+
+<para>The first one is used to build all possible targets at once, so it is more for the kernel developer than for kernel user. The second one is used to build the kernel for some particular architecture, and it takes two params: <computeroutput>TN_ARCH</computeroutput> and <computeroutput>TN_COMPILER</computeroutput>.</para>
+
+<para>Valid values for <computeroutput>TN_ARCH</computeroutput> are:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>cortex_m0</computeroutput> - for Cortex-M0 architecture,</para>
+</listitem><listitem>
+<para><computeroutput>cortex_m0plus</computeroutput> - for Cortex-M0+ architecture,</para>
+</listitem><listitem>
+<para><computeroutput>cortex_m1</computeroutput> - for Cortex-M1 architecture,</para>
+</listitem><listitem>
+<para><computeroutput>cortex_m3</computeroutput> - for Cortex-M3 architecture,</para>
+</listitem><listitem>
+<para><computeroutput>cortex_m4</computeroutput> - for Cortex-M4 architecture,</para>
+</listitem><listitem>
+<para><computeroutput>cortex_m4f</computeroutput> - for Cortex-M4F architecture,</para>
+</listitem><listitem>
+<para><computeroutput>pic32mx</computeroutput> - for PIC32MX architecture,</para>
+</listitem><listitem>
+<para><computeroutput>pic24_dspic_noeds</computeroutput> - for PIC24/dsPIC architecture without EDS (Extended Data Space),</para>
+</listitem><listitem>
+<para><computeroutput>pic24_dspic_eds</computeroutput> - for PIC24/dsPIC architecture with EDS.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Valid values for <computeroutput>TN_COMPILER</computeroutput> depend on architecture. For Cortex-M series, they are:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>arm-none-eabi-gcc</computeroutput> (you need <link xlink:href="https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded">GNU ARM Embedded toolchain</link>)</para>
+</listitem><listitem>
+<para><computeroutput>clang</computeroutput> (you need <link xlink:href="http://clang.llvm.org/">LLVM clang</link>)</para>
+</listitem></itemizedlist>
+</para>
+
+<para>For PIC32, just one value is valid:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>xc32</computeroutput> (you need <link xlink:href="http://www.microchip.com/xc32">Microchip XC32 compiler</link>)</para>
+</listitem></itemizedlist>
+</para>
+
+<para>For PIC24/dsPIC, just one value is valid:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>xc16</computeroutput> (you need <link xlink:href="http://www.microchip.com/xc16">Microchip XC16 compiler</link>)</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Example invocation (from the TNeo&apos;s root directory) :</para>
+
+<para><computeroutput>$ make TN_ARCH=cortex_m3 TN_COMPILER=arm-none-eabi-gcc</computeroutput></para>
+
+<para>As a result, there will be archive library file <computeroutput>bin/cortex_m3/arm-none-eabi-gcc/tneo_cortex_m3_arm-none-eabi-gcc.a</computeroutput></para>
+</section>
+<section xml:id="building_1building_generic__lib_project">
+<title>Library project</title>
+
+<para>In the root of TNeo repository, there is a directory <computeroutput>lib_project</computeroutput> which contains ready-made projects for various platforms. You may use it for building library, and then use resulting library file in your project.</para>
+
+<para>For MPLABX projects, there are <emphasis>library projects</emphasis>, so that you even don&apos;t need to build a library: just add this <emphasis>library project</emphasis> to your main project, and MPLABX will do all the work for you. You can change <computeroutput>tn_cfg.h</computeroutput> file &quot;on-the-fly&quot; then. Other IDEs don&apos;t offer such a luxuries, so you need to build library file as a separate step.</para>
+</section>
+</section>
+<section xml:id="building_1building_generic__manual">
+<title>Building manually</title>
+
+<para>If you want to create library project yourself (say, in some different IDE, or anything), or if you want to build TNeo as a direct part of your project, there are some generic requirements (there might be additional architecture-dependent requirements, see links below):</para>
+
+<para><itemizedlist>
+<listitem>
+<para><emphasis role="bold">Core sources</emphasis>: add all <computeroutput>.c</computeroutput> files from <computeroutput>src/core</computeroutput> directory to the project.</para>
+</listitem><listitem>
+<para><emphasis role="bold">C99</emphasis>: TNeo uses some features of C99, such as <computeroutput>static inline</computeroutput> functions and variable declarations not at the start of a compound statement. So, C99 is a requirement.</para>
+</listitem><listitem>
+<para><emphasis role="bold">C Include directories</emphasis> (relative to the root of the repository) :<itemizedlist>
+<listitem>
+<para><computeroutput>src</computeroutput></para>
+</listitem><listitem>
+<para><computeroutput>src/core</computeroutput></para>
+</listitem><listitem>
+<para><computeroutput>src/core/internal</computeroutput></para>
+</listitem><listitem>
+<para><computeroutput>src/arch</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para><emphasis role="bold">Assembler preprocessor Include directories</emphasis> (relative to the root of the repository) :<itemizedlist>
+<listitem>
+<para><computeroutput>src</computeroutput></para>
+</listitem><listitem>
+<para><computeroutput>src/core</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para><emphasis role="bold"><computeroutput>.S</computeroutput> files preprocessed by C preprocessor</emphasis>: This is probably more arch-dependent requirement than a generic one, but actually <computeroutput>.S</computeroutput> files for all supported architectures need to be preprocessed, so it is specified here. On most platforms, it works &quot;out-of-the-box&quot;, on some others, you need to perform additional steps for it: in these cases, necessary steps explained in the &quot;building&quot; section for the appropriate architecture, see links below.</para>
+</listitem><listitem>
+<para><emphasis role="bold">Isolate each function in a section</emphasis> Not a requirement, but recommendation: for embedded designs, it is usually a good idea to isolate each function in a section, so that in your application you can set linker option like &quot;remove unused sections&quot;, and save notable amount of flash memory.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>For arch-dependent information on building TNeo, please refer to the appropriate section:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><link linkend="arch_specific_1pic24_building">Building for PIC24/dsPIC</link></para>
+</listitem><listitem>
+<para><link linkend="arch_specific_1pic32_building">Building for PIC32</link></para>
+</listitem><listitem>
+<para><link linkend="arch_specific_1cortex_m_building">Building for Cortex-M0/M1/M3/M4/M4F</link> </para>
+</listitem></itemizedlist>
+</para>
+</section>
+
+</chapter>

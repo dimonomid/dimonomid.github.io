@@ -1,0 +1,65 @@
+\hypertarget{struct__TN__TaskProfiler}{\section{\+\_\+\+T\+N\+\_\+\+Task\+Profiler Struct Reference}
+\label{struct__TN__TaskProfiler}\index{\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}}
+}
+
+
+\subsection{Detailed Description}
+Internal kernel structure for profiling data of task. 
+
+Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a49a546b18cc1f75b51d4cf8b290634dd}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R}} option is non-\/zero. 
+
+Definition at line 302 of file tn\+\_\+tasks.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{struct__TN__TaskProfiler_af7e85444a89aa6d17c4eb9115fdea4fb}{\hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} \hyperlink{struct__TN__TaskProfiler_af7e85444a89aa6d17c4eb9115fdea4fb}{last\+\_\+tick\+\_\+cnt}}\label{struct__TN__TaskProfiler_af7e85444a89aa6d17c4eb9115fdea4fb}
+
+\begin{DoxyCompactList}\small\item\em Tick count of when the task got running or non-\/running last time. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7}{T\+N\+\_\+\+Wait\+Reason} \hyperlink{struct__TN__TaskProfiler_aa587d29f8b4a5252547dc3144735ea55}{last\+\_\+wait\+\_\+reason}
+\begin{DoxyCompactList}\small\item\em Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E}} option is non-\/zero. \end{DoxyCompactList}\item 
+int \hyperlink{struct__TN__TaskProfiler_a4e382a368f456602d74dad640e6371ba}{is\+\_\+running}
+\begin{DoxyCompactList}\small\item\em For internal profiler self-\/check only\+: indicates whether task is running or not. \end{DoxyCompactList}\item 
+struct \hyperlink{structTN__TaskTiming}{T\+N\+\_\+\+Task\+Timing} \hyperlink{struct__TN__TaskProfiler_a49e7b961e080414f407f5c52f9688ed5}{timing}
+\begin{DoxyCompactList}\small\item\em Main timing structure managed by profiler. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{struct__TN__TaskProfiler_aa587d29f8b4a5252547dc3144735ea55}{\index{\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}!last\+\_\+wait\+\_\+reason@{last\+\_\+wait\+\_\+reason}}
+\index{last\+\_\+wait\+\_\+reason@{last\+\_\+wait\+\_\+reason}!\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}}
+\subsubsection[{last\+\_\+wait\+\_\+reason}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Wait\+Reason} \+\_\+\+T\+N\+\_\+\+Task\+Profiler\+::last\+\_\+wait\+\_\+reason}}\label{struct__TN__TaskProfiler_aa587d29f8b4a5252547dc3144735ea55}
+
+
+Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+M\+E}} option is non-\/zero. 
+
+Value of {\ttfamily task-\/$>$task\+\_\+wait\+\_\+reason} when task got non-\/running last time. 
+
+Definition at line 311 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{struct__TN__TaskProfiler_a4e382a368f456602d74dad640e6371ba}{\index{\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}!is\+\_\+running@{is\+\_\+running}}
+\index{is\+\_\+running@{is\+\_\+running}!\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}}
+\subsubsection[{is\+\_\+running}]{\setlength{\rightskip}{0pt plus 5cm}int \+\_\+\+T\+N\+\_\+\+Task\+Profiler\+::is\+\_\+running}}\label{struct__TN__TaskProfiler_a4e382a368f456602d74dad640e6371ba}
+
+
+For internal profiler self-\/check only\+: indicates whether task is running or not. 
+
+Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a9d2b6d902efdbc56094bb913413aa69c}{T\+N\+\_\+\+D\+E\+B\+U\+G}} is non-\/zero. 
+
+Definition at line 318 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{struct__TN__TaskProfiler_a49e7b961e080414f407f5c52f9688ed5}{\index{\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}!timing@{timing}}
+\index{timing@{timing}!\+\_\+\+T\+N\+\_\+\+Task\+Profiler@{\+\_\+\+T\+N\+\_\+\+Task\+Profiler}}
+\subsubsection[{timing}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf T\+N\+\_\+\+Task\+Timing} \+\_\+\+T\+N\+\_\+\+Task\+Profiler\+::timing}}\label{struct__TN__TaskProfiler_a49e7b961e080414f407f5c52f9688ed5}
+
+
+Main timing structure managed by profiler. 
+
+Contents of this structure can be read by {\ttfamily \hyperlink{tn__tasks_8h_a8f90a88f54d2d49bb1de00886241edfe}{tn\+\_\+task\+\_\+profiler\+\_\+timing\+\_\+get()}} function. 
+
+Definition at line 323 of file tn\+\_\+tasks.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__tasks_8h}{tn\+\_\+tasks.\+h}\end{DoxyCompactItemize}

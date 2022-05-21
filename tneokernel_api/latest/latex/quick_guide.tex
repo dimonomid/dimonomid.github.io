@@ -1,0 +1,363 @@
+This page contains quick guide on system startup and important implementation details.\hypertarget{quick_guide_usage_generic}{}\section{Using T\+Neo in your application}\label{quick_guide_usage_generic}
+The easiest way is to download version archive from \href{https://bitbucket.org/dfrank/tneokernel/downloads}{\tt downloads page}\+: it contains {\ttfamily bin} folder with library files for various platforms. These library files were built with default configuration file ({\ttfamily \hyperlink{tn__cfg__default_8h}{src/tn\+\_\+cfg\+\_\+default.\+h}}, see the section \hyperlink{building_configuration_file}{Configuration file}).
+
+If you use M\+P\+L\+A\+BX, it is probably better to add {\itshape library project} to your main project instead; library projects reside in the {\ttfamily $<$tneo\+\_\+path$>$/lib\+\_\+project} directory.
+
+In either case, all you need is the following\+:
+
+
+\begin{DoxyItemize}
+\item Add library file for appropriate platform to your project (or probably {\itshape library project} in case of M\+P\+L\+A\+BX);
+\item Add C include path\+: {\ttfamily $<$tneo\+\_\+path$>$/src};
+\item Copy default configuration file as current configuration file\+: {\ttfamily cp $<$tneo\+\_\+path$>$/src/tn\+\_\+cfg\+\_\+default.h $<$tneo\+\_\+path$>$/src/tn\+\_\+cfg.h} (for more information about configuration file and better ways to manage it, refer to the section \hyperlink{building_configuration_file}{Configuration file})
+\item Add the file {\ttfamily $<$tneo\+\_\+path$>$/src/tn\+\_\+app\+\_\+check.c} to your application project (see {\ttfamily \hyperlink{tn__cfg__default_8h_aacdc913eb66492cf69cf02a5de73578e}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+B\+U\+I\+L\+D\+\_\+\+C\+FG}} for details on it).
+\end{DoxyItemize}
+
+That\textquotesingle{}s all; you can use it in your project now. See below how to do this.
+
+\begin{DoxyAttention}{Attention}
+If you need to change the configuration, you can\textquotesingle{}t just edit {\ttfamily tn\+\_\+cfg.\+h} and keep using pre-\/built library file\+: you need to rebuild the library after editing {\ttfamily tn\+\_\+cfg.\+h}. Refer to the page \hyperlink{building}{Building T\+Neo} for details.
+\end{DoxyAttention}
+\hypertarget{quick_guide_quick_guide__time_ticks}{}\section{Time ticks}\label{quick_guide_quick_guide__time_ticks}
+The kernel needs to calculate timeouts. There are two schemes available\+: {\itshape static tick} and {\itshape dynamic tick}. For a quick guide, it\textquotesingle{}s quite enough to just read about static tick, so, for the details on it, refer to the section \hyperlink{time_ticks_time_ticks__static_tick}{Static tick} and then return back here.\hypertarget{quick_guide_starting_the_kernel}{}\section{Starting the kernel}\label{quick_guide_starting_the_kernel}
+\subsubsection*{Quick guide on startup process}
+
+
+\begin{DoxyItemize}
+\item You allocate arrays for idle task stack and interrupt stack, there is a convenience macro {\ttfamily \hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{T\+N\+\_\+\+S\+T\+A\+C\+K\+\_\+\+A\+R\+R\+\_\+\+D\+E\+F()}} for that. It is good idea to consult the {\ttfamily \hyperlink{tn__arch__example_8h_ad465f81e8ea15a530747b1147dbe4605}{T\+N\+\_\+\+M\+I\+N\+\_\+\+S\+T\+A\+C\+K\+\_\+\+S\+I\+ZE}} to determine stack sizes (see example below).
+\item You provide callback function like {\ttfamily void init\+\_\+task\+\_\+create(void) \{ ... \}}, in which at least one (and typically just one) your own task should be created and activated. This task should perform application initialization and create all the rest of tasks. See details in {\ttfamily \hyperlink{tn__sys_8h_aaa9bbc6c586cf6ce8d982b8d79bc27d6}{T\+N\+\_\+\+C\+B\+User\+Task\+Create()}}.
+\item You provide idle callback function to be called periodically from idle task. It\textquotesingle{}s quite fine to leave it empty.
+\item In the {\ttfamily main()} you should\+:
+\begin{DoxyItemize}
+\item disable {\itshape system interrupts} by calling {\ttfamily \hyperlink{tn__arch_8h_a2b3f2294ac42a599662c573394b14c75}{tn\+\_\+arch\+\_\+int\+\_\+dis()}};
+\item perform some essential C\+PU configuration, such as oscillator settings and similar things.
+\item setup {\itshape \hyperlink{time_ticks}{system timer}} interrupt (from which {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} gets called)
+\item call {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} providing all necessary information\+: pointers to stacks, their sizes and your callback functions.
+\end{DoxyItemize}
+\item Kernel acts as follows\+:
+\begin{DoxyItemize}
+\item performs all necessary housekeeping;
+\item creates idle task;
+\item calls your {\ttfamily \hyperlink{tn__sys_8h_aaa9bbc6c586cf6ce8d982b8d79bc27d6}{T\+N\+\_\+\+C\+B\+User\+Task\+Create()}} callback, in which your initial task is created with {\ttfamily \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+RT}} option;
+\item performs first context switch (to your task with highest priority).
+\end{DoxyItemize}
+\item At this point, system operates normally\+: your initial task gets executed and you can call whatever system services you need. Typically, your initial task acts then as follows\+:
+\begin{DoxyItemize}
+\item Perform initialization of various on-\/board peripherals (displays, flash memory chips, or whatever);
+\item Initialize software modules used by application;
+\item Create all the rest of your tasks (since everything is initialized already so that they can proceed with their job);
+\item Eventually, perform its primary job (the job for which task was created at all).
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+\subsubsection*{Basic example for P\+I\+C32}
+
+This example project can be found in the T\+Neo repository, in the {\ttfamily examples/basic/arch/pic32} directory.
+
+\begin{DoxyAttention}{Attention}
+Before trying to build examples, please read \hyperlink{building}{Building T\+Neo} page carefully\+: you need to copy configuration file in the tneo directory to build it. Each example has {\ttfamily tn\+\_\+cfg\+\_\+appl.\+h} file, and you should either create a symbolic link to this file from {\ttfamily tneo/src/tn\+\_\+cfg.\+h} or just copy this file as {\ttfamily tneo/src/tn\+\_\+cfg.\+h}.
+\end{DoxyAttention}
+
+\begin{DoxyCodeInclude}
+\textcolor{comment}{/**}
+\textcolor{comment}{ * TNeo PIC32 basic example}
+\textcolor{comment}{ */}
+
+\textcolor{comment}{/*******************************************************************************}
+\textcolor{comment}{ *    INCLUDED FILES}
+\textcolor{comment}{ ******************************************************************************/}
+
+\textcolor{preprocessor}{#include <xc.h>}
+\textcolor{preprocessor}{#include <plib.h>}
+\textcolor{preprocessor}{#include <stdint.h>}
+\textcolor{preprocessor}{#include "\hyperlink{tn_8h}{tn.h}"}
+
+
+
+
+\textcolor{comment}{/*******************************************************************************}
+\textcolor{comment}{ *    PIC32 HARDWARE CONFIGURATION}
+\textcolor{comment}{ ******************************************************************************/}
+
+\textcolor{preprocessor}{#pragma config FNOSC    = PRIPLL        // Oscillator Selection}
+\textcolor{preprocessor}{#pragma config FPLLIDIV = DIV\_4         // PLL Input Divider (PIC32 Starter Kit: use divide by 2 only)}
+\textcolor{preprocessor}{#pragma config FPLLMUL  = MUL\_20        // PLL Multiplier}
+\textcolor{preprocessor}{#pragma config FPLLODIV = DIV\_1         // PLL Output Divider}
+\textcolor{preprocessor}{#pragma config FPBDIV   = DIV\_2         // Peripheral Clock divisor}
+\textcolor{preprocessor}{#pragma config FWDTEN   = OFF           // Watchdog Timer}
+\textcolor{preprocessor}{#pragma config WDTPS    = PS1           // Watchdog Timer Postscale}
+\textcolor{preprocessor}{#pragma config FCKSM    = CSDCMD        // Clock Switching & Fail Safe Clock Monitor}
+\textcolor{preprocessor}{#pragma config OSCIOFNC = OFF           // CLKO Enable}
+\textcolor{preprocessor}{#pragma config POSCMOD  = HS            // Primary Oscillator}
+\textcolor{preprocessor}{#pragma config IESO     = OFF           // Internal/External Switch-over}
+\textcolor{preprocessor}{#pragma config FSOSCEN  = OFF           // Secondary Oscillator Enable}
+\textcolor{preprocessor}{#pragma config CP       = OFF           // Code Protect}
+\textcolor{preprocessor}{#pragma config BWP      = OFF           // Boot Flash Write Protect}
+\textcolor{preprocessor}{#pragma config PWP      = OFF           // Program Flash Write Protect}
+\textcolor{preprocessor}{#pragma config ICESEL   = ICS\_PGx2      // ICE/ICD Comm Channel Select}
+\textcolor{preprocessor}{#pragma config DEBUG    = OFF           // Debugger Disabled for Starter Kit}
+
+
+
+
+\textcolor{comment}{/*******************************************************************************}
+\textcolor{comment}{ *    MACROS}
+\textcolor{comment}{ ******************************************************************************/}
+
+\textcolor{comment}{//-- instruction that causes debugger to halt}
+\textcolor{preprocessor}{#define PIC32\_SOFTWARE\_BREAK()  \_\_asm\_\_ volatile ("sdbbp 0")}
+
+\textcolor{comment}{//-- system frequency}
+\textcolor{preprocessor}{#define SYS\_FREQ           80000000UL}
+
+\textcolor{comment}{//-- peripheral bus frequency}
+\textcolor{preprocessor}{#define PB\_FREQ            40000000UL}
+
+\textcolor{comment}{//-- kernel ticks (system timer) frequency}
+\textcolor{preprocessor}{#define SYS\_TMR\_FREQ       1000}
+
+\textcolor{comment}{//-- system timer prescaler}
+\textcolor{preprocessor}{#define SYS\_TMR\_PRESCALER           T5\_PS\_1\_8}
+\textcolor{preprocessor}{#define SYS\_TMR\_PRESCALER\_VALUE     8}
+
+\textcolor{comment}{//-- system timer period (auto-calculated)}
+\textcolor{preprocessor}{#define SYS\_TMR\_PERIOD              \(\backslash\)}
+\textcolor{preprocessor}{   (PB\_FREQ / SYS\_TMR\_PRESCALER\_VALUE / SYS\_TMR\_FREQ)}
+
+
+
+
+\textcolor{comment}{//-- idle task stack size, in words}
+\textcolor{preprocessor}{#define IDLE\_TASK\_STACK\_SIZE          (TN\_MIN\_STACK\_SIZE + 32)}
+
+\textcolor{comment}{//-- interrupt stack size, in words}
+\textcolor{preprocessor}{#define INTERRUPT\_STACK\_SIZE          (TN\_MIN\_STACK\_SIZE + 64)}
+
+\textcolor{comment}{//-- stack sizes of user tasks}
+\textcolor{preprocessor}{#define TASK\_A\_STK\_SIZE    (TN\_MIN\_STACK\_SIZE + 96)}
+\textcolor{preprocessor}{#define TASK\_B\_STK\_SIZE    (TN\_MIN\_STACK\_SIZE + 96)}
+\textcolor{preprocessor}{#define TASK\_C\_STK\_SIZE    (TN\_MIN\_STACK\_SIZE + 96)}
+
+\textcolor{comment}{//-- user task priorities}
+\textcolor{preprocessor}{#define TASK\_A\_PRIORITY    7}
+\textcolor{preprocessor}{#define TASK\_B\_PRIORITY    6}
+\textcolor{preprocessor}{#define TASK\_C\_PRIORITY    5}
+
+
+
+\textcolor{comment}{/*******************************************************************************}
+\textcolor{comment}{ *    DATA}
+\textcolor{comment}{ ******************************************************************************/}
+
+\textcolor{comment}{//-- Allocate arrays for stacks: stack for idle task}
+\textcolor{comment}{//   and for interrupts are the requirement of the kernel;}
+\textcolor{comment}{//   others are application-dependent.}
+\textcolor{comment}{//}
+\textcolor{comment}{//   We use convenience macro TN\_STACK\_ARR\_DEF() for that.}
+
+\hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{TN\_STACK\_ARR\_DEF}(idle\_task\_stack, IDLE\_TASK\_STACK\_SIZE);
+\hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{TN\_STACK\_ARR\_DEF}(interrupt\_stack, INTERRUPT\_STACK\_SIZE);
+
+\hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{TN\_STACK\_ARR\_DEF}(task\_a\_stack, TASK\_A\_STK\_SIZE);
+\hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{TN\_STACK\_ARR\_DEF}(task\_b\_stack, TASK\_B\_STK\_SIZE);
+\hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{TN\_STACK\_ARR\_DEF}(task\_c\_stack, TASK\_C\_STK\_SIZE);
+
+
+
+\textcolor{comment}{//-- task structures}
+
+\textcolor{keyword}{struct }\hyperlink{structTN__Task}{TN\_Task} task\_a = \{\};
+\textcolor{keyword}{struct }\hyperlink{structTN__Task}{TN\_Task} task\_b = \{\};
+\textcolor{keyword}{struct }\hyperlink{structTN__Task}{TN\_Task} task\_c = \{\};
+
+
+
+\textcolor{comment}{/*******************************************************************************}
+\textcolor{comment}{ *    ISRs}
+\textcolor{comment}{ ******************************************************************************/}
+\textcolor{comment}{}
+\textcolor{comment}{/**}
+\textcolor{comment}{ * system timer ISR}
+\textcolor{comment}{ */}
+\hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\_p32\_soft\_isr}(\_TIMER\_5\_VECTOR)
+\{
+   INTClearFlag(INT\_T5);
+   \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\_tick\_int\_processing}();
+\}
+
+
+
+\textcolor{comment}{/*******************************************************************************}
+\textcolor{comment}{ *    FUNCTIONS}
+\textcolor{comment}{ ******************************************************************************/}
+
+\textcolor{keywordtype}{void} appl\_init(\textcolor{keywordtype}{void});
+
+\textcolor{keywordtype}{void} task\_a\_body(\textcolor{keywordtype}{void} *par)
+\{
+   \textcolor{comment}{//-- this is a first created application task, so it needs to perform}
+   \textcolor{comment}{//   all the application initialization.}
+   appl\_init();
+
+   \textcolor{comment}{//-- and then, let's get to the primary job of the task}
+   \textcolor{comment}{//   (job for which task was created at all)}
+   \textcolor{keywordflow}{for}(;;)
+   \{
+      mPORTEToggleBits(BIT\_0);
+      \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\_task\_sleep}(500);
+   \}
+\}
+
+\textcolor{keywordtype}{void} task\_b\_body(\textcolor{keywordtype}{void} *par)
+\{
+   \textcolor{keywordflow}{for}(;;)
+   \{
+      mPORTEToggleBits(BIT\_1);
+      \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\_task\_sleep}(1000);
+   \}
+\}
+
+\textcolor{keywordtype}{void} task\_c\_body(\textcolor{keywordtype}{void} *par)
+\{
+   \textcolor{keywordflow}{for}(;;)
+   \{
+      mPORTEToggleBits(BIT\_2);
+      \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\_task\_sleep}(1500);
+   \}
+\}
+\textcolor{comment}{}
+\textcolor{comment}{/**}
+\textcolor{comment}{ * Hardware init: called from main() with interrupts disabled}
+\textcolor{comment}{ */}
+\textcolor{keywordtype}{void} hw\_init(\textcolor{keywordtype}{void})
+\{
+   SYSTEMConfig(SYS\_FREQ, SYS\_CFG\_WAIT\_STATES | SYS\_CFG\_PCACHE);
+
+   \textcolor{comment}{//turn off ADC function for all pins}
+   AD1PCFG = 0xffffffff;
+
+   \textcolor{comment}{//-- enable timer5 interrupt}
+   OpenTimer5((0
+            | T5\_ON
+            | T5\_IDLE\_STOP
+            | SYS\_TMR\_PRESCALER
+            | T5\_SOURCE\_INT
+            ),
+         (SYS\_TMR\_PERIOD - 1)
+         );
+
+   \textcolor{comment}{//-- set timer5 interrupt priority to 2, enable it}
+   INTSetVectorPriority(INT\_TIMER\_5\_VECTOR, INT\_PRIORITY\_LEVEL\_2);
+   INTSetVectorSubPriority(INT\_TIMER\_5\_VECTOR, INT\_SUB\_PRIORITY\_LEVEL\_0);
+   INTClearFlag(INT\_T5);
+   INTEnable(INT\_T5, INT\_ENABLED);
+
+   \textcolor{comment}{//-- enable multi-vectored interrupt mode}
+   INTConfigureSystem(INT\_SYSTEM\_CONFIG\_MULT\_VECTOR);
+\}
+\textcolor{comment}{}
+\textcolor{comment}{/**}
+\textcolor{comment}{ * Application init: called from the first created application task}
+\textcolor{comment}{ */}
+\textcolor{keywordtype}{void} appl\_init(\textcolor{keywordtype}{void})
+\{
+   \textcolor{comment}{//-- configure LED port pins}
+   mPORTESetPinsDigitalOut(BIT\_0 | BIT\_1 | BIT\_2);
+   mPORTEClearBits(BIT\_0 | BIT\_1 | BIT\_2);
+
+   \textcolor{comment}{//-- initialize various on-board peripherals, such as}
+   \textcolor{comment}{//   flash memory, displays, etc.}
+   \textcolor{comment}{//   (in this sample project there's nothing to init)}
+
+   \textcolor{comment}{//-- initialize various program modules}
+   \textcolor{comment}{//   (in this sample project there's nothing to init)}
+
+
+   \textcolor{comment}{//-- create all the rest application tasks}
+   \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\_task\_create}(
+         &task\_b,
+         task\_b\_body,
+         TASK\_B\_PRIORITY,
+         task\_b\_stack,
+         TASK\_B\_STK\_SIZE,
+         NULL,
+         (\hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{TN\_TASK\_CREATE\_OPT\_START})
+         );
+
+   \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\_task\_create}(
+         &task\_c,
+         task\_c\_body,
+         TASK\_C\_PRIORITY,
+         task\_c\_stack,
+         TASK\_C\_STK\_SIZE,
+         NULL,
+         (\hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{TN\_TASK\_CREATE\_OPT\_START})
+         );
+\}
+
+\textcolor{comment}{//-- idle callback that is called periodically from idle task}
+\textcolor{keywordtype}{void} idle\_task\_callback (\textcolor{keywordtype}{void})
+\{
+\}
+
+\textcolor{comment}{//-- create first application task(s)}
+\textcolor{keywordtype}{void} init\_task\_create(\textcolor{keywordtype}{void})
+\{
+   \textcolor{comment}{//-- task A performs complete application initialization,}
+   \textcolor{comment}{//   it's the first created application task}
+   \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\_task\_create}(
+         &task\_a,                   \textcolor{comment}{//-- task structure}
+         task\_a\_body,               \textcolor{comment}{//-- task body function}
+         TASK\_A\_PRIORITY,           \textcolor{comment}{//-- task priority}
+         task\_a\_stack,              \textcolor{comment}{//-- task stack}
+         TASK\_A\_STK\_SIZE,           \textcolor{comment}{//-- task stack size (in words)}
+         NULL,                      \textcolor{comment}{//-- task function parameter}
+         \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{TN\_TASK\_CREATE\_OPT\_START}   \textcolor{comment}{//-- creation option}
+         );
+
+\}
+
+int32\_t main(\textcolor{keywordtype}{void})
+\{
+\textcolor{preprocessor}{#ifndef PIC32\_STARTER\_KIT}
+   \textcolor{comment}{/*The JTAG is on by default on POR.  A PIC32 Starter Kit uses the JTAG, but}
+\textcolor{comment}{     for other debug tool use, like ICD 3 and Real ICE, the JTAG should be off}
+\textcolor{comment}{     to free up the JTAG I/O */}
+   DDPCONbits.JTAGEN = 0;
+\textcolor{preprocessor}{#endif}
+
+   \textcolor{comment}{//-- unconditionally disable interrupts}
+   \hyperlink{tn__arch_8h_a2b3f2294ac42a599662c573394b14c75}{tn\_arch\_int\_dis}();
+
+   \textcolor{comment}{//-- init hardware}
+   hw\_init();
+
+   \textcolor{comment}{//-- call to tn\_sys\_start() never returns}
+   \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\_sys\_start}(
+         idle\_task\_stack,
+         IDLE\_TASK\_STACK\_SIZE,
+         interrupt\_stack,
+         INTERRUPT\_STACK\_SIZE,
+         init\_task\_create,
+         idle\_task\_callback
+         );
+
+   \textcolor{comment}{//-- unreachable}
+   \textcolor{keywordflow}{return} 1;
+\}
+
+\textcolor{keywordtype}{void} \_\_attribute\_\_((naked, nomips16, noreturn)) \_general\_exception\_handler(\textcolor{keywordtype}{void})
+\{
+   PIC32\_SOFTWARE\_BREAK();
+   \textcolor{keywordflow}{for} (;;) ;
+\}
+
+\end{DoxyCodeInclude}
+\hypertarget{quick_guide_round_robin}{}\section{Round-\/robin scheduling}\label{quick_guide_round_robin}
+T\+N\+Kernel has the ability to make round robin scheduling for tasks with identical priority. By default, round robin scheduling is turned off for all priorities. To enable round robin scheduling for tasks on certain priority level and to set time slices for these priority, user must call the {\ttfamily \hyperlink{tn__sys_8h_a05fc370b6faa604fd8ff9411361c4cd0}{tn\+\_\+sys\+\_\+tslice\+\_\+set()}} function. The time slice value is the same for all tasks with identical priority but may be different for each priority level. If the round robin scheduling is enabled, every system time tick interrupt increments the currently running task time slice counter. When the time slice interval is completed, the task is placed at the tail of the ready to run queue of its priority level (this queue contains tasks in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+LE}} state) and the time slice counter is cleared. Then the task may be preempted by tasks of higher or equal priority.
+
+In most cases, there is no reason to enable round robin scheduling. For applications running multiple copies of the same code, however, (G\+UI windows, etc), round robin scheduling is an acceptable solution.
+
+\begin{DoxyAttention}{Attention}
+Round-\/robin is not supported in \hyperlink{time_ticks_time_ticks__dynamic_tick}{Dynamic tick} mode. 
+\end{DoxyAttention}

@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__tasks_8h">
+    <title>tn_tasks.h File Reference</title>
+    <programlisting>#include &quot;tn_sys.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_eventgrp.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_dqueue.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_fmem.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_timer.h&quot;</programlisting>
+        <section>
+            <title> Data Structures </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__TaskTiming">TN_TaskTiming</link></para>
+<para><emphasis>Timing structure that is managed by profiler and can be read by
+&lt;tt&gt;#tn_task_profiler_timing_get()&lt;/tt&gt; function.</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="struct__TN__TaskProfiler">_TN_TaskProfiler</link></para>
+<para><emphasis>Internal kernel structure for profiling data of task.</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__Task">TN_Task</link></para>
+<para><emphasis>Task.</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6">TN_TaskState</link> {
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a8d5e0658feb4dce26cfc008bc5f9303d">TN_TASK_STATE_NONE</link>= 0,
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc">TN_TASK_STATE_RUNNABLE</link>= (1 &lt;&lt; 0),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56">TN_TASK_STATE_WAIT</link>= (1 &lt;&lt; 1),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58">TN_TASK_STATE_SUSPEND</link>= (1 &lt;&lt; 2),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a">TN_TASK_STATE_WAITSUSP</link>= (TN_TASK_STATE_WAIT | TN_TASK_STATE_SUSPEND),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b">TN_TASK_STATE_DORMANT</link>= (1 &lt;&lt; 3)
+}</literallayout>
+<para><emphasis>Task state.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7">TN_WaitReason</link> {
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4">TN_WAIT_REASON_NONE</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ac6d257af77c2e0d77bbbdf7a135e297e">TN_WAIT_REASON_SLEEP</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a991bba7e03ed24d60f58032e8e2f32f0">TN_WAIT_REASON_SEM</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ae29d8cf36a5aef0397127a6bacb87788">TN_WAIT_REASON_EVENT</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a4e1933798d7e1ec62d0ad78de771763f">TN_WAIT_REASON_DQUE_WSEND</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ace5abb1294b936e62bf5940ab369cafa">TN_WAIT_REASON_DQUE_WRECEIVE</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a2bacdbdbd4c3436b752e4b6e07710d47">TN_WAIT_REASON_MUTEX_C</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875">TN_WAIT_REASON_MUTEX_I</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a1354382bc3c908aed3a719ea24c7504c">TN_WAIT_REASON_WFIXMEM</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a54de9b2b340a9d3f444aaeccda0764ea">TN_WAIT_REASONS_CNT</link>
+}</literallayout>
+<para><emphasis>Task wait reason.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5">TN_TaskCreateOpt</link> {
+<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link>= (1 &lt;&lt; 0),
+<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a25687fab8eea9b039692307594b82fdc">_TN_TASK_CREATE_OPT_IDLE</link>= (1 &lt;&lt; 1)
+}</literallayout>
+<para><emphasis>Options for &lt;tt&gt;tn_task_create()&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49">TN_TaskExitOpt</link> {
+<link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e">TN_TASK_EXIT_OPT_DELETE</link>= (1 &lt;&lt; 0)
+}</literallayout>
+<para><emphasis>Options for &lt;tt&gt;tn_task_exit()&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, <link linkend="tn__common_8h_1a603cbe1ffdafc7e6813ef692bbd7d22f">TN_TaskBody</link> * task_func, int priority, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * task_stack_low_addr, int task_stack_size, void * param, enum <link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5">TN_TaskCreateOpt</link> opts)<para><emphasis>Construct task and probably start it (depends on options, see below).</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a15a1b4e06dcfeb749de885d5959ab431">tn_task_create_wname</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, <link linkend="tn__common_8h_1a603cbe1ffdafc7e6813ef692bbd7d22f">TN_TaskBody</link> * task_func, int priority, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * task_stack_low_addr, int task_stack_size, void * param, enum <link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5">TN_TaskCreateOpt</link> opts, const char * name)<para><emphasis>The same as &lt;tt&gt;tn_task_create()&lt;/tt&gt; but with additional argument &lt;tt&gt;name&lt;/tt&gt;,
+which could be very useful for debug.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1ab8b3066e63fec2d796dc6989f4a87f23">tn_task_suspend</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>If the task is $(TN_TASK_STATE_RUNNABLE), it is moved to the
+$(TN_TASK_STATE_SUSPEND) state.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1af30b605f6debaeb66686c525ab0ff553">tn_task_resume</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>Release task from $(TN_TASK_STATE_SUSPEND) state.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1ae768a72ca0efde5767796cc1770bd45e">tn_task_sleep</link> (
+<link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link> timeout)<para><emphasis>Put current task to sleep for at most timeout ticks.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1abb88bc8b1cec6b82e7b6e2e90d0e155a">tn_task_wakeup</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>Wake up task from sleep.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a94e6a0312013e53cf08bcf871e6f4172">tn_task_iwakeup</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>The same as &lt;tt&gt;tn_task_wakeup()&lt;/tt&gt; but for using in the ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a3c14832fe7dfd2c44678608767f40230">tn_task_activate</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>Activate task that is in $(TN_TASK_STATE_DORMANT) state, that is, it was
+either just created by &lt;tt&gt;tn_task_create()&lt;/tt&gt; without
+&lt;tt&gt;#TN_TASK_CREATE_OPT_START&lt;/tt&gt; option, or terminated.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a46c30078ae437c75121965f70c9d7b4c">tn_task_iactivate</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>The same as &lt;tt&gt;tn_task_activate()&lt;/tt&gt; but for using in the ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1ae90ecdbd7d87d050c2c98ec775e6efc7">tn_task_release_wait</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>Release task from $(TN_TASK_STATE_WAIT) state, independently of the reason
+of waiting.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1aee0ef296af18733f64269386adf8a2d7">tn_task_irelease_wait</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>The same as &lt;tt&gt;tn_task_release_wait()&lt;/tt&gt; but for using in the ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__tasks_8h_1a23e562731e616f01e325bc9830bcc021">tn_task_exit</link> (
+enum <link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49">TN_TaskExitOpt</link> opts)<para><emphasis>This function terminates the currently running task.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a8ae6615de7022a327bdcd4c37a0f5b90">tn_task_terminate</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>This function is similar to &lt;tt&gt;tn_task_exit()&lt;/tt&gt; but it terminates any task
+other than currently running one.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1adbc4dbbd4a57b73642b76550a0c7c83f">tn_task_delete</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)<para><emphasis>This function deletes the task specified by the task.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a18408d825c0dab03511f3aaeeb3ffbb3">tn_task_state_get</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, enum <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6">TN_TaskState</link> * p_state)<para><emphasis>Get current state of the task; note that returned state is a bitmask,
+that is, states could be combined with each other.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a8f90a88f54d2d49bb1de00886241edfe">tn_task_profiler_timing_get</link> (
+const struct <link linkend="structTN__Task">TN_Task</link> * task, struct <link linkend="structTN__TaskTiming">TN_TaskTiming</link> * tgt)<para><emphasis>Read profiler timing data of the task.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a2ddad9d6dc0e611a7f09c878463aea41">tn_task_change_priority</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, int new_priority)<para><emphasis>Set new priority for task.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+<section xml:id="tn__tasks_8h_1tn_tasks__tasks">
+<title>Task</title>
+
+<para>In TNeo, a task is a branch of code that runs concurrently with other tasks from the programmer&apos;s point of view. Indeed, tasks are actually executed using processor time sharing. Each task can be considered to be an independed program, which executes in its own context (processor registers, stack pointer, etc.).</para>
+
+<para>Actually, the term <emphasis>thread</emphasis> is more accurate than <emphasis>task</emphasis>, but the term <emphasis>task</emphasis> historically was used in TNKernel, so TNeo keeps this convention.</para>
+
+<para>When kernel decides that it&apos;s time to run another task, it performs <emphasis>context switch</emphasis>: current context (at least, values of all registers) gets saved to the preempted task&apos;s stack, pointer to currently running task is altered as well as stack pointer, and context gets restored from the stack of newly running task.</para>
+</section>
+<section xml:id="tn__tasks_8h_1tn_tasks__states">
+<title>Task states</title>
+
+<para>For list of task states and their description, refer to <computeroutput>enum <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6">TN_TaskState</link></computeroutput>.</para>
+</section>
+<section xml:id="tn__tasks_8h_1tn_tasks__creating">
+<title>Creating/starting tasks</title>
+
+<para>Create task and start task are two separate actions; although you can perform both of them in one step by passing <computeroutput><link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link></computeroutput> flag to the <computeroutput><link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create()</link></computeroutput> function.</para>
+</section>
+<section xml:id="tn__tasks_8h_1tn_tasks__stopping">
+<title>Stopping/deleting tasks</title>
+
+<para>Stop task and delete task are two separate actions. If task was just stopped but not deleted, it can be just restarted again by calling <computeroutput><link linkend="tn__tasks_8h_1a3c14832fe7dfd2c44678608767f40230">tn_task_activate()</link></computeroutput>. If task was deleted, it can&apos;t be just activated: it should be re-created by <computeroutput><link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create()</link></computeroutput> first.</para>
+
+<para>Task stops execution when:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>it calls <computeroutput><link linkend="tn__tasks_8h_1a23e562731e616f01e325bc9830bcc021">tn_task_exit()</link></computeroutput>;</para>
+</listitem><listitem>
+<para>it returns from its task body function (it is the equivalent to <computeroutput>tn_task_exit(0)</computeroutput>)</para>
+</listitem><listitem>
+<para>some other task calls <computeroutput><link linkend="tn__tasks_8h_1a8ae6615de7022a327bdcd4c37a0f5b90">tn_task_terminate()</link></computeroutput> passing appropriate pointer to <computeroutput>struct <link linkend="structTN__Task">TN_Task</link></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="tn__tasks_8h_1tn_tasks__scheduling">
+<title>Scheduling rules</title>
+
+<para>TNeo always runs the most privileged task in state <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc"><computeroutput>RUNNABLE</computeroutput></link>. In no circumstances can task run while there is at least one task is in the <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc"><computeroutput>RUNNABLE</computeroutput></link> state with higher priority. Task will run until:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>It becomes non-runnable (say, it may wait for something, etc)</para>
+</listitem><listitem>
+<para>Some other task with higher priority becomes runnable.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Tasks with the same priority may be scheduled in round robin fashion by getting a predetermined time slice for each task with this priority. Time slice is set separately for each priority. By default, round robin is turned off for all priorities.</para>
+</section>
+<section xml:id="tn__tasks_8h_1tn_tasks__idle">
+<title>Idle task</title>
+
+<para>TNeo has one system task: an idle task, which has lowest priority. It is always in the state <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc"><computeroutput>RUNNABLE</computeroutput></link>, and it runs only when there are no other runnable tasks.</para>
+
+<para>User can provide a callback function to be called from idle task, see <link linkend="tn__sys_8h_1ac3811d563ff671cb7bd1519735e20fd1">TN_CBIdle</link>. It is useful to bring the processor to some kind of real idle state, so that device draws less current. </para>
+</section>
+    <para>Definition in file /home/dimon/mydata/projects/tneo/src/core/tn_tasks.h</para>
+    </simplesect>
+</section>

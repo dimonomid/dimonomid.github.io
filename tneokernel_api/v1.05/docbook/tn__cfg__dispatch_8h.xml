@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__cfg__dispatch_8h">
+    <title>tn_cfg_dispatch.h File Reference</title>
+    <programlisting>#include &quot;../arch/tn_arch_detect.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_cfg.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_cfg_default.h&quot;</programlisting>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__dispatch_8h_1a04321413cf21754a05682b298df0493d">TN_API_MAKE_ALIG_ARG__TYPE</link> 1<para><emphasis>In this case, you should use macro like this: &lt;tt&gt;#TN_MAKE_ALIG(struct my_struct)&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__dispatch_8h_1a4972bf0cbc72e51a7463cf7d786d2b64">TN_API_MAKE_ALIG_ARG__SIZE</link> 2<para><emphasis>In this case, you should use macro like this: &lt;tt&gt;#TN_MAKE_ALIG(sizeof(struct
+my_struct))&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__dispatch_8h_1afafafccc47ed18807179e8909ef18bee">_TN_ON_CONTEXT_SWITCH_HANDLER</link> 1<para><emphasis>Internal kernel definition: set to non-zero if &lt;tt&gt;_tn_sys_on_context_switch()&lt;/tt&gt;
+should be called on context switch.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__dispatch_8h_1afc7c95c7b170768e91d7e771b346d8cb">_TN_STACK_OVERFLOW_SIZE_ADD</link> (<link linkend="tn__cfg__default_8h_1ac6a9bbac3b3b25d9b5bc8c21d2e09955">TN_STACK_OVERFLOW_CHECK</link> ? 1 : 0)<para><emphasis>If &lt;tt&gt;#TN_STACK_OVERFLOW_CHECK&lt;/tt&gt; is set, we have 1-word overhead for each
+task stack.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Dispatch configuration: set predefined options, include user-provided cfg file as well as default cfg file. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_cfg_dispatch.h</para>
+    </simplesect>
+</section>

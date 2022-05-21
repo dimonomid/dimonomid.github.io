@@ -1,0 +1,259 @@
+\hypertarget{tn__common_8h}{\section{core/tn\+\_\+common.h File Reference}
+\label{tn__common_8h}\index{core/tn\+\_\+common.\+h@{core/tn\+\_\+common.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Definitions used through the whole kernel. 
+
+
+
+Definition in file \hyperlink{tn__common_8h_source}{tn\+\_\+common.\+h}.
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{tn__common_8h_adbf9c425147511997eb1396c4afeac40}{\#define \hyperlink{tn__common_8h_adbf9c425147511997eb1396c4afeac40}{T\+N\+\_\+\+N\+U\+L\+L}~((void $\ast$)0)}\label{tn__common_8h_adbf9c425147511997eb1396c4afeac40}
+
+\begin{DoxyCompactList}\small\item\em N\+U\+L\+L pointer definition. \end{DoxyCompactList}\item 
+\hypertarget{tn__common_8h_a9f76389d1506addfc7542f54e484a92c}{\#define \hyperlink{tn__common_8h_a9f76389d1506addfc7542f54e484a92c}{T\+N\+\_\+\+B\+O\+O\+L}~int}\label{tn__common_8h_a9f76389d1506addfc7542f54e484a92c}
+
+\begin{DoxyCompactList}\small\item\em boolean type definition \end{DoxyCompactList}\item 
+\hypertarget{tn__common_8h_a87ed178a95496e2f19aa670adc4886b3}{\#define \hyperlink{tn__common_8h_a87ed178a95496e2f19aa670adc4886b3}{T\+N\+\_\+\+T\+R\+U\+E}~(1 == 1)}\label{tn__common_8h_a87ed178a95496e2f19aa670adc4886b3}
+
+\begin{DoxyCompactList}\small\item\em {\ttfamily true} value definition for type {\ttfamily \hyperlink{tn__common_8h_a9f76389d1506addfc7542f54e484a92c}{T\+N\+\_\+\+B\+O\+O\+L}} \end{DoxyCompactList}\item 
+\hypertarget{tn__common_8h_aa32a38a7d2e3b7983e53a61ab05417ee}{\#define \hyperlink{tn__common_8h_aa32a38a7d2e3b7983e53a61ab05417ee}{T\+N\+\_\+\+F\+A\+L\+S\+E}~(1 == 0)}\label{tn__common_8h_aa32a38a7d2e3b7983e53a61ab05417ee}
+
+\begin{DoxyCompactList}\small\item\em {\ttfamily false} value definition for type {\ttfamily \hyperlink{tn__common_8h_a9f76389d1506addfc7542f54e484a92c}{T\+N\+\_\+\+B\+O\+O\+L}} \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}(a)~(((a) + (sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}) -\/ 1)) \& ($\sim$(sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}) -\/ 1)))
+\begin{DoxyCompactList}\small\item\em Macro for making a number a multiple of {\ttfamily sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word})}, should be used with fixed memory block pool. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__common_8h_a9a19aa6a6d04aabfb896ddf913516d77}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G}(a)~\hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}(a)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}} but its behavior depends on the option {\ttfamily \hyperlink{tn__cfg__default_8h_a2a1148efc6a74131cc83ee50cbc386cd}{T\+N\+\_\+\+A\+P\+I\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+A\+R\+G}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{tn__common_8h_a82f7de9034cbbb373c4dbcff45942343}{typedef void( \hyperlink{tn__common_8h_a82f7de9034cbbb373c4dbcff45942343}{T\+N\+\_\+\+Task\+Body} )(void $\ast$param)}\label{tn__common_8h_a82f7de9034cbbb373c4dbcff45942343}
+
+\begin{DoxyCompactList}\small\item\em Prototype for task body function. \end{DoxyCompactList}\item 
+typedef unsigned long \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}
+\begin{DoxyCompactList}\small\item\em Type for system tick count, it is used by the kernel to represent absolute tick count value as well as relative timeouts. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \{ \\*
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a48870592b9dc4186b8ea58b610029ccb}{T\+N\+\_\+\+I\+D\+\_\+\+N\+O\+N\+E} = (unsigned int)0x0, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aae057379663876e55fed5e40fe5d4091}{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K} = (unsigned int)0x47\+A\+B\+C\+F69, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976af358c7d5cb01d76f5a5d2d1e546c98a4}{T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E} = (unsigned int)0x6\+F\+A173\+E\+B, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9e091dc80dfaa58fd26a6b144019195e}{T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P} = (unsigned int)0x5\+E224\+F25, 
+\\*
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aaedaabfef8c2a7312d6b8ac2bbeb07a4}{T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E} = (unsigned int)0x0\+C8\+A6\+C89, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a4a74d3b34e5ced2c4080e8da18115892}{T\+N\+\_\+\+I\+D\+\_\+\+F\+S\+M\+E\+M\+O\+R\+Y\+P\+O\+O\+L} = (unsigned int)0x26\+B7\+C\+E8\+B, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976abf9427ac5b7701a4bd1b6cff3004e5a5}{T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X} = (unsigned int)0x17129\+E45, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9695f4d7fb1f9f00a105db61fc43f153}{T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R} = (unsigned int)0x1\+A937\+F\+B\+C, 
+\\*
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9f100287c81d46ab4a855587a120aa3c}{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E} = (unsigned int)0x32b7c072, 
+\hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a813677d511e672fec54cf2fea3433d5f}{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+\_\+\+L\+I\+N\+K} = (unsigned int)0x24d36f35
+ \}
+\begin{DoxyCompactList}\small\item\em Magic number for object validity verification. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \{ \\*
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K} = 0, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T} = -\/1, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec}{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W} = -\/2, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T} = -\/3, 
+\\*
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E} = -\/4, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M} = -\/5, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c}{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E} = -\/6, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J} = -\/7, 
+\\*
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D} = -\/8, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D} = -\/9, 
+\hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876adb7619ced1907316915b288dd4ae3c1a}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L} = -\/10
+ \}
+\begin{DoxyCompactList}\small\item\em Result code returned by kernel services. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E@{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}}
+\index{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E@{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}
+\subsubsection[{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E(
+\begin{DoxyParamCaption}
+\item[{}]{a}
+\end{DoxyParamCaption}
+)~(((a) + (sizeof({\bf T\+N\+\_\+\+U\+Word}) -\/ 1)) \& ($\sim$(sizeof({\bf T\+N\+\_\+\+U\+Word}) -\/ 1)))}}\label{tn__common_8h_a3f48380e8a624edc643319a81192d88e}
+
+
+Macro for making a number a multiple of {\ttfamily sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word})}, should be used with fixed memory block pool. 
+
+See {\ttfamily \hyperlink{tn__fmem_8h_a56d47d4a1b6453d959336448a0ce96ac}{tn\+\_\+fmem\+\_\+create()}} for usage example. 
+
+Definition at line 231 of file tn\+\_\+common.\+h.
+
+\hypertarget{tn__common_8h_a9a19aa6a6d04aabfb896ddf913516d77}{\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G@{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G}}
+\index{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G@{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}
+\subsubsection[{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G(
+\begin{DoxyParamCaption}
+\item[{}]{a}
+\end{DoxyParamCaption}
+)~{\bf T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}(a)}}\label{tn__common_8h_a9a19aa6a6d04aabfb896ddf913516d77}
+
+
+The same as {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}} but its behavior depends on the option {\ttfamily \hyperlink{tn__cfg__default_8h_a2a1148efc6a74131cc83ee50cbc386cd}{T\+N\+\_\+\+A\+P\+I\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+A\+R\+G}} 
+
+\begin{DoxyAttention}{Attention}
+it is recommended to use {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E}} macro instead of this one, in order to avoid confusion caused by various T\+N\+Kernel ports\+: refer to the section \hyperlink{tnkernel_diff_tnkernel_diff_make_alig}{Macro M\+A\+K\+E\+\_\+\+A\+L\+I\+G()} for details. 
+\end{DoxyAttention}
+
+
+Definition at line 255 of file tn\+\_\+common.\+h.
+
+
+
+\subsection{Typedef Documentation}
+\hypertarget{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+Tick\+Cnt@{T\+N\+\_\+\+Tick\+Cnt}}
+\index{T\+N\+\_\+\+Tick\+Cnt@{T\+N\+\_\+\+Tick\+Cnt}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}
+\subsubsection[{T\+N\+\_\+\+Tick\+Cnt}]{\setlength{\rightskip}{0pt plus 5cm}typedef unsigned long {\bf T\+N\+\_\+\+Tick\+Cnt}}}\label{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}
+
+
+Type for system tick count, it is used by the kernel to represent absolute tick count value as well as relative timeouts. 
+
+When it is used as a timeout value, it represents the maximum number of system ticks to wait.
+
+Assume user called some system function, and it can't perform its job immediately (say, it needs to lock mutex but it is already locked, etc).
+
+So, function can wait or return an error. There are possible {\ttfamily timeout} values and appropriate behavior of the function\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily timeout} is set to {\ttfamily 0}\+: function doesn't wait at all, no context switch is performed, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} is returned immediately.
+\item {\ttfamily timeout} is set to {\ttfamily \hyperlink{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+I\+N\+F\+I\+N\+I\+T\+E}}\+: function waits until it eventually {\bfseries can} perform its job. Timeout is not taken in account, so {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} is never returned.
+\item {\ttfamily timeout} is set to other value\+: function waits at most specified number of system ticks. Strictly speaking, it waits from {\ttfamily (timeout -\/ 1)} to {\ttfamily timeout} ticks. So, if you specify that timeout is 1, be aware that it might actually don't wait at all\+: if {\itshape \hyperlink{time_ticks}{system timer}} interrupt happens just while function is putting task to wait (with interrupts disabled), then I\+S\+R will be executed right after function puts task to wait. Then {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} will immediately remove the task from wait queue and make it runnable again.
+
+So, to guarantee that task waits {\itshape at least} 1 system tick, you should specify timeout value of {\ttfamily 2}.
+\end{DoxyItemize}
+
+{\bfseries Note} also that there are other possible ways to make task runnable\+:
+
+
+\begin{DoxyItemize}
+\item if task waits because of call to {\ttfamily \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\+\_\+task\+\_\+sleep()}}, it may be woken up by some other task, by means of {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}}. In this case, {\ttfamily \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\+\_\+task\+\_\+sleep()}} returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}}.
+\item independently of the wait reason, task may be released from wait forcibly, by means of {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}}. It this case, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}} is returned by the waiting function. (the usage of the {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}} function is discouraged though) 
+\end{DoxyItemize}
+
+Definition at line 188 of file tn\+\_\+common.\+h.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+Obj\+Id@{T\+N\+\_\+\+Obj\+Id}}
+\index{T\+N\+\_\+\+Obj\+Id@{T\+N\+\_\+\+Obj\+Id}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}
+\subsubsection[{T\+N\+\_\+\+Obj\+Id}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Obj\+Id}}}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}
+
+
+Magic number for object validity verification. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+I\+D\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+I\+D\+\_\+\+N\+O\+N\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+I\+D\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a48870592b9dc4186b8ea58b610029ccb}{T\+N\+\_\+\+I\+D\+\_\+\+N\+O\+N\+E}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a48870592b9dc4186b8ea58b610029ccb}
+}]id for invalid object \index{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K@{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K@{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aae057379663876e55fed5e40fe5d4091}{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aae057379663876e55fed5e40fe5d4091}
+}]id for tasks \index{T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E@{T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E@{T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976af358c7d5cb01d76f5a5d2d1e546c98a4}{T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976af358c7d5cb01d76f5a5d2d1e546c98a4}
+}]id for semaphores \index{T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P@{T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P@{T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9e091dc80dfaa58fd26a6b144019195e}{T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9e091dc80dfaa58fd26a6b144019195e}
+}]id for event groups \index{T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E@{T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E@{T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aaedaabfef8c2a7312d6b8ac2bbeb07a4}{T\+N\+\_\+\+I\+D\+\_\+\+D\+A\+T\+A\+Q\+U\+E\+U\+E}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aaedaabfef8c2a7312d6b8ac2bbeb07a4}
+}]id for data queues \index{T\+N\+\_\+\+I\+D\+\_\+\+F\+S\+M\+E\+M\+O\+R\+Y\+P\+O\+O\+L@{T\+N\+\_\+\+I\+D\+\_\+\+F\+S\+M\+E\+M\+O\+R\+Y\+P\+O\+O\+L}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+F\+S\+M\+E\+M\+O\+R\+Y\+P\+O\+O\+L@{T\+N\+\_\+\+I\+D\+\_\+\+F\+S\+M\+E\+M\+O\+R\+Y\+P\+O\+O\+L}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a4a74d3b34e5ced2c4080e8da18115892}{T\+N\+\_\+\+I\+D\+\_\+\+F\+S\+M\+E\+M\+O\+R\+Y\+P\+O\+O\+L}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a4a74d3b34e5ced2c4080e8da18115892}
+}]id for fixed memory pools \index{T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X@{T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X@{T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976abf9427ac5b7701a4bd1b6cff3004e5a5}{T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976abf9427ac5b7701a4bd1b6cff3004e5a5}
+}]id for mutexes \index{T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R@{T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R@{T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9695f4d7fb1f9f00a105db61fc43f153}{T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9695f4d7fb1f9f00a105db61fc43f153}
+}]id for timers \index{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E@{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E@{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9f100287c81d46ab4a855587a120aa3c}{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9f100287c81d46ab4a855587a120aa3c}
+}]id for exchange objects \index{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+\_\+\+L\+I\+N\+K@{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+\_\+\+L\+I\+N\+K}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+\_\+\+L\+I\+N\+K@{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+\_\+\+L\+I\+N\+K}}\item[{\em 
+\hypertarget{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a813677d511e672fec54cf2fea3433d5f}{T\+N\+\_\+\+I\+D\+\_\+\+E\+X\+C\+H\+A\+N\+G\+E\+\_\+\+L\+I\+N\+K}\label{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a813677d511e672fec54cf2fea3433d5f}
+}]id for exchange link \end{description}
+\end{Desc}
+
+
+Definition at line 65 of file tn\+\_\+common.\+h.
+
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+Code@{T\+N\+\_\+\+R\+Code}}
+\index{T\+N\+\_\+\+R\+Code@{T\+N\+\_\+\+R\+Code}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}
+\subsubsection[{T\+N\+\_\+\+R\+Code}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code}}}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}
+
+
+Result code returned by kernel services. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+R\+C\+\_\+\+O\+K@{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+O\+K@{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}
+}]Successful operation. \index{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T@{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T@{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}
+}]Timeout (consult {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}} for details). \begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W@{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W@{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec}{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec}
+}]This code is returned in the following cases\+: 
+\begin{DoxyItemize}
+\item Trying to increment semaphore count more than its max count;
+\item Trying to return extra memory block to fixed memory pool. \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__sem_8h}{tn\+\_\+sem.\+h} 
+
+\hyperlink{tn__fmem_8h}{tn\+\_\+fmem.\+h} 
+\end{DoxySeeAlso}
+
+\end{DoxyItemize}\index{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T@{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T@{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}
+}]Wrong context error\+: returned if function is called from non-\/acceptable context. Required context suggested for every function by badges\+:
+
+
+\begin{DoxyItemize}
+\item   \includegraphics{attr_call_task.png}  -\/ function can be called from task;
+\item   \includegraphics{attr_call_int.png}  -\/ function can be called from I\+S\+R.
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}{tn\+\_\+sys\+\_\+context\+\_\+get()}} 
+
+{\ttfamily enum \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{T\+N\+\_\+\+Context}} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E@{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E@{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}
+}]Wrong task state error\+: requested operation requires different task state. \index{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M@{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M@{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}
+}]This code is returned by most of the kernel functions when wrong params were given to function. This error code can be returned if only build-\/time option {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero \begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E@{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E@{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c}{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c}
+}]Illegal usage. Returned in the following cases\+:
+\begin{DoxyItemize}
+\item task tries to unlock or delete the mutex that is locked by different task,
+\item task tries to lock mutex with priority ceiling whose priority is lower than task's priority \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__mutex_8h}{tn\+\_\+mutex.\+h} 
+\end{DoxySeeAlso}
+
+\end{DoxyItemize}\index{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J@{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J@{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}
+}]Returned when user tries to perform some operation on invalid object (mutex, semaphore, etc). Object validity is checked by comparing special {\ttfamily id\+\_\+...} field value with the value from {\ttfamily enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id}} \begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D@{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D@{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}
+}]Object for whose event task was waiting is deleted. \index{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D@{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D@{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}
+}]Task was released from waiting forcibly because some other task called {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}} \index{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L@{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L}!tn\+\_\+common.\+h@{tn\+\_\+common.\+h}}\index{tn\+\_\+common.\+h@{tn\+\_\+common.\+h}!T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L@{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L}}\item[{\em 
+\hypertarget{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876adb7619ced1907316915b288dd4ae3c1a}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+T\+E\+R\+N\+A\+L}\label{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876adb7619ced1907316915b288dd4ae3c1a}
+}]Internal kernel error, should never be returned by kernel services. If it is returned, it's a bug in the kernel. \end{description}
+\end{Desc}
+
+
+Definition at line 81 of file tn\+\_\+common.\+h.
+

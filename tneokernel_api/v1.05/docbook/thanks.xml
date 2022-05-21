@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Thanks</title>
+
+<para>There are people that I would like to thank:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><emphasis role="bold">Yuri Tiomkin</emphasis> - for original TNKernel. Although the implementation of TNKernel is far from perfect in my opinion, the ideas behind the implementation are generally really nice (that&apos;s why I decided to reimplement it instead of starting from scratch), and it was great entry point to the real-time kernels for me;</para>
+</listitem><listitem>
+<para><emphasis role="bold">Anders Montonen</emphasis> - for original implementation of TNKernel-PIC32 port;</para>
+</listitem><listitem>
+<para><emphasis role="bold">Alex Borisov</emphasis> - for TNKernel port which I used to use for a long time;</para>
+</listitem><listitem>
+<para><link xlink:href="http://starline.ru"><emphasis role="bold">StarLine company</emphasis></link> - for being a sponsor of kernel port for Cortex-M architecture as well as a couple of other <link linkend="features">features</link>: profiler, dynamic tick.</para>
+</listitem><listitem>
+<para><emphasis role="bold">Alexey Morozov</emphasis> and <emphasis role="bold">Alexey Gromov</emphasis>, my chiefs in the <link xlink:href="http://orionspb.ru/">ORION</link> company, for being flexible about my time;</para>
+</listitem><listitem>
+<para><emphasis role="bold">Robert White</emphasis> - for nice ideas and participation.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Thank you guys. TNeo would never be what it is without you. </para>
+
+</chapter>

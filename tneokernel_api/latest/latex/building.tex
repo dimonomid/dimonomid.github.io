@@ -1,0 +1,96 @@
+Some notes on building the project.
+
+Note\+: you don\textquotesingle{}t {\itshape have} to build T\+Neo to use it. If you want to just use pre-\/built library (with default configuration), refer to the section \hyperlink{quick_guide_usage_generic}{Using T\+Neo in your application}.\hypertarget{building_configuration_file}{}\section{Configuration file}\label{building_configuration_file}
+T\+Neo is intended to be built as a library, separately from main project (although nothing prevents you from bundling things together, if you want to).
+
+There are various options available which affects A\+PI and behavior of the kernel. But these options are specific for particular project, and aren\textquotesingle{}t related to the kernel itself, so we need to keep them separately.
+
+To this end, file {\ttfamily \hyperlink{tn_8h}{tn.\+h}} (the main kernel header file) includes {\ttfamily tn\+\_\+cfg.\+h}, which isn\textquotesingle{}t included in the repository (even more, it is added to {\ttfamily .hgignore} list actually). Instead, default configuration file {\ttfamily \hyperlink{tn__cfg__default_8h}{tn\+\_\+cfg\+\_\+default.\+h}} is provided, and when you just cloned the repository, you might want to copy it as {\ttfamily tn\+\_\+cfg.\+h}. Or even better, if your filesystem supports symbolic links, copy it somewhere to your main project\textquotesingle{}s directory (so that you can add it to your V\+CS there), and create symlink to it named {\ttfamily tn\+\_\+cfg.\+h} in the T\+Neo source directory, like this\+: \begin{DoxyVerb}$ cd /path/to/tneo/src
+$ cp ./tn_cfg_default.h /path/to/main/project/lib_cfg/tn_cfg.h
+$ ln -s /path/to/main/project/lib_cfg/tn_cfg.h ./tn_cfg.h
+\end{DoxyVerb}
+
+
+Default configuration file contains detailed comments, so you can read them and configure behavior as you like.\hypertarget{building_building_generic__makefile_lib_project}{}\section{Makefile or library projects}\label{building_building_generic__makefile_lib_project}
+If you need to build T\+Neo with some non-\/default configuration, the easiest way is to use ready-\/made Makefile or library project.\hypertarget{building_building_generic__makefile}{}\subsection{Makefile}\label{building_building_generic__makefile}
+It is tested only in Unix-\/like environment, so that you can\textquotesingle{}t use makefile to build the kernel with Keil Realview or I\+AR. For Keil Realview or I\+AR, use library project (see the section below).
+
+There are two makefiles available\+: {\ttfamily Makefile-\/all-\/arch} and {\ttfamily Makefile}.
+
+The first one is used to build all possible targets at once, so it is more for the kernel developer than for kernel user. The second one is used to build the kernel for some particular architecture, and it takes two params\+: {\ttfamily T\+N\+\_\+\+A\+R\+CH} and {\ttfamily T\+N\+\_\+\+C\+O\+M\+P\+I\+L\+ER}.
+
+Valid values for {\ttfamily T\+N\+\_\+\+A\+R\+CH} are\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily cortex\+\_\+m0} -\/ for Cortex-\/\+M0 architecture,
+\item {\ttfamily cortex\+\_\+m0plus} -\/ for Cortex-\/\+M0+ architecture,
+\item {\ttfamily cortex\+\_\+m1} -\/ for Cortex-\/\+M1 architecture,
+\item {\ttfamily cortex\+\_\+m3} -\/ for Cortex-\/\+M3 architecture,
+\item {\ttfamily cortex\+\_\+m4} -\/ for Cortex-\/\+M4 architecture,
+\item {\ttfamily cortex\+\_\+m4f} -\/ for Cortex-\/\+M4F architecture,
+\item {\ttfamily pic32mx} -\/ for P\+I\+C32\+MX architecture,
+\item {\ttfamily pic24\+\_\+dspic\+\_\+noeds} -\/ for P\+I\+C24/ds\+P\+IC architecture without E\+DS (Extended Data Space),
+\item {\ttfamily pic24\+\_\+dspic\+\_\+eds} -\/ for P\+I\+C24/ds\+P\+IC architecture with E\+DS.
+\end{DoxyItemize}
+
+Valid values for {\ttfamily T\+N\+\_\+\+C\+O\+M\+P\+I\+L\+ER} depend on architecture. For Cortex-\/M series, they are\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily arm-\/none-\/eabi-\/gcc} (you need \href{https://launchpad.net/~terry.guo/+archive/ubuntu/gcc-arm-embedded}{\tt G\+NU A\+RM Embedded toolchain})
+\item {\ttfamily clang} (you need \href{http://clang.llvm.org/}{\tt L\+L\+VM clang})
+\end{DoxyItemize}
+
+For P\+I\+C32, just one value is valid\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily xc32} (you need \href{http://www.microchip.com/xc32}{\tt Microchip X\+C32 compiler})
+\end{DoxyItemize}
+
+For P\+I\+C24/ds\+P\+IC, just one value is valid\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily xc16} (you need \href{http://www.microchip.com/xc16}{\tt Microchip X\+C16 compiler})
+\end{DoxyItemize}
+
+Example invocation (from the T\+Neo\textquotesingle{}s root directory) \+:
+
+{\ttfamily \$ make T\+N\+\_\+\+A\+R\+CH=cortex\+\_\+m3 T\+N\+\_\+\+C\+O\+M\+P\+I\+L\+ER=arm-\/none-\/eabi-\/gcc}
+
+As a result, there will be archive library file {\ttfamily bin/cortex\+\_\+m3/arm-\/none-\/eabi-\/gcc/tneo\+\_\+cortex\+\_\+m3\+\_\+arm-\/none-\/eabi-\/gcc.\+a}\hypertarget{building_building_generic__lib_project}{}\subsection{Library project}\label{building_building_generic__lib_project}
+In the root of T\+Neo repository, there is a directory {\ttfamily lib\+\_\+project} which contains ready-\/made projects for various platforms. You may use it for building library, and then use resulting library file in your project.
+
+For M\+P\+L\+A\+BX projects, there are {\itshape library projects}, so that you even don\textquotesingle{}t need to build a library\+: just add this {\itshape library project} to your main project, and M\+P\+L\+A\+BX will do all the work for you. You can change {\ttfamily tn\+\_\+cfg.\+h} file \char`\"{}on-\/the-\/fly\char`\"{} then. Other I\+D\+Es don\textquotesingle{}t offer such a luxuries, so you need to build library file as a separate step.\hypertarget{building_building_generic__manual}{}\section{Building manually}\label{building_building_generic__manual}
+If you want to create library project yourself (say, in some different I\+DE, or anything), or if you want to build T\+Neo as a direct part of your project, there are some generic requirements (there might be additional architecture-\/dependent requirements, see links below)\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries Core sources}\+: add all {\ttfamily .c} files from {\ttfamily src/core} directory to the project.
+\item {\bfseries C99}\+: T\+Neo uses some features of C99, such as {\ttfamily static inline} functions and variable declarations not at the start of a compound statement. So, C99 is a requirement.
+\item {\bfseries C Include directories} (relative to the root of the repository) \+:
+\begin{DoxyItemize}
+\item {\ttfamily src}
+\item {\ttfamily src/core}
+\item {\ttfamily src/core/internal}
+\item {\ttfamily src/arch}
+\end{DoxyItemize}
+\item {\bfseries Assembler preprocessor Include directories} (relative to the root of the repository) \+:
+\begin{DoxyItemize}
+\item {\ttfamily src}
+\item {\ttfamily src/core}
+\end{DoxyItemize}
+\item {\bfseries {\ttfamily .S} files preprocessed by C preprocessor}\+: This is probably more arch-\/dependent requirement than a generic one, but actually {\ttfamily .S} files for all supported architectures need to be preprocessed, so it is specified here. On most platforms, it works \char`\"{}out-\/of-\/the-\/box\char`\"{}, on some others, you need to perform additional steps for it\+: in these cases, necessary steps explained in the \char`\"{}building\char`\"{} section for the appropriate architecture, see links below.
+\item {\bfseries Isolate each function in a section} Not a requirement, but recommendation\+: for embedded designs, it is usually a good idea to isolate each function in a section, so that in your application you can set linker option like \char`\"{}remove unused sections\char`\"{}, and save notable amount of flash memory.
+\end{DoxyItemize}
+
+For arch-\/dependent information on building T\+Neo, please refer to the appropriate section\+:
+
+
+\begin{DoxyItemize}
+\item \hyperlink{arch_specific_pic24_building}{Building for P\+I\+C24/ds\+P\+IC}
+\item \hyperlink{arch_specific_pic32_building}{Building for P\+I\+C32}
+\item \hyperlink{arch_specific_cortex_m_building}{Building for Cortex-\/\+M0/\+M1/\+M3/\+M4/\+M4F} 
+\end{DoxyItemize}

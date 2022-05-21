@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Time ticks</title>
+
+<para>The kernel needs to calculate timeouts.</para>
+
+<para>There are two schemes available: <emphasis>static tick</emphasis> and <emphasis>dynamic tick</emphasis>.</para>
+<section xml:id="time_ticks_1time_ticks__static_tick">
+<title>Static tick</title>
+
+<para>Static tick is the easiest way to implement timeouts: there should be just some kind of hardware timer that generates interrupts periodically. Throughout this text, this timer is referred to as <emphasis>system timer</emphasis>. The period of this timer is determined by user (typically 1 ms, but user is free to set different value). In the ISR for this timer, it is only necessary to call the <computeroutput><link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing()</link></computeroutput> function:</para>
+
+<para><literallayout><computeroutput>//--&#32;example&#32;for&#32;PIC32,&#32;hardware&#32;timer&#32;5&#32;interrupt:
+tn_p32_soft_isr(_TIMER_5_VECTOR)
+{
+&#32;&#32;&#32;INTClearFlag(INT_T5);
+&#32;&#32;&#32;tn_tick_int_processing();
+}
+</computeroutput></literallayout></para>
+
+<para>But for some applications that spend a lot of time doing nothing this could be far from perfect: instead of being constantly in the power-saving mode while there&apos;s nothing to do, the CPU needs to wake up regularly. So, <emphasis>dynamic tick</emphasis> scheme was implemented:</para>
+</section>
+<section xml:id="time_ticks_1time_ticks__dynamic_tick">
+<title>Dynamic tick</title>
+
+<para>The general idea is that there should be no useless calls to <computeroutput><link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing()</link></computeroutput>. If the kernel needs to wake up after 100 system ticks, then, <computeroutput><link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing()</link></computeroutput> should be called exactly after 100 periods of system tick (but external asynchronous events still can happen and re-schedule that, of course).</para>
+
+<para>To this end, the kernel should be able to communicate with the application:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>To schedule next call to <computeroutput><link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing()</link></computeroutput> after <computeroutput>N</computeroutput> ticks;</para>
+</listitem><listitem>
+<para>To ask what time is now (i.e. get current system ticks count)</para>
+</listitem></itemizedlist>
+</para>
+
+<para>To use dynamic tick, turn the option <computeroutput><link linkend="tn__cfg__default_8h_1aaee875834a86f961318c584095c366fe">TN_DYNAMIC_TICK</link></computeroutput> to <computeroutput>1</computeroutput>.</para>
+
+<para>Then, a couple of callback prototypes becomes available:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput><link linkend="tn__timer_8h_1ae69b982cc5443dc4072fe0d6493d96cd">TN_CBTickSchedule</link></computeroutput>;</para>
+</listitem><listitem>
+<para><computeroutput><link linkend="tn__timer_8h_1a06ed8be45bc0445892789ec0a13f0704">TN_CBTickCntGet</link></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>And you must provide these callbacks to <computeroutput><link linkend="tn__sys_8h_1ab4e879240635c8f73e20905b8e499c1c">tn_callback_dyn_tick_set()</link></computeroutput> <emphasis role="bold">before</emphasis> starting the system (i.e. before calling <computeroutput><link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start()</link></computeroutput>)</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>In dynamic tick mode, <link linkend="quick_guide_1round_robin">round-robin</link> is not yet supported. </para>
+</formalpara>
+</para>
+</section>
+
+</chapter>

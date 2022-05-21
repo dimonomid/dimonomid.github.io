@@ -1,0 +1,82 @@
+\hypertarget{structTN__Timer}{\section{T\+N\+\_\+\+Timer Struct Reference}
+\label{structTN__Timer}\index{T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}}
+}
+
+
+\subsection{Detailed Description}
+Timer. 
+
+Definition at line 205 of file tn\+\_\+timer.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__Timer_a27482d3470455064da95b9453ae87156}{id\+\_\+timer}
+\begin{DoxyCompactList}\small\item\em id for object validity verification. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Timer_a9418f1d84fa83d87197f3457ddb74e27}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Timer_a9418f1d84fa83d87197f3457ddb74e27}{timer\+\_\+queue}}\label{structTN__Timer_a9418f1d84fa83d87197f3457ddb74e27}
+
+\begin{DoxyCompactList}\small\item\em A list item to be included in the {\itshape \hyperlink{time_ticks}{system timer}} queue. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Timer_a154ff9bb98135481b1874bdd8d6f2b9c}{\hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func} $\ast$ \hyperlink{structTN__Timer_a154ff9bb98135481b1874bdd8d6f2b9c}{func}}\label{structTN__Timer_a154ff9bb98135481b1874bdd8d6f2b9c}
+
+\begin{DoxyCompactList}\small\item\em Function to be called by timer. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Timer_aaf753d5fb1001702f07379b2ed7ac177}{void $\ast$ \hyperlink{structTN__Timer_aaf753d5fb1001702f07379b2ed7ac177}{p\+\_\+user\+\_\+data}}\label{structTN__Timer_aaf753d5fb1001702f07379b2ed7ac177}
+
+\begin{DoxyCompactList}\small\item\em User data pointer that is given to user-\/provided {\ttfamily func}. \end{DoxyCompactList}\item 
+\hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} \hyperlink{structTN__Timer_ab1410fa78c9099a6bc4dd3f43f1f52e4}{start\+\_\+tick\+\_\+cnt}
+\begin{DoxyCompactList}\small\item\em {\itshape Available if only \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{{\ttfamily T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K} } is {\bfseries set}.} \end{DoxyCompactList}\item 
+\hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} \hyperlink{structTN__Timer_a893c5b01ec38bdcbcf2294cc950ffd09}{timeout}
+\begin{DoxyCompactList}\small\item\em {\itshape Available if only \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{{\ttfamily T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K} } is {\bfseries set}.} \end{DoxyCompactList}\item 
+\hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} \hyperlink{structTN__Timer_a6041c660dad74778f668bac9ae844465}{timeout\+\_\+cur}
+\begin{DoxyCompactList}\small\item\em {\itshape Available if only \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{{\ttfamily T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K} } is {\bfseries not set}.} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structTN__Timer_a27482d3470455064da95b9453ae87156}{\index{T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}!id\+\_\+timer@{id\+\_\+timer}}
+\index{id\+\_\+timer@{id\+\_\+timer}!T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}}
+\subsubsection[{id\+\_\+timer}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Obj\+Id} T\+N\+\_\+\+Timer\+::id\+\_\+timer}}\label{structTN__Timer_a27482d3470455064da95b9453ae87156}
+
+
+id for object validity verification. 
+
+This field is in the beginning of the structure to make it easier to detect memory corruption. 
+
+Definition at line 210 of file tn\+\_\+timer.\+h.
+
+\hypertarget{structTN__Timer_ab1410fa78c9099a6bc4dd3f43f1f52e4}{\index{T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}!start\+\_\+tick\+\_\+cnt@{start\+\_\+tick\+\_\+cnt}}
+\index{start\+\_\+tick\+\_\+cnt@{start\+\_\+tick\+\_\+cnt}!T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}}
+\subsubsection[{start\+\_\+tick\+\_\+cnt}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+N\+\_\+\+Tick\+Cnt} T\+N\+\_\+\+Timer\+::start\+\_\+tick\+\_\+cnt}}\label{structTN__Timer_ab1410fa78c9099a6bc4dd3f43f1f52e4}
+
+
+{\itshape Available if only \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{{\ttfamily T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K} } is {\bfseries set}.} 
+
+Tick count value when timer was started 
+
+Definition at line 226 of file tn\+\_\+timer.\+h.
+
+\hypertarget{structTN__Timer_a893c5b01ec38bdcbcf2294cc950ffd09}{\index{T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}!timeout@{timeout}}
+\index{timeout@{timeout}!T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}}
+\subsubsection[{timeout}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+N\+\_\+\+Tick\+Cnt} T\+N\+\_\+\+Timer\+::timeout}}\label{structTN__Timer_a893c5b01ec38bdcbcf2294cc950ffd09}
+
+
+{\itshape Available if only \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{{\ttfamily T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K} } is {\bfseries set}.} 
+
+Timeout value (it is set just once, and stays unchanged until timer is expired, cancelled or restarted) 
+
+Definition at line 232 of file tn\+\_\+timer.\+h.
+
+\hypertarget{structTN__Timer_a6041c660dad74778f668bac9ae844465}{\index{T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}!timeout\+\_\+cur@{timeout\+\_\+cur}}
+\index{timeout\+\_\+cur@{timeout\+\_\+cur}!T\+N\+\_\+\+Timer@{T\+N\+\_\+\+Timer}}
+\subsubsection[{timeout\+\_\+cur}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+N\+\_\+\+Tick\+Cnt} T\+N\+\_\+\+Timer\+::timeout\+\_\+cur}}\label{structTN__Timer_a6041c660dad74778f668bac9ae844465}
+
+
+{\itshape Available if only \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{{\ttfamily T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K} } is {\bfseries not set}.} 
+
+Current (left) timeout value 
+
+Definition at line 240 of file tn\+\_\+timer.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__timer_8h}{tn\+\_\+timer.\+h}\end{DoxyCompactItemize}

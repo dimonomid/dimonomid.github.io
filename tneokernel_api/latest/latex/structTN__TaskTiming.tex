@@ -1,0 +1,103 @@
+\hypertarget{structTN__TaskTiming}{}\section{T\+N\+\_\+\+Task\+Timing Struct Reference}
+\label{structTN__TaskTiming}\index{T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}}
+
+
+\subsection{Detailed Description}
+Timing structure that is managed by profiler and can be read by {\ttfamily \hyperlink{tn__tasks_8h_a8f90a88f54d2d49bb1de00886241edfe}{tn\+\_\+task\+\_\+profiler\+\_\+timing\+\_\+get()}} function. 
+
+This structure is contained in each {\ttfamily struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task}} structure.
+
+Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a49a546b18cc1f75b51d4cf8b290634dd}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+ER}} option is non-\/zero, also depends on {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}}. 
+
+Definition at line 254 of file tn\+\_\+tasks.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+unsigned long long \hyperlink{structTN__TaskTiming_a97964cfe380308698fffd730964f4d5c}{total\+\_\+run\+\_\+time}
+\begin{DoxyCompactList}\small\item\em Total time when task was running. \end{DoxyCompactList}\item 
+unsigned long long \hyperlink{structTN__TaskTiming_ad158c48fe2c596d914cab40c9a7838ae}{got\+\_\+running\+\_\+cnt}
+\begin{DoxyCompactList}\small\item\em How many times task got running. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__TaskTiming_af48cbd4118093e90b15b0b32134d949c}\label{structTN__TaskTiming_af48cbd4118093e90b15b0b32134d949c}} 
+unsigned long \hyperlink{structTN__TaskTiming_af48cbd4118093e90b15b0b32134d949c}{max\+\_\+consecutive\+\_\+run\+\_\+time}
+\begin{DoxyCompactList}\small\item\em Maximum consecutive time task was running. \end{DoxyCompactList}\item 
+unsigned long long \hyperlink{structTN__TaskTiming_a0832c998c39b3e8400ccbb386bfbc7d9}{total\+\_\+wait\+\_\+time} \mbox{[}\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a54de9b2b340a9d3f444aaeccda0764ea}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+S\+\_\+\+C\+NT}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}} option is non-\/zero. \end{DoxyCompactList}\item 
+unsigned long \hyperlink{structTN__TaskTiming_abb5335583d7c59aaca03753ee121c1bb}{max\+\_\+consecutive\+\_\+wait\+\_\+time} \mbox{[}\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a54de9b2b340a9d3f444aaeccda0764ea}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+S\+\_\+\+C\+NT}\mbox{]}
+\begin{DoxyCompactList}\small\item\em Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}} option is non-\/zero. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\mbox{\Hypertarget{structTN__TaskTiming_a97964cfe380308698fffd730964f4d5c}\label{structTN__TaskTiming_a97964cfe380308698fffd730964f4d5c}} 
+\index{T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}!total\+\_\+run\+\_\+time@{total\+\_\+run\+\_\+time}}
+\index{total\+\_\+run\+\_\+time@{total\+\_\+run\+\_\+time}!T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}}
+\subsubsection{\texorpdfstring{total\+\_\+run\+\_\+time}{total\_run\_time}}
+{\footnotesize\ttfamily unsigned long long T\+N\+\_\+\+Task\+Timing\+::total\+\_\+run\+\_\+time}
+
+
+
+Total time when task was running. 
+
+\begin{DoxyAttention}{Attention}
+This is N\+OT the time that task was in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+LE}} state\+: if task A is preempted by high-\/priority task B, task A is not running, but is still in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+LE}} state. This counter represents the time task was actually {\bfseries running}. 
+\end{DoxyAttention}
+
+
+Definition at line 263 of file tn\+\_\+tasks.\+h.
+
+\mbox{\Hypertarget{structTN__TaskTiming_ad158c48fe2c596d914cab40c9a7838ae}\label{structTN__TaskTiming_ad158c48fe2c596d914cab40c9a7838ae}} 
+\index{T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}!got\+\_\+running\+\_\+cnt@{got\+\_\+running\+\_\+cnt}}
+\index{got\+\_\+running\+\_\+cnt@{got\+\_\+running\+\_\+cnt}!T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}}
+\subsubsection{\texorpdfstring{got\+\_\+running\+\_\+cnt}{got\_running\_cnt}}
+{\footnotesize\ttfamily unsigned long long T\+N\+\_\+\+Task\+Timing\+::got\+\_\+running\+\_\+cnt}
+
+
+
+How many times task got running. 
+
+It is useful to find an average value of consecutive running time\+: {\ttfamily (total\+\_\+run\+\_\+time / got\+\_\+running\+\_\+cnt)} 
+
+Definition at line 267 of file tn\+\_\+tasks.\+h.
+
+\mbox{\Hypertarget{structTN__TaskTiming_a0832c998c39b3e8400ccbb386bfbc7d9}\label{structTN__TaskTiming_a0832c998c39b3e8400ccbb386bfbc7d9}} 
+\index{T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}!total\+\_\+wait\+\_\+time@{total\+\_\+wait\+\_\+time}}
+\index{total\+\_\+wait\+\_\+time@{total\+\_\+wait\+\_\+time}!T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}}
+\subsubsection{\texorpdfstring{total\+\_\+wait\+\_\+time}{total\_wait\_time}}
+{\footnotesize\ttfamily unsigned long long T\+N\+\_\+\+Task\+Timing\+::total\+\_\+wait\+\_\+time\mbox{[}\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a54de9b2b340a9d3f444aaeccda0764ea}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+S\+\_\+\+C\+NT}\mbox{]}}
+
+
+
+Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}} option is non-\/zero. 
+
+Total time when task was not running; time is broken down by reasons of waiting.
+
+For example, to get the time task was waiting for mutexes with priority inheritance protocol, use\+: {\ttfamily total\+\_\+wait\+\_\+time\mbox{[} \hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+I} \mbox{]}}
+
+To get the time task was runnable but preempted by another task, use\+: {\ttfamily total\+\_\+wait\+\_\+time\mbox{[} \hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+NE} \mbox{]}} 
+
+Definition at line 285 of file tn\+\_\+tasks.\+h.
+
+\mbox{\Hypertarget{structTN__TaskTiming_abb5335583d7c59aaca03753ee121c1bb}\label{structTN__TaskTiming_abb5335583d7c59aaca03753ee121c1bb}} 
+\index{T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}!max\+\_\+consecutive\+\_\+wait\+\_\+time@{max\+\_\+consecutive\+\_\+wait\+\_\+time}}
+\index{max\+\_\+consecutive\+\_\+wait\+\_\+time@{max\+\_\+consecutive\+\_\+wait\+\_\+time}!T\+N\+\_\+\+Task\+Timing@{T\+N\+\_\+\+Task\+Timing}}
+\subsubsection{\texorpdfstring{max\+\_\+consecutive\+\_\+wait\+\_\+time}{max\_consecutive\_wait\_time}}
+{\footnotesize\ttfamily unsigned long T\+N\+\_\+\+Task\+Timing\+::max\+\_\+consecutive\+\_\+wait\+\_\+time\mbox{[}\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a54de9b2b340a9d3f444aaeccda0764ea}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+S\+\_\+\+C\+NT}\mbox{]}}
+
+
+
+Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_a1c04db5457adb54f7cc38d42b29a5ad7}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R\+\_\+\+W\+A\+I\+T\+\_\+\+T\+I\+ME}} option is non-\/zero. 
+
+Maximum consecutive time task was not running; time is broken down by reasons of waiting.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{structTN__TaskTiming_a0832c998c39b3e8400ccbb386bfbc7d9}{total\+\_\+wait\+\_\+time}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 293 of file tn\+\_\+tasks.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__tasks_8h}{tn\+\_\+tasks.\+h}\end{DoxyCompactItemize}

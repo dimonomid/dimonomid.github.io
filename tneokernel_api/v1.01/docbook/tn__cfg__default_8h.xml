@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__cfg__default_8h">
+    <title>tn_cfg_default.h File Reference</title>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1a1f197294df3276fec431930545acafd5">TN_CHECK_PARAM</link> 1<para><emphasis>Enables additional param checking for most of the system functions.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1a9d2b6d902efdbc56094bb913413aa69c">TN_DEBUG</link> 0<para><emphasis>Allows additional internal self-checking, useful to catch internal
+TNeoKernel bugs as well as illegal kernel usage (e.g.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1ae9854c723c6a823c9126aa8390977d39">TN_OLD_TNKERNEL_NAMES</link> 1<para><emphasis>Whether old TNKernel names (definitions, functions, etc) should be
+available.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1a7ce674edab5345c4b8d2ec251eea18eb">TN_USE_MUTEXES</link> 1<para><emphasis>Whether mutexes API should be available.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1a2557da78508c4241aceee92475df3581">TN_MUTEX_REC</link> 1<para><emphasis>Whether mutexes should allow recursive locking/unlocking.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1a6ed3ec7b0d4338e7f60dde86b7ea5fa4">TN_MUTEX_DEADLOCK_DETECT</link> 1<para><emphasis>Whether RTOS should detect deadlocks and notify user about them
+via callback.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__cfg__default_8h_1a2a1148efc6a74131cc83ee50cbc386cd">TN_API_MAKE_ALIG_ARG</link> <link linkend="tn__common_8h_1a4972bf0cbc72e51a7463cf7d786d2b64">TN_API_MAKE_ALIG_ARG__SIZE</link><para><emphasis>API option for &lt;tt&gt;MAKE_ALIG()&lt;/tt&gt; macro.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>TNeoKernel default configuration file, to be copied as <computeroutput>tn_cfg.h</computeroutput>. </para>
+
+<para>This project is intended to be built as a library, separately from main project (although nothing prevents you from bundling things together, if you want to).</para>
+
+<para>There are various options available which affects API and behavior of the kernel. But these options are specific for particular project, and aren&apos;t related to the kernel itself, so we need to keep them separately.</para>
+
+<para>To this end, file <computeroutput><link linkend="tn_8h">tn.h</link></computeroutput> (the main kernel header file) includes <computeroutput>tn_cfg.h</computeroutput>, which isn&apos;t included in the repository (even more, it is added to <computeroutput>.hgignore</computeroutput> list actually). Instead, default configuration file <computeroutput><link linkend="tn__cfg__default_8h">tn_cfg_default.h</link></computeroutput> is provided, and when you just cloned the repository, you might want to copy it as <computeroutput>tn_cfg.h</computeroutput>. Or even better, if your filesystem supports symbolic links, copy it somewhere to your main project&apos;s directory (so that you can add it to your VCS there), and create symlink to it named <computeroutput>tn_cfg.h</computeroutput> in the TNeoKernel source directory, like this: <literallayout>$ cd /path/to/tneokernel/src
+$ cp ./tn_cfg_default.h /path/to/main/project/lib_cfg/tn_cfg.h
+$ ln -s /path/to/main/project/lib_cfg/tn_cfg.h ./tn_cfg.h
+</literallayout></para>
+
+<para>Default configuration file contains detailed comments, so you can read them and configure behavior as you like. </para>
+    <para>Definition in file /home/dimon/projects/strobo/lib/mc/tnkernel_df/src/tn_cfg_default.h</para>
+    </simplesect>
+</section>

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__common__macros_8h">
+    <title>tn_common_macros.h File Reference</title>
+        <section>
+            <title>Macros</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common__macros_8h_1aef688855ca1fd08fb5b8edfd226b3f31">_TN_STRINGIFY_LITERAL</link> #x<para><emphasis>Macro that expands to string representation of its argument:
+for example,.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common__macros_8h_1a08d0fcfa6d30d344d9df957324dda3bb">_TN_STRINGIFY_MACRO</link> <link linkend="tn__common__macros_8h_1aef688855ca1fd08fb5b8edfd226b3f31">_TN_STRINGIFY_LITERAL</link>(x)<para><emphasis>Macro that expands to string representation of its argument, which is
+allowed to be a macro:
+for example,.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Macros that may be useful for any part of the kernel. </para>
+
+<para>Note: only preprocessor macros allowed here, so that the file can be included in any source file (C, assembler, or whatever) </para>
+    <para>Definition in file /home/dimon/mydata/projects/tneo/src/core/tn_common_macros.h</para>
+    </simplesect>
+</section>

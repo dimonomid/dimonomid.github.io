@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__FMem">
+<title>TN_FMem struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__fmem_8h">&lt;tn_fmem.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem wait_queue<para><emphasis>list of tasks waiting for free memory block</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned int block_size<para><emphasis>block size (in bytes); note that it should be a multiple of
+&lt;tt&gt;sizeof(#TN_UWord})&lt;/tt&gt;, use a macro &lt;tt&gt;TN_MAKE_ALIG_SIZE()&lt;/tt&gt; for that.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int blocks_cnt<para><emphasis>capacity (total blocks count)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int free_blocks_cnt<para><emphasis>free blocks count</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * start_addr<para><emphasis>memory pool start address; note that it should be a multiple of
+&lt;tt&gt;sizeof(#TN_UWord)&lt;/tt&gt;.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * free_list<para><emphasis>ptr to free block list</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_fmp<para><emphasis>id for object validity verification</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Fixed memory blocks pool. </para>
+    </simplesect>
+        <simplesect>
+            <title>Member Documentation</title>
+            <simplesect>
+                <title>unsigned int TN_FMem::block_size</title>                
+<para><formalpara><title>See also: </title>
+
+<para><computeroutput><link linkend="tn__common_8h_1a3f48380e8a624edc643319a81192d88e">TN_MAKE_ALIG_SIZE()</link></computeroutput> </para>
+</formalpara>
+</para>
+
+                <para>Definition at line 88 of file tn_fmem.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_fmem.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>void* TN_FMem::start_addr</title>                
+                <para>Definition at line 98 of file tn_fmem.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_fmem.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </simplesect>
+</section>

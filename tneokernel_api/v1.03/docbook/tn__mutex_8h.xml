@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__mutex_8h">
+    <title>tn_mutex.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__Mutex">TN_Mutex</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__mutex_8h_1a11357f7bb31a3b380cbe94e0913a5b40">TN_MutexProtocol</link> {
+<link linkend="tn__mutex_8h_1a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67">TN_MUTEX_PROT_CEILING</link>= 1,
+<link linkend="tn__mutex_8h_1a11357f7bb31a3b380cbe94e0913a5b40ab3f7543f3177c575342d345010b58fa8">TN_MUTEX_PROT_INHERIT</link>= 2
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__mutex_8h_1a5ad69fd04d977538ac0d2c2a915e73ca">tn_mutex_create</link> (
+struct <link linkend="structTN__Mutex">TN_Mutex</link> * mutex, enum <link linkend="tn__mutex_8h_1a11357f7bb31a3b380cbe94e0913a5b40">TN_MutexProtocol</link> protocol, int ceil_priority)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__mutex_8h_1a9c935ae470f1d36f8d88c254a4d513e4">tn_mutex_delete</link> (
+struct <link linkend="structTN__Mutex">TN_Mutex</link> * mutex)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__mutex_8h_1a6021c483422dfc7221353f4b8ee16e06">tn_mutex_lock</link> (
+struct <link linkend="structTN__Mutex">TN_Mutex</link> * mutex, <link linkend="tn__common_8h_1a34c07c1fa20ae71d17817d28a41957fe">TN_Timeout</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__mutex_8h_1ac5714615cc3623cc3efd404e3ad47787">tn_mutex_lock_polling</link> (
+struct <link linkend="structTN__Mutex">TN_Mutex</link> * mutex)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__mutex_8h_1ae0a23d98c287786f8115020036a1fb72">tn_mutex_unlock</link> (
+struct <link linkend="structTN__Mutex">TN_Mutex</link> * mutex)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>A mutex is an object used to protect shared resource. </para>
+
+<para>There is a lot of confusion about differences between semaphores and mutexes, so, it&apos;s quite recommended to read small article by Michael Barr: <link xlink:href="http://goo.gl/YprPBW">Mutexes and Semaphores Demystified</link>.</para>
+
+<para>Very short:</para>
+
+<para>While mutex is seemingly similar to a semaphore with maximum count of <computeroutput>1</computeroutput> (the so-called binary semaphore), their usage is very different: the purpose of mutex is to protect shared resource. A locked mutex is &quot;owned&quot; by the task that locked it, and only the same task may unlock it. This ownership allows to implement algorithms to prevent priority inversion. So, mutex is a <emphasis>locking mechanism</emphasis>.</para>
+
+<para>Semaphore, on the other hand, is <emphasis>signaling mechanism</emphasis>. It&apos;s quite legal and encouraged for semaphore to be acquired in the task A, and then signaled from task B or even from ISR. It may be used in situations like &quot;producer
+and consumer&quot;, etc.</para>
+
+<para>In addition to the article mentioned above, you may want to look at the <link xlink:href="http://goo.gl/ZBReHK">related question on stackoverflow.com</link>. <informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+</para>
+
+<para>Mutex features in TNeoKernel:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Recursive locking is supported (if option <computeroutput><link linkend="tn__cfg__default_8h_1a2557da78508c4241aceee92475df3581">TN_MUTEX_REC</link></computeroutput> is non-zero);</para>
+</listitem><listitem>
+<para>Deadlock detection (if option <computeroutput><link linkend="tn__cfg__default_8h_1a6ed3ec7b0d4338e7f60dde86b7ea5fa4">TN_MUTEX_DEADLOCK_DETECT</link></computeroutput> is non-zero);</para>
+</listitem><listitem>
+<para>Two protocols available to avoid unbounded priority inversion: priority inheritance and priority ceiling.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>A discussion about strengths and weaknesses of each protocol as well as priority inversions problem is beyond the scope of this document.</para>
+
+<para>The priority inheritance protocol solves the priority inversions problem but doesn&apos;t prevents deadlocks, although the kernel can notify you if a deadlock has occured (see <computeroutput><link linkend="tn__cfg__default_8h_1a6ed3ec7b0d4338e7f60dde86b7ea5fa4">TN_MUTEX_DEADLOCK_DETECT</link></computeroutput>).</para>
+
+<para>The priority ceiling protocol prevents deadlocks and chained blocking but it is slower than the priority inheritance protocol.</para>
+
+<para><formalpara><title>See also: </title>
+
+<para><computeroutput><link linkend="tn__cfg__default_8h_1a7ce674edab5345c4b8d2ec251eea18eb">TN_USE_MUTEXES</link></computeroutput> </para>
+</formalpara>
+</para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_mutex.h</para>
+    </simplesect>
+</section>

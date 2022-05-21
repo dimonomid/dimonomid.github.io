@@ -1,0 +1,15 @@
+T\+Neo\+Kernel changelog\hypertarget{changelog_changelog_v1_01}{}\section{v1.\+01}\label{changelog_changelog_v1_01}
+Release date\+: 2014-\/10-\/09.
+
+
+\begin{DoxyItemize}
+\item {\bfseries F\+I\+X\+:} {\ttfamily \hyperlink{tn__dqueue_8h_a589bfb4d3966bc7405dcf959d7114544}{tn\+\_\+queue\+\_\+receive()}} and {\ttfamily \hyperlink{tn__fmem_8h_afb45a1f427b531b22f1f4b013f415ae0}{tn\+\_\+fmem\+\_\+get()}} \+: if non-\/zero {\ttfamily timeout} is in effect, then {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} is returned, but user-\/provided pointer is altered anyway (some garbage data is written there). This bug was inherited from T\+N\+Kernel.
+\item Added {\ttfamily \hyperlink{tn__tasks_8h_a18408d825c0dab03511f3aaeeb3ffbb3}{tn\+\_\+task\+\_\+state\+\_\+get()}}
+\item {\ttfamily \hyperlink{tn__oldsymbols_8h_abdc5c428590ff525cdb566da613015ce}{tn\+\_\+sem\+\_\+acquire()}} and friends are renamed to {\ttfamily \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait()}} and friends. More on this read \hyperlink{tnkernel_diff_tnkernel_diff_api_rename_sem}{here}. Old name is still available through {\ttfamily \hyperlink{tn__oldsymbols_8h}{tn\+\_\+oldsymbols.\+h}}.
+\end{DoxyItemize}\hypertarget{changelog_changelog_v1_0}{}\section{v1.\+0}\label{changelog_changelog_v1_0}
+Release date\+: 2014-\/10-\/01.
+
+
+\begin{DoxyItemize}
+\item Initial stable version of T\+Neo\+Kernel. Lots of work done\+: thorough review and re-\/implementation of T\+N\+Kernel 2.\+7, implemented detailed unit tests, and so on. 
+\end{DoxyItemize}

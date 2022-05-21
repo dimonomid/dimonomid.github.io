@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Interrupts</title>
+<section xml:id="interrupts_1interrupt_stack">
+<title>Interrupt stack</title>
+
+<para>TNeoKernel provides a separate stack for interrupt handlers. This approach could save a lot of RAM: interrupt can happen at any moment of time, and if there&apos;s no separate interrupt stack, then each task should have enough stack space for the worse case of interrupt nesting.</para>
+
+<para>Assume application&apos;s ISRs take max 64 words (64 * 4 = 256 bytes on PIC32) and application has 4 tasks (plus one idle task). Then, each of 5 tasks must have 64 words for interrupts: 64 * 5 * 4 = 1280 bytes of RAM just for 64 words for ISR.</para>
+
+<para>With separate stack for interrupts, these 64 words should be allocated just once. Interrupt stack array should be given to <computeroutput><link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start()</link></computeroutput>. For additional information, refer to the section <link linkend="quick_guide_1starting_the_kernel">Starting the kernel</link>.</para>
+
+<para>In order to make particular ISR use separate interrupt stack, this ISR should be defined by kernel-provided macro, which is platform-dependent: see:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><link linkend="pic32_details_1pic32_interrupts">PIC32 interrupts</link>,</para>
+</listitem><listitem>
+<para><link linkend="pic24_details_1pic24_interrupts">PIC24/dsPIC interrupts</link>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="interrupts_1interrupt_types">
+<title>Interrupt types</title>
+
+<para>On some platforms (namely, on PIC24/dsPIC), there are two types of interrups: <emphasis>system interrupts</emphasis> and <emphasis>user interrupts</emphasis>. Other platforms have <emphasis>system interrupts</emphasis> only. Kernel services are allowed to call only from <emphasis>system interrupts</emphasis>, and interrupt-related kernel services (<computeroutput><link linkend="tn__arch_8h_1a7078b776570ca67a51b89d2746bdb6f7">tn_arch_sr_save_int_dis()</link></computeroutput>, <computeroutput><link linkend="tn__arch_8h_1aa755327bd8c4e4303c87c2b0cbed0f17">tn_arch_sr_restore()</link></computeroutput>, <computeroutput><link linkend="tn__arch_8h_1a34ffbae8b6837f7f3014bca9991e2272">_tn_arch_inside_isr()</link></computeroutput>, etc) affect <emphasis role="bold">only <emphasis>system interrupts</emphasis></emphasis>. Say, if <computeroutput><link linkend="tn__arch_8h_1a34ffbae8b6837f7f3014bca9991e2272">_tn_arch_inside_isr()</link></computeroutput> is called from <emphasis>user interrupt</emphasis>, it returns <computeroutput>0</computeroutput>.</para>
+
+<para>Particular platform might have additional constraints for each of these interrupt types, refer to the details of each supported platform for details. </para>
+</section>
+
+</chapter>

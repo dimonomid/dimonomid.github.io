@@ -1,0 +1,58 @@
+\hypertarget{tn__arch__pic24_8h}{\section{arch/pic24\+\_\+dspic/tn\+\_\+arch\+\_\+pic24.h File Reference}
+\label{tn__arch__pic24_8h}\index{arch/pic24\+\_\+dspic/tn\+\_\+arch\+\_\+pic24.\+h@{arch/pic24\+\_\+dspic/tn\+\_\+arch\+\_\+pic24.\+h}}
+}
+
+
+\subsection{Detailed Description}
+P\+I\+C24/ds\+P\+I\+C architecture-\/dependent routines. 
+
+
+
+Definition in file \hyperlink{tn__arch__pic24_8h_source}{tn\+\_\+arch\+\_\+pic24.\+h}.
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr}(\+\_\+func, \+\_\+psv)~\+\_\+tn\+\_\+soft\+\_\+isr\+\_\+internal(\+\_\+func, \+\_\+psv, )
+\begin{DoxyCompactList}\small\item\em I\+S\+R wrapper macro for software context saving. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{\index{tn\+\_\+arch\+\_\+pic24.\+h@{tn\+\_\+arch\+\_\+pic24.\+h}!tn\+\_\+p24\+\_\+soft\+\_\+isr@{tn\+\_\+p24\+\_\+soft\+\_\+isr}}
+\index{tn\+\_\+p24\+\_\+soft\+\_\+isr@{tn\+\_\+p24\+\_\+soft\+\_\+isr}!tn\+\_\+arch\+\_\+pic24.\+h@{tn\+\_\+arch\+\_\+pic24.\+h}}
+\subsubsection[{tn\+\_\+p24\+\_\+soft\+\_\+isr}]{\setlength{\rightskip}{0pt plus 5cm}\#define tn\+\_\+p24\+\_\+soft\+\_\+isr(
+\begin{DoxyParamCaption}
+\item[{}]{\+\_\+func, }
+\item[{}]{\+\_\+psv}
+\end{DoxyParamCaption}
+)~\+\_\+tn\+\_\+soft\+\_\+isr\+\_\+internal(\+\_\+func, \+\_\+psv, )}}\label{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}
+
+
+I\+S\+R wrapper macro for software context saving. 
+
+Usage looks like the following\+:
+
+
+\begin{DoxyCode}
+\hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\_p24\_soft\_isr}(\_T1Interrupt, auto\_psv)
+\{
+   \textcolor{comment}{//-- clear interrupt flag}
+   IFS0bits.T1IF = 0;
+
+   \textcolor{comment}{//-- do something useful}
+\}
+\end{DoxyCode}
+
+
+Which should be used for system interrupts, instead of standard way\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \_\_attribute\_\_((\_\_interrupt\_\_, auto\_psv)) \_T1Interrupt(\textcolor{keywordtype}{void})
+\end{DoxyCode}
+
+
+Where {\ttfamily \+\_\+\+T1\+Interrupt} is the usual P\+I\+C24/ds\+P\+I\+C I\+S\+R name, and {\ttfamily auto\+\_\+psv} (or {\ttfamily no\+\_\+auto\+\_\+psv}) is the usual attribute argument for interrupt. 
+
+Definition at line 450 of file tn\+\_\+arch\+\_\+pic24.\+h.
+

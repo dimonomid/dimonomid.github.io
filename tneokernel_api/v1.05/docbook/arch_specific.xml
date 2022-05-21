@@ -1,0 +1,266 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Architecture-specific details</title>
+
+<para>Architecture-specific details</para>
+<section xml:id="arch_specific_1pic32_details">
+<title>PIC32 port details</title>
+<section xml:id="arch_specific_1pic32_context_switch">
+<title>Context switch</title>
+
+<para>The context switch is implemented using the core software 0 interrupt (<computeroutput>CS0</computeroutput>), which is configured by the kernel to the lowest priority (1). This interrupt is handled completely by the kernel, application should never touch it.</para>
+
+<para>The interrupt priority level 1 should not be configured to use shadow register sets.</para>
+
+<para>Multi-vectored interrupt mode should be enabled.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>if tneo is built as a separate library (which is typically the case), then the file <computeroutput>src/arch/pic32/tn_arch_pic32_int_vec1.S</computeroutput> must be included in the main project itself, in order to dispatch vector1 (core software interrupt 0) correctly. Do note that if we include this file in the TNeo library project, it doesn&apos;t work for vector, unfortunately.</para>
+<simplesect/>
+<para>If you forgot to include this file, you got an error on the link step, like this: <literallayout><computeroutput>undefined&#32;reference&#32;to&#32;`_you_should_add_file___tn_arch_pic32_int_vec1_S___to_the_project&apos;
+</computeroutput></literallayout> Which is much more informative than if you just get to <computeroutput>_DefaultInterrupt</computeroutput> when it&apos;s time to switch context.</para>
+</formalpara>
+</para>
+</section>
+<section xml:id="arch_specific_1pic32_interrupts">
+<title>Interrupts</title>
+
+<para>For generic information about interrupts in TNeo, refer to the page <link linkend="interrupts">Interrupts</link>.</para>
+
+<para>PIC32 port has <emphasis>system interrupts</emphasis> only, there are no <emphasis>user interrupts</emphasis>.</para>
+
+<para>PIC32 port supports nested interrupts. The kernel provides C-language macros for calling C-language interrupt service routines, which can use either MIPS32 or MIPS16e mode. Both software and shadow register interrupt context saving is supported. Usage is as follows:</para>
+
+<para><literallayout><computeroutput>/*&#32;Timer&#32;1&#32;interrupt&#32;handler&#32;using&#32;software&#32;interrupt&#32;context&#32;saving&#32;*/
+tn_p32_soft_isr(_TIMER_1_VECTOR)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+
+/*&#32;High-priority&#32;UART&#32;interrupt&#32;handler&#32;using&#32;shadow&#32;register&#32;set&#32;*/
+tn_p32_srs_isr(_UART_1_VECTOR)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+</computeroutput></literallayout></para>
+
+<para>In spite of the fact that the kernel provides separate stack for interrupt, this isn&apos;t a mandatory on PIC32: you&apos;re able to define your ISR in a standard way, making it use stask of interrupted task and work a bit faster. Like this:</para>
+
+<para><literallayout><computeroutput>void&#32;__ISR(_TIMER_1_VECTOR)&#32;timer_1_isr(void)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+</computeroutput></literallayout></para>
+
+<para>There is always a tradeoff. There are <emphasis role="bold">no additional constraints</emphasis> on ISR defined without kernel-provided macro: in either ISR, you can call the same set of kernel services.</para>
+
+<para>When you make a decision on whether particular ISR should use separate stack, consider the following:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>When ISR is defined in a standard way, and no function is called from that ISR, only necessary registers are saved on stack. If you have such an ISR (that doesn&apos;t call any function), and this ISR should work very fast, consider using standard way instead of kernel-provided macro.</para>
+</listitem><listitem>
+<para>When ISR is defined in a standard way, but it calls any function and doesn&apos;t use shadow register set, compiler saves (almost) full context <emphasis role="bold">on the task&apos;s stack</emphasis>, because it doesn&apos;t know which registers are used inside the function. In this case, it usually makes more sense to use kernel-provided macro (see below).</para>
+</listitem><listitem>
+<para>Kernel-provided interrupt macros switch stack pointer between interrupt stack and task stack automatically, it takes additional time: e.g. on PIC32 it&apos;s about 20 cycles.</para>
+</listitem><listitem>
+<para>Kernel-provided interrupt macro that doesn&apos;t use shadow register set always saves (almost) full context <emphasis role="bold">on the interrupt stack</emphasis>, independently of whether any function is called from an ISR.</para>
+</listitem><listitem>
+<para>Kernel-provided interrupt macro that uses shadow register set saves a little amount of registers <emphasis role="bold">on the interrupt stack</emphasis>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="arch_specific_1pic32_building">
+<title>Building</title>
+
+<para>For generic information on building TNeo, refer to the page <link linkend="building">Building TNeo</link>.</para>
+
+<para>MPLABX project for PIC32 port resides in the <computeroutput>lib_project/pic32/tneo_pic32.X</computeroutput> directory. This is a <emphasis>library project</emphasis> in terms of MPLABX, so if you use MPLABX you can easily add it to your application project by right-clicking <computeroutput>Libraries -&gt; Add Library Project ...</computeroutput>. Alternatively, of course you can just build it and use resulting <computeroutput>tneo_pic32.X.a</computeroutput> file in whatever way you like.</para>
+
+<para>If you want to build TNeo manually, refer to the section <link linkend="building_1building_generic__manual">Building manually</link> for generic notes about it, and there is a couple of arch-dependent sources you need to add to the project:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>src/arch/pic32/tn_arch_pic32.c</computeroutput></para>
+</listitem><listitem>
+<para><computeroutput>src/arch/pic32/tn_arch_pic32mx_xc32.S</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>There is one more file: <computeroutput>tn_arch_pic32_int_vec1.S</computeroutput>, which should be included <emphasis role="bold">in your application project</emphasis> to make things work. It is needed to dispatch vector1 (Core Software Interrupt 0) correctly.</para>
+</formalpara>
+</para>
+</section>
+</section>
+<section xml:id="arch_specific_1pic24_details">
+<title>PIC24/dsPIC port details</title>
+<section xml:id="arch_specific_1pic24_context_switch">
+<title>Context switch</title>
+
+<para>The context switch is implemented using the external interrupt 0 (<computeroutput>INT0</computeroutput>). It is handled completely by the kernel, application should never touch it.</para>
+</section>
+<section xml:id="arch_specific_1pic24_interrupts">
+<title>Interrupts</title>
+
+<para>For generic information about interrupts in TNeo, refer to the page <link linkend="interrupts">Interrupts</link>.</para>
+
+<para>PIC24/dsPIC TNeo port supports nested interrupts. It allows to specify the range of <emphasis>system interrupt priorities</emphasis>. Refer to the subsection <link linkend="interrupts_1interrupt_types">Interrupt types</link> for details on what is <emphasis>system interrupt</emphasis>.</para>
+
+<para>System interrupts use separate interrupt stack instead of the task&apos;s stack. This approach saves a lot of RAM.</para>
+
+<para>The range is specified by just a single number: <computeroutput><link linkend="tn__cfg__default_8h_1a4feb7eb34fc2f175167b7496b63c398a">TN_P24_SYS_IPL</link></computeroutput>, which represents maximum <emphasis>system interrupt priority</emphasis>. Here is a list of available priorities and their characteristics:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>priorities <computeroutput>[1 .. <link linkend="tn__cfg__default_8h_1a4feb7eb34fc2f175167b7496b63c398a">TN_P24_SYS_IPL</link>]</computeroutput>:<itemizedlist>
+<listitem>
+<para>Kernel services <emphasis role="bold">are</emphasis> allowed to call;</para>
+</listitem><listitem>
+<para>The macro <computeroutput><link linkend="tn__arch__pic24_8h_1a0b184d3c15066f5504144379d2624ff3">tn_p24_soft_isr()</link></computeroutput> <emphasis role="bold">must</emphasis> be used.</para>
+</listitem><listitem>
+<para>Separate interrupt stack is used by ISR;</para>
+</listitem><listitem>
+<para>Interrupts get disabled for short periods of time when modifying critical kernel data (for about 100 cycles or the like).</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>priorities <computeroutput>[(<link linkend="tn__cfg__default_8h_1a4feb7eb34fc2f175167b7496b63c398a">TN_P24_SYS_IPL</link> + 1) .. 6]</computeroutput>:<itemizedlist>
+<listitem>
+<para>Kernel services <emphasis role="bold">are not</emphasis> allowed to call;</para>
+</listitem><listitem>
+<para>The macro <computeroutput><link linkend="tn__arch__pic24_8h_1a0b184d3c15066f5504144379d2624ff3">tn_p24_soft_isr()</link></computeroutput> <emphasis role="bold">must not</emphasis> be used.</para>
+</listitem><listitem>
+<para>Task&apos;s stack is used by ISR;</para>
+</listitem><listitem>
+<para>Interrupts are not disabled when modifying critical kernel data, but they are disabled for 4..8 cycles by <computeroutput>disi</computeroutput> instruction when entering/exiting system ISR: we need to safely modify <computeroutput>SP</computeroutput> and <computeroutput>SPLIM</computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para>priority <computeroutput>7</computeroutput>:<itemizedlist>
+<listitem>
+<para>Kernel services <emphasis role="bold">are not</emphasis> allowed to call;</para>
+</listitem><listitem>
+<para>The macro <computeroutput><link linkend="tn__arch__pic24_8h_1a0b184d3c15066f5504144379d2624ff3">tn_p24_soft_isr()</link></computeroutput> <emphasis role="bold">must not</emphasis> be used.</para>
+</listitem><listitem>
+<para>Task&apos;s stack is used by ISR;</para>
+</listitem><listitem>
+<para>Interrupts are never disabled by the kernel. Note that <computeroutput>disi</computeroutput> instruction leaves interrupts of priority 7 enabled.</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+
+<para>The kernel provides C-language macro for calling C-language <emphasis role="bold">system</emphasis> interrupt service routines.</para>
+
+<para>Usage is as follows:</para>
+
+<para><literallayout><computeroutput>/*&#32;
+&#32;*&#32;Timer&#32;1&#32;interrupt&#32;handler&#32;using&#32;software&#32;interrupt&#32;context&#32;saving,&#32;&#32;
+&#32;*&#32;PSV&#32;is&#32;handled&#32;automatically:
+&#32;*/
+tn_p24_soft_isr(_T1Interrupt,&#32;auto_psv)
+{
+&#32;&#32;&#32;//--&#32;clear&#32;interrupt&#32;flag
+&#32;&#32;&#32;IFS0bits.T1IF&#32;=&#32;0;
+
+&#32;&#32;&#32;//--&#32;do&#32;something&#32;useful
+}
+</computeroutput></literallayout></para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>do <emphasis role="bold">not</emphasis> use this macro for non-system interrupt (that is, for interrupt of priority higher than <computeroutput><link linkend="tn__cfg__default_8h_1a4feb7eb34fc2f175167b7496b63c398a">TN_P24_SYS_IPL</link></computeroutput>). Use standard way to define it. If <computeroutput><link linkend="tn__cfg__default_8h_1a1f197294df3276fec431930545acafd5">TN_CHECK_PARAM</link></computeroutput> is on, kernel checks it: if you violate this rule, debugger will be halted by the kernel when entering ISR. In release build, CPU is just reset.</para>
+</formalpara>
+</para>
+</section>
+<section xml:id="arch_specific_1pic24_bfa">
+<title>Atomic access to the structure bit field</title>
+
+<para>The problem with PIC24/dsPIC is that when we write something like:</para>
+
+<para><literallayout><computeroutput>IPC0bits.INT0IP&#32;=&#32;0x05;
+</computeroutput></literallayout></para>
+
+<para>We actually have read-modify-write sequence which can be interrupted, so that resulting data could be corrupted. PIC24/dsPIC port provides several macros that offer atomic access to the structure bit field.</para>
+
+<para>The kernel would not probably provide that kind of functionality, but TNeo itself needs it, so, it is made public so that application can use it too.</para>
+
+<para>Refer to the page <link linkend="tn__arch__pic24__bfa_8h">Atomic bit-field access macros</link> for details.</para>
+</section>
+<section xml:id="arch_specific_1pic24_building">
+<title>Building</title>
+
+<para>For generic information on building TNeo, refer to the page <link linkend="building">Building TNeo</link>.</para>
+
+<para>MPLABX project for PIC24/dsPIC port resides in the <computeroutput>lib_project/pic24_dspic/tneo_pic24_dspic.X</computeroutput> directory. This is a <emphasis>library project</emphasis> in terms of MPLABX, so if you use MPLABX you can easily add it to your main project by right-clicking <computeroutput>Libraries -&gt; Add Library Project ...</computeroutput>.</para>
+
+<para>Alternatively, of course you can just build it and use resulting <computeroutput>.a</computeroutput> file in whatever way you like.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>there are two configurations of this project: <emphasis>eds</emphasis> and <emphasis> no_eds</emphasis>, for devices with and without extended data space, respectively. When you add library project to your application project, you should select correct configuration for your device; otherwise, you get &quot;undefined reference&quot; errors at linker step.</para>
+</formalpara>
+If you want to build TNeo manually, refer to the section <link linkend="building_1building_generic__manual">Building manually</link> for generic notes about it, and additionally you should add arch-dependent sources: all <computeroutput>.c</computeroutput> and <computeroutput>.S</computeroutput> files from <computeroutput>src/arch/pic24_dspic</computeroutput></para>
+</section>
+</section>
+<section xml:id="arch_specific_1cortex_m_details">
+<title>Cortex-M0/M0+/M3/M4/M4F port details</title>
+<section xml:id="arch_specific_1cortex_m_context_switch">
+<title>Context switch</title>
+
+<para>The context switch is implemented in a standard for Cortex-M CPUs way: the PendSV exception. SVC exception is used for <computeroutput><link linkend="tn__arch_8h_1afd5f43f42f5645de164ba6d13d3a4bcf">_tn_arch_context_switch_now_nosave()</link></computeroutput>. These two exceptions are configured by the kernel to the lowest priority.</para>
+</section>
+<section xml:id="arch_specific_1cortex_m_interrupts">
+<title>Interrupts</title>
+
+<para>For generic information about interrupts in TNeo, refer to the page <link linkend="interrupts">Interrupts</link>.</para>
+
+<para>Cortex-M port has <emphasis>system interrupts</emphasis> only, there are no <emphasis>user interrupts</emphasis>.</para>
+
+<para>Interrupts use separate interrupt stack, i.e. MSP (Main Stack Pointer). Tasks use PSP (Process Stack Pointer).</para>
+
+<para>There are no constraints on ISRs: no special macros for ISR definition, or whatever. This is because Cortex-M processors are designed with OS applications in mind, so a number of featureas are available to make OS implementation easier and make OS operations more efficient.</para>
+</section>
+<section xml:id="arch_specific_1cortex_m_building">
+<title>Building</title>
+
+<para>For generic information on building TNeo, refer to the page <link linkend="building">Building TNeo</link>.</para>
+
+<para>There are many environments for building for Cortex-M CPUs (Keil, Eclipse, CooCox), all available projects reside in <computeroutput>lib_project/cortex_m</computeroutput> directory. They usually are pretty enough if you want to just build the kernel with non-default configuration.</para>
+
+<para>If, however, you want to build it not using provided project, refer to the section <link linkend="building_1building_generic__manual">Building manually</link> for generic notes about it, and additionally you should add arch-dependent sources: all <computeroutput>.c</computeroutput> and <computeroutput>.S</computeroutput> files from <computeroutput>src/arch/cortex_m</computeroutput>.</para>
+
+<para>There are some additional tips depending on the build environment:</para>
+
+<para><emphasis role="bold">Keil 5, ARMCC compiler</emphasis></para>
+
+<para>To satisfy <link linkend="building_1building_generic__manual">building requirements</link>, a couple of actions needed:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>C99 is off by default. In project options, C/C++ tab, check &quot;C99 Mode&quot; checkbox.</para>
+</listitem><listitem>
+<para>Assembler files (<computeroutput>.S</computeroutput>) aren&apos;t preprocessed by default, so, in project options, Asm tab, &quot;Misc Controls&quot; field, type the following: <computeroutput>--cpreproc</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+
+<para><emphasis role="bold">Keil 5, GCC compiler</emphasis></para>
+
+<para>Unfortunately, when GCC toolchain is used from Keil uVision IDE, for <computeroutput>.S</computeroutput> files it calls <computeroutput>arm-none-eabi-as</computeroutput>, which does not call C preprocessor.</para>
+
+<para>Instead, <computeroutput>arm-none-eabi-gcc</computeroutput> should be used, but unfortunately I was unable to make Keil uVision issue <computeroutput>arm-none-eabi-gcc</computeroutput> for <computeroutput>.S</computeroutput> files, the only way to use GCC toolchain in Keil uVision that I&apos;m aware of is to preprocess the file manually, like that: <literallayout>cpp -P -undef tn_arch_cortex_m.S                         \
+      -D __GNUC__ -D __ARM_ARCH -D __ARM_ARCH_7M__       \
+      -I ../.. -I ../../core                             \
+      &gt; tn_arch_cortex_m3_gcc.s
+</literallayout></para>
+
+<para>(this example is for Cortex-M3, you may check the file <computeroutput>tn_arch_detect.h</computeroutput> to see what should you define instead of <computeroutput>__ARM_ARCH_7M__</computeroutput> for other cores)</para>
+
+<para>And then, add the output file <computeroutput>tn_arch_cortex_m3_gcc.s</computeroutput> to the project instead of <computeroutput>tn_arch_cortex_m.S</computeroutput> </para>
+</section>
+</section>
+
+</chapter>

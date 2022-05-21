@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__Sem">
+<title>TN_Sem struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__sem_8h">&lt;tn_sem.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_sem<para><emphasis>id for object validity verification.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem wait_queue<para><emphasis>List of tasks that wait for the semaphore.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int count<para><emphasis>Current semaphore counter value.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int max_count<para><emphasis>Max value of &lt;tt&gt;count&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Semaphore. </para>
+    </simplesect>
+        <simplesect>
+            <title>Member Documentation</title>
+            <simplesect>
+                <title>enum TN_ObjId TN_Sem::id_sem</title>                
+<para>This field is in the beginning of the structure to make it easier to detect memory corruption. </para>
+
+                <para>Definition at line 152 of file tn_sem.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_sem.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </simplesect>
+</section>

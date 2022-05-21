@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch__pic32__bfa_8h">
+    <title>tn_arch_pic32_bfa.h File Reference</title>
+        <section>
+            <title>Macros</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1afb3b3db3cf42fd7a24eff3f5e5447ae6">TN_BFA_SET</link> 0x1111<para><emphasis>Command for &lt;tt&gt;TN_BFA()&lt;/tt&gt; macro: Set bits in the bit field by mask;
+&lt;tt&gt;...&lt;/tt&gt; macro param should be set to the bit mask to set.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1aea0ed6f4978ea16f626851f17b93a9c0">TN_BFA_CLR</link> 0x2222<para><emphasis>Command for &lt;tt&gt;TN_BFA()&lt;/tt&gt; macro: Clear bits in the bit field by mask;
+&lt;tt&gt;...&lt;/tt&gt; macro param should be set to the bit mask to clear.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1a5a6d5f573973d827c6eda13675cb6996">TN_BFA_INV</link> 0x3333<para><emphasis>Command for &lt;tt&gt;TN_BFA()&lt;/tt&gt; macro: Invert bits in the bit field by mask;
+&lt;tt&gt;...&lt;/tt&gt; macro param should be set to the bit mask to invert.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1a883fc2ffdb105d460e575de78c877b62">TN_BFA_WR</link> 0xAAAA<para><emphasis>Command for &lt;tt&gt;TN_BFA()&lt;/tt&gt; macro: Write bit field;
+&lt;tt&gt;...&lt;/tt&gt; macro param should be set to the value to write.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1ac2d2bd0a156045085b452360be0d621b">TN_BFA_RD</link> 0xBBBB<para><emphasis>Command for &lt;tt&gt;TN_BFA()&lt;/tt&gt; macro: Read bit field;
+&lt;tt&gt;...&lt;/tt&gt; macro param ignored.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1a0ab285a4620fe66e07b62e83c199ff54">TN_BFA</link><para><emphasis>Macro for atomic access to the structure bit field.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32__bfa_8h_1a8d4b939f57687bf93c982917100c064b">TN_BFAR</link><para><emphasis>Macro for atomic access to the structure bit field specified as a range.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Atomic bit-field access macros for PIC24/dsPIC. </para>
+
+<para>Initially, the code was taken from the <link xlink:href="http://www.pic24.ru/doku.php/articles/mchp/c30_atomic_access">article by Alex Borisov (russian)</link>, and modified a bit.</para>
+
+<para>The kernel would not probably provide that kind of functionality, but the kernel itself needs it, so, it is made public so that application can use it too. </para>
+    <para>Definition in file /home/dimon/mydata/projects/tneo/src/arch/pic32/tn_arch_pic32_bfa.h</para>
+    </simplesect>
+</section>

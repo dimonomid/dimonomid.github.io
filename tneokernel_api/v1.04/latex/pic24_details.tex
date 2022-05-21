@@ -1,0 +1,80 @@
+P\+I\+C24/ds\+P\+I\+C port implementation details\hypertarget{pic24_details_pic24_context_switch}{}\section{Context switch}\label{pic24_details_pic24_context_switch}
+The context switch is implemented using the external interrupt 0 ({\ttfamily I\+N\+T0}). It is handled completely by the kernel, application should never touch it.\hypertarget{pic24_details_pic24_interrupts}{}\section{Interrupts}\label{pic24_details_pic24_interrupts}
+For detailed information about interrupts in T\+Neo\+Kernel, refer to the page \hyperlink{interrupts}{Interrupts}.
+
+P\+I\+C24/ds\+P\+I\+C T\+Neo\+Kernel port supports nested interrupts. It allows to specify the range of {\itshape system interrupt priorities}. Refer to the section \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system interrupt}.
+
+System interrupts use separate interrupt stack instead of the task's stack. This approach saves a lot of R\+A\+M.
+
+The range is specified by just a single number\+: {\ttfamily \hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L}}, which represents maximum {\itshape system interrupt priority}. Here is a list of available priorities and their characteristics\+:
+
+
+\begin{DoxyItemize}
+\item priorities {\ttfamily \mbox{[}1 .. \hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L}\mbox{]}}\+:
+\begin{DoxyItemize}
+\item Kernel services {\bfseries are} allowed to call;
+\item The macro {\ttfamily \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr()}} {\bfseries must} be used.
+\item Separate interrupt stack is used by I\+S\+R;
+\item Interrupts get disabled for short periods of time when modifying critical kernel data (for about 100 cycles or the like).
+\end{DoxyItemize}
+\item priorities {\ttfamily \mbox{[}(\hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L} + 1) .. 6\mbox{]}}\+:
+\begin{DoxyItemize}
+\item Kernel services {\bfseries are not} allowed to call;
+\item The macro {\ttfamily \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr()}} {\bfseries must not} be used.
+\item Task's stack is used by I\+S\+R;
+\item Interrupts are not disabled when modifying critical kernel data, but they are disabled for 4..8 cycles by {\ttfamily disi} instruction when entering/exiting system I\+S\+R\+: we need to safely modify {\ttfamily S\+P} and {\ttfamily S\+P\+L\+I\+M}.
+\end{DoxyItemize}
+\item priority {\ttfamily 7}\+:
+\begin{DoxyItemize}
+\item Kernel services {\bfseries are not} allowed to call;
+\item The macro {\ttfamily \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr()}} {\bfseries must not} be used.
+\item Task's stack is used by I\+S\+R;
+\item Interrupts are never disabled by the kernel. Note that {\ttfamily disi} instruction leaves interrupts of priority 7 enabled.
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+The kernel provides C-\/language macro for calling C-\/language {\bfseries system} interrupt service routines.
+
+Usage is as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{/* }
+\textcolor{comment}{ * Timer 1 interrupt handler using software interrupt context saving,  }
+\textcolor{comment}{ * PSV is handled automatically:}
+\textcolor{comment}{ */}
+\hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\_p24\_soft\_isr}(\_T1Interrupt, auto\_psv)
+\{
+   \textcolor{comment}{//-- clear interrupt flag}
+   IFS0bits.T1IF = 0;
+
+   \textcolor{comment}{//-- do something useful}
+\}
+\end{DoxyCode}
+
+
+\begin{DoxyAttention}{Attention}
+do {\bfseries not} use this macro for non-\/system interrupt (that is, for interrupt of priority higher than {\ttfamily \hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L}}). Use standard way to define it. If you violate this rule, debugger will be halted by the kernel when entering I\+S\+R. In release build, C\+P\+U is just reset.
+\end{DoxyAttention}
+\hypertarget{pic24_details_pic24_bfa}{}\section{Atomic access to the structure bit field}\label{pic24_details_pic24_bfa}
+The problem with P\+I\+C24/ds\+P\+I\+C is that when we write something like\+:
+
+
+\begin{DoxyCode}
+IPC0bits.INT0IP = 0x05;
+\end{DoxyCode}
+
+
+We actually have read-\/modify-\/write sequence which can be interrupted, so that resulting data could be corrupted. P\+I\+C24/ds\+P\+I\+C port provides several macros that offer atomic access to the structure bit field.
+
+The kernel would not probably provide that kind of functionality, but T\+Neo\+Kernel itself needs it, so, it is made public so that application can use it too.
+
+Refer to the page \hyperlink{tn__arch__pic24__bfa_8h}{Atomic bit-\/field access macros} for details.\hypertarget{pic24_details_pic24_building}{}\section{Building}\label{pic24_details_pic24_building}
+For generic information on building T\+Neo\+Kernel, refer to the page \hyperlink{building}{Building the project}.
+
+M\+P\+L\+A\+B\+X project for P\+I\+C24/ds\+P\+I\+C port resides in the {\ttfamily src/arch/pic24\+\_\+dspic/tneokernel\+\_\+pic24\+\_\+dspic.\+X} directory. This is a {\itshape library project} in terms of M\+P\+L\+A\+B\+X, so if you use M\+P\+L\+A\+B\+X you can easily add it to your main project by right-\/clicking {\ttfamily Libraries -\/$>$ Add Library Project ...}.
+
+\begin{DoxyAttention}{Attention}
+there are two configurations of this project\+: {\itshape eds} and {\itshape  no\+\_\+eds}, for devices with and without extended data space, respectively. When you add library project to your application project, you should select correct configuration for your device; otherwise, you get \char`\"{}undefined reference\char`\"{} errors at linker step.
+\end{DoxyAttention}
+Alternatively, of course you can just build it and use resulting {\ttfamily .a} file in whatever way you like. 

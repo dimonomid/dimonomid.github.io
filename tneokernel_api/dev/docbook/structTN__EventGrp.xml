@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__EventGrp">
+<title>TN_EventGrp struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__eventgrp_8h">&lt;tn_eventgrp.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Data Fields</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_event<para><emphasis>id for object validity verification.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem wait_queue<para><emphasis>task wait queue</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_UWord pattern<para><emphasis>current flags pattern</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_EGrpAttr attr<para><emphasis>Attributes that are given to that events group,
+available if only &lt;tt&gt;#TN_OLD_EVENT_API&lt;/tt&gt; option is non-zero.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Event group. </para>
+    </simplesect>
+        <section>
+            <title>Field Documentation</title>
+            <simplesect>
+                <title>enum TN_ObjId TN_EventGrp::id_event</title>                
+<para>This field is in the beginning of the structure to make it easier to detect memory corruption. </para>
+
+                <para>Definition at line 314 of file tn_eventgrp.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_eventgrp.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>enum TN_EGrpAttr TN_EventGrp::attr</title>                
+                <para>Definition at line 223 of file tn_eventgrp.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_eventgrp.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </section>
+</section>

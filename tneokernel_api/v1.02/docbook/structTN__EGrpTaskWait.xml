@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__EGrpTaskWait">
+<title>TN_EGrpTaskWait struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__eventgrp_8h">&lt;tn_eventgrp.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int wait_pattern<para><emphasis>event wait pattern</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_EGrpWaitMode wait_mode<para><emphasis>event wait mode: &lt;tt&gt;AND&lt;/tt&gt; or &lt;tt&gt;OR&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int actual_pattern<para><emphasis>pattern that caused task to finish waiting</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>EventGrp-specific fields related to waiting task, to be included in struct <link linkend="structTN__Task">TN_Task</link>. </para>
+    </simplesect>
+</section>

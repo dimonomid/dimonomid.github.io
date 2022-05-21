@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__tasks_8h">
+    <title>tn_tasks.h File Reference</title>
+    <programlisting>#include &quot;tn_sys.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_eventgrp.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_dqueue.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_fmem.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_timer.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__Task">TN_Task</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__tasks_8h_1a120e01d9dddd21ac11827595e88d7c36">TN_TASK_STACK_DEF</link> <link linkend="tn__arch__example_8h_1ae245dddb19cd7c12b7038a62d576fafa">TN_ARCH_STK_ATTR_BEFORE</link>                   \
+   <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> name[ (size) ]                   \
+   <link linkend="tn__arch__example_8h_1ab082613959b539182b8b47bc87d18d6a">TN_ARCH_STK_ATTR_AFTER</link><para><emphasis>Convenience macro for the definition of stack array.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6">TN_TaskState</link> {
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a8d5e0658feb4dce26cfc008bc5f9303d">TN_TASK_STATE_NONE</link>= 0,
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc">TN_TASK_STATE_RUNNABLE</link>= (1 &lt;&lt; 0),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56">TN_TASK_STATE_WAIT</link>= (1 &lt;&lt; 1),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58">TN_TASK_STATE_SUSPEND</link>= (1 &lt;&lt; 2),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a">TN_TASK_STATE_WAITSUSP</link>= (TN_TASK_STATE_WAIT | TN_TASK_STATE_SUSPEND),
+<link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b">TN_TASK_STATE_DORMANT</link>= (1 &lt;&lt; 3)
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7">TN_WaitReason</link> {
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4">TN_WAIT_REASON_NONE</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ac6d257af77c2e0d77bbbdf7a135e297e">TN_WAIT_REASON_SLEEP</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a991bba7e03ed24d60f58032e8e2f32f0">TN_WAIT_REASON_SEM</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ae29d8cf36a5aef0397127a6bacb87788">TN_WAIT_REASON_EVENT</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a4e1933798d7e1ec62d0ad78de771763f">TN_WAIT_REASON_DQUE_WSEND</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ace5abb1294b936e62bf5940ab369cafa">TN_WAIT_REASON_DQUE_WRECEIVE</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a2bacdbdbd4c3436b752e4b6e07710d47">TN_WAIT_REASON_MUTEX_C</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875">TN_WAIT_REASON_MUTEX_I</link>,
+<link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a1354382bc3c908aed3a719ea24c7504c">TN_WAIT_REASON_WFIXMEM</link>
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5">TN_TaskCreateOpt</link> {
+<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link>= (1 &lt;&lt; 0),
+<link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a473d9cb27bafbebf4aab5fb6d4f0fccc">TN_TASK_CREATE_OPT_IDLE</link>=  (1 &lt;&lt; 1)
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49">TN_TaskExitOpt</link> {
+<link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e">TN_TASK_EXIT_OPT_DELETE</link>= (1 &lt;&lt; 0)
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a548d5adda09d1b4e393b5df0e9e1a7a5">tn_task_create</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, <link linkend="tn__common_8h_1a82f7de9034cbbb373c4dbcff45942343">TN_TaskBody</link> * task_func, int priority, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * task_stack_low_addr, int task_stack_size, void * param, enum <link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5">TN_TaskCreateOpt</link> opts)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1ab8b3066e63fec2d796dc6989f4a87f23">tn_task_suspend</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1af30b605f6debaeb66686c525ab0ff553">tn_task_resume</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1ad3708ae3400f11b98747ad4a1cad88fa">tn_task_sleep</link> (
+<link linkend="tn__common_8h_1a34c07c1fa20ae71d17817d28a41957fe">TN_Timeout</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1abb88bc8b1cec6b82e7b6e2e90d0e155a">tn_task_wakeup</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a94e6a0312013e53cf08bcf871e6f4172">tn_task_iwakeup</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a3c14832fe7dfd2c44678608767f40230">tn_task_activate</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a46c30078ae437c75121965f70c9d7b4c">tn_task_iactivate</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1ae90ecdbd7d87d050c2c98ec775e6efc7">tn_task_release_wait</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1aee0ef296af18733f64269386adf8a2d7">tn_task_irelease_wait</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__tasks_8h_1a23e562731e616f01e325bc9830bcc021">tn_task_exit</link> (
+enum <link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49">TN_TaskExitOpt</link> opts)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a8ae6615de7022a327bdcd4c37a0f5b90">tn_task_terminate</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1adbc4dbbd4a57b73642b76550a0c7c83f">tn_task_delete</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a18408d825c0dab03511f3aaeeb3ffbb3">tn_task_state_get</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, enum <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6">TN_TaskState</link> * p_state)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__tasks_8h_1a2ddad9d6dc0e611a7f09c878463aea41">tn_task_change_priority</link> (
+struct <link linkend="structTN__Task">TN_Task</link> * task, int new_priority)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Various task services: create, sleep, wake up, terminate, etc. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_tasks.h</para>
+    </simplesect>
+</section>

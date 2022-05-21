@@ -1,0 +1,65 @@
+P\+I\+C32 port implementation details\hypertarget{pic32_details_pic32_context_switch}{}\section{Context switch}\label{pic32_details_pic32_context_switch}
+The context switch is implemented using the core software 0 interrupt ({\ttfamily C\+S0}), which is configured by the kernel to the lowest priority (1). This interrupt is handled completely by the kernel, application should never touch it.
+
+The interrupt priority level 1 should not be configured to use shadow register sets.
+
+Multi-\/vectored interrupt mode should be enabled.
+
+\begin{DoxyAttention}{Attention}
+if tneokernel is built as a separate library, then the file {\ttfamily src/arch/pic32/tn\+\_\+arch\+\_\+pic32\+\_\+int\+\_\+vec1.\+S} must be included in the main project itself, in order to dispatch vector1 (core software interrupt 0) correctly. Do note that if we include this file in the T\+Neo\+Kernel library project, it doesn't work for vector, unfortunately.
+
+If you forgot to include this file, you got an error on the link step, like this\+: 
+\begin{DoxyCode}
+undefined reference to `\_you\_should\_add\_file\_\_\_tn\_arch\_pic32\_int\_vec1\_S\_\_\_to\_the\_project\textcolor{stringliteral}{'}
+\end{DoxyCode}
+ Which is much more informative than if you just get to {\ttfamily \+\_\+\+Default\+Interrupt} when it's time to switch context.
+\end{DoxyAttention}
+\hypertarget{pic32_details_pic32_interrupts}{}\section{Interrupts}\label{pic32_details_pic32_interrupts}
+For generic information about interrupts in T\+Neo\+Kernel, refer to the page \hyperlink{interrupts}{Interrupts}.
+
+P\+I\+C32 port has {\itshape system interrupts} only, there are no {\itshape user interrupts}.
+
+P\+I\+C32 port supports nested interrupts. The kernel provides C-\/language macros for calling C-\/language interrupt service routines, which can use either M\+I\+P\+S32 or M\+I\+P\+S16e mode. Both software and shadow register interrupt context saving is supported. Usage is as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{/* Timer 1 interrupt handler using software interrupt context saving */}
+\hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\_p32\_soft\_isr}(\_TIMER\_1\_VECTOR)
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+
+\textcolor{comment}{/* High-priority UART interrupt handler using shadow register set */}
+\hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\_p32\_srs\_isr}(\_UART\_1\_VECTOR)
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+\end{DoxyCode}
+
+
+In spite of the fact that the kernel provides separate stack for interrupt, this isn't a mandatory on P\+I\+C32\+: you're able to define your I\+S\+R in a standard way, making it use stask of interrupted task and work a bit faster. Like this\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \_\_ISR(\_TIMER\_1\_VECTOR) timer\_1\_isr(\textcolor{keywordtype}{void})
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+\end{DoxyCode}
+
+
+There is always a tradeoff. There are {\bfseries no additional constraints} on I\+S\+R defined without kernel-\/provided macro\+: in either I\+S\+R, you can call the same set of kernel services.
+
+When you make a decision on whether particular I\+S\+R should use separate stack, consider the following\+:
+
+
+\begin{DoxyItemize}
+\item When I\+S\+R is defined in a standard way, and no function is called from that I\+S\+R, only necessary registers are saved on stack. If you have such an I\+S\+R (that doesn't call any function), and this I\+S\+R should work very fast, consider using standard way instead of kernel-\/provided macro.
+\item When I\+S\+R is defined in a standard way, but it calls any function and doesn't use shadow register set, compiler saves (almost) full context {\bfseries on the task's stack}, because it doesn't know which registers are used inside the function. In this case, it usually makes more sense to use kernel-\/provided macro (see below).
+\item Kernel-\/provided interrupt macros switch stack pointer between interrupt stack and task stack automatically, it takes additional time\+: e.\+g. on P\+I\+C32 it's about 20 cycles.
+\item Kernel-\/provided interrupt macro that doesn't use shadow register set always saves (almost) full context {\bfseries on the interrupt stack}, independently of whether any function is called from an I\+S\+R.
+\item Kernel-\/provided interrupt macro that uses shadow register set saves a little amount of registers {\bfseries on the interrupt stack}.
+\end{DoxyItemize}\hypertarget{pic32_details_pic32_building}{}\section{Building}\label{pic32_details_pic32_building}
+For generic information on building T\+Neo\+Kernel, refer to the page \hyperlink{building}{Building the project}.
+
+M\+P\+L\+A\+B\+X project for P\+I\+C32 port resides in the {\ttfamily src/arch/pic32/tneokernel\+\_\+pic32.\+X} directory. This is a {\itshape library project} in terms of M\+P\+L\+A\+B\+X, so if you use M\+P\+L\+A\+B\+X you can easily add it to your main project by right-\/clicking {\ttfamily Libraries -\/$>$ Add Library Project ...}. Alternatively, of course you can just build it and use resulting {\ttfamily tneokernel\+\_\+pic32.\+X.\+a} file in whatever way you like. 

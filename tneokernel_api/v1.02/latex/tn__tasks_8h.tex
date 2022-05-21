@@ -1,0 +1,746 @@
+\hypertarget{tn__tasks_8h}{\section{core/tn\+\_\+tasks.h File Reference}
+\label{tn__tasks_8h}\index{core/tn\+\_\+tasks.\+h@{core/tn\+\_\+tasks.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Various task services\+: create, sleep, wake up, terminate, etc. 
+
+
+
+Definition in file \hyperlink{tn__tasks_8h_source}{tn\+\_\+tasks.\+h}.
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task}
+\begin{DoxyCompactList}\small\item\em Task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F}(name, size)
+\begin{DoxyCompactList}\small\item\em Convenience macro for the definition of stack array. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State} \{ \\*
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a8d5e0658feb4dce26cfc008bc5f9303d}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+N\+O\+N\+E} = 0, 
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+U\+N\+N\+A\+B\+L\+E} = (1 $<$$<$ 0), 
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T} = (1 $<$$<$ 1), 
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D} = (1 $<$$<$ 2), 
+\\*
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T\+S\+U\+S\+P} = (T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T $\vert$ T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D), 
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+D\+O\+R\+M\+A\+N\+T} = (1 $<$$<$ 3)
+ \}
+\begin{DoxyCompactList}\small\item\em Task state. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7}{T\+N\+\_\+\+Wait\+Reason} \{ \\*
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+N\+E}, 
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ac6d257af77c2e0d77bbbdf7a135e297e}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+L\+E\+E\+P}, 
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a991bba7e03ed24d60f58032e8e2f32f0}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+E\+M}, 
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ae29d8cf36a5aef0397127a6bacb87788}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+E\+V\+E\+N\+T}, 
+\\*
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a4e1933798d7e1ec62d0ad78de771763f}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+S\+E\+N\+D}, 
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ace5abb1294b936e62bf5940ab369cafa}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+R\+E\+C\+E\+I\+V\+E}, 
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a2bacdbdbd4c3436b752e4b6e07710d47}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+C}, 
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I}, 
+\\*
+\hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a1354382bc3c908aed3a719ea24c7504c}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+W\+F\+I\+X\+M\+E\+M}
+ \}
+\begin{DoxyCompactList}\small\item\em Task wait reason. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5}{T\+N\+\_\+\+Task\+Create\+Opt} \{ \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T} = (1 $<$$<$ 0), 
+\hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a473d9cb27bafbebf4aab5fb6d4f0fccc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+I\+D\+L\+E} = (1 $<$$<$ 1)
+ \}
+\begin{DoxyCompactList}\small\item\em Options for {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} \end{DoxyCompactList}\item 
+enum \hyperlink{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49}{T\+N\+\_\+\+Task\+Exit\+Opt} \{ \hyperlink{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E} = (1 $<$$<$ 0)
+ \}
+\begin{DoxyCompactList}\small\item\em Options for {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task, \hyperlink{tn__common_8h_a82f7de9034cbbb373c4dbcff45942343}{T\+N\+\_\+\+Task\+Body} $\ast$task\+\_\+func, int priority, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$task\+\_\+stack\+\_\+low\+\_\+addr, int task\+\_\+stack\+\_\+size, void $\ast$param, enum \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5}{T\+N\+\_\+\+Task\+Create\+Opt} opts)
+\begin{DoxyCompactList}\small\item\em Construct task and probably start it (depends on options, see below). \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_ab8b3066e63fec2d796dc6989f4a87f23}{tn\+\_\+task\+\_\+suspend} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em If the task is \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}}, it is moved to the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_af30b605f6debaeb66686c525ab0ff553}{tn\+\_\+task\+\_\+resume} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em Release task from \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{tn\+\_\+task\+\_\+sleep} (\hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout} timeout)
+\begin{DoxyCompactList}\small\item\em Put current task to sleep for at most timeout ticks. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em Wake up task from sleep. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a94e6a0312013e53cf08bcf871e6f4172}{tn\+\_\+task\+\_\+iwakeup} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}} but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em Activate task that is in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{{\ttfamily D\+O\+R\+M\+A\+N\+T}} state, that is, it was either just created by {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} without {\ttfamily \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T}} option, or terminated. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a46c30078ae437c75121965f70c9d7b4c}{tn\+\_\+task\+\_\+iactivate} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}} but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em Release task from \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state, independently of the reason of waiting. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_aee0ef296af18733f64269386adf8a2d7}{tn\+\_\+task\+\_\+irelease\+\_\+wait} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}} but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+void \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit} (enum \hyperlink{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49}{T\+N\+\_\+\+Task\+Exit\+Opt} opts)
+\begin{DoxyCompactList}\small\item\em This function terminates the currently running task. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a8ae6615de7022a327bdcd4c37a0f5b90}{tn\+\_\+task\+\_\+terminate} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em This function is similar to {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}} but it terminates any task other than currently running one. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{tn\+\_\+task\+\_\+delete} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em This function deletes the task specified by the task. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a18408d825c0dab03511f3aaeeb3ffbb3}{tn\+\_\+task\+\_\+state\+\_\+get} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task, enum \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State} $\ast$p\+\_\+state)
+\begin{DoxyCompactList}\small\item\em Get current state of the task; note that returned state is a bitmask, that is, states could be combined with each other. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__tasks_8h_a2ddad9d6dc0e611a7f09c878463aea41}{tn\+\_\+task\+\_\+change\+\_\+priority} (struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task, int new\+\_\+priority)
+\begin{DoxyCompactList}\small\item\em Set new priority for task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F}}
+\index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F(
+\begin{DoxyParamCaption}
+\item[{}]{name, }
+\item[{}]{size}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}
+{\bfseries Value\+:}
+\begin{DoxyCode}
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{TN\_ARCH\_STK\_ATTR\_BEFORE                   \(\backslash\)}
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{   TN\_UWord} name[ (size) ]                   \(\backslash\)
+   \hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{TN\_ARCH\_STK\_ATTR\_AFTER}
+\end{DoxyCode}
+
+
+Convenience macro for the definition of stack array. 
+
+See {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} for the usage example.
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & C variable name of the array \\
+\hline
+{\em size} & size of the stack array in words ({\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}), not in bytes. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 310 of file tn\+\_\+tasks.\+h.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+Task\+State@{T\+N\+\_\+\+Task\+State}}
+\index{T\+N\+\_\+\+Task\+State@{T\+N\+\_\+\+Task\+State}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{T\+N\+\_\+\+Task\+State}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Task\+State}}}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}
+
+
+Task state. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+N\+O\+N\+E}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a8d5e0658feb4dce26cfc008bc5f9303d}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+N\+O\+N\+E}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a8d5e0658feb4dce26cfc008bc5f9303d}
+}]This state should never be publicly available. It may be stored in task\+\_\+state only temporarily, while some system service is in progress. \index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+U\+N\+N\+A\+B\+L\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+U\+N\+N\+A\+B\+L\+E}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+U\+N\+N\+A\+B\+L\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+U\+N\+N\+A\+B\+L\+E}}\item[{\em 
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+R\+U\+N\+N\+A\+B\+L\+E}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}
+}]Task is ready to run (it doesn't mean that it is running at the moment) \index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T}}\item[{\em 
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}
+}]Task is waiting. The reason of waiting can be obtained from {\ttfamily task\+\_\+wait\+\_\+reason} field of the {\ttfamily struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task}}.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily enum \hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7}{T\+N\+\_\+\+Wait\+Reason}} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D}}\item[{\em 
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+S\+U\+S\+P\+E\+N\+D}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}
+}]Task is suspended (by some other task) \index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T\+S\+U\+S\+P@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T\+S\+U\+S\+P}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T\+S\+U\+S\+P@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T\+S\+U\+S\+P}}\item[{\em 
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+W\+A\+I\+T\+S\+U\+S\+P}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}
+}]Task was previously waiting, and after this it was suspended. \index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+D\+O\+R\+M\+A\+N\+T@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+D\+O\+R\+M\+A\+N\+T}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+D\+O\+R\+M\+A\+N\+T@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+D\+O\+R\+M\+A\+N\+T}}\item[{\em 
+\hypertarget{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+T\+E\+\_\+\+D\+O\+R\+M\+A\+N\+T}\label{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}
+}]Task isn't yet activated or it was terminated by {\ttfamily \hyperlink{tn__tasks_8h_a8ae6615de7022a327bdcd4c37a0f5b90}{tn\+\_\+task\+\_\+terminate()}}. \end{description}
+\end{Desc}
+
+
+Definition at line 73 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+Wait\+Reason@{T\+N\+\_\+\+Wait\+Reason}}
+\index{T\+N\+\_\+\+Wait\+Reason@{T\+N\+\_\+\+Wait\+Reason}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{T\+N\+\_\+\+Wait\+Reason}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Wait\+Reason}}}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7}
+
+
+Task wait reason. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+N\+E}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+N\+O\+N\+E}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4}
+}]task isn't waiting for anything \index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+L\+E\+E\+P@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+L\+E\+E\+P}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+L\+E\+E\+P@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+L\+E\+E\+P}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ac6d257af77c2e0d77bbbdf7a135e297e}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+L\+E\+E\+P}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ac6d257af77c2e0d77bbbdf7a135e297e}
+}]task has called {\ttfamily \hyperlink{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{tn\+\_\+task\+\_\+sleep()}} \index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+E\+M@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+E\+M}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+E\+M@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+E\+M}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a991bba7e03ed24d60f58032e8e2f32f0}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+S\+E\+M}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a991bba7e03ed24d60f58032e8e2f32f0}
+}]task waits to acquire a semaphore \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__sem_8h}{tn\+\_\+sem.\+h} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+E\+V\+E\+N\+T@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+E\+V\+E\+N\+T}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+E\+V\+E\+N\+T@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+E\+V\+E\+N\+T}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ae29d8cf36a5aef0397127a6bacb87788}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+E\+V\+E\+N\+T}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ae29d8cf36a5aef0397127a6bacb87788}
+}]task waits for some event in the event group to be set \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__eventgrp_8h}{tn\+\_\+eventgrp.\+h} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+S\+E\+N\+D@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+S\+E\+N\+D}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+S\+E\+N\+D@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+S\+E\+N\+D}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a4e1933798d7e1ec62d0ad78de771763f}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+S\+E\+N\+D}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a4e1933798d7e1ec62d0ad78de771763f}
+}]task wants to put some data to the data queue, and there's no space in the queue. \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__dqueue_8h}{tn\+\_\+dqueue.\+h} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+R\+E\+C\+E\+I\+V\+E@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+R\+E\+C\+E\+I\+V\+E}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+R\+E\+C\+E\+I\+V\+E@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+R\+E\+C\+E\+I\+V\+E}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ace5abb1294b936e62bf5940ab369cafa}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+D\+Q\+U\+E\+\_\+\+W\+R\+E\+C\+E\+I\+V\+E}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7ace5abb1294b936e62bf5940ab369cafa}
+}]task wants to receive some data to the data queue, and there's no data in the queue \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__dqueue_8h}{tn\+\_\+dqueue.\+h} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+C@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+C}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+C@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+C}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a2bacdbdbd4c3436b752e4b6e07710d47}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+C}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a2bacdbdbd4c3436b752e4b6e07710d47}
+}]task wants to lock a mutex with priority ceiling \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__mutex_8h}{tn\+\_\+mutex.\+h} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+I}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875}
+}]task wants to lock a mutex with priority inheritance \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__mutex_8h}{tn\+\_\+mutex.\+h} 
+\end{DoxySeeAlso}
+\index{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+W\+F\+I\+X\+M\+E\+M@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+W\+F\+I\+X\+M\+E\+M}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+W\+F\+I\+X\+M\+E\+M@{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+W\+F\+I\+X\+M\+E\+M}}\item[{\em 
+\hypertarget{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a1354382bc3c908aed3a719ea24c7504c}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+R\+E\+A\+S\+O\+N\+\_\+\+W\+F\+I\+X\+M\+E\+M}\label{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7a1354382bc3c908aed3a719ea24c7504c}
+}]task wants to get memory block from memory pool, and there's no free memory blocks \begin{DoxySeeAlso}{See also}
+\hyperlink{tn__fmem_8h}{tn\+\_\+fmem.\+h} 
+\end{DoxySeeAlso}
+\end{description}
+\end{Desc}
+
+
+Definition at line 102 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+Task\+Create\+Opt@{T\+N\+\_\+\+Task\+Create\+Opt}}
+\index{T\+N\+\_\+\+Task\+Create\+Opt@{T\+N\+\_\+\+Task\+Create\+Opt}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{T\+N\+\_\+\+Task\+Create\+Opt}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Task\+Create\+Opt}}}\label{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5}
+
+
+Options for {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T}}\item[{\em 
+\hypertarget{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T}\label{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}
+}]whether task should be activated right after it is created. If this flag is not set, user must activate task manually by calling {\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}}. \index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+I\+D\+L\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+I\+D\+L\+E}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+I\+D\+L\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+I\+D\+L\+E}}\item[{\em 
+\hypertarget{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a473d9cb27bafbebf4aab5fb6d4f0fccc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+I\+D\+L\+E}\label{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a473d9cb27bafbebf4aab5fb6d4f0fccc}
+}]for internal kernel usage only\+: this option must be provided when creating idle task \end{description}
+\end{Desc}
+
+
+Definition at line 145 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+Task\+Exit\+Opt@{T\+N\+\_\+\+Task\+Exit\+Opt}}
+\index{T\+N\+\_\+\+Task\+Exit\+Opt@{T\+N\+\_\+\+Task\+Exit\+Opt}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{T\+N\+\_\+\+Task\+Exit\+Opt}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Task\+Exit\+Opt}}}\label{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49}
+
+
+Options for {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}} 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E@{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E}}\item[{\em 
+\hypertarget{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E}\label{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e}
+}]whether task should be deleted right after it is exited. If this flag is not set, user must either delete it manually by calling {\ttfamily \hyperlink{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{tn\+\_\+task\+\_\+delete()}} or re-\/activate it by calling {\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}}. \end{description}
+\end{Desc}
+
+
+Definition at line 160 of file tn\+\_\+tasks.\+h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+create@{tn\+\_\+task\+\_\+create}}
+\index{tn\+\_\+task\+\_\+create@{tn\+\_\+task\+\_\+create}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+create}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task, }
+\item[{{\bf T\+N\+\_\+\+Task\+Body} $\ast$}]{task\+\_\+func, }
+\item[{int}]{priority, }
+\item[{{\bf T\+N\+\_\+\+U\+Word} $\ast$}]{task\+\_\+stack\+\_\+low\+\_\+addr, }
+\item[{int}]{task\+\_\+stack\+\_\+size, }
+\item[{void $\ast$}]{param, }
+\item[{enum {\bf T\+N\+\_\+\+Task\+Create\+Opt}}]{opts}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}
+
+
+Construct task and probably start it (depends on options, see below). 
+
+{\ttfamily id\+\_\+task} member should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aae057379663876e55fed5e40fe5d4091}{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K}}, otherwise, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned.
+
+Usage example\+:
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#define MY\_TASK\_STACK\_SIZE   (TN\_MIN\_STACK\_SIZE + 200)}
+\textcolor{preprocessor}{#define MY\_TASK\_PRIORITY     5}
+
+\textcolor{keyword}{struct }\hyperlink{structTN__Task}{TN\_Task} my\_task;
+
+\textcolor{comment}{//-- define stack array, we use convenience macro TN\_TASK\_STACK\_DEF()}
+\textcolor{comment}{//   for that}
+\hyperlink{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}{TN\_TASK\_STACK\_DEF}(my\_task\_stack, MY\_TASK\_STACK\_SIZE);
+
+\textcolor{keywordtype}{void} my\_task\_body(\textcolor{keywordtype}{void} *param)
+\{
+   \textcolor{comment}{//-- an endless loop}
+   \textcolor{keywordflow}{for} (;;)\{
+      \hyperlink{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{tn\_task\_sleep}(1);
+
+      \textcolor{comment}{//-- probably do something useful}
+   \}
+\}
+\end{DoxyCode}
+
+
+And then, somewhere from other task or from the callback {\ttfamily \hyperlink{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}{T\+N\+\_\+\+C\+B\+User\+Task\+Create}} given to {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} \+: 
+\begin{DoxyCode}
+\textcolor{keyword}{enum} \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{TN\_RCode} rc = \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\_task\_create}(
+      &my\_task,
+      my\_task\_body,
+      MY\_TASK\_PRIORITY,
+      my\_task\_stack,
+      MY\_TASK\_STACK\_SIZE,
+      \hyperlink{tn__common_8h_a070d2ce7b6bb7e5c05602aa8c308d0c4}{NULL},                     \textcolor{comment}{//-- parameter isn't used}
+      \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{TN\_TASK\_CREATE\_OPT\_START}  \textcolor{comment}{//-- start task on creation}
+      );
+
+\textcolor{keywordflow}{if} (rc != \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{TN\_RC\_OK})\{
+   \textcolor{comment}{//-- handle error}
+\}
+\end{DoxyCode}
+
+
+  \includegraphics{attr_call_task.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & Ready-\/allocated {\ttfamily struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task}} structure. {\ttfamily id\+\_\+task} member should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976aae057379663876e55fed5e40fe5d4091}{T\+N\+\_\+\+I\+D\+\_\+\+T\+A\+S\+K}}, otherwise {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned. \\
+\hline
+{\em task\+\_\+func} & Pointer to task body function. \\
+\hline
+{\em priority} & Priority for new task. {\bfseries N\+O\+T\+E}\+: the lower value, the higher priority. Must be $>$ {\ttfamily 0} and $<$ {\ttfamily (\hyperlink{tn__arch__example_8h_aad74a059c61567c68a1e9067ab47a256}{T\+N\+\_\+\+P\+R\+I\+O\+R\+I\+T\+I\+E\+S\+\_\+\+C\+N\+T} -\/ 1)}. \\
+\hline
+{\em task\+\_\+stack\+\_\+low\+\_\+addr} & Pointer to the stack for task. User must either use the macro {\ttfamily \hyperlink{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F()}} for the definition of stack array, or allocate it manually as an array of {\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}} with {\ttfamily \hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}} and {\ttfamily \hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}} macros. \\
+\hline
+{\em task\+\_\+stack\+\_\+size} & Size of task stack array, in words ({\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}), not in bytes. \\
+\hline
+{\em param} & Parameter that is passed to {\ttfamily task\+\_\+func}. \\
+\hline
+{\em opts} & Options for task creation, refer to {\ttfamily enum \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5}{T\+N\+\_\+\+Task\+Create\+Opt}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} on success;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if wrong params were given;
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}} 
+
+{\ttfamily \hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_ab8b3066e63fec2d796dc6989f4a87f23}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+suspend@{tn\+\_\+task\+\_\+suspend}}
+\index{tn\+\_\+task\+\_\+suspend@{tn\+\_\+task\+\_\+suspend}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+suspend}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+suspend (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_ab8b3066e63fec2d796dc6989f4a87f23}
+
+
+If the task is \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}}, it is moved to the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state. 
+
+If the task is in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state, it is moved to the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{{\ttfamily W\+A\+I\+T+\+S\+U\+S\+P\+E\+N\+D}} state. (waiting + suspended)
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & Task to suspend\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} on success;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is already suspended or dormant;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily enum \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_af30b605f6debaeb66686c525ab0ff553}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+resume@{tn\+\_\+task\+\_\+resume}}
+\index{tn\+\_\+task\+\_\+resume@{tn\+\_\+task\+\_\+resume}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+resume}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+resume (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_af30b605f6debaeb66686c525ab0ff553}
+
+
+Release task from \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state. 
+
+If the given task is in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state, it is moved to \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}} state; afterwards it has the lowest precedence among runnable tasks with the same priority. If the task is in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{{\ttfamily W\+A\+I\+T+\+S\+U\+S\+P\+E\+N\+D}} state, it is moved to \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & Task to release from suspended state\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} on success;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is not suspended;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+enum \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+sleep@{tn\+\_\+task\+\_\+sleep}}
+\index{tn\+\_\+task\+\_\+sleep@{tn\+\_\+task\+\_\+sleep}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+sleep}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+sleep (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+N\+\_\+\+Timeout}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}
+
+
+Put current task to sleep for at most timeout ticks. 
+
+When the timeout expires and the task was not suspended during the sleep, it is switched to runnable state. If the timeout value is {\ttfamily \hyperlink{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+I\+N\+F\+I\+N\+I\+T\+E}} and the task was not suspended during the sleep, the task will sleep until another function call (like {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}} or similar) will make it runnable.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}    \includegraphics{attr_timeout.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timeout} & Refer to {\ttfamily \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} if task has slept specified timeout;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if task was woken up from other task by {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}} if task was released from wait forcibly by {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+wakeup@{tn\+\_\+task\+\_\+wakeup}}
+\index{tn\+\_\+task\+\_\+wakeup@{tn\+\_\+task\+\_\+wakeup}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+wakeup}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+wakeup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}
+
+
+Wake up task from sleep. 
+
+Task is woken up if only it sleeps because of call to {\ttfamily \hyperlink{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{tn\+\_\+task\+\_\+sleep()}}. If task sleeps for some another reason, task won't be woken up, and {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}} returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}}.
+
+After this call, {\ttfamily \hyperlink{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{tn\+\_\+task\+\_\+sleep()}} returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}}.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & sleeping task to wake up\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if successful
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is not sleeping, or it is sleeping for some reason other than {\ttfamily \hyperlink{tn__tasks_8h_ad3708ae3400f11b98747ad4a1cad88fa}{tn\+\_\+task\+\_\+sleep()}} call.
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__tasks_8h_a94e6a0312013e53cf08bcf871e6f4172}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+iwakeup@{tn\+\_\+task\+\_\+iwakeup}}
+\index{tn\+\_\+task\+\_\+iwakeup@{tn\+\_\+task\+\_\+iwakeup}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+iwakeup}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+iwakeup (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a94e6a0312013e53cf08bcf871e6f4172}
+
+
+The same as {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}} but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+activate@{tn\+\_\+task\+\_\+activate}}
+\index{tn\+\_\+task\+\_\+activate@{tn\+\_\+task\+\_\+activate}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+activate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+activate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}
+
+
+Activate task that is in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{{\ttfamily D\+O\+R\+M\+A\+N\+T}} state, that is, it was either just created by {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} without {\ttfamily \hyperlink{tn__tasks_8h_a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+C\+R\+E\+A\+T\+E\+\_\+\+O\+P\+T\+\_\+\+S\+T\+A\+R\+T}} option, or terminated. 
+
+Task is moved from \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{{\ttfamily D\+O\+R\+M\+A\+N\+T}} state to the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}} state.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & dormant task to activate\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if successful
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is not dormant
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_a46c30078ae437c75121965f70c9d7b4c}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+iactivate@{tn\+\_\+task\+\_\+iactivate}}
+\index{tn\+\_\+task\+\_\+iactivate@{tn\+\_\+task\+\_\+iactivate}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+iactivate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+iactivate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a46c30078ae437c75121965f70c9d7b4c}
+
+
+The same as {\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}} but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+release\+\_\+wait@{tn\+\_\+task\+\_\+release\+\_\+wait}}
+\index{tn\+\_\+task\+\_\+release\+\_\+wait@{tn\+\_\+task\+\_\+release\+\_\+wait}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+release\+\_\+wait}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+release\+\_\+wait (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}
+
+
+Release task from \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state, independently of the reason of waiting. 
+
+If task is in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state, it is moved to \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}} state. If task is in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{{\ttfamily W\+A\+I\+T+\+S\+U\+S\+P\+E\+N\+D}} state, it is moved to \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state.
+
+{\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}} is returned to the waiting task.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyAttention}{Attention}
+Usage of this function is discouraged, since the need for it indicates bad software design
+\end{DoxyAttention}
+
+\begin{DoxyParams}{Parameters}
+{\em task} & task waiting for anything\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if successful
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is not waiting for anything
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_aee0ef296af18733f64269386adf8a2d7}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+irelease\+\_\+wait@{tn\+\_\+task\+\_\+irelease\+\_\+wait}}
+\index{tn\+\_\+task\+\_\+irelease\+\_\+wait@{tn\+\_\+task\+\_\+irelease\+\_\+wait}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+irelease\+\_\+wait}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+irelease\+\_\+wait (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_aee0ef296af18733f64269386adf8a2d7}
+
+
+The same as {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}} but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+exit@{tn\+\_\+task\+\_\+exit}}
+\index{tn\+\_\+task\+\_\+exit@{tn\+\_\+task\+\_\+exit}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+exit}]{\setlength{\rightskip}{0pt plus 5cm}void tn\+\_\+task\+\_\+exit (
+\begin{DoxyParamCaption}
+\item[{enum {\bf T\+N\+\_\+\+Task\+Exit\+Opt}}]{opts}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}
+
+
+This function terminates the currently running task. 
+
+The task is moved to the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{{\ttfamily D\+O\+R\+M\+A\+N\+T}} state.
+
+After exiting, the task may be either deleted by the {\ttfamily \hyperlink{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{tn\+\_\+task\+\_\+delete()}} function call or reactivated by the {\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}} / {\ttfamily \hyperlink{tn__tasks_8h_a46c30078ae437c75121965f70c9d7b4c}{tn\+\_\+task\+\_\+iactivate()}} function call. In this case task starts execution from beginning (as after creation/activation). The task will have the lowest precedence among all tasks with the same priority in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}} state.
+
+If this function is invoked with {\ttfamily \hyperlink{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E}} option set, the task will be deleted after termination and cannot be reactivated (needs recreation).
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyReturn}{Returns}
+Returns if only called from wrong context. Normally, it never returns (since calling task becomes terminated)
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__tasks_8h_a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+E\+X\+I\+T\+\_\+\+O\+P\+T\+\_\+\+D\+E\+L\+E\+T\+E}} 
+
+{\ttfamily \hyperlink{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{tn\+\_\+task\+\_\+delete()}} 
+
+{\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}} 
+
+{\ttfamily \hyperlink{tn__tasks_8h_a46c30078ae437c75121965f70c9d7b4c}{tn\+\_\+task\+\_\+iactivate()}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__tasks_8h_a8ae6615de7022a327bdcd4c37a0f5b90}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+terminate@{tn\+\_\+task\+\_\+terminate}}
+\index{tn\+\_\+task\+\_\+terminate@{tn\+\_\+task\+\_\+terminate}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+terminate}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+terminate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a8ae6615de7022a327bdcd4c37a0f5b90}
+
+
+This function is similar to {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}} but it terminates any task other than currently running one. 
+
+After task is terminated, the task may be either deleted by the {\ttfamily \hyperlink{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{tn\+\_\+task\+\_\+delete()}} function call or reactivated by the {\ttfamily \hyperlink{tn__tasks_8h_a3c14832fe7dfd2c44678608767f40230}{tn\+\_\+task\+\_\+activate()}} / {\ttfamily \hyperlink{tn__tasks_8h_a46c30078ae437c75121965f70c9d7b4c}{tn\+\_\+task\+\_\+iactivate()}} function call. In this case task starts execution from beginning (as after creation/activation). The task will have the lowest precedence among all tasks with the same priority in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}} state.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & task to terminate\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if successful
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is already dormant
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+delete@{tn\+\_\+task\+\_\+delete}}
+\index{tn\+\_\+task\+\_\+delete@{tn\+\_\+task\+\_\+delete}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+delete}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}
+
+
+This function deletes the task specified by the task. 
+
+The task must be in the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b}{{\ttfamily D\+O\+R\+M\+A\+N\+T}} state, otherwise {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} will be returned.
+
+This function resets the {\ttfamily id\+\_\+task} field in the task structure to 0 and removes the task from the system tasks list. The task can not be reactivated after this function call (the task must be recreated).
+
+  \includegraphics{attr_call_task.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & dormant task to delete\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if successful
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} if task is not dormant
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__tasks_8h_a18408d825c0dab03511f3aaeeb3ffbb3}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+state\+\_\+get@{tn\+\_\+task\+\_\+state\+\_\+get}}
+\index{tn\+\_\+task\+\_\+state\+\_\+get@{tn\+\_\+task\+\_\+state\+\_\+get}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+state\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+state\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task, }
+\item[{enum {\bf T\+N\+\_\+\+Task\+State} $\ast$}]{p\+\_\+state}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a18408d825c0dab03511f3aaeeb3ffbb3}
+
+
+Get current state of the task; note that returned state is a bitmask, that is, states could be combined with each other. 
+
+Currently, only \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} and \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} states are allowed to be set together. Nevertheless, it would be probably good idea to test individual bits in the returned value instead of plain comparing values.
+
+Note that if something goes wrong, variable pointed to by {\ttfamily p\+\_\+state} isn't touched.
+
+  \includegraphics{attr_call_task.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task} & task to get state of \\
+\hline
+{\em p\+\_\+state} & pointer to the location where to store state of the task\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+state of the task 
+\end{DoxyReturn}
+\hypertarget{tn__tasks_8h_a2ddad9d6dc0e611a7f09c878463aea41}{\index{tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}!tn\+\_\+task\+\_\+change\+\_\+priority@{tn\+\_\+task\+\_\+change\+\_\+priority}}
+\index{tn\+\_\+task\+\_\+change\+\_\+priority@{tn\+\_\+task\+\_\+change\+\_\+priority}!tn\+\_\+tasks.\+h@{tn\+\_\+tasks.\+h}}
+\subsubsection[{tn\+\_\+task\+\_\+change\+\_\+priority}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+task\+\_\+change\+\_\+priority (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Task} $\ast$}]{task, }
+\item[{int}]{new\+\_\+priority}
+\end{DoxyParamCaption}
+)}}\label{tn__tasks_8h_a2ddad9d6dc0e611a7f09c878463aea41}
+
+
+Set new priority for task. 
+
+If priority is 0, then task's base\+\_\+priority is set.
+
+  \includegraphics{attr_call_task.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyAttention}{Attention}
+this function is obsolete and will probably be removed 
+\end{DoxyAttention}

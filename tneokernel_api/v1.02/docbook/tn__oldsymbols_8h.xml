@@ -1,0 +1,551 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__oldsymbols_8h">
+    <title>tn_oldsymbols.h File Reference</title>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a3619eb2bc503393abc452016ea637fa8">_CDLL_QUEUE</link> TN_ListItem<para><emphasis>old TNKernel struct name of &lt;tt&gt;TN_ListItem&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1adca879771f205b44028a0c2e19b4e97a">_TN_MUTEX</link> <link linkend="structTN__Mutex">TN_Mutex</link><para><emphasis>old TNKernel struct name of &lt;tt&gt;#TN_Mutex&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a51aa832f9aae62d4091a39c128fc7670">_TN_DQUE</link> <link linkend="structTN__DQueue">TN_DQueue</link><para><emphasis>old TNKernel struct name of &lt;tt&gt;#TN_DQueue&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a1916d7aa56ac76a7d23789842f65010d">_TN_TCB</link> <link linkend="structTN__Task">TN_Task</link><para><emphasis>old TNKernel struct name of &lt;tt&gt;#TN_Task&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ada9dcad39553d2f9da3207c4beb7d791">_TN_FMP</link> <link linkend="structTN__FMem">TN_FMem</link><para><emphasis>old TNKernel struct name of &lt;tt&gt;#TN_FMem&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a93452f5af75162d8841821acd07c329b">_TN_SEM</link> <link linkend="structTN__Sem">TN_Sem</link><para><emphasis>old TNKernel struct name of &lt;tt&gt;#TN_Sem&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1aa42d2e6b5b7ff37bd485803fa2cb70a8">MAKE_ALIG</link> <link linkend="tn__common_8h_1a9a19aa6a6d04aabfb896ddf913516d77">TN_MAKE_ALIG</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_MAKE_ALIG&lt;/tt&gt; macro</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a0dda7de9c50c09f456a086efbfd9801a">TSK_STATE_RUNNABLE</link> <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc">TN_TASK_STATE_RUNNABLE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_STATE_RUNNABLE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a593ffdbb817fe2f9cde1d9f6662cec58">TSK_STATE_WAIT</link> <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56">TN_TASK_STATE_WAIT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_STATE_WAIT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a1568b87b6a1d24c3141640830ab14a61">TSK_STATE_SUSPEND</link> <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58">TN_TASK_STATE_SUSPEND</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_STATE_SUSPEND&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a6b48aa3d44e4ec2a467e3e5d574bfdb5">TSK_STATE_WAITSUSP</link> <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a">TN_TASK_STATE_WAITSUSP</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_STATE_WAITSUSP&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a934d1641f99958d83783a4ef2b858a85">TSK_STATE_DORMANT</link> <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a46ec35f78d82d1b14f1dd35b3e762b3b">TN_TASK_STATE_DORMANT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_STATE_DORMANT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a3441624a5dcf5ed75d8258b4da648747">TN_TASK_START_ON_CREATION</link> <link linkend="tn__tasks_8h_1a8fa2ef577d6bd159b3fae559839f98d5a0c9352496e4465eb7e1b29dab7544acc">TN_TASK_CREATE_OPT_START</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_CREATE_OPT_START&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a21c0d78d92d315b37a56ad741f9c21f2">TN_EXIT_AND_DELETE_TASK</link> <link linkend="tn__tasks_8h_1a467b60e4dccb0e225a4d65b4b1aaea49adc9e81b172d91a4b11ed80143a08015e">TN_TASK_EXIT_OPT_DELETE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_TASK_EXIT_OPT_DELETE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ad46775636ea4f395bfb5bbc418970a03">TN_EVENT_WCOND_AND</link> <link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbda8eff85a7369195424724af772dfcc8fa">TN_EVENTGRP_WMODE_AND</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_EVENTGRP_WMODE_AND&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1afda63ffcddee2aacd060dc454b96153b">TN_EVENT_WCOND_OR</link> <link linkend="tn__eventgrp_8h_1a9d42ee61ae8da342f1cd6440b7e54bbdae5b489c071cb5e8807877526221de4b0">TN_EVENTGRP_WMODE_OR</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_EVENTGRP_WMODE_OR&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a3a68274179893b42483cceeeffaba485">TSK_WAIT_REASON_NONE</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4">TN_WAIT_REASON_NONE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_NONE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a33151fb453ab0ae5db0cd5fc8b7a3bed">TSK_WAIT_REASON_SLEEP</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ac6d257af77c2e0d77bbbdf7a135e297e">TN_WAIT_REASON_SLEEP</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_SLEEP&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ad8724d514d078610a3b16be088cc9eef">TSK_WAIT_REASON_SEM</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a991bba7e03ed24d60f58032e8e2f32f0">TN_WAIT_REASON_SEM</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_SEM&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a1189208ebccf9334dc3af6fda5e3e6d1">TSK_WAIT_REASON_EVENT</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ae29d8cf36a5aef0397127a6bacb87788">TN_WAIT_REASON_EVENT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_EVENT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a420abc89c219f55cdae731aedfcaf665">TSK_WAIT_REASON_DQUE_WSEND</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a4e1933798d7e1ec62d0ad78de771763f">TN_WAIT_REASON_DQUE_WSEND</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_DQUE_WSEND&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a56aeec64ffd044ed5fb917eb415ea889">TSK_WAIT_REASON_DQUE_WRECEIVE</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7ace5abb1294b936e62bf5940ab369cafa">TN_WAIT_REASON_DQUE_WRECEIVE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_DQUE_WRECEIVE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a2f574bb8270b741319c3bad5ad7f94ad">TSK_WAIT_REASON_MUTEX_C</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a2bacdbdbd4c3436b752e4b6e07710d47">TN_WAIT_REASON_MUTEX_C</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_MUTEX_C&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a1d72794d5d13225327301cce148c4676">TSK_WAIT_REASON_MUTEX_I</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875">TN_WAIT_REASON_MUTEX_I</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_MUTEX_I&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a76a4564964e30fc3e2bb63342dccb6a4">TSK_WAIT_REASON_WFIXMEM</link> <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a1354382bc3c908aed3a719ea24c7504c">TN_WAIT_REASON_WFIXMEM</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_WAIT_REASON_WFIXMEM&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a71970f860643e62fad7ec03076bdc1d8">TERR_NO_ERR</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639">TN_RC_OK</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_OK&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1abfe40d04917509ecd3a98c38878df5ff">TERR_OVERFLOW</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec">TN_RC_OVERFLOW</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_OVERFLOW&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ad591ae7c53bbb81247492ea1d34a70b6">TERR_WCONTEXT</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d">TN_RC_WCONTEXT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_WCONTEXT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1afddc3aa3d316cb2529f1864e489ea1c3">TERR_WSTATE</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c">TN_RC_WSTATE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_WSTATE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a75c69c77df138430eaf44bf971a79d53">TERR_TIMEOUT</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb">TN_RC_TIMEOUT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_TIMEOUT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a35ec519d54f884d84c5814f49f00a22b">TERR_WRONG_PARAM</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68">TN_RC_WPARAM</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_WPARAM&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1acc6afb7d5fab73e262e8cb4f9fd06ac4">TERR_ILUSE</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c">TN_RC_ILLEGAL_USE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_ILLEGAL_USE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1aad8bc3a2dc22be332468de4789abe855">TERR_NOEXS</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101">TN_RC_INVALID_OBJ</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_INVALID_OBJ&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ae6a83c118d209d8702c3fc40d58ea18f">TERR_DLT</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84">TN_RC_DELETED</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_DELETED&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a62d654b79b9c6716b3412d3b61aa7b60">TERR_FORCED</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356">TN_RC_FORCED</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_FORCED&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1afa7f4ce84c6835be5e907155f7f626d9">TERR_INTERNAL</link> <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876adb7619ced1907316915b288dd4ae3c1a">TN_RC_INTERNAL</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_RC_INTERNAL&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a5f7f805fcc634cacfecf2529978ea3d9">TN_MUTEX_ATTR_CEILING</link> <link linkend="tn__mutex_8h_1a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67">TN_MUTEX_PROT_CEILING</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_MUTEX_PROT_CEILING&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a89a78ee46d40378264e0d1fb228ca848">TN_MUTEX_ATTR_INHERIT</link> <link linkend="tn__mutex_8h_1a11357f7bb31a3b380cbe94e0913a5b40ab3f7543f3177c575342d345010b58fa8">TN_MUTEX_PROT_INHERIT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_MUTEX_PROT_INHERIT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a7cc1b4b2649601cabbdc01192dd71759">tn_sem_polling</link> <link linkend="tn__oldsymbols_8h_1aede6bbdacba99ac85affc56f6ef1ae2c">tn_sem_acquire_polling</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_sem_acquire_polling&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1abf33c0cc95f61a26c4eab9e1f21b6ce3">tn_sem_ipolling</link> <link linkend="tn__oldsymbols_8h_1a8cda05e63c7ff92bdc4c71f6131c273b">tn_sem_iacquire_polling</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_sem_iacquire_polling&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1abdc5c428590ff525cdb566da613015ce">tn_sem_acquire</link> <link linkend="tn__sem_8h_1a6bf88a78f4f8b2799f72ee671b52ed97">tn_sem_wait</link><para><emphasis>old name of &lt;tt&gt;#tn_sem_wait&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1aede6bbdacba99ac85affc56f6ef1ae2c">tn_sem_acquire_polling</link> <link linkend="tn__sem_8h_1a7dd4429a9f3942764b23025f2f2e364e">tn_sem_wait_polling</link><para><emphasis>old name of &lt;tt&gt;#tn_sem_wait_polling&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a8cda05e63c7ff92bdc4c71f6131c273b">tn_sem_iacquire_polling</link> <link linkend="tn__sem_8h_1a22e181857dbc681f962cfda5d34d71c0">tn_sem_iwait_polling</link><para><emphasis>old name of &lt;tt&gt;#tn_sem_iwait_polling&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a4293c359514306825a9007f071b2ad3f">tn_fmem_get_ipolling</link> <link linkend="tn__fmem_8h_1a24ef67ab8567f6dd4d08946711f756df">tn_fmem_iget_polling</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_fmem_iget_polling&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1aff8b6cf7922a582043b0a9cc55b0cd2d">tn_queue_ireceive</link> <link linkend="tn__dqueue_8h_1a22bf1175e35229e5358427c20d7f91e9">tn_queue_ireceive_polling</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_queue_ireceive_polling&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a566625be14a6eed4a3574e3d31e776fc">tn_start_system</link> <link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_sys_start&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a74b0cfd9bbf5a85f4e0d00a984f60f5e">tn_sys_tslice_ticks</link> <link linkend="tn__sys_8h_1a05fc370b6faa604fd8ff9411361c4cd0">tn_sys_tslice_set</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_sys_tslice_set&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a2595381f62a6ed50dca8fe93752cae72">align_attr_start</link> <link linkend="tn__arch__example_8h_1ae245dddb19cd7c12b7038a62d576fafa">TN_ARCH_STK_ATTR_BEFORE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_ARCH_STK_ATTR_BEFORE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a83a48dd6788a6d36d63cc5027335464a">align_attr_end</link> <link linkend="tn__arch__example_8h_1ab082613959b539182b8b47bc87d18d6a">TN_ARCH_STK_ATTR_AFTER</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_ARCH_STK_ATTR_AFTER&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a4016bf714389345fa5bef0387860d6d6">tn_cpu_int_disable</link> <link linkend="tn__arch_8h_1a2b3f2294ac42a599662c573394b14c75">tn_arch_int_dis</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_arch_int_dis&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a84712a71dce3893252680af3ee2713ae">tn_cpu_int_enable</link> <link linkend="tn__arch_8h_1a2997c6d98ac43cb90216fc4e8137bcfb">tn_arch_int_en</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_arch_int_en&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ae9f74643d940385ed0fd0492084f5a21">tn_cpu_save_sr</link> <link linkend="tn__arch_8h_1a010a50388c4cdca7cdda8b82b1c17563">tn_arch_sr_save_int_dis</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_arch_sr_save_int_dis&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a0766e5a0bf8f8e466898e3982ab4e98c">tn_cpu_restore_sr</link> <link linkend="tn__arch_8h_1a4662406a6972e7f4d99e8d8dd90218e0">tn_arch_sr_restore</link><para><emphasis>old TNKernel name of &lt;tt&gt;#tn_arch_sr_restore&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a27bf94f93625fa36125c3fa3ae6b4041">tn_disable_interrupt</link> <link linkend="tn__arch__example_8h_1a213d605c9ff557fee2fe376e63cb559b">TN_INT_DIS_SAVE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_INT_DIS_SAVE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1acc85567ca09ede9cf2d58717506def46">tn_enable_interrupt</link> <link linkend="tn__arch__example_8h_1a727d4cdb7fb41f5fa5d15a676a4243b2">TN_INT_RESTORE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_INT_RESTORE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ac23828a89e1950c5c3309e13cee1dd08">tn_idisable_interrupt</link> <link linkend="tn__arch__example_8h_1a3d03bcbee89062cd936b953843a9e381">TN_INT_IDIS_SAVE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_INT_IDIS_SAVE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a8d9f6a06e01ea770f5f2fae4f72fe9ba">tn_ienable_interrupt</link> <link linkend="tn__arch__example_8h_1a256d532ba3fa1a0762d54e7933921206">TN_INT_IRESTORE</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_INT_IRESTORE&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1aa62525a7028b3d54279e66758830f303">tn_chk_irq_disabled</link> <link linkend="tn__arch__example_8h_1a553f27305c21f230818a2329effb5bcc">TN_IS_INT_DISABLED</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_IS_INT_DISABLED&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a63b4da81df067abd19fe86f5712a34e3">TN_NUM_PRIORITY</link> <link linkend="tn__arch__example_8h_1aad74a059c61567c68a1e9067ab47a256">TN_PRIORITIES_CNT</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_PRIORITIES_CNT&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1ac05beebe9e5b85ceac53982e687eaf56">_TN_BITS_IN_INT</link> <link linkend="tn__arch__example_8h_1a9f340cc02023c595904228372b9e7d12">TN_INT_WIDTH</link><para><emphasis>old TNKernel name of &lt;tt&gt;#TN_INT_WIDTH&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__oldsymbols_8h_1a4d4e3d6a69676a6ebd1f544c03f5c3f5">TN_ALIG</link> sizeof(<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link>)<para><emphasis>old TNKernel name for &lt;tt&gt;sizeof(#TN_UWord)&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct TN_ListItem  <link linkend="tn__oldsymbols_8h_1aa16bdd3a176ccdb874207e4790a1aea4">CDLL_QUEUE</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="structTN__Mutex">TN_Mutex</link>  <link linkend="tn__oldsymbols_8h_1a0bd5bca32a1022376897ef9fefbd7bcc">TN_MUTEX</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="structTN__DQueue">TN_DQueue</link>  <link linkend="tn__oldsymbols_8h_1a5c835b99825b684a1a7fd6bcfde38a1a">TN_DQUE</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="structTN__Task">TN_Task</link>  <link linkend="tn__oldsymbols_8h_1a1a39566633aec1a3315478c870a48a1a">TN_TCB</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="structTN__FMem">TN_FMem</link>  <link linkend="tn__oldsymbols_8h_1a7efbb9f55796fef8d1316ddd6e53a34c">TN_FMP</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef struct <link linkend="structTN__Sem">TN_Sem</link>  <link linkend="tn__oldsymbols_8h_1a252d29bfc9486ac699dd03c21850c2ae">TN_SEM</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Compatibility layer for old projects that use old TNKernel names; usage of them in new projects is discouraged. </para>
+
+<para>If you&apos;re porting your existing application written for TNKernel, it might be useful though.</para>
+
+<para>Included automatially if the option <computeroutput><link linkend="tn__cfg__default_8h_1ae9854c723c6a823c9126aa8390977d39">TN_OLD_TNKERNEL_NAMES</link></computeroutput> is set. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_oldsymbols.h</para>
+    </simplesect>
+</section>

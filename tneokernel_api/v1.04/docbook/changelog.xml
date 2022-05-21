@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Changelog</title>
+
+<para>TNeoKernel changelog</para>
+<section xml:id="changelog_1changelog_v1_04">
+<title>v1.04</title>
+
+<para>Release date: 2014-11-04.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added PIC24/dsPIC support, refer to the page <link linkend="pic24_details">PIC24/dsPIC details</link>;</para>
+</listitem><listitem>
+<para>PIC32: Core Software Interrupt is now handled by the kernel completely, application shouldn&apos;t set it up anymore. Refer to the page <link linkend="pic32_details">PIC32 details</link>.</para>
+</listitem><listitem>
+<para>Refactor: the following symbols: <computeroutput>NULL</computeroutput>, <computeroutput>BOOL</computeroutput>, <computeroutput>TRUE</computeroutput>, <computeroutput>FALSE</computeroutput> now have the <computeroutput>TN_</computeroutput> prefix: <computeroutput><link linkend="tn__common_8h_1adbf9c425147511997eb1396c4afeac40">TN_NULL</link></computeroutput>, <computeroutput><link linkend="tn__common_8h_1a9f76389d1506addfc7542f54e484a92c">TN_BOOL</link></computeroutput>, <computeroutput><link linkend="tn__common_8h_1a87ed178a95496e2f19aa670adc4886b3">TN_TRUE</link></computeroutput>, <computeroutput><link linkend="tn__common_8h_1aa32a38a7d2e3b7983e53a61ab05417ee">TN_FALSE</link></computeroutput>. This is because non-prefixed symbols may be defined by some other program module, which leads to conflicts. The easiest and robust way is to add unique prefix.</para>
+</listitem><listitem>
+<para>Refactor: PIC32 MPLABX project renamed from <computeroutput>tneokernel.X</computeroutput> to <computeroutput>tneokernel_pic32.X</computeroutput>.</para>
+</listitem><listitem>
+<para>Refactor: PIC32 ISR macros renamed: <computeroutput><link linkend="tn__arch__pic32_8h_1afde61cfabbeed1562ea2135fea8e919b">tn_soft_isr()</link></computeroutput> -&gt; <computeroutput><link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr()</link></computeroutput>, <computeroutput><link linkend="tn__arch__pic32_8h_1a714962dd7eb6b94feee7f4d769b601c0">tn_srs_isr()</link></computeroutput> -&gt; <computeroutput><link linkend="tn__arch__pic32_8h_1a523bb667617e6bb6f68a8f85855030a5">tn_p32_srs_isr()</link></computeroutput>. It is much easier to maintain documentation for different macros if they have different names; more, the signature of these macros is architecture-dependent. Old names are also available for backward compatibility.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_03">
+<title>v1.03</title>
+
+<para>Release date: 2014-10-20.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added a capability to connect an <link linkend="tn__eventgrp_8h">event group</link> to other system objects, particularly to the <link linkend="tn__dqueue_8h">queue</link>. This offers a way to wait for messages from multiple queues with just a single system call. Refer to the section <link linkend="tn__eventgrp_8h_1eventgrp_connect">Connecting an event group to other system objects</link> for details. Example project that demonstrates that technique is also available: <computeroutput>examples/queue_eventgrp_conn</computeroutput>.</para>
+</listitem><listitem>
+<para>PIC32 Interrupts: this isn&apos;t a mandatory anymore to use kernel-provided macros <computeroutput><link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr()</link></computeroutput> or <computeroutput><link linkend="tn__arch__pic32_8h_1a523bb667617e6bb6f68a8f85855030a5">tn_p32_srs_isr()</link></computeroutput>: interrupts can be defined with standard way too: this particular ISR will use task&apos;s stack instead of interrupt stack, therefore it takes much more RAM and works a bit faster. There are no additional constraints on ISR defined without kernel-provided macro: in either ISR, you can call the same set of kernel services. Refer to the page <link linkend="interrupts">Interrupts</link> for details.</para>
+</listitem><listitem>
+<para>Priority 0 is now allowed to use by application (in the original TNKernel, it was reserved for the timer task, but TNeoKernel <link linkend="tnkernel_diff_1tnkernel_diff_timer_task">does not have timer task</link>)</para>
+</listitem><listitem>
+<para>Application is now available to specify how many priority levels does it need for, it helps to save a bit of RAM. For details, refer to <computeroutput><link linkend="tn__cfg__default_8h_1aad74a059c61567c68a1e9067ab47a256">TN_PRIORITIES_CNT</link></computeroutput>.</para>
+</listitem><listitem>
+<para>Added example project <computeroutput>examples/queue</computeroutput> that demonstrates the pattern on how to use <link linkend="tn__dqueue_8h">queue</link> together with <link linkend="tn__fmem_8h">fixed memory pool</link> effectively.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_02">
+<title>v1.02</title>
+
+<para>Release date: 2014-10-14.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Added <link linkend="tn__timer_8h">timers</link>: kernel objects that are used to ask the kernel to call some user-provided function at a particular time in the future;</para>
+</listitem><listitem>
+<para>Removed <computeroutput>tn_sys_time_set()</computeroutput> function, because now TNeoKernel uses internal system tick count for timers, and modifying system tick counter by user is a <emphasis>really</emphasis> bad idea.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_01">
+<title>v1.01</title>
+
+<para>Release date: 2014-10-09.</para>
+
+<para><itemizedlist>
+<listitem>
+<para><emphasis role="bold">FIX:</emphasis> <computeroutput><link linkend="tn__dqueue_8h_1a589bfb4d3966bc7405dcf959d7114544">tn_queue_receive()</link></computeroutput> and <computeroutput><link linkend="tn__fmem_8h_1afb45a1f427b531b22f1f4b013f415ae0">tn_fmem_get()</link></computeroutput> : if non-zero <computeroutput>timeout</computeroutput> is in effect, then <computeroutput><link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb">TN_RC_TIMEOUT</link></computeroutput> is returned, but user-provided pointer is altered anyway (some garbage data is written there). This bug was inherited from TNKernel.</para>
+</listitem><listitem>
+<para>Added <computeroutput><link linkend="tn__tasks_8h_1a18408d825c0dab03511f3aaeeb3ffbb3">tn_task_state_get()</link></computeroutput></para>
+</listitem><listitem>
+<para><computeroutput><link linkend="tn__oldsymbols_8h_1abdc5c428590ff525cdb566da613015ce">tn_sem_acquire()</link></computeroutput> and friends are renamed to <computeroutput><link linkend="tn__sem_8h_1a6bf88a78f4f8b2799f72ee671b52ed97">tn_sem_wait()</link></computeroutput> and friends. More on this read <link linkend="tnkernel_diff_1tnkernel_diff_api_rename_sem">here</link>. Old name is still available through <computeroutput><link linkend="tn__oldsymbols_8h">tn_oldsymbols.h</link></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="changelog_1changelog_v1_0">
+<title>v1.0</title>
+
+<para>Release date: 2014-10-01.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Initial stable version of TNeoKernel. Lots of work done: thorough review and re-implementation of TNKernel 2.7, implemented detailed unit tests, and so on. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+
+</chapter>

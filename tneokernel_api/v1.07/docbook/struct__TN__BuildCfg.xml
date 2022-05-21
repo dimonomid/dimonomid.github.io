@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="struct__TN__BuildCfg">
+<title>_TN_BuildCfg struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__sys_8h">&lt;tn_sys.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title> Classes </title>
+        </simplesect>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned priorities_cnt<para><emphasis>Value of &lt;tt&gt;#TN_PRIORITIES_CNT&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned check_param<para><emphasis>Value of &lt;tt&gt;#TN_CHECK_PARAM&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned debug<para><emphasis>Value of &lt;tt&gt;#TN_DEBUG&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned use_mutexes<para><emphasis>Value of &lt;tt&gt;#TN_USE_MUTEXES&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned mutex_rec<para><emphasis>Value of &lt;tt&gt;#TN_MUTEX_REC&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned mutex_deadlock_detect<para><emphasis>Value of &lt;tt&gt;#TN_MUTEX_DEADLOCK_DETECT&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned tick_lists_cnt_minus_one<para><emphasis>Value of &lt;tt&gt;#TN_TICK_LISTS_CNT&lt;/tt&gt; minus one.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned api_make_alig_arg<para><emphasis>Value of &lt;tt&gt;#TN_API_MAKE_ALIG_ARG&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned profiler<para><emphasis>Value of &lt;tt&gt;#TN_PROFILER&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned profiler_wait_time<para><emphasis>Value of &lt;tt&gt;#TN_PROFILER_WAIT_TIME&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned stack_overflow_check<para><emphasis>Value of &lt;tt&gt;#TN_STACK_OVERFLOW_CHECK&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned dynamic_tick<para><emphasis>Value of &lt;tt&gt;#TN_DYNAMIC_TICK&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned old_events_api<para><emphasis>Value of &lt;tt&gt;#TN_OLD_EVENT_API&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_UWord dummy<para><emphasis>On some architectures, we don&apos;t have any arch-dependent build-time
+options, but we need this &quot;dummy&quot; value to avoid errors of crappy
+compilers that don&apos;t allow empty structure initializers (like ARMCC)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned p24_sys_ipl<para><emphasis>Value of &lt;tt&gt;#TN_P24_SYS_IPL&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct _TN_BuildCfg::@0::@1 p24<para><emphasis>PIC24/dsPIC-dependent values.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>union _TN_BuildCfg::@0 arch<para><emphasis>Architecture-dependent values.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Structure with build-time configurations values; it is needed for run-time check which ensures that build-time options for the kernel match ones for the application. </para>
+    </simplesect>
+        <simplesect>
+            <title>Detailed Description</title>
+
+<para>See <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput> for details. </para>
+                <para>Definition at line 158 of file tn_sys.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_sys.h</para></listitem></itemizedlist></para>
+        </simplesect>
+</section>

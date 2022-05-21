@@ -1,0 +1,65 @@
+\hypertarget{structTN__FMem}{\section{T\+N\+\_\+\+F\+Mem Struct Reference}
+\label{structTN__FMem}\index{T\+N\+\_\+\+F\+Mem@{T\+N\+\_\+\+F\+Mem}}
+}
+
+
+\subsection{Detailed Description}
+Fixed memory blocks pool. 
+
+Definition at line 78 of file tn\+\_\+fmem.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structTN__FMem_a63b47b05e191f4339509eef97027ca1c}{struct T\+N\+\_\+\+List\+Item \hyperlink{structTN__FMem_a63b47b05e191f4339509eef97027ca1c}{wait\+\_\+queue}}\label{structTN__FMem_a63b47b05e191f4339509eef97027ca1c}
+
+\begin{DoxyCompactList}\small\item\em list of tasks waiting for free memory block \end{DoxyCompactList}\item 
+unsigned int \hyperlink{structTN__FMem_a101e3e0eeb2774309a55ed1d6cad8e3f}{block\+\_\+size}
+\begin{DoxyCompactList}\small\item\em block size (in bytes); note that it should be a multiple of {\ttfamily sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}\})}, use a macro {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E()}} for that. \end{DoxyCompactList}\item 
+\hypertarget{structTN__FMem_a8c8bb7a3ac8228a865bbbea1edde9ea0}{int \hyperlink{structTN__FMem_a8c8bb7a3ac8228a865bbbea1edde9ea0}{blocks\+\_\+cnt}}\label{structTN__FMem_a8c8bb7a3ac8228a865bbbea1edde9ea0}
+
+\begin{DoxyCompactList}\small\item\em capacity (total blocks count) \end{DoxyCompactList}\item 
+\hypertarget{structTN__FMem_abf2618d6322b1339d7b3d60c6e080cb1}{int \hyperlink{structTN__FMem_abf2618d6322b1339d7b3d60c6e080cb1}{free\+\_\+blocks\+\_\+cnt}}\label{structTN__FMem_abf2618d6322b1339d7b3d60c6e080cb1}
+
+\begin{DoxyCompactList}\small\item\em free blocks count \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{structTN__FMem_a7eac768da37c99efd90ae56ebde527cf}{start\+\_\+addr}
+\begin{DoxyCompactList}\small\item\em memory pool start address; note that it should be a multiple of {\ttfamily sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word})}. \end{DoxyCompactList}\item 
+\hypertarget{structTN__FMem_a00ffa3c416a57946d95ab8814168eedb}{void $\ast$ \hyperlink{structTN__FMem_a00ffa3c416a57946d95ab8814168eedb}{free\+\_\+list}}\label{structTN__FMem_a00ffa3c416a57946d95ab8814168eedb}
+
+\begin{DoxyCompactList}\small\item\em ptr to free block list \end{DoxyCompactList}\item 
+\hypertarget{structTN__FMem_aee1235a605f90d80ec16547ea647eaff}{enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__FMem_aee1235a605f90d80ec16547ea647eaff}{id\+\_\+fmp}}\label{structTN__FMem_aee1235a605f90d80ec16547ea647eaff}
+
+\begin{DoxyCompactList}\small\item\em id for object validity verification \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structTN__FMem_a101e3e0eeb2774309a55ed1d6cad8e3f}{\index{T\+N\+\_\+\+F\+Mem@{T\+N\+\_\+\+F\+Mem}!block\+\_\+size@{block\+\_\+size}}
+\index{block\+\_\+size@{block\+\_\+size}!T\+N\+\_\+\+F\+Mem@{T\+N\+\_\+\+F\+Mem}}
+\subsubsection[{block\+\_\+size}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int T\+N\+\_\+\+F\+Mem\+::block\+\_\+size}}\label{structTN__FMem_a101e3e0eeb2774309a55ed1d6cad8e3f}
+
+
+block size (in bytes); note that it should be a multiple of {\ttfamily sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}\})}, use a macro {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E()}} for that. 
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 88 of file tn\+\_\+fmem.\+h.
+
+\hypertarget{structTN__FMem_a7eac768da37c99efd90ae56ebde527cf}{\index{T\+N\+\_\+\+F\+Mem@{T\+N\+\_\+\+F\+Mem}!start\+\_\+addr@{start\+\_\+addr}}
+\index{start\+\_\+addr@{start\+\_\+addr}!T\+N\+\_\+\+F\+Mem@{T\+N\+\_\+\+F\+Mem}}
+\subsubsection[{start\+\_\+addr}]{\setlength{\rightskip}{0pt plus 5cm}void$\ast$ T\+N\+\_\+\+F\+Mem\+::start\+\_\+addr}}\label{structTN__FMem_a7eac768da37c99efd90ae56ebde527cf}
+
+
+memory pool start address; note that it should be a multiple of {\ttfamily sizeof(\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word})}. 
+
+
+
+Definition at line 98 of file tn\+\_\+fmem.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__fmem_8h}{tn\+\_\+fmem.\+h}\end{DoxyCompactItemize}

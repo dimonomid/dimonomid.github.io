@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Contribution</title>
+
+<para>Some guidelines on contribution to TNeo.</para>
+<section xml:id="contribution_1contribution_main">
+<title>Contribution</title>
+
+<para>So you want to contribute to the kernel. That&apos;s really cool! Then, please consider the following:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Please contact me first (<link xlink:href="mailto:mail@dmitryfrank.com">mail@dmitryfrank.com</link> is probably the best), so that we can discuss changes you&apos;re going to implement and ways to do that. It is really important to understand each other well, before actual work is done;</para>
+</listitem><listitem>
+<para>If you don&apos;t have an account on <link xlink:href="http://bitbucket.org">bitbucket.org</link> yet, create it;</para>
+</listitem><listitem>
+<para>Fork <link xlink:href="https://bitbucket.org/dfrank/tneokernel">TNeo repository on bitbucket</link>;</para>
+</listitem><listitem>
+<para>Perform needed changes in your own fork;</para>
+</listitem><listitem>
+<para>Create a pull request to main repository;</para>
+</listitem><listitem>
+<para>Your changes get merged into main TNeo repository. You&apos;re done, thanks! Now, you&apos;re free to delete your fork or keep it, as you wish.</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="contribution_1contribution_coding_standard">
+<title>Coding standard</title>
+
+<para>I don&apos;t have much to say on this topic. The most important and universal thing is: <emphasis role="bold">please see as other code is written and write in a similar manner</emphasis>.</para>
+
+<para>As an addition, I just want to emphasize several aspects that are often a subject to forget:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Set your editor so that it doesn&apos;t use tabs, use exactly 3 spaces for indentation. By the way, you&apos;re encouraged to read my article <link xlink:href="http://dmitryfrank.com/articles/indent_with_tabs_align_with_spaces">Indent with tabs, align with spaces</link>, which explains how to use tabs properly. I really like the idea, but at the moment editors are unfortunately too dumb to follow these guidelines, and people (including me) generally aren&apos;t ready to maintain these conventions manually, so, at least for now, the easiest and practical solution is to just use spaces only.</para>
+</listitem><listitem>
+<para>When you add or change something observable, explain it in <link linkend="changelog">Changelog</link>.</para>
+</listitem><listitem>
+<para>Don&apos;t forget to write comments so that <link xlink:href="http://www.stack.nl/~dimitri/doxygen/">doxygen</link> can parse them. You don&apos;t have to learn doxygen manual for that, just look as others comments are written.</para>
+</listitem><listitem>
+<para>When you add new kernel option (to the file <computeroutput><link linkend="tn__cfg__default_8h">tn_cfg_default.h</link></computeroutput>), modify <computeroutput><link linkend="tn__cfg__dispatch_8h">tn_cfg_dispatch.h</link></computeroutput> as well: add a check that option macro is defined.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>And thank you for contribution! </para>
+</section>
+
+</chapter>

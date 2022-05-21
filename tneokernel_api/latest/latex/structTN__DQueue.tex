@@ -1,0 +1,60 @@
+\hypertarget{structTN__DQueue}{}\section{T\+N\+\_\+\+D\+Queue Struct Reference}
+\label{structTN__DQueue}\index{T\+N\+\_\+\+D\+Queue@{T\+N\+\_\+\+D\+Queue}}
+
+
+\subsection{Detailed Description}
+Structure representing data queue object. 
+
+Definition at line 105 of file tn\+\_\+dqueue.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__DQueue_afce2b73b8afc3b1537e34ff3a4a7114c}{id\+\_\+dque}
+\begin{DoxyCompactList}\small\item\em id for object validity verification. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_a5094327a117b22df9d3b09ee45204c62}\label{structTN__DQueue_a5094327a117b22df9d3b09ee45204c62}} 
+struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__DQueue_a5094327a117b22df9d3b09ee45204c62}{wait\+\_\+send\+\_\+list}
+\begin{DoxyCompactList}\small\item\em list of tasks waiting to send data \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_a2cb2cfdd31937d5d121a72b4e2ee6f1b}\label{structTN__DQueue_a2cb2cfdd31937d5d121a72b4e2ee6f1b}} 
+struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__DQueue_a2cb2cfdd31937d5d121a72b4e2ee6f1b}{wait\+\_\+receive\+\_\+list}
+\begin{DoxyCompactList}\small\item\em list of tasks waiting to receive data \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_aba382885049d3df6ed8dbb8736ced1ad}\label{structTN__DQueue_aba382885049d3df6ed8dbb8736ced1ad}} 
+void $\ast$$\ast$ \hyperlink{structTN__DQueue_aba382885049d3df6ed8dbb8736ced1ad}{data\+\_\+fifo}
+\begin{DoxyCompactList}\small\item\em array of {\ttfamily void $\ast$} to store data queue items. Can be {\ttfamily T\+N\+\_\+\+N\+U\+LL}. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_a1c0167117cef4412bbbac2aff3334e7b}\label{structTN__DQueue_a1c0167117cef4412bbbac2aff3334e7b}} 
+int \hyperlink{structTN__DQueue_a1c0167117cef4412bbbac2aff3334e7b}{items\+\_\+cnt}
+\begin{DoxyCompactList}\small\item\em capacity (total items count). Can be 0. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_a536190a17aff0355de36d8d68aa7d98c}\label{structTN__DQueue_a536190a17aff0355de36d8d68aa7d98c}} 
+int \hyperlink{structTN__DQueue_a536190a17aff0355de36d8d68aa7d98c}{filled\+\_\+items\+\_\+cnt}
+\begin{DoxyCompactList}\small\item\em count of non-\/free items in {\ttfamily data\+\_\+fifo} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_a3451096f72cc02a2bed5573c2457323e}\label{structTN__DQueue_a3451096f72cc02a2bed5573c2457323e}} 
+int \hyperlink{structTN__DQueue_a3451096f72cc02a2bed5573c2457323e}{head\+\_\+idx}
+\begin{DoxyCompactList}\small\item\em index of the item which will be written next time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_ab5451b7c143d4208c36d4227b79732a0}\label{structTN__DQueue_ab5451b7c143d4208c36d4227b79732a0}} 
+int \hyperlink{structTN__DQueue_ab5451b7c143d4208c36d4227b79732a0}{tail\+\_\+idx}
+\begin{DoxyCompactList}\small\item\em index of the item which will be read next time \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{structTN__DQueue_a4c7d686c2f9f6a6bc2f875e1c4849ae1}\label{structTN__DQueue_a4c7d686c2f9f6a6bc2f875e1c4849ae1}} 
+struct \hyperlink{structTN__EGrpLink}{T\+N\+\_\+\+E\+Grp\+Link} \hyperlink{structTN__DQueue_a4c7d686c2f9f6a6bc2f875e1c4849ae1}{eventgrp\+\_\+link}
+\begin{DoxyCompactList}\small\item\em connected event group \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\mbox{\Hypertarget{structTN__DQueue_afce2b73b8afc3b1537e34ff3a4a7114c}\label{structTN__DQueue_afce2b73b8afc3b1537e34ff3a4a7114c}} 
+\index{T\+N\+\_\+\+D\+Queue@{T\+N\+\_\+\+D\+Queue}!id\+\_\+dque@{id\+\_\+dque}}
+\index{id\+\_\+dque@{id\+\_\+dque}!T\+N\+\_\+\+D\+Queue@{T\+N\+\_\+\+D\+Queue}}
+\subsubsection{\texorpdfstring{id\+\_\+dque}{id\_dque}}
+{\footnotesize\ttfamily enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} T\+N\+\_\+\+D\+Queue\+::id\+\_\+dque}
+
+
+
+id for object validity verification. 
+
+This field is in the beginning of the structure to make it easier to detect memory corruption. 
+
+Definition at line 110 of file tn\+\_\+dqueue.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__dqueue_8h}{tn\+\_\+dqueue.\+h}\end{DoxyCompactItemize}

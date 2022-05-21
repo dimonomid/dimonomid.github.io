@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch__cortex__m_8h">
+    <title>tn_arch_cortex_m.h File Reference</title>
+    <programlisting>#include &quot;../tn_arch_detect.h&quot;</programlisting>
+    <programlisting>#include &quot;../../core/tn_cfg_dispatch.h&quot;</programlisting>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Cortex-M0/M0+/M3/M4/M4F architecture-dependent routines. </para>
+    <para>Definition in file /home/dimon/projects/tntest/lib/mc/tnkernel_df/src/arch/cortex_m/tn_arch_cortex_m.h</para>
+    </simplesect>
+</section>

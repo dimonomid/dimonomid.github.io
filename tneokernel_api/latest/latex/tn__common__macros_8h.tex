@@ -1,0 +1,72 @@
+\hypertarget{tn__common__macros_8h}{}\section{core/tn\+\_\+common\+\_\+macros.h File Reference}
+\label{tn__common__macros_8h}\index{core/tn\+\_\+common\+\_\+macros.\+h@{core/tn\+\_\+common\+\_\+macros.\+h}}
+
+
+\subsection{Detailed Description}
+Macros that may be useful for any part of the kernel. 
+
+Note\+: only preprocessor macros allowed here, so that the file can be included in any source file (C, assembler, or whatever) \subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__common__macros_8h_aef688855ca1fd08fb5b8edfd226b3f31}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL}(x)~\#x
+\begin{DoxyCompactList}\small\item\em Macro that expands to string representation of its argument\+: for example,. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__common__macros_8h_a08d0fcfa6d30d344d9df957324dda3bb}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO}(x)~\hyperlink{tn__common__macros_8h_aef688855ca1fd08fb5b8edfd226b3f31}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL}(x)
+\begin{DoxyCompactList}\small\item\em Macro that expands to string representation of its argument, which is allowed to be a macro\+: for example,. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{tn__common__macros_8h_aef688855ca1fd08fb5b8edfd226b3f31}\label{tn__common__macros_8h_aef688855ca1fd08fb5b8edfd226b3f31}} 
+\index{tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}!\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL}}
+\index{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL}!tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL}{\_TN\_STRINGIFY\_LITERAL}}
+{\footnotesize\ttfamily \#define \+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\#x}
+
+
+
+Macro that expands to string representation of its argument\+: for example,. 
+
+
+\begin{DoxyCode}
+\hyperlink{tn__common__macros_8h_aef688855ca1fd08fb5b8edfd226b3f31}{\_TN\_STRINGIFY\_LITERAL}(5)
+\end{DoxyCode}
+
+
+expands to\+:
+
+
+\begin{DoxyCode}
+\textcolor{stringliteral}{"5"}
+\end{DoxyCode}
+
+
+See also \hyperlink{tn__common__macros_8h_a08d0fcfa6d30d344d9df957324dda3bb}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+R\+O()} 
+
+Definition at line 70 of file tn\+\_\+common\+\_\+macros.\+h.
+
+\mbox{\Hypertarget{tn__common__macros_8h_a08d0fcfa6d30d344d9df957324dda3bb}\label{tn__common__macros_8h_a08d0fcfa6d30d344d9df957324dda3bb}} 
+\index{tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}!\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO}}
+\index{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO}!tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO}{\_TN\_STRINGIFY\_MACRO}}
+{\footnotesize\ttfamily \#define \+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+M\+A\+C\+RO(\begin{DoxyParamCaption}\item[{}]{x }\end{DoxyParamCaption})~\hyperlink{tn__common__macros_8h_aef688855ca1fd08fb5b8edfd226b3f31}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+F\+Y\+\_\+\+L\+I\+T\+E\+R\+AL}(x)}
+
+
+
+Macro that expands to string representation of its argument, which is allowed to be a macro\+: for example,. 
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#define MY\_VALUE     10}
+\textcolor{preprocessor}{\_TN\_STRINGIFY\_MACRO(MY\_VALUE)}
+\end{DoxyCode}
+
+
+expands to\+:
+
+
+\begin{DoxyCode}
+\textcolor{stringliteral}{"10"}
+\end{DoxyCode}
+ 
+
+Definition at line 88 of file tn\+\_\+common\+\_\+macros.\+h.
+

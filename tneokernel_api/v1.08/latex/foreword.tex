@@ -1,0 +1,19 @@
+Foreword.
+
+This project was initially a fork of \href{https://github.com/andersm/TNKernel-PIC32}{\tt P\+I\+C32 T\+N\+Kernel port} by Anders Montonen. I don\textquotesingle{}t like several design decisions of original T\+N\+Kernel, as well as {\bfseries many} of the implementation details, but Anders wants to keep his port as close to original T\+N\+Kernel as possible. So I decided to fork it and have fun implementing what I want.
+
+The more I get into how T\+N\+Kernel works, the less I like its code. It appears as a very hastily-\/written project\+: there is a lot of code duplication and a lot of inconsistency, all of this leads to bugs. More, T\+N\+Kernel is not documented well enough and there are no unit tests for it, so I decided to reimplement it almost completely. Refer to the page \hyperlink{why_reimplement}{Why reimplement T\+N\+Kernel} for details.
+
+I decided not to care too much about compatibility with original T\+N\+Kernel A\+PI because I really don\textquotesingle{}t like several A\+PI decisions, so, I actually had to choose new name for this project, in order to avoid confusion, hence \char`\"{}\+T\+Neo\char`\"{}. Refer to the \hyperlink{tnkernel_diff}{Differences from T\+N\+Kernel A\+PI} page for details.
+
+Together with almost totally re-\/writing T\+N\+Kernel, I\textquotesingle{}ve implemented detailed \hyperlink{unit_tests}{unit tests} for it, to make sure I didn\textquotesingle{}t break anything, and of course I\textquotesingle{}ve found several bugs in original T\+N\+Kernel 2.\+7\+: refer to the section \hyperlink{why_reimplement_why_reimplement__bugs}{Bugs of T\+N\+Kernel 2.\+7}. Unit tests are, or course, a \char`\"{}must-\/have\char`\"{} for the project like this; it\textquotesingle{}s so strange bug original T\+N\+Kernel seems untested.
+
+Note that P\+I\+C32-\/dependent routines (such as context switch and so on) are originally implemented by Anders Montonen; I examined them in detail and changed several things which I believe should be implemented differently. Anders, great thanks for sharing your job.
+
+Another existing P\+I\+C32 port, \href{http://www.tnkernel.com/tn_port_pic24_dsPIC_PIC32.html}{\tt the one by Alex Borisov}, also affected my project a bit. In fact, I used to use Alex\textquotesingle{}s port for a long time, but it has several concepts that I don\textquotesingle{}t like, so I had to move eventually. Nevertheless, Alex\textquotesingle{}s port has several nice ideas and solutions, so I didn\textquotesingle{}t hesitate to take what I like from his port. Alex, thank you too.
+
+And, of course, great thanks to the author of original T\+N\+Kernel, Yuri Tiomkin. Although the implementation of T\+N\+Kernel is far from perfect in my opinion, the ideas behind the implementation are generally really nice (that\textquotesingle{}s why I decided to reimplement it instead of starting from scratch), and it was great entry point to the real-\/time kernels for me.
+
+I would also like to thank my chiefs in the \href{http://orionspb.ru/}{\tt O\+R\+I\+ON} company, Alexey Morozov and Alexey Gromov, for being flexible about my time.
+
+For the full thanks list, refer to the page \hyperlink{thanks}{Thanks}. 

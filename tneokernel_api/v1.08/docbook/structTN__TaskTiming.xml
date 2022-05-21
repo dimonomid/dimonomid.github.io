@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__TaskTiming">
+<title>TN_TaskTiming struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__tasks_8h">&lt;tn_tasks.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Data Fields</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned long long total_run_time<para><emphasis>Total time when task was running.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned long long got_running_cnt<para><emphasis>How many times task got running.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned long max_consecutive_run_time<para><emphasis>Maximum consecutive time task was running.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned long long total_wait_time[TN_WAIT_REASONS_CNT]<para><emphasis>Available if only &lt;tt&gt;#TN_PROFILER_WAIT_TIME&lt;/tt&gt; option is non-zero.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned long max_consecutive_wait_time[TN_WAIT_REASONS_CNT]<para><emphasis>Available if only &lt;tt&gt;#TN_PROFILER_WAIT_TIME&lt;/tt&gt; option is non-zero.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Timing structure that is managed by profiler and can be read by <computeroutput><link linkend="tn__tasks_8h_1a8f90a88f54d2d49bb1de00886241edfe">tn_task_profiler_timing_get()</link></computeroutput> function. </para>
+    </simplesect>
+        <simplesect>
+            <title>Detailed Description</title>
+
+<para>This structure is contained in each <computeroutput>struct <link linkend="structTN__Task">TN_Task</link></computeroutput> structure.</para>
+
+<para>Available if only <computeroutput><link linkend="tn__cfg__default_8h_1a49a546b18cc1f75b51d4cf8b290634dd">TN_PROFILER</link></computeroutput> option is non-zero, also depends on <computeroutput><link linkend="tn__cfg__default_8h_1a1c04db5457adb54f7cc38d42b29a5ad7">TN_PROFILER_WAIT_TIME</link></computeroutput>. </para>
+                <para>Definition at line 254 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+        </simplesect>
+        <section>
+            <title>Field Documentation</title>
+            <simplesect>
+                <title>unsigned long long TN_TaskTiming::total_run_time</title>                
+<para><formalpara><title>Attention: </title>
+
+<para>This is NOT the time that task was in <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc"><computeroutput>RUNNABLE</computeroutput></link> state: if task A is preempted by high-priority task B, task A is not running, but is still in the <link linkend="tn__tasks_8h_1a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc"><computeroutput>RUNNABLE</computeroutput></link> state. This counter represents the time task was actually <emphasis role="bold">running</emphasis>. </para>
+</formalpara>
+</para>
+
+                <para>Definition at line 263 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>unsigned long long TN_TaskTiming::got_running_cnt</title>                
+<para>It is useful to find an average value of consecutive running time: <computeroutput>(total_run_time / got_running_cnt)</computeroutput> </para>
+
+                <para>Definition at line 267 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>unsigned long long TN_TaskTiming::total_wait_time[TN_WAIT_REASONS_CNT]</title>                
+<para>Total time when task was not running; time is broken down by reasons of waiting.</para>
+
+<para>For example, to get the time task was waiting for mutexes with priority inheritance protocol, use: <computeroutput>total_wait_time[ <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a7e9f9bbeea45338617a5d988fc2f4875">TN_WAIT_REASON_MUTEX_I</link> ]</computeroutput></para>
+
+<para>To get the time task was runnable but preempted by another task, use: <computeroutput>total_wait_time[ <link linkend="tn__tasks_8h_1a343b0332013c15d6e878c2f60ed2c9b7a91327db45e01ddc873b4030e5638a4a4">TN_WAIT_REASON_NONE</link> ]</computeroutput> </para>
+
+                <para>Definition at line 285 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>unsigned long TN_TaskTiming::max_consecutive_wait_time[TN_WAIT_REASONS_CNT]</title>                
+<para>Maximum consecutive time task was not running; time is broken down by reasons of waiting.</para>
+
+<para><formalpara><title>See also: </title>
+
+<para><computeroutput><link linkend="structTN__TaskTiming_1a0832c998c39b3e8400ccbb386bfbc7d9">total_wait_time</link></computeroutput> </para>
+</formalpara>
+</para>
+
+                <para>Definition at line 293 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </section>
+</section>

@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__Mutex">
+<title>TN_Mutex struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__mutex_8h">&lt;tn_mutex.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem wait_queue<para><emphasis>List of tasks that wait a mutex.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem mutex_queue<para><emphasis>To include in task&apos;s locked mutexes list (if any)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem deadlock_list<para><emphasis>List of other mutexes involved in deadlock
+(normally, this list is empty)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_MutexProtocol protocol<para><emphasis>Mutex protocol: priority ceiling or priority inheritance.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_Task * holder<para><emphasis>Current mutex owner (task that locked mutex)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int ceil_priority<para><emphasis>Used if only protocol is &lt;tt&gt;#TN_MUTEX_PROT_CEILING&lt;/tt&gt;:
+maximum priority of task that may lock the mutex.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int cnt<para><emphasis>Lock count (for recursive locking)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_mutex<para><emphasis>id for object validity verification</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Mutex. </para>
+    </simplesect>
+</section>

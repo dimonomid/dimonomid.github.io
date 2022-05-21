@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__DQueueTaskWait">
+<title>TN_DQueueTaskWait struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__dqueue_8h">&lt;tn_dqueue.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * data_elem<para><emphasis>if task tries to send the data to the data queue,
+and there&apos;s no space in the queue, value to put to queue is stored
+in this field</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>DQueue-specific fields related to waiting task, to be included in struct <link linkend="structTN__Task">TN_Task</link>. </para>
+    </simplesect>
+</section>

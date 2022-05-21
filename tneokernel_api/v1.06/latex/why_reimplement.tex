@@ -1,0 +1,267 @@
+Explanation of essential T\+N\+Kernel problems as well as several examples of poor implementation.\hypertarget{why_reimplement_why_reimplement__problems_of_tnkernel}{}\section{Essential problems of T\+N\+Kernel}\label{why_reimplement_why_reimplement__problems_of_tnkernel}
+
+\begin{DoxyItemize}
+\item The most essential problem is that T\+N\+Kernel is a very hastily-\/written project. Several concepts are just poorly thought out, others are poorly implemented\+: there is a lot of code duplication and inconsistency;
+\item It is untested\+: there are no unit tests for the kernel, this is not acceptable for the project like real-\/time kernel;
+\end{DoxyItemize}
+
+As a result of the two above, the kernel is buggy. And even more, the kernel is really {\bfseries hard to maintain} because of inconsistency, so when we add new features or change something, we are likely to add new bugs as well.
+
+
+\begin{DoxyItemize}
+\item It is unsupported. I've written to the Yuri Tiomkin about \hyperlink{tnkernel_diff_tnkernel_diff_make_alig}{troubles with M\+A\+K\+E\+\_\+\+A\+L\+I\+G() macro} as well as about bugs in the kernel, my messages were just ignored;
+\item Documentation is far from perfect and it lives separately of the project itself\+: latest kernel version at the moment is 2.\+7 (published at 2013), but latest documentation is for 2.\+3 (published at 2006).
+\end{DoxyItemize}\hypertarget{why_reimplement_why_reimplement__tnkernel_impl_details}{}\section{Examples of poor implementation}\label{why_reimplement_why_reimplement__tnkernel_impl_details}
+\hypertarget{why_reimplement_why_reimplement__one_exit_point}{}\subsection{One entry point, one exit point}\label{why_reimplement_why_reimplement__one_exit_point}
+The most common example that happens across all T\+N\+Kernel sources is code like the following\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} my\_function(\textcolor{keywordtype}{void})
+\{
+   \hyperlink{tn__oldsymbols_8h_a27bf94f93625fa36125c3fa3ae6b4041}{tn\_disable\_interrupt}();
+   \textcolor{comment}{//-- do something}
+
+   \textcolor{keywordflow}{if} (error())\{
+      \textcolor{comment}{//-- do something}
+
+      \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\_enable\_interrupt}();
+      \textcolor{keywordflow}{return} ERROR;
+   \}
+   \textcolor{comment}{//-- do something}
+
+   \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\_enable\_interrupt}();
+   \textcolor{keywordflow}{return} SUCCESS;
+\}
+\end{DoxyCode}
+
+
+If you have multiple {\ttfamily return} statements or, even more, if you have to perform some action before return ({\ttfamily \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\+\_\+enable\+\_\+interrupt()}} in the example above), it's great job for {\ttfamily goto}\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} my\_function(\textcolor{keywordtype}{void})
+\{
+   \textcolor{keywordtype}{int} rc = SUCCESS;
+   \hyperlink{tn__oldsymbols_8h_a27bf94f93625fa36125c3fa3ae6b4041}{tn\_disable\_interrupt}();
+   \textcolor{comment}{//-- do something}
+
+   \textcolor{keywordflow}{if} (error())\{
+      \textcolor{comment}{//-- do something}
+      rc = ERROR;
+      \textcolor{keywordflow}{goto} out;
+   \}
+   \textcolor{comment}{//-- do something}
+
+out:
+   \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\_enable\_interrupt}();
+   \textcolor{keywordflow}{return} rc;
+\}
+\end{DoxyCode}
+
+
+I understand there are a lot of people that don't agree with me on this (mostly because they religiously believe that {\ttfamily goto} is unconditionally evil), but anyway I decided to explain it. And, let's go further\+:
+
+While multiple {\ttfamily goto}-\/s to single label are better than multiple {\ttfamily return} statements, it becomes less useful as we get to something more complicated. Imagine we need to perform some checks {\itshape before} disabling interrupts, and perform some other checks {\itshape after} disabling them. Then, we have to create two labels, like that\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} my\_function(\textcolor{keywordtype}{void})
+\{
+   \textcolor{keywordtype}{int} rc = SUCCESS;
+
+   \textcolor{keywordflow}{if} (error1())\{
+      rc = ERROR1;
+      \textcolor{keywordflow}{goto} out;
+   \}
+
+   \hyperlink{tn__oldsymbols_8h_a27bf94f93625fa36125c3fa3ae6b4041}{tn\_disable\_interrupt}();
+
+   \textcolor{keywordflow}{if} (error2())\{
+      rc = ERROR2;
+      \textcolor{keywordflow}{goto} out\_ei;
+   \}
+
+   \textcolor{keywordflow}{if} (error3())\{
+      rc = ERROR3;
+      \textcolor{keywordflow}{goto} out\_ei;
+   \}
+
+   \textcolor{comment}{//-- perform job}
+
+out\_ei:
+   \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\_enable\_interrupt}();
+
+out:
+   \textcolor{keywordflow}{return} rc;
+\}
+\end{DoxyCode}
+
+
+For each error handling, we should specify the label explicitly, and it's easy to mix labels up, especially if we add some new case to check in the future. So, I believe this approach is a superior\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} my\_function(\textcolor{keywordtype}{void})
+\{
+   \textcolor{keywordtype}{int} rc = SUCCESS;
+
+   \textcolor{keywordflow}{if} (error1())\{
+      rc = ERROR1;
+   \} \textcolor{keywordflow}{else} \{
+      \hyperlink{tn__oldsymbols_8h_a27bf94f93625fa36125c3fa3ae6b4041}{tn\_disable\_interrupt}();
+
+      \textcolor{keywordflow}{if} (error2())\{
+         rc = ERROR2;
+      \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (error3())\{
+         rc = ERROR3;
+      \} \textcolor{keywordflow}{else} \{
+         \textcolor{comment}{//-- perform job}
+      \}
+
+      \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\_enable\_interrupt}();
+   \}
+
+   \textcolor{keywordflow}{return} rc;
+\}
+\end{DoxyCode}
+
+
+Then, for each new error handling, we should just add new {\ttfamily else if} block, and there's no need to care where to go if error happened. Let the compiler do the branching job for you. More, this code looks more compact.
+
+Needless to say, I already found such bug in original T\+N\+Kernel 2.\+7 code. The function {\ttfamily \hyperlink{tn__oldsymbols_8h_a74b0cfd9bbf5a85f4e0d00a984f60f5e}{tn\+\_\+sys\+\_\+tslice\+\_\+ticks()}} looks as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{int} \hyperlink{tn__oldsymbols_8h_a74b0cfd9bbf5a85f4e0d00a984f60f5e}{tn\_sys\_tslice\_ticks}(\textcolor{keywordtype}{int} \hyperlink{structTN__Task_a43c9c73249da8faa1177587786c40616}{priority},\textcolor{keywordtype}{int} value)
+\{
+   \hyperlink{tn__arch__example_8h_a58899c98640384b8a2cf7f9ba6f53a23}{TN\_INTSAVE\_DATA}
+
+   TN\_CHECK\_NON\_INT\_CONTEXT
+
+   \hyperlink{tn__oldsymbols_8h_a27bf94f93625fa36125c3fa3ae6b4041}{tn\_disable\_interrupt}();
+
+   \textcolor{keywordflow}{if}(priority <= 0 || priority >= \hyperlink{tn__oldsymbols_8h_a63b4da81df067abd19fe86f5712a34e3}{TN\_NUM\_PRIORITY}-1 ||
+                                value < 0 || value > \hyperlink{tn__oldsymbols_8h_a7a8524d52a91ba1841e95f6d4f0dcd6b}{MAX\_TIME\_SLICE})
+      \textcolor{keywordflow}{return} \hyperlink{tn__oldsymbols_8h_a35ec519d54f884d84c5814f49f00a22b}{TERR\_WRONG\_PARAM};
+
+   tn\_tslice\_ticks[\hyperlink{structTN__Task_a43c9c73249da8faa1177587786c40616}{priority}] = value;
+
+   \hyperlink{tn__oldsymbols_8h_acc85567ca09ede9cf2d58717506def46}{tn\_enable\_interrupt}();
+   \textcolor{keywordflow}{return} \hyperlink{tn__oldsymbols_8h_a71970f860643e62fad7ec03076bdc1d8}{TERR\_NO\_ERR};
+\}
+\end{DoxyCode}
+
+
+If you look closely, you can see that if wrong params were given, {\ttfamily \hyperlink{tn__oldsymbols_8h_a35ec519d54f884d84c5814f49f00a22b}{T\+E\+R\+R\+\_\+\+W\+R\+O\+N\+G\+\_\+\+P\+A\+R\+A\+M}} is returned, and {\bfseries interrupts remain disabled}. If we follow the {\itshape one entry point, one exit point} rule, this bug is much less likely to happen.\hypertarget{why_reimplement_why_reimplement__dont_repeat_yourself}{}\subsection{Don't repeat yourself}\label{why_reimplement_why_reimplement__dont_repeat_yourself}
+Original T\+N\+Kernel 2.\+7 code has {\bfseries a lot} of code duplication. So many similar things are done in several places just by copy-\/pasting the code.
+
+
+\begin{DoxyItemize}
+\item If we have similar functions (like, {\ttfamily \hyperlink{tn__dqueue_8h_a043dd3133a57489d7d10f53be6939957}{tn\+\_\+queue\+\_\+send()}}, {\ttfamily \hyperlink{tn__dqueue_8h_af60c61c12ed90f4bcc7d13ca4da8562b}{tn\+\_\+queue\+\_\+send\+\_\+polling()}} and {\ttfamily \hyperlink{tn__dqueue_8h_ac059f15f07625ca25e4aac5790cce1ea}{tn\+\_\+queue\+\_\+isend\+\_\+polling()}}), the implementation is just copy-\/pasted, there's no effort to generalize things.
+\item Mutexes have complicated algorithms for task priorities. It is implemented in inconsistent, messy manner, which leads to bugs (refer to \hyperlink{why_reimplement_why_reimplement__bugs}{Bugs of T\+N\+Kernel 2.\+7})
+\item Transitions between task states are done, again, in inconsistent copy-\/pasting manner. When we need to move task from, say, \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6a02783ac7808aeda318a6f506b7a276dc}{{\ttfamily R\+U\+N\+N\+A\+B\+L\+E}} state to the \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state, it's not enough to just clear one flag and set another one\+: we also need to remove it from whatever run queue the task is contained, probably find next task to run, then set reason of waiting, probably add to wait queue, set up timeout if specified, etc. In original T\+N\+Kernel 2.\+7, there's no general mechanism to do this.
+
+Meanwhile, the correct way is to create three functions for each state\+:
+\begin{DoxyItemize}
+\item to set the state;
+\item to clear the state;
+\item to test if the state active.
+\end{DoxyItemize}
+
+And then, when we need to move task from one state to another, we typically should just call two functions\+: one for clearing current state, and one for settine a new one. It {\bfseries is} consistent, and of course this approach is used in T\+Neo.
+\end{DoxyItemize}
+
+As a result of the violation of the rule {\itshape Don't repeat yourself}, when we need to change something, we need to change it in several places. Needless to say, it is very error-\/prone practice, and of course there are bugs in original T\+N\+Kernel because of that (refer to \hyperlink{why_reimplement_why_reimplement__bugs}{Bugs of T\+N\+Kernel 2.\+7}).\hypertarget{why_reimplement_why_reimplement__returning_macro}{}\subsection{Macros that return from function}\label{why_reimplement_why_reimplement__returning_macro}
+T\+N\+Kernel uses architecture-\/depended macros like {\ttfamily T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+N\+O\+N\+\_\+\+I\+N\+T\+\_\+\+C\+O\+N\+T\+E\+X\+T}. This macro checks the current context (task or I\+S\+R), and if it is I\+S\+R, it returns {\ttfamily T\+E\+R\+R\+\_\+\+W\+R\+O\+N\+G\+\_\+\+P\+A\+R\+A\+M}.
+
+It isn't obvious to the reader of the code, but things like returning from function {\bfseries must} be as obvious as possible.
+
+It is better to invent some function that tests current context, and return the value explicitly\+:
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{enum} \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{TN\_RCode} my\_function(\textcolor{keywordtype}{void})
+   enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{TN\_RCode} rc = \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{TN\_RC\_OK};
+
+   \textcolor{comment}{// ...}
+
+   if (!\hyperlink{tn__sys_8h_a77aab9748bbca8609e3daf6d18855a06}{tn\_is\_task\_context}())\{
+      rc = \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{TN\_RC\_WCONTEXT};
+      \textcolor{keywordflow}{goto} out;
+   \}
+
+   \textcolor{comment}{// ...}
+
+out:
+   \textcolor{keywordflow}{return} rc
+\}
+\end{DoxyCode}
+\hypertarget{why_reimplement_why_reimplement__linked_lists}{}\subsection{Code for doubly-\/linked lists}\label{why_reimplement_why_reimplement__linked_lists}
+T\+N\+Kernel uses doubly-\/linked lists heavily, which is very good. I must admit that I really like the way data is organized in T\+N\+Kernel. But, unfortunately, code that manages data is far from perfect, as I already mentioned.
+
+So, let's get to the lists. I won't paste all the macros here, just make some overview. If we have a list, it's very common task to iterate through it. Typical snippet in T\+N\+Kernel looks like this\+:
+
+
+\begin{DoxyCode}
+\hyperlink{structTN__ListItem}{CDLL\_QUEUE} * curr\_que;
+\hyperlink{structTN__Mutex}{TN\_MUTEX} * tmp\_mutex;
+
+curr\_que = tn\_curr\_run\_task->mutex\_queue.\hyperlink{structTN__ListItem_a66648d1a9069530836c3fd738b03ab96}{next};
+\textcolor{keywordflow}{while}(curr\_que != &(tn\_curr\_run\_task->mutex\_queue))
+\{
+   tmp\_mutex = get\_mutex\_by\_mutex\_queque(curr\_que);
+
+   \textcolor{comment}{/* now, tmp\_mutex points to the next object, so,}
+\textcolor{comment}{      we can do something useful with it */}
+
+   curr\_que = curr\_que->\hyperlink{structTN__ListItem_a66648d1a9069530836c3fd738b03ab96}{next};
+\}
+\end{DoxyCode}
+
+
+This code is neither easy to read nor elegant. It's much better to use special macro for that (actually, similar macros are used across the whole Linux kernel code) \+:
+
+
+\begin{DoxyCode}
+\hyperlink{structTN__Mutex}{TN\_MUTEX} * tmp\_mutex;
+
+tn\_list\_for\_each\_entry(tmp\_mutex, &(tn\_curr\_run\_task->mutex\_queue), \hyperlink{structTN__Task_ad4decd7355c95a5b60a6774c3ee19eb9}{mutex\_queue})\{
+   \textcolor{comment}{/* now, tmp\_mutex points to the next object, so,}
+\textcolor{comment}{      we can do something useful with it */}
+\}
+\end{DoxyCode}
+
+
+Much shorter and intuitive, isn't it? We even don't have to keep special {\ttfamily curr\+\_\+que}.\hypertarget{why_reimplement_why_reimplement__bugs}{}\section{Bugs of T\+N\+Kernel 2.\+7}\label{why_reimplement_why_reimplement__bugs}
+T\+N\+Kernel 2.\+7 has several bugs, which are caught by detailed unit tests and fixed.
+
+
+\begin{DoxyItemize}
+\item We have two tasks\+: low-\/priority one {\ttfamily task\+\_\+low} and high-\/priority one {\ttfamily task\+\_\+high}. They use mutex {\ttfamily M1} with priority inheritance.
+\begin{DoxyItemize}
+\item {\ttfamily task\+\_\+low} locks {\ttfamily M1}
+\item {\ttfamily task\+\_\+high} tries to lock mutex {\ttfamily M1} and gets blocked -\/$>$ priority of {\ttfamily task\+\_\+low} elevates to the priority of {\ttfamily task\+\_\+high}
+\item {\ttfamily task\+\_\+high} stops waiting for mutex by timeout -\/$>$ priority of {\ttfamily task\+\_\+low} remains elevated. The same happens if {\ttfamily task\+\_\+high} is terminated by {\ttfamily \hyperlink{tn__tasks_8h_a8ae6615de7022a327bdcd4c37a0f5b90}{tn\+\_\+task\+\_\+terminate()}}.
+\end{DoxyItemize}
+\item We have three tasks\+: two low-\/priority tasks {\ttfamily task\+\_\+low1} and {\ttfamily task\+\_\+low2}, and high-\/priority one {\ttfamily task\+\_\+high}. They use mutex {\ttfamily M1} with priority inheritance.
+\begin{DoxyItemize}
+\item {\ttfamily task\+\_\+low1} locks {\ttfamily M1}
+\item {\ttfamily task\+\_\+low2} tries to lock {\ttfamily M1} and gets blocked
+\item {\ttfamily task\+\_\+high} tries to lock {\ttfamily M1} and gets blocked -\/$>$ priority if {\ttfamily task\+\_\+low1} is elevated
+\item {\ttfamily task\+\_\+low1} unlocks {\ttfamily M1} -\/$>$
+\begin{DoxyItemize}
+\item priority of {\ttfamily task\+\_\+low1} returns to base value
+\item {\ttfamily task\+\_\+low2} locks {\ttfamily M1} because it's the next task in the mutex queue
+\item now, priority of {\ttfamily task\+\_\+low2} should be elevated, but it doesn't happen. Priority inversion is in effect.
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__mutex_8h_a9c935ae470f1d36f8d88c254a4d513e4}{tn\+\_\+mutex\+\_\+delete()}} \+: if mutex is not locked, {\ttfamily \hyperlink{tn__oldsymbols_8h_acc6afb7d5fab73e262e8cb4f9fd06ac4}{T\+E\+R\+R\+\_\+\+I\+L\+U\+S\+E}} is returned. Of course, task should be able to delete non-\/locked mutex;
+\item If task that waits for mutex is in \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{{\ttfamily W\+A\+I\+T+\+S\+U\+S\+P\+E\+N\+D}} state, and mutex is deleted, {\ttfamily \hyperlink{tn__oldsymbols_8h_a71970f860643e62fad7ec03076bdc1d8}{T\+E\+R\+R\+\_\+\+N\+O\+\_\+\+E\+R\+R}} is returned after returning from \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6adcf21b28920038f38cccc50fda12ba58}{{\ttfamily S\+U\+S\+P\+E\+N\+D}} state, instead of {\ttfamily \hyperlink{tn__oldsymbols_8h_ae6a83c118d209d8702c3fc40d58ea18f}{T\+E\+R\+R\+\_\+\+D\+L\+T}}. The same for queue deletion, semaphore deletion, event deletion.
+\item {\ttfamily \hyperlink{tn__oldsymbols_8h_a74b0cfd9bbf5a85f4e0d00a984f60f5e}{tn\+\_\+sys\+\_\+tslice\+\_\+ticks()}} \+: if wrong params are given, {\ttfamily \hyperlink{tn__oldsymbols_8h_a35ec519d54f884d84c5814f49f00a22b}{T\+E\+R\+R\+\_\+\+W\+R\+O\+N\+G\+\_\+\+P\+A\+R\+A\+M}} is returned and interrupts remain disabled.
+\item {\ttfamily \hyperlink{tn__dqueue_8h_ab47ed49af7dffc5a71eaabd25422d0e4}{tn\+\_\+queue\+\_\+receive()}} and {\ttfamily \hyperlink{tn__fmem_8h_a2ecd094041dbd0e92d61b852b7952444}{tn\+\_\+fmem\+\_\+get()}} \+: if {\ttfamily timeout} is in effect, then {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} is returned, but user-\/provided pointer is altered anyway (some garbage data is written there)
+\item Probably not a \char`\"{}bug\char`\"{}, but an issue in the data queue\+: actual capacity of the buffer is less by 1 than user has specified and allocated
+\item Event\+: if {\ttfamily T\+N\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R} flag is set, and the task that is waiting for event is suspended, this flag {\ttfamily T\+N\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R} is ignored (pattern is not reset). I can't say this bug is \char`\"{}fixed\char`\"{} because T\+Neo has \hyperlink{tnkernel_diff_tnkernel_diff_event}{event groups instead of events}, and there is no {\ttfamily T\+N\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R} flag.
+\end{DoxyItemize}
+
+Bugs with mutexes are the direct result of the inconsistency and copy-\/pasting the code, as well as lack of unit tests. 

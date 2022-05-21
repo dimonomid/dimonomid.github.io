@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__EGrpLink">
+<title>TN_EGrpLink struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__eventgrp_8h">&lt;tn_eventgrp.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Data Fields</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_EventGrp * eventgrp<para><emphasis>event group whose event(s) should be managed by other kernel object</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_UWord pattern<para><emphasis>event pattern to manage</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>A link to event group: used when event group can be connected to some kernel object, such as queue. </para>
+    </simplesect>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+</section>

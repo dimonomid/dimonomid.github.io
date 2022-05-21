@@ -1,0 +1,468 @@
+\hypertarget{tn__sys_8h}{\section{core/tn\+\_\+sys.h File Reference}
+\label{tn__sys_8h}\index{core/tn\+\_\+sys.\+h@{core/tn\+\_\+sys.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Kernel system routines\+: system start, tick processing, time slice managing. 
+
+
+
+Definition in file \hyperlink{tn__sys_8h_source}{tn\+\_\+sys.\+h}.
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{tn__sys_8h_ab389cb36d15c2390d7868b10391c9b49}{\#define \hyperlink{tn__sys_8h_ab389cb36d15c2390d7868b10391c9b49}{T\+N\+\_\+\+N\+O\+\_\+\+T\+I\+M\+E\+\_\+\+S\+L\+I\+C\+E}~0}\label{tn__sys_8h_ab389cb36d15c2390d7868b10391c9b49}
+
+\begin{DoxyCompactList}\small\item\em Value to pass to {\ttfamily \hyperlink{tn__sys_8h_a05fc370b6faa604fd8ff9411361c4cd0}{tn\+\_\+sys\+\_\+tslice\+\_\+set()}} to turn round-\/robin off. \end{DoxyCompactList}\item 
+\hypertarget{tn__sys_8h_a546b128561cc3bf46d0423bad1f5c8c7}{\#define \hyperlink{tn__sys_8h_a546b128561cc3bf46d0423bad1f5c8c7}{T\+N\+\_\+\+M\+A\+X\+\_\+\+T\+I\+M\+E\+\_\+\+S\+L\+I\+C\+E}~0x\+F\+F\+F\+E}\label{tn__sys_8h_a546b128561cc3bf46d0423bad1f5c8c7}
+
+\begin{DoxyCompactList}\small\item\em Max value of time slice. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void( \hyperlink{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}{T\+N\+\_\+\+C\+B\+User\+Task\+Create} )(void)
+\begin{DoxyCompactList}\small\item\em User-\/provided callback function that is called directly from {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} as a part of system startup routine; it should merely create at least one (and typically just one) user's task, which should perform all the rest application initialization. \end{DoxyCompactList}\item 
+typedef void( \hyperlink{tn__sys_8h_ac53892c962d429fadf7cf508024eec66}{T\+N\+\_\+\+C\+B\+Idle} )(void)
+\begin{DoxyCompactList}\small\item\em User-\/provided callback function that is called repeatedly from the idle task loop. \end{DoxyCompactList}\item 
+typedef void( \hyperlink{tn__sys_8h_ae8fd9ea5f9f265e638b56917bf1a5767}{T\+N\+\_\+\+C\+B\+Deadlock} )(\hyperlink{tn__common_8h_ae4cc35dcc70810fa972cc8a5185a28fa}{B\+O\+O\+L} active, struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex} $\ast$mutex, struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$task)
+\begin{DoxyCompactList}\small\item\em User-\/provided callback function that is called whenever deadlock becomes active or inactive. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8}{T\+N\+\_\+\+State\+Flag} \{ \hyperlink{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8aa5085b1c78bc7e75aeac04a76cab6a52}{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G} = (1 $<$$<$ 0), 
+\hyperlink{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8a188c405a2cde555e7aaaeaa1189a4580}{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K} = (1 $<$$<$ 1)
+ \}
+\begin{DoxyCompactList}\small\item\em System state flags. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{T\+N\+\_\+\+Context} \{ \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ac6015804609fb2bb71335015c51c40a3}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+N\+O\+N\+E}, 
+\hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}, 
+\hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}
+ \}
+\begin{DoxyCompactList}\small\item\em System context. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start} (\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$idle\+\_\+task\+\_\+stack, unsigned int idle\+\_\+task\+\_\+stack\+\_\+size, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$int\+\_\+stack, unsigned int int\+\_\+stack\+\_\+size, \hyperlink{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}{T\+N\+\_\+\+C\+B\+User\+Task\+Create} $\ast$cb\+\_\+user\+\_\+task\+\_\+create, \hyperlink{tn__sys_8h_ac53892c962d429fadf7cf508024eec66}{T\+N\+\_\+\+C\+B\+Idle} $\ast$cb\+\_\+idle)
+\begin{DoxyCompactList}\small\item\em Initial T\+Neo\+Kernel system start function, never returns. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{tn\+\_\+tick\+\_\+int\+\_\+processing} (void)
+\begin{DoxyCompactList}\small\item\em Process system tick; should be called periodically, typically from some kind of timer I\+S\+R. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sys_8h_a05fc370b6faa604fd8ff9411361c4cd0}{tn\+\_\+sys\+\_\+tslice\+\_\+set} (int priority, int ticks)
+\begin{DoxyCompactList}\small\item\em Set time slice ticks value for specified priority (see \hyperlink{quick_guide_round_robin}{Round-\/robin scheduling}). \end{DoxyCompactList}\item 
+unsigned int \hyperlink{tn__sys_8h_a8d2170986218026c105ed4656f5cd0eb}{tn\+\_\+sys\+\_\+time\+\_\+get} (void)
+\begin{DoxyCompactList}\small\item\em Get current system ticks count. \end{DoxyCompactList}\item 
+void \hyperlink{tn__sys_8h_ad87fac29a918ffc1cae40f2b6d67e369}{tn\+\_\+sys\+\_\+time\+\_\+set} (unsigned int value)
+\begin{DoxyCompactList}\small\item\em Set system ticks count. \end{DoxyCompactList}\item 
+void \hyperlink{tn__sys_8h_aaa4a5c2feb4a0db5993b81dde496edc3}{tn\+\_\+callback\+\_\+deadlock\+\_\+set} (\hyperlink{tn__sys_8h_ae8fd9ea5f9f265e638b56917bf1a5767}{T\+N\+\_\+\+C\+B\+Deadlock} $\ast$cb)
+\begin{DoxyCompactList}\small\item\em Set callback function that should be called whenever deadlock occurs or becomes inactive (say, if one of tasks involved in the deadlock was released from wait because of timeout) \end{DoxyCompactList}\item 
+enum \hyperlink{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8}{T\+N\+\_\+\+State\+Flag} \hyperlink{tn__sys_8h_a202fb30400101599c1e39ba4e58d2fd5}{tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get} (void)
+\begin{DoxyCompactList}\small\item\em Returns current system state flags. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{T\+N\+\_\+\+Context} \hyperlink{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}{tn\+\_\+sys\+\_\+context\+\_\+get} (void)
+\begin{DoxyCompactList}\small\item\em Returns system context\+: task or I\+S\+R. \end{DoxyCompactList}\item 
+static \hyperlink{tn__common_8h_ae4cc35dcc70810fa972cc8a5185a28fa}{B\+O\+O\+L} \hyperlink{tn__sys_8h_ad87f45a4a385f68f9492ba48365c00e0}{tn\+\_\+is\+\_\+task\+\_\+context} (void)
+\begin{DoxyCompactList}\small\item\em Returns whether current system context is {\ttfamily \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}} \end{DoxyCompactList}\item 
+static \hyperlink{tn__common_8h_ae4cc35dcc70810fa972cc8a5185a28fa}{B\+O\+O\+L} \hyperlink{tn__sys_8h_a797d5a13800d4da9581abaa13e506854}{tn\+\_\+is\+\_\+isr\+\_\+context} (void)
+\begin{DoxyCompactList}\small\item\em Returns whether current system context is {\ttfamily \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}} \end{DoxyCompactList}\item 
+struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$ \hyperlink{tn__sys_8h_a2ca353dcf362a5aa8d2e5a3960e51410}{tn\+\_\+cur\+\_\+task\+\_\+get} (void)
+\begin{DoxyCompactList}\small\item\em Returns pointer to the currently running task. \end{DoxyCompactList}\item 
+\hyperlink{tn__common_8h_a82f7de9034cbbb373c4dbcff45942343}{T\+N\+\_\+\+Task\+Body} $\ast$ \hyperlink{tn__sys_8h_afa3c83dce52b17c9ee07b34af0fcebab}{tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get} (void)
+\begin{DoxyCompactList}\small\item\em Returns pointer to the body function of the currently running task. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+C\+B\+User\+Task\+Create@{T\+N\+\_\+\+C\+B\+User\+Task\+Create}}
+\index{T\+N\+\_\+\+C\+B\+User\+Task\+Create@{T\+N\+\_\+\+C\+B\+User\+Task\+Create}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{T\+N\+\_\+\+C\+B\+User\+Task\+Create}]{\setlength{\rightskip}{0pt plus 5cm}typedef void( T\+N\+\_\+\+C\+B\+User\+Task\+Create)(void)}}\label{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}
+
+
+User-\/provided callback function that is called directly from {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} as a part of system startup routine; it should merely create at least one (and typically just one) user's task, which should perform all the rest application initialization. 
+
+When {\ttfamily \hyperlink{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}{T\+N\+\_\+\+C\+B\+User\+Task\+Create()}} returned, the kernel performs first context switch to the task with highest priority. If there are several tasks with highest priority, context is switched to the first created one.
+
+Refer to the section \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel} for details about system startup process on the whole.
+
+{\bfseries Note\+:} Although you're able to create more than one task here, it's usually not so good idea, because many things typically should be done at startup before tasks can go on with their job\+: we need to initialize various on-\/board peripherals (displays, flash memory chips, or whatever) as well as initialize software modules used by application. So, if many tasks are created here, you have to provide some synchronization object so that tasks will wait until all the initialization is done.
+
+It's usually easier to maintain if we create just one task here, which firstly performs all the necessary initialization, {\bfseries then} creates the rest of your tasks, and eventually gets to its primary job (the job for which task was created at all). For the usage example, refer to the page \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel}.
+
+\begin{DoxyAttention}{Attention}
+
+\begin{DoxyItemize}
+\item The only system service is allowed to call in this function is {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}}.
+\end{DoxyItemize}
+\end{DoxyAttention}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 141 of file tn\+\_\+sys.\+h.
+
+\hypertarget{tn__sys_8h_ac53892c962d429fadf7cf508024eec66}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+C\+B\+Idle@{T\+N\+\_\+\+C\+B\+Idle}}
+\index{T\+N\+\_\+\+C\+B\+Idle@{T\+N\+\_\+\+C\+B\+Idle}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{T\+N\+\_\+\+C\+B\+Idle}]{\setlength{\rightskip}{0pt plus 5cm}typedef void( T\+N\+\_\+\+C\+B\+Idle)(void)}}\label{tn__sys_8h_ac53892c962d429fadf7cf508024eec66}
+
+
+User-\/provided callback function that is called repeatedly from the idle task loop. 
+
+Make sure that idle task has enough stack space to call this function.
+
+\begin{DoxyAttention}{Attention}
+
+\begin{DoxyItemize}
+\item It is illegal to sleep here, because idle task (from which this function is called) should always be runnable, by design. If {\ttfamily \hyperlink{tn__cfg__default_8h_a9d2b6d902efdbc56094bb913413aa69c}{T\+N\+\_\+\+D\+E\+B\+U\+G}} option is set, then sleeping in idle task is checked, so if you try to sleep here, {\ttfamily \hyperlink{tn__arch__example_8h_a782f83184c608149ce6e02a461927bab}{\+\_\+\+T\+N\+\_\+\+F\+A\+T\+A\+L\+\_\+\+E\+R\+R\+O\+R()}} macro will be called.
+\end{DoxyItemize}
+\end{DoxyAttention}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 156 of file tn\+\_\+sys.\+h.
+
+\hypertarget{tn__sys_8h_ae8fd9ea5f9f265e638b56917bf1a5767}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+C\+B\+Deadlock@{T\+N\+\_\+\+C\+B\+Deadlock}}
+\index{T\+N\+\_\+\+C\+B\+Deadlock@{T\+N\+\_\+\+C\+B\+Deadlock}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{T\+N\+\_\+\+C\+B\+Deadlock}]{\setlength{\rightskip}{0pt plus 5cm}typedef void( T\+N\+\_\+\+C\+B\+Deadlock)({\bf B\+O\+O\+L} active, struct {\bf T\+N\+\_\+\+Mutex} $\ast$mutex, struct {\bf T\+N\+\_\+\+Task} $\ast$task)}}\label{tn__sys_8h_ae8fd9ea5f9f265e638b56917bf1a5767}
+
+
+User-\/provided callback function that is called whenever deadlock becomes active or inactive. 
+
+Note\+: this feature works if only {\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} is non-\/zero.
+
+
+\begin{DoxyParams}{Parameters}
+{\em active} & if {\ttfamily T\+R\+U\+E}, deadlock becomes active, otherwise it becomes inactive (say, if task stopped waiting for mutex because of timeout) \\
+\hline
+{\em mutex} & mutex that is involved in deadlock. You may find out other mutexes involved by means of {\ttfamily mutex-\/$>$deadlock\+\_\+list}. \\
+\hline
+{\em task} & task that is involved in deadlock. You may find out other tasks involved by means of {\ttfamily task-\/$>$deadlock\+\_\+list}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 171 of file tn\+\_\+sys.\+h.
+
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+State\+Flag@{T\+N\+\_\+\+State\+Flag}}
+\index{T\+N\+\_\+\+State\+Flag@{T\+N\+\_\+\+State\+Flag}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{T\+N\+\_\+\+State\+Flag}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+State\+Flag}}}\label{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8}
+
+
+System state flags. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G@{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G@{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G}}\item[{\em 
+\hypertarget{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8aa5085b1c78bc7e75aeac04a76cab6a52}{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G}\label{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8aa5085b1c78bc7e75aeac04a76cab6a52}
+}]system is running \index{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K@{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K@{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K}}\item[{\em 
+\hypertarget{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8a188c405a2cde555e7aaaeaa1189a4580}{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K}\label{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8a188c405a2cde555e7aaaeaa1189a4580}
+}]deadlock is active Note\+: this feature works if only {\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} is non-\/zero. \begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} 
+\end{DoxySeeAlso}
+\end{description}
+\end{Desc}
+
+
+Definition at line 79 of file tn\+\_\+sys.\+h.
+
+\hypertarget{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+Context@{T\+N\+\_\+\+Context}}
+\index{T\+N\+\_\+\+Context@{T\+N\+\_\+\+Context}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{T\+N\+\_\+\+Context}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Context}}}\label{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}
+
+
+System context. 
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}{tn\+\_\+sys\+\_\+context\+\_\+get()}} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+N\+O\+N\+E}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ac6015804609fb2bb71335015c51c40a3}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+N\+O\+N\+E}\label{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ac6015804609fb2bb71335015c51c40a3}
+}]None\+: this code is possible if only system is not running (flag ({\ttfamily \hyperlink{tn__sys_8h_ace9542d94b996fb2070cd57d6658a2d8aa5085b1c78bc7e75aeac04a76cab6a52}{T\+N\+\_\+\+S\+T\+A\+T\+E\+\_\+\+F\+L\+A\+G\+\_\+\+\_\+\+S\+Y\+S\+\_\+\+R\+U\+N\+N\+I\+N\+G}} is not set in the {\ttfamily tn\+\_\+sys\+\_\+state})) \index{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K@{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K@{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}}\item[{\em 
+\hypertarget{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}\label{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6}
+}]Task context. \index{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R@{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R@{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}}\item[{\em 
+\hypertarget{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}\label{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626}
+}]I\+S\+R context. \end{description}
+\end{Desc}
+
+
+Definition at line 95 of file tn\+\_\+sys.\+h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+sys\+\_\+start@{tn\+\_\+sys\+\_\+start}}
+\index{tn\+\_\+sys\+\_\+start@{tn\+\_\+sys\+\_\+start}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+sys\+\_\+start}]{\setlength{\rightskip}{0pt plus 5cm}void tn\+\_\+sys\+\_\+start (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+N\+\_\+\+U\+Word} $\ast$}]{idle\+\_\+task\+\_\+stack, }
+\item[{unsigned int}]{idle\+\_\+task\+\_\+stack\+\_\+size, }
+\item[{{\bf T\+N\+\_\+\+U\+Word} $\ast$}]{int\+\_\+stack, }
+\item[{unsigned int}]{int\+\_\+stack\+\_\+size, }
+\item[{{\bf T\+N\+\_\+\+C\+B\+User\+Task\+Create} $\ast$}]{cb\+\_\+user\+\_\+task\+\_\+create, }
+\item[{{\bf T\+N\+\_\+\+C\+B\+Idle} $\ast$}]{cb\+\_\+idle}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}
+
+
+Initial T\+Neo\+Kernel system start function, never returns. 
+
+Typically called from main().
+
+Refer to the \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel} section for the usage example and additional comments.
+
+
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em idle\+\_\+task\+\_\+stack} & Pointer to array for idle task stack. User must either use the macro {\ttfamily \hyperlink{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F()}} for the definition of stack array, or allocate it manually as an array of {\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}} with {\ttfamily \hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}} and {\ttfamily \hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}} macros. \\
+\hline
+{\em idle\+\_\+task\+\_\+stack\+\_\+size} & Size of idle task stack, in words ({\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}) \\
+\hline
+{\em int\+\_\+stack} & Pointer to array for interrupt stack. User must either use the macro {\ttfamily \hyperlink{tn__tasks_8h_a120e01d9dddd21ac11827595e88d7c36}{T\+N\+\_\+\+T\+A\+S\+K\+\_\+\+S\+T\+A\+C\+K\+\_\+\+D\+E\+F()}} for the definition of stack array, or allocate it manually as an array of {\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}} with {\ttfamily \hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+B\+E\+F\+O\+R\+E}} and {\ttfamily \hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{T\+N\+\_\+\+A\+R\+C\+H\+\_\+\+S\+T\+K\+\_\+\+A\+T\+T\+R\+\_\+\+A\+F\+T\+E\+R}} macros. \\
+\hline
+{\em int\+\_\+stack\+\_\+size} & Size of interrupt stack, in words ({\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}) \\
+\hline
+{\em cb\+\_\+user\+\_\+task\+\_\+create} & Callback function that should create initial user's task, see {\ttfamily \hyperlink{tn__sys_8h_a94f785ff88dfca8746f34de59784883d}{T\+N\+\_\+\+C\+B\+User\+Task\+Create}} for details. \\
+\hline
+{\em cb\+\_\+idle} & Callback function repeatedly called from idle task, see {\ttfamily \hyperlink{tn__sys_8h_ac53892c962d429fadf7cf508024eec66}{T\+N\+\_\+\+C\+B\+Idle}} for details. \\
+\hline
+\end{DoxyParams}
+\hypertarget{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+tick\+\_\+int\+\_\+processing@{tn\+\_\+tick\+\_\+int\+\_\+processing}}
+\index{tn\+\_\+tick\+\_\+int\+\_\+processing@{tn\+\_\+tick\+\_\+int\+\_\+processing}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+tick\+\_\+int\+\_\+processing}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+tick\+\_\+int\+\_\+processing (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}
+
+
+Process system tick; should be called periodically, typically from some kind of timer I\+S\+R. 
+
+The period of this timer is determined by user (typically 1 ms, but user is free to set different value)
+
+For further information, refer to \hyperlink{quick_guide}{Quick guide}.
+
+  \includegraphics{../../images/attr_call_int.png}    \includegraphics{../../images/attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} on success;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__sys_8h_a05fc370b6faa604fd8ff9411361c4cd0}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+sys\+\_\+tslice\+\_\+set@{tn\+\_\+sys\+\_\+tslice\+\_\+set}}
+\index{tn\+\_\+sys\+\_\+tslice\+\_\+set@{tn\+\_\+sys\+\_\+tslice\+\_\+set}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+sys\+\_\+tslice\+\_\+set}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sys\+\_\+tslice\+\_\+set (
+\begin{DoxyParamCaption}
+\item[{int}]{priority, }
+\item[{int}]{ticks}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_a05fc370b6faa604fd8ff9411361c4cd0}
+
+
+Set time slice ticks value for specified priority (see \hyperlink{quick_guide_round_robin}{Round-\/robin scheduling}). 
+
+  \includegraphics{../../images/attr_call_task.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em priority} & Priority of tasks for which time slice value should be set \\
+\hline
+{\em ticks} & Time slice value, in ticks. Set to {\ttfamily \hyperlink{tn__sys_8h_ab389cb36d15c2390d7868b10391c9b49}{T\+N\+\_\+\+N\+O\+\_\+\+T\+I\+M\+E\+\_\+\+S\+L\+I\+C\+E}} for no round-\/robin scheduling for given priority (it's default value). Value can't be higher than {\ttfamily \hyperlink{tn__sys_8h_a546b128561cc3bf46d0423bad1f5c8c7}{T\+N\+\_\+\+M\+A\+X\+\_\+\+T\+I\+M\+E\+\_\+\+S\+L\+I\+C\+E}}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} on success;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if given {\ttfamily priority} or {\ttfamily ticks} are invalid. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__sys_8h_a8d2170986218026c105ed4656f5cd0eb}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+sys\+\_\+time\+\_\+get@{tn\+\_\+sys\+\_\+time\+\_\+get}}
+\index{tn\+\_\+sys\+\_\+time\+\_\+get@{tn\+\_\+sys\+\_\+time\+\_\+get}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+sys\+\_\+time\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}unsigned int tn\+\_\+sys\+\_\+time\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_a8d2170986218026c105ed4656f5cd0eb}
+
+
+Get current system ticks count. 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyReturn}{Returns}
+Current system ticks count. Note that this value does {\bfseries not} affect any of the internal T\+Neo\+Kernel routines, it is just incremented each system tick (i.\+e. in {\ttfamily \hyperlink{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{tn\+\_\+tick\+\_\+int\+\_\+processing()}}) and is returned to user by {\ttfamily \hyperlink{tn__sys_8h_a8d2170986218026c105ed4656f5cd0eb}{tn\+\_\+sys\+\_\+time\+\_\+get()}}.
+\end{DoxyReturn}
+It is not used by T\+Neo\+Kernel itself at all. \hypertarget{tn__sys_8h_ad87fac29a918ffc1cae40f2b6d67e369}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+sys\+\_\+time\+\_\+set@{tn\+\_\+sys\+\_\+time\+\_\+set}}
+\index{tn\+\_\+sys\+\_\+time\+\_\+set@{tn\+\_\+sys\+\_\+time\+\_\+set}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+sys\+\_\+time\+\_\+set}]{\setlength{\rightskip}{0pt plus 5cm}void tn\+\_\+sys\+\_\+time\+\_\+set (
+\begin{DoxyParamCaption}
+\item[{unsigned int}]{value}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_ad87fac29a918ffc1cae40f2b6d67e369}
+
+
+Set system ticks count. 
+
+Note that this value does {\bfseries not} affect any of the internal T\+Neo\+Kernel routines, it is just incremented each system tick (i.\+e. in {\ttfamily \hyperlink{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{tn\+\_\+tick\+\_\+int\+\_\+processing()}}) and is returned to user by {\ttfamily \hyperlink{tn__sys_8h_a8d2170986218026c105ed4656f5cd0eb}{tn\+\_\+sys\+\_\+time\+\_\+get()}}.
+
+It is not used by T\+Neo\+Kernel itself at all.
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__sys_8h_aaa4a5c2feb4a0db5993b81dde496edc3}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+callback\+\_\+deadlock\+\_\+set@{tn\+\_\+callback\+\_\+deadlock\+\_\+set}}
+\index{tn\+\_\+callback\+\_\+deadlock\+\_\+set@{tn\+\_\+callback\+\_\+deadlock\+\_\+set}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+callback\+\_\+deadlock\+\_\+set}]{\setlength{\rightskip}{0pt plus 5cm}void tn\+\_\+callback\+\_\+deadlock\+\_\+set (
+\begin{DoxyParamCaption}
+\item[{{\bf T\+N\+\_\+\+C\+B\+Deadlock} $\ast$}]{cb}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_aaa4a5c2feb4a0db5993b81dde496edc3}
+
+
+Set callback function that should be called whenever deadlock occurs or becomes inactive (say, if one of tasks involved in the deadlock was released from wait because of timeout) 
+
+
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+{\bfseries Note\+:} this function should be called before {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em cb} & Pointer to user-\/provided callback function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} 
+
+{\ttfamily \hyperlink{tn__sys_8h_ae8fd9ea5f9f265e638b56917bf1a5767}{T\+N\+\_\+\+C\+B\+Deadlock}} for callback function prototype 
+\end{DoxySeeAlso}
+\hypertarget{tn__sys_8h_a202fb30400101599c1e39ba4e58d2fd5}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get@{tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get}}
+\index{tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get@{tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+State\+Flag} tn\+\_\+sys\+\_\+state\+\_\+flags\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_a202fb30400101599c1e39ba4e58d2fd5}
+
+
+Returns current system state flags. 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+sys\+\_\+context\+\_\+get@{tn\+\_\+sys\+\_\+context\+\_\+get}}
+\index{tn\+\_\+sys\+\_\+context\+\_\+get@{tn\+\_\+sys\+\_\+context\+\_\+get}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+sys\+\_\+context\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Context} tn\+\_\+sys\+\_\+context\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}
+
+
+Returns system context\+: task or I\+S\+R. 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}   
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily enum \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{T\+N\+\_\+\+Context}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__sys_8h_ad87f45a4a385f68f9492ba48365c00e0}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+is\+\_\+task\+\_\+context@{tn\+\_\+is\+\_\+task\+\_\+context}}
+\index{tn\+\_\+is\+\_\+task\+\_\+context@{tn\+\_\+is\+\_\+task\+\_\+context}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+is\+\_\+task\+\_\+context}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf B\+O\+O\+L} tn\+\_\+is\+\_\+task\+\_\+context (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{tn__sys_8h_ad87f45a4a385f68f9492ba48365c00e0}
+
+
+Returns whether current system context is {\ttfamily \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}} 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}   
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily T\+R\+U\+E} if current system context is {\ttfamily \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51ab78bafeb369a85700f793a7375e38ec6}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+T\+A\+S\+K}}, {\ttfamily F\+A\+L\+S\+E} otherwise.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}{tn\+\_\+sys\+\_\+context\+\_\+get()}} 
+
+{\ttfamily enum \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{T\+N\+\_\+\+Context}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 365 of file tn\+\_\+sys.\+h.
+
+\hypertarget{tn__sys_8h_a797d5a13800d4da9581abaa13e506854}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+is\+\_\+isr\+\_\+context@{tn\+\_\+is\+\_\+isr\+\_\+context}}
+\index{tn\+\_\+is\+\_\+isr\+\_\+context@{tn\+\_\+is\+\_\+isr\+\_\+context}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+is\+\_\+isr\+\_\+context}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf B\+O\+O\+L} tn\+\_\+is\+\_\+isr\+\_\+context (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{tn__sys_8h_a797d5a13800d4da9581abaa13e506854}
+
+
+Returns whether current system context is {\ttfamily \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}} 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}   
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily T\+R\+U\+E} if current system context is {\ttfamily \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51a4b0defef531f47e8cf5dc274355b6626}{T\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+I\+S\+R}}, {\ttfamily F\+A\+L\+S\+E} otherwise.
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__sys_8h_ac3233931746c9d8b84ebd34a2a3a468a}{tn\+\_\+sys\+\_\+context\+\_\+get()}} 
+
+{\ttfamily enum \hyperlink{tn__sys_8h_a54b0c697dfdb3b59e7bcc6eb7badda51}{T\+N\+\_\+\+Context}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 384 of file tn\+\_\+sys.\+h.
+
+\hypertarget{tn__sys_8h_a2ca353dcf362a5aa8d2e5a3960e51410}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+cur\+\_\+task\+\_\+get@{tn\+\_\+cur\+\_\+task\+\_\+get}}
+\index{tn\+\_\+cur\+\_\+task\+\_\+get@{tn\+\_\+cur\+\_\+task\+\_\+get}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+cur\+\_\+task\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf T\+N\+\_\+\+Task}$\ast$ tn\+\_\+cur\+\_\+task\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_a2ca353dcf362a5aa8d2e5a3960e51410}
+
+
+Returns pointer to the currently running task. 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__sys_8h_afa3c83dce52b17c9ee07b34af0fcebab}{\index{tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}!tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get@{tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get}}
+\index{tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get@{tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get}!tn\+\_\+sys.\+h@{tn\+\_\+sys.\+h}}
+\subsubsection[{tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+N\+\_\+\+Task\+Body}$\ast$ tn\+\_\+cur\+\_\+task\+\_\+body\+\_\+get (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}}\label{tn__sys_8h_afa3c83dce52b17c9ee07b34af0fcebab}
+
+
+Returns pointer to the body function of the currently running task. 
+
+  \includegraphics{../../images/attr_call_task.png}    \includegraphics{../../images/attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  

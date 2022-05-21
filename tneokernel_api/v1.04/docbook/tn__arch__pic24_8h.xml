@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch__pic24_8h">
+    <title>tn_arch_pic24.h File Reference</title>
+    <programlisting>#include &quot;../../core/tn_cfg_dispatch.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_arch_pic24_bfa.h&quot;</programlisting>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic24_8h_1a0b184d3c15066f5504144379d2624ff3">tn_p24_soft_isr</link> _tn_soft_isr_internal(_func, _psv, )<para><emphasis>ISR wrapper macro for software context saving.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>PIC24/dsPIC architecture-dependent routines. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/arch/pic24_dspic/tn_arch_pic24.h</para>
+    </simplesect>
+</section>

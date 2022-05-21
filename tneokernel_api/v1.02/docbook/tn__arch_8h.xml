@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch_8h">
+    <title>tn_arch.h File Reference</title>
+    <programlisting>#include &quot;../core/tn_common.h&quot;</programlisting>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a2b3f2294ac42a599662c573394b14c75">tn_arch_int_dis</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a2997c6d98ac43cb90216fc4e8137bcfb">tn_arch_int_en</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned int <link linkend="tn__arch_8h_1a010a50388c4cdca7cdda8b82b1c17563">tn_arch_sr_save_int_dis</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a4662406a6972e7f4d99e8d8dd90218e0">tn_arch_sr_restore</link> (
+unsigned int sr)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * <link linkend="tn__arch_8h_1a8b4910c153815699beca8afdea88e4b5">_tn_arch_stack_top_get</link> (
+<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * stack_low_address, int stack_size)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>unsigned int * <link linkend="tn__arch_8h_1a4c6837b03b38bb533a3385f27713aad1">_tn_arch_stack_init</link> (
+<link linkend="tn__common_8h_1a82f7de9034cbbb373c4dbcff45942343">TN_TaskBody</link> * task_func, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * stack_top, void * param)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="tn__arch_8h_1a34ffbae8b6837f7f3014bca9991e2272">_tn_arch_inside_isr</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1ad16ec57c8292452f09d51d2129a49a09">_tn_arch_context_switch</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a7c4fb66362018701c0fc0d8bcdea8ff7">_tn_arch_context_switch_exit</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a9e5e07cc5fd5e78ec48bec39da09e150">_tn_arch_system_start</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Architecture-dependent routines declaration. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/arch/tn_arch.h</para>
+    </simplesect>
+</section>

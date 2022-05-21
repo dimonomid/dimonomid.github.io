@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Features</title>
+
+<para>TNeo has a complete set of common RTOS features plus some extras.</para>
+
+<para>Many features are optional, so that if you don&apos;t need them you can configure the kernel as you wish and probably save memory or improve speed.</para>
+<section xml:id="features_1feature_list">
+<title>Feature list</title>
+
+<para><itemizedlist>
+<listitem>
+<para><link linkend="tn__tasks_8h">Tasks</link>, or threads: the most common feature for which the kernel is written in the first place;</para>
+</listitem><listitem>
+<para><link linkend="tn__mutex_8h">Mutexes</link>: objects for shared resources protection.<itemizedlist>
+<listitem>
+<para><emphasis role="bold">Recursive mutexes</emphasis>: optionally, mutexes allow nested locking;</para>
+</listitem><listitem>
+<para><emphasis role="bold">Mutex deadlock detection</emphasis>: if deadlock occurs, the kernel can notify you about this problem by calling arbitrary function.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para><link linkend="tn__sem_8h">Semaphores</link>: objects for tasks synchronization;</para>
+</listitem><listitem>
+<para><link linkend="tn__fmem_8h">Fixed-size memory blocks</link>: simple and deterministic memory allocator;</para>
+</listitem><listitem>
+<para><link linkend="tn__eventgrp_8h">Event groups</link>: objects containing various event bits that tasks may set, clear and wait for;<itemizedlist>
+<listitem>
+<para><link linkend="tn__eventgrp_8h_1eventgrp_connect">Event group connection</link>: extremely useful feature when you need to wait, say, for messages from multiple queues, or for other set of different events.</para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para><link linkend="tn__dqueue_8h">Data queues</link>: FIFO buffer of messages that tasks may send and receive;</para>
+</listitem><listitem>
+<para><link linkend="tn__timer_8h">Timers</link>: a tool to ask the kernel to call arbitrary function at a particular time in the future. The callback approach provides ultimate flexibility.</para>
+</listitem><listitem>
+<para><emphasis role="bold">Software stack overflow check</emphasis>: extremely useful feature for architectures without hardware stack pointer limit. Refer to the <computeroutput><link linkend="tn__cfg__default_8h_1ac6a9bbac3b3b25d9b5bc8c21d2e09955">TN_STACK_OVERFLOW_CHECK</link></computeroutput> option for details.</para>
+</listitem><listitem>
+<para><emphasis role="bold">Dynamic tick</emphasis>: if there&apos;s nothing to do, don&apos;t even bother to manage system timer tick each fixed period of time. Refer to the page <link linkend="time_ticks">Time ticks</link> for details.</para>
+</listitem><listitem>
+<para><emphasis role="bold">Profiler</emphasis>: allows you to know how much time each of your tasks was actually running, get maximum consecutive running time of it, and other relevant information. Refer to the option <computeroutput><link linkend="tn__cfg__default_8h_1a49a546b18cc1f75b51d4cf8b290634dd">TN_PROFILER</link></computeroutput> and <computeroutput>struct <link linkend="structTN__TaskTiming">TN_TaskTiming</link></computeroutput> for details. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+
+</chapter>

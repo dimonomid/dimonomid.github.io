@@ -1,0 +1,387 @@
+\hypertarget{tn__timer_8h}{\section{core/tn\+\_\+timer.h File Reference}
+\label{tn__timer_8h}\index{core/tn\+\_\+timer.\+h@{core/tn\+\_\+timer.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Timer is a kernel object that is used to ask the kernel to call some user-\/provided function at a particular time in the future, based on the {\itshape \hyperlink{quick_guide_time_ticks}{system timer}} tick. 
+
+If you need to repeatedly wake up particular task, you can create semaphore which you should \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{wait for} in the task, and \hyperlink{tn__sem_8h_a215fd97b86fc63192106bb30b0574d14}{signal} in the timer callback (remember that you should use {\ttfamily \hyperlink{tn__sem_8h_a215fd97b86fc63192106bb30b0574d14}{tn\+\_\+sem\+\_\+isignal()}} in this callback, since it is called from an I\+S\+R).
+
+If you need to perform rather fast action (such as toggle some pin, or the like), consider doing that right in the timer callback, in order to avoid context switch overhead.
+
+The timer callback approach provides ultimate flexibility.
+
+In the spirit of T\+Neo\+Kernel, timers are as lightweight as possible. That's why there is only one type of timer\+: the single-\/shot timer. If you need your timer to fire repeatedly, you can easily restart it from the timer function by the {\ttfamily \hyperlink{tn__timer_8h_ad2e783b412081d6d266a15e0ce733ab3}{tn\+\_\+timer\+\_\+start()}}, so it's not a problem.
+
+When timer fires, the user-\/provided function is called. Be aware of the following\+:
+
+
+\begin{DoxyItemize}
+\item Function is called from an I\+S\+R context (namely, from {\itshape \hyperlink{quick_guide_time_ticks}{system timer}} I\+S\+R, by the {\ttfamily \hyperlink{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{tn\+\_\+tick\+\_\+int\+\_\+processing()}});
+\item Function is called with global interrupts disabled.
+\end{DoxyItemize}
+
+Consequently\+:
+
+
+\begin{DoxyItemize}
+\item It's legal to call interrupt services from this function;
+\item You should make sure that your interrupt stack is enough for this function;
+\item The function should be as fast as possible;
+\item The function should not enable interrupts unconditionally. Consider using {\ttfamily \hyperlink{tn__arch_8h_a010a50388c4cdca7cdda8b82b1c17563}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}} and {\ttfamily \hyperlink{tn__arch_8h_a4662406a6972e7f4d99e8d8dd90218e0}{tn\+\_\+arch\+\_\+sr\+\_\+restore()}} if you need.
+\end{DoxyItemize}
+
+See {\ttfamily \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func}} for the prototype of the function that could be scheduled.\hypertarget{tn__timer_8h_timers_implementation}{}\subsection{Implementation of timers}\label{tn__timer_8h_timers_implementation}
+Although you don't have to understand the implementation of timers to use them, it is probably worth knowing, particularly because the kernel have an option {\ttfamily \hyperlink{tn__cfg__default_8h_afef2a6ec1baa81edaa979024af0c924a}{T\+N\+\_\+\+T\+I\+C\+K\+\_\+\+L\+I\+S\+T\+S\+\_\+\+C\+N\+T}} to customize the balance between performance of {\ttfamily \hyperlink{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} and memory occupied by timers.
+
+The easiest implementation of timers could be something like this\+: we have just a single list with all active timers, and at every system tick we should walk through all the timers in this list, and do the following with each timer\+:
+
+
+\begin{DoxyItemize}
+\item Decrement timeout by 1
+\item If new timeout is 0, then remove that timer from the list (i.\+e. make timer inactive), and fire the appropriate timer function.
+\end{DoxyItemize}
+
+This approach has drawbacks\+:
+
+
+\begin{DoxyItemize}
+\item We can't manage timers from the function called by timer. If we do so (say, if we start new timer), then the timer list gets modified. But we are currently iterating through this list, so, it's quite easy to mix things up.
+\item It is inefficient on rather large amount of timers and/or with large timeouts\+: we should iterate through all of them each system tick.
+\end{DoxyItemize}
+
+The latter is probably not so critical in the embedded world since large amount of timers is unlikely there; whereas the former is actually notable.
+
+So, different approach was applied. The main idea is taken from the mainline Linux kernel source, but the implementation was simplified much because (1) embedded systems have much less resources, and (2) the kernel doesn't need to scale as well as Linux does. You can read about Linux timers implementation in the book \char`\"{}\+Linux Device Drivers\char`\"{}, 3rd edition\+:
+
+
+\begin{DoxyItemize}
+\item Time, Delays, and Deferred Work
+\begin{DoxyItemize}
+\item Kernel Timers
+\begin{DoxyItemize}
+\item The Implementation of Kernel Timers
+\end{DoxyItemize}
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+This book is freely available at \href{http://lwn.net/Kernel/LDD3/}{\tt http\+://lwn.\+net/\+Kernel/\+L\+D\+D3/} .
+
+So, T\+Neo\+Kernel's implementation\+:
+
+We have configurable value {\ttfamily N} that is a power of two, typical values are {\ttfamily 4}, {\ttfamily 8} or {\ttfamily 16}.
+
+If the timer expires in the next {\ttfamily 1} to {\ttfamily (N -\/ 1)} system ticks, it is added to one of the {\ttfamily N} lists (the so-\/called \char`\"{}tick\char`\"{} lists) devoted to short-\/range timers using the least significant bits of the {\ttfamily timeout} value. If it expires farther in the future, it is added to the \char`\"{}generic\char`\"{} list.
+
+Each {\ttfamily N}-\/th system tick, all the timers from \char`\"{}generic\char`\"{} list are walked through, and the following is performed with each timer\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily timeout} value decremented by {\ttfamily N}
+\item if resulting {\ttfamily timeout} is less than {\ttfamily N}, timer is moved to the appropriate \char`\"{}tick\char`\"{} list.
+\end{DoxyItemize}
+
+At {\itshape every} system tick, all the timers from current \char`\"{}tick\char`\"{} list are fired unconditionally. This is an efficient and nice solution.
+
+The attentive reader may want to ask why do we use {\ttfamily (N -\/ 1)} \char`\"{}tick\char`\"{} lists if we actually have {\ttfamily N} lists. That's because, again, we want to be able to modify timers from the timer function. If we use {\ttfamily N} lists, and user wants to add new timer with {\ttfamily timeout} equal to {\ttfamily N}, then new timer will be added to the same list which is iterated through at the moment, and things will be mixed up.
+
+If we use {\ttfamily (N -\/ 1)} lists, we are guaranteed that new timers can't be added to the current \char`\"{}tick\char`\"{} list while we are iterating through it. (although timer can be deleted from that list, but it's ok)
+
+The {\ttfamily N} in the T\+Neo\+Kernel is configured by the compile-\/time option {\ttfamily \hyperlink{tn__cfg__default_8h_afef2a6ec1baa81edaa979024af0c924a}{T\+N\+\_\+\+T\+I\+C\+K\+\_\+\+L\+I\+S\+T\+S\+\_\+\+C\+N\+T}}. 
+
+Definition in file \hyperlink{tn__timer_8h_source}{tn\+\_\+timer.\+h}.
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer}
+\begin{DoxyCompactList}\small\item\em Timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef void( \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func} )(struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer, void $\ast$p\+\_\+user\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Prototype of the function that should be called by timer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_a13fe1c64d32f7e554ac48d4331e7f5a2}{tn\+\_\+timer\+\_\+create} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer, \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func} $\ast$func, void $\ast$p\+\_\+user\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Construct the timer. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_af97725f0e7e3a92864846aee64e7a55f}{tn\+\_\+timer\+\_\+delete} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer)
+\begin{DoxyCompactList}\small\item\em Destruct the timer. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_ad2e783b412081d6d266a15e0ce733ab3}{tn\+\_\+timer\+\_\+start} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer, \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout} timeout)
+\begin{DoxyCompactList}\small\item\em Start or restart the timer\+: that is, schedule the timer's function (given to {\ttfamily \hyperlink{tn__timer_8h_a13fe1c64d32f7e554ac48d4331e7f5a2}{tn\+\_\+timer\+\_\+create()}}) to be called later by the kernel. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_adda7385799b66fd32a1d00927fcabcf9}{tn\+\_\+timer\+\_\+cancel} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer)
+\begin{DoxyCompactList}\small\item\em If timer is active, cancel it. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_aa81f018e8a8e511f288781acbf79af72}{tn\+\_\+timer\+\_\+set\+\_\+func} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer, \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func} $\ast$func, void $\ast$p\+\_\+user\+\_\+data)
+\begin{DoxyCompactList}\small\item\em Set user-\/provided function and pointer to user data for the timer. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_a59b7c3164cb5c5520e3b329e749fac20}{tn\+\_\+timer\+\_\+is\+\_\+active} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer, \hyperlink{tn__common_8h_ae4cc35dcc70810fa972cc8a5185a28fa}{B\+O\+O\+L} $\ast$p\+\_\+is\+\_\+active)
+\begin{DoxyCompactList}\small\item\em Returns whether given timer is active or inactive. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__timer_8h_a6b4b96ba5e549c09f8b6364b04534f6d}{tn\+\_\+timer\+\_\+time\+\_\+left} (struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} $\ast$timer, \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout} $\ast$p\+\_\+time\+\_\+left)
+\begin{DoxyCompactList}\small\item\em Returns how many {\itshape \hyperlink{quick_guide_time_ticks}{system timer}} ticks (at most) is left for the timer to expire. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\hypertarget{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!T\+N\+\_\+\+Timer\+Func@{T\+N\+\_\+\+Timer\+Func}}
+\index{T\+N\+\_\+\+Timer\+Func@{T\+N\+\_\+\+Timer\+Func}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{T\+N\+\_\+\+Timer\+Func}]{\setlength{\rightskip}{0pt plus 5cm}typedef void( T\+N\+\_\+\+Timer\+Func)(struct {\bf T\+N\+\_\+\+Timer} $\ast$timer, void $\ast$p\+\_\+user\+\_\+data)}}\label{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}
+
+
+Prototype of the function that should be called by timer. 
+
+When timer fires, the user-\/provided function is called. Be aware of the following\+:
+\begin{DoxyItemize}
+\item Function is called from I\+S\+R context (namely, from {\itshape \hyperlink{quick_guide_time_ticks}{system timer}} I\+S\+R, by the {\ttfamily \hyperlink{tn__sys_8h_a944d96c7a5d442d271115b6cb22a085b}{tn\+\_\+tick\+\_\+int\+\_\+processing()}});
+\item Function is called with global interrupts disabled.
+\end{DoxyItemize}
+
+Consequently\+:
+
+
+\begin{DoxyItemize}
+\item It's legal to call interrupt services from this function;
+\item The function should be as fast as possible.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Timer that caused function to be called \\
+\hline
+{\em p\+\_\+user\+\_\+data} & The user-\/provided pointer given to {\ttfamily \hyperlink{tn__timer_8h_a13fe1c64d32f7e554ac48d4331e7f5a2}{tn\+\_\+timer\+\_\+create()}}. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 197 of file tn\+\_\+timer.\+h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__timer_8h_a13fe1c64d32f7e554ac48d4331e7f5a2}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+create@{tn\+\_\+timer\+\_\+create}}
+\index{tn\+\_\+timer\+\_\+create@{tn\+\_\+timer\+\_\+create}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+create}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer, }
+\item[{{\bf T\+N\+\_\+\+Timer\+Func} $\ast$}]{func, }
+\item[{void $\ast$}]{p\+\_\+user\+\_\+data}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_a13fe1c64d32f7e554ac48d4331e7f5a2}
+
+
+Construct the timer. 
+
+{\ttfamily id\+\_\+timer} field should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9695f4d7fb1f9f00a105db61fc43f153}{T\+N\+\_\+\+I\+D\+\_\+\+T\+I\+M\+E\+R}}, otherwise, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to already allocated {\ttfamily struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer}} \\
+\hline
+{\em func} & Function to be called by timer, can't be {\ttfamily N\+U\+L\+L}. See {\ttfamily \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func()}} \\
+\hline
+{\em p\+\_\+user\+\_\+data} & User data pointer that is given to user-\/provided {\ttfamily func}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if timer was successfully created;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if wrong params were given. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__timer_8h_af97725f0e7e3a92864846aee64e7a55f}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+delete@{tn\+\_\+timer\+\_\+delete}}
+\index{tn\+\_\+timer\+\_\+delete@{tn\+\_\+timer\+\_\+delete}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+delete}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_af97725f0e7e3a92864846aee64e7a55f}
+
+
+Destruct the timer. 
+
+If the timer is active, it is cancelled first.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & timer to destruct\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if timer was successfully deleted;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__timer_8h_ad2e783b412081d6d266a15e0ce733ab3}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+start@{tn\+\_\+timer\+\_\+start}}
+\index{tn\+\_\+timer\+\_\+start@{tn\+\_\+timer\+\_\+start}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+start}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+start (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer, }
+\item[{{\bf T\+N\+\_\+\+Timeout}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_ad2e783b412081d6d266a15e0ce733ab3}
+
+
+Start or restart the timer\+: that is, schedule the timer's function (given to {\ttfamily \hyperlink{tn__timer_8h_a13fe1c64d32f7e554ac48d4331e7f5a2}{tn\+\_\+timer\+\_\+create()}}) to be called later by the kernel. 
+
+See {\ttfamily \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func()}}.
+
+It is legal to restart already active timer. In this case, the timer will be cancelled first.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Timer to start \\
+\hline
+{\em timeout} & Number of system ticks after which timer should fire (i.\+e. function should be called). {\bfseries Note} that {\ttfamily timeout} can't be {\ttfamily \hyperlink{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+I\+N\+F\+I\+N\+I\+T\+E}} or {\ttfamily 0}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if timer was successfully started;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if wrong params were given\+: say, {\ttfamily timeout} is either {\ttfamily \hyperlink{tn__arch__example_8h_a16909a2a05bc2bc628109d843208a76b}{T\+N\+\_\+\+W\+A\+I\+T\+\_\+\+I\+N\+F\+I\+N\+I\+T\+E}} or {\ttfamily 0}.
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return code is available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__timer_8h_adda7385799b66fd32a1d00927fcabcf9}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+cancel@{tn\+\_\+timer\+\_\+cancel}}
+\index{tn\+\_\+timer\+\_\+cancel@{tn\+\_\+timer\+\_\+cancel}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+cancel}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+cancel (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_adda7385799b66fd32a1d00927fcabcf9}
+
+
+If timer is active, cancel it. 
+
+If timer is already inactive, nothing is changed.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Timer to cancel\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if timer was successfully cancelled;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__timer_8h_aa81f018e8a8e511f288781acbf79af72}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+set\+\_\+func@{tn\+\_\+timer\+\_\+set\+\_\+func}}
+\index{tn\+\_\+timer\+\_\+set\+\_\+func@{tn\+\_\+timer\+\_\+set\+\_\+func}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+set\+\_\+func}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+set\+\_\+func (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer, }
+\item[{{\bf T\+N\+\_\+\+Timer\+Func} $\ast$}]{func, }
+\item[{void $\ast$}]{p\+\_\+user\+\_\+data}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_aa81f018e8a8e511f288781acbf79af72}
+
+
+Set user-\/provided function and pointer to user data for the timer. 
+
+Can be called if timer is either active or inactive.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer \\
+\hline
+{\em func} & Function to be called by timer, can't be {\ttfamily N\+U\+L\+L}. See {\ttfamily \hyperlink{tn__timer_8h_a98be38210cd5a636dc4170e087ea0e67}{T\+N\+\_\+\+Timer\+Func()}} \\
+\hline
+{\em p\+\_\+user\+\_\+data} & User data pointer that is given to user-\/provided {\ttfamily func}.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if operation was successfull;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if wrong params were given. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__timer_8h_a59b7c3164cb5c5520e3b329e749fac20}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+is\+\_\+active@{tn\+\_\+timer\+\_\+is\+\_\+active}}
+\index{tn\+\_\+timer\+\_\+is\+\_\+active@{tn\+\_\+timer\+\_\+is\+\_\+active}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+is\+\_\+active}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+is\+\_\+active (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer, }
+\item[{{\bf B\+O\+O\+L} $\ast$}]{p\+\_\+is\+\_\+active}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_a59b7c3164cb5c5520e3b329e749fac20}
+
+
+Returns whether given timer is active or inactive. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer \\
+\hline
+{\em p\+\_\+is\+\_\+active} & Pointer to {\ttfamily \hyperlink{tn__common_8h_ae4cc35dcc70810fa972cc8a5185a28fa}{B\+O\+O\+L}} variable in which resulting value should be stored\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if operation was successfull;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if wrong params were given. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__timer_8h_a6b4b96ba5e549c09f8b6364b04534f6d}{\index{tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}!tn\+\_\+timer\+\_\+time\+\_\+left@{tn\+\_\+timer\+\_\+time\+\_\+left}}
+\index{tn\+\_\+timer\+\_\+time\+\_\+left@{tn\+\_\+timer\+\_\+time\+\_\+left}!tn\+\_\+timer.\+h@{tn\+\_\+timer.\+h}}
+\subsubsection[{tn\+\_\+timer\+\_\+time\+\_\+left}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+timer\+\_\+time\+\_\+left (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Timer} $\ast$}]{timer, }
+\item[{{\bf T\+N\+\_\+\+Timeout} $\ast$}]{p\+\_\+time\+\_\+left}
+\end{DoxyParamCaption}
+)}}\label{tn__timer_8h_a6b4b96ba5e549c09f8b6364b04534f6d}
+
+
+Returns how many {\itshape \hyperlink{quick_guide_time_ticks}{system timer}} ticks (at most) is left for the timer to expire. 
+
+If timer is inactive, 0 is returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timer} & Pointer to timer \\
+\hline
+{\em p\+\_\+time\+\_\+left} & Pointer to {\ttfamily \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout}} variable in which resulting value should be stored\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if operation was successfull;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} if wrong params were given. 
+\end{DoxyItemize}
+\end{DoxyReturn}

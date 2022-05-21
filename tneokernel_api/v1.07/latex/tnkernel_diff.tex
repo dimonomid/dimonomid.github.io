@@ -1,0 +1,199 @@
+If you have experience of using T\+N\+Kernel, you really want to read this.\hypertarget{tnkernel_diff_tnkernel_diff_api}{}\section{Incompatible A\+P\+I changes}\label{tnkernel_diff_tnkernel_diff_api}
+\hypertarget{tnkernel_diff_tnkernel_diff_api_sys_start}{}\subsection{System startup}\label{tnkernel_diff_tnkernel_diff_api_sys_start}
+Original T\+N\+Kernel code designed to be built together with main project only, there's no way to build as a separate library\+: at least, arrays for idle and timer task stacks are allocated statically, so size of them is defined at tnkernel compile time.
+
+It's much better if we could pass these things to tnkernel at runtime, so, {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} now takes pointers to stack arrays and their sizes. Refer to \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel} section for the details.\hypertarget{tnkernel_diff_tnkernel_diff_task_create}{}\subsection{Task creation A\+P\+I}\label{tnkernel_diff_tnkernel_diff_task_create}
+In original T\+N\+Kernel, one should give bottom address of the task stack to {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}}, like this\+:
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#define MY\_STACK\_SIZE   0x100}
+\textcolor{keyword}{static} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} my\_stack[ MY\_STACK\_SIZE ];
+
+\hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\_task\_create}(\textcolor{comment}{/* ... several arguments omitted ... */}
+               &(my\_stack[ MY\_STACK\_SIZE - 1]),
+               \textcolor{comment}{/* ... several arguments omitted ... */});
+\end{DoxyCode}
+
+
+Alex Borisov implemented it more conveniently in his port\+: one should give just array address, like this\+: 
+\begin{DoxyCode}
+\hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\_task\_create}(\textcolor{comment}{/* ... several arguments omitted ... */}
+               my\_stack,
+               \textcolor{comment}{/* ... several arguments omitted ... */});
+\end{DoxyCode}
+
+
+T\+Neo uses the second way (i.\+e. the way used in the port by Alex Borisov), and it does so independently of the architecture being used.\hypertarget{tnkernel_diff_tnkernel_diff_wakeup_count}{}\subsection{Task wakeup count, activate count, suspend count}\label{tnkernel_diff_tnkernel_diff_wakeup_count}
+In original T\+N\+Kernel, requesting non-\/sleeping task to wake up is quite legal and causes next call to {\ttfamily \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\+\_\+task\+\_\+sleep()}} to not sleep. The same is with suspending/resuming tasks.
+
+So, if you call {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}} on non-\/sleeping task first time, {\ttfamily \hyperlink{tn__oldsymbols_8h_a71970f860643e62fad7ec03076bdc1d8}{T\+E\+R\+R\+\_\+\+N\+O\+\_\+\+E\+R\+R}} is returned. If you call it second time, before target task called {\ttfamily \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\+\_\+task\+\_\+sleep()}}, {\ttfamily \hyperlink{tn__oldsymbols_8h_abfe40d04917509ecd3a98c38878df5ff}{T\+E\+R\+R\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W}} is returned.
+
+All of this seems to me as a complete dirty hack, it probably might be used as a workaround to avoid race condition problems, or as a hacky replacement for semaphore.
+
+It just encourages programmer to go with hacky approach, instead of creating straightforward semaphore and provide proper synchronization.
+
+In T\+Neo these \char`\"{}features\char`\"{} are removed, and if you try to wake up non-\/sleeping task, or try to resume non-\/suspended task, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} is returned.
+
+By the way, {\ttfamily suspend\+\_\+count} is present in {\ttfamily T\+C\+B} structure, but is never used, so, it is just removed. And comments for {\ttfamily wakeup\+\_\+count}, {\ttfamily activate\+\_\+count}, {\ttfamily suspend\+\_\+count} suggested that these fields are used for statistics, which is clearly not true.\hypertarget{tnkernel_diff_tnkernel_diff_fmem}{}\subsection{Fixed memory pool\+: non-\/aligned address or block size}\label{tnkernel_diff_tnkernel_diff_fmem}
+In original T\+N\+Kernel it's illegal to pass {\ttfamily block\+\_\+size} that is less than {\ttfamily sizeof(int)}. But, it is legal to pass some value that isn't multiple of {\ttfamily sizeof(int)}\+: in this case, {\ttfamily block\+\_\+size} is silently rounded up, and therefore {\ttfamily block\+\_\+cnt} is silently decremented to fit as many blocks of newly calculated {\ttfamily block\+\_\+size} as possible. If resulting {\ttfamily block\+\_\+cnt} is at least 2, it is assumed that everything is fine and we can go on.
+
+Why I don't like it\+: firstly, silent behavior like this is generally bad practice that leads to hard-\/to-\/catch bugs. Secondly, it is inconsistency again\+: why is it legal for {\ttfamily block\+\_\+size} not to be multiple of {\ttfamily sizeof(int)}, but it is illegal for it to be less than {\ttfamily sizeof(int)}? After all, the latter is the partucular case of the former.
+
+So, T\+Neo returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} in these cases. User must provide {\ttfamily start\+\_\+addr} and {\ttfamily block\+\_\+size} that are properly aligned.
+
+T\+Neo also provides convenience macro {\ttfamily \hyperlink{tn__fmem_8h_ab45e9c2ad4a64345214f9a912bf76fc3}{T\+N\+\_\+\+F\+M\+E\+M\+\_\+\+B\+U\+F\+\_\+\+D\+E\+F()}} for buffer definition, so, as a generic rule, it is good practice to define buffers for memory pool like this\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{//-- number of blocks in the pool}
+\textcolor{preprocessor}{#define MY\_MEMORY\_BUF\_SIZE    8}
+
+\textcolor{comment}{//-- type for memory block}
+\textcolor{keyword}{struct }MyMemoryItem \{
+   \textcolor{comment}{// ... arbitrary fields ...}
+\};
+
+\textcolor{comment}{//-- define buffer for memory pool}
+\hyperlink{tn__fmem_8h_ab45e9c2ad4a64345214f9a912bf76fc3}{TN\_FMEM\_BUF\_DEF}(my\_fmem\_buf, \textcolor{keyword}{struct} MyMemoryItem, MY\_MEMORY\_BUF\_SIZE);
+
+\textcolor{comment}{//-- define memory pool structure}
+\textcolor{keyword}{struct }\hyperlink{structTN__FMem}{TN\_FMem} my\_fmem;
+\end{DoxyCode}
+
+
+And then, construct your {\ttfamily my\+\_\+fmem} as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{enum} \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{TN\_RCode} rc;
+rc = \hyperlink{tn__fmem_8h_a56d47d4a1b6453d959336448a0ce96ac}{tn\_fmem\_create}( &my\_fmem,
+                     my\_fmem\_buf,
+                     \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{TN\_MAKE\_ALIG\_SIZE}(\textcolor{keyword}{sizeof}(\textcolor{keyword}{struct} MyMemoryItem)),
+                     MY\_MEMORY\_BUF\_SIZE );
+\textcolor{keywordflow}{if} (rc != \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{TN\_RC\_OK})\{
+   \textcolor{comment}{//-- handle error}
+\}
+\end{DoxyCode}
+\hypertarget{tnkernel_diff_tnkernel_diff_task_retval}{}\subsection{Task service return values cleaned}\label{tnkernel_diff_tnkernel_diff_task_retval}
+In original T\+N\+Kernel, {\ttfamily \hyperlink{tn__oldsymbols_8h_ad591ae7c53bbb81247492ea1d34a70b6}{T\+E\+R\+R\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} is returned in the following cases\+:
+
+
+\begin{DoxyItemize}
+\item call to {\ttfamily \hyperlink{tn__tasks_8h_a8ae6615de7022a327bdcd4c37a0f5b90}{tn\+\_\+task\+\_\+terminate()}} for already terminated task;
+\item call to {\ttfamily \hyperlink{tn__tasks_8h_adbc4dbbd4a57b73642b76550a0c7c83f}{tn\+\_\+task\+\_\+delete()}} for non-\/terminated task;
+\item call to {\ttfamily \hyperlink{tn__tasks_8h_a2ddad9d6dc0e611a7f09c878463aea41}{tn\+\_\+task\+\_\+change\+\_\+priority()}} for terminated task;
+\item call to {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}}/{\ttfamily \hyperlink{tn__tasks_8h_a94e6a0312013e53cf08bcf871e6f4172}{tn\+\_\+task\+\_\+iwakeup()}} for terminated task;
+\item call to {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}}/{\ttfamily \hyperlink{tn__tasks_8h_aee0ef296af18733f64269386adf8a2d7}{tn\+\_\+task\+\_\+irelease\+\_\+wait()}} for terminated task.
+\end{DoxyItemize}
+
+The actual error is, of course, wrong state, not wrong context; so, T\+Neo returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c}{T\+N\+\_\+\+R\+C\+\_\+\+W\+S\+T\+A\+T\+E}} in these cases.\hypertarget{tnkernel_diff_tnkernel_diff_release_wait}{}\subsection{Force task releasing from wait}\label{tnkernel_diff_tnkernel_diff_release_wait}
+In original T\+N\+Kernel, a call to {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}} / {\ttfamily \hyperlink{tn__tasks_8h_aee0ef296af18733f64269386adf8a2d7}{tn\+\_\+task\+\_\+irelease\+\_\+wait()}} causes waiting task to wake up, regardless of wait reason, and {\ttfamily \hyperlink{tn__oldsymbols_8h_a71970f860643e62fad7ec03076bdc1d8}{T\+E\+R\+R\+\_\+\+N\+O\+\_\+\+E\+R\+R}} is returned as a wait result. Actually I believe it is bad idea to ever use {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}}, but if we have this service, error code surely should be distinguishable from normal wait completion, so, new code is added\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}}, and it is returned when task wakes up because of {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}} call.\hypertarget{tnkernel_diff_tnkernel_diff_task_sleep}{}\subsection{Return code of tn\+\_\+task\+\_\+sleep()}\label{tnkernel_diff_tnkernel_diff_task_sleep}
+In original T\+N\+Kernel, {\ttfamily \hyperlink{tn__tasks_8h_ae768a72ca0efde5767796cc1770bd45e}{tn\+\_\+task\+\_\+sleep()}} always returns {\ttfamily \hyperlink{tn__oldsymbols_8h_a71970f860643e62fad7ec03076bdc1d8}{T\+E\+R\+R\+\_\+\+N\+O\+\_\+\+E\+R\+R}}, independently of what actually happened. In T\+Neo, there are three possible return codes\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb}{T\+N\+\_\+\+R\+C\+\_\+\+T\+I\+M\+E\+O\+U\+T}} if timeout is actually in effect;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if task was woken up by some other task with {\ttfamily \hyperlink{tn__tasks_8h_abb88bc8b1cec6b82e7b6e2e90d0e155a}{tn\+\_\+task\+\_\+wakeup()}};
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356}{T\+N\+\_\+\+R\+C\+\_\+\+F\+O\+R\+C\+E\+D}} if task was woken up forcibly by some other task with {\ttfamily \hyperlink{tn__tasks_8h_ae90ecdbd7d87d050c2c98ec775e6efc7}{tn\+\_\+task\+\_\+release\+\_\+wait()}};
+\end{DoxyItemize}\hypertarget{tnkernel_diff_tnkernel_diff_event}{}\subsection{Events A\+P\+I is changed almost completely}\label{tnkernel_diff_tnkernel_diff_event}
+Note\+: for old T\+N\+Kernel projects, there is a compatibility mode, see {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}}.
+
+In original T\+N\+Kernel, I always found events A\+P\+I somewhat confusing. Why is this object named \char`\"{}event\char`\"{}, but there are many flags inside, so that they can actually represent many events?
+
+Meanwhile, attributes like {\ttfamily T\+N\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E}, {\ttfamily T\+N\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R} imply that \char`\"{}event\char`\"{} object is really just a single event, since it makes no sense to clear just {\bfseries all} event bits when some particular event happened.
+
+After all, when we call {\ttfamily \hyperlink{tn__oldsymbols_8h_aee4d9866fcfb8b9b6a96066b288150dc}{tn\+\_\+event\+\_\+clear(\&my\+\_\+event\+\_\+obj, flags)}}, we might expect that {\ttfamily flags} argument actually specifies flags to clear. But in fact, we must invert it, to make it work\+: {\ttfamily $\sim$flags}. This is really confusing.
+
+In T\+Neo, there is no such {\itshape event} object. Instead, there is object {\itshape events group}. Attributes like {\ttfamily ...S\+I\+N\+G\+L\+E}, {\ttfamily ...M\+U\+L\+T\+I}, {\ttfamily ...C\+L\+R} are removed, since they make no sense for events group. Instead, you may set the flag {\ttfamily \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R}} when task is going to wait for some event bit(s), and then these event bit(s) will be atomically cleared automatically when task successfully finishes waiting for these bits.
+
+T\+Neo also offers a very useful feature\+: connecting an event group to other kernel objects. Refer to the section \hyperlink{tn__eventgrp_8h_eventgrp_connect}{Connecting an event group to other system objects}.
+
+For detailed A\+P\+I reference, refer to the {\ttfamily \hyperlink{tn__eventgrp_8h}{tn\+\_\+eventgrp.\+h}}.\hypertarget{tnkernel_diff_tnkernel_diff_zero_timeout}{}\subsection{Zero timeout given to system functions}\label{tnkernel_diff_tnkernel_diff_zero_timeout}
+In original T\+N\+Kernel, system functions refused to perform job and returned {\ttfamily \hyperlink{tn__oldsymbols_8h_a35ec519d54f884d84c5814f49f00a22b}{T\+E\+R\+R\+\_\+\+W\+R\+O\+N\+G\+\_\+\+P\+A\+R\+A\+M}} if {\ttfamily timeout} is 0, but it is actually neither convenient nor intuitive\+: it is much better if the function behaves just like {\ttfamily ...polling()} version of the function. All T\+Neo system functions allows timeout to be zero\+: in this case, function doesn't wait.\hypertarget{tnkernel_diff_tnkernel_new_features}{}\section{New features}\label{tnkernel_diff_tnkernel_new_features}
+Well, I'm tired of maintaining this additional list of features, so I just say that there is a lot of new features\+: timers, event group connection, stack overflow check, recursive mutexes, mutex deadlock detection, profiler, dynamic tick, etc.
+
+Refer to the generic \hyperlink{features}{feature list}.\hypertarget{tnkernel_diff_tnkernel_new_api}{}\section{Compatible A\+P\+I changes}\label{tnkernel_diff_tnkernel_new_api}
+\hypertarget{tnkernel_diff_tnkernel_diff_make_alig}{}\subsection{Macro M\+A\+K\+E\+\_\+\+A\+L\+I\+G()}\label{tnkernel_diff_tnkernel_diff_make_alig}
+There is a terrible mess with {\ttfamily \hyperlink{tn__oldsymbols_8h_aa42d2e6b5b7ff37bd485803fa2cb70a8}{M\+A\+K\+E\+\_\+\+A\+L\+I\+G()}} macro\+: T\+N\+Kernel docs specify that the argument of it should be the size to align, but almost all ports, including original one, defined it so that it takes type, not size.
+
+But the port by Alex\+B implemented it differently (i.\+e. accordingly to the docs) \+: it takes size as an argument.
+
+When I was moving from the port by Alex\+B to another one, do you have any idea how much time it took me to figure out why do I have rare weird bug? \+:)
+
+By the way, additional strange thing\+: why doesn't this macro have any prefix like {\ttfamily T\+N\+\_\+}?
+
+T\+Neo provides macro {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E()}} whose argument is {\bfseries size}, so, its usage is as follows\+: {\ttfamily \hyperlink{tn__common_8h_a3f48380e8a624edc643319a81192d88e}{T\+N\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+S\+I\+Z\+E(sizeof(struct My\+Struct))}}. This macro is preferred.
+
+But for compatibility with messy {\ttfamily \hyperlink{tn__oldsymbols_8h_aa42d2e6b5b7ff37bd485803fa2cb70a8}{M\+A\+K\+E\+\_\+\+A\+L\+I\+G()}} from original T\+N\+Kernel, there is an option {\ttfamily \hyperlink{tn__cfg__default_8h_a2a1148efc6a74131cc83ee50cbc386cd}{T\+N\+\_\+\+A\+P\+I\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+A\+R\+G}} with two possible values;
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__cfg__dispatch_8h_a4972bf0cbc72e51a7463cf7d786d2b64}{T\+N\+\_\+\+A\+P\+I\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+A\+R\+G\+\_\+\+\_\+\+S\+I\+Z\+E}} -\/ default value, use macro like this\+: {\ttfamily \hyperlink{tn__oldsymbols_8h_aa42d2e6b5b7ff37bd485803fa2cb70a8}{M\+A\+K\+E\+\_\+\+A\+L\+I\+G(sizeof(struct my\+\_\+struct))}}, like in the port by Alex.
+\item {\ttfamily \hyperlink{tn__cfg__dispatch_8h_a04321413cf21754a05682b298df0493d}{T\+N\+\_\+\+A\+P\+I\+\_\+\+M\+A\+K\+E\+\_\+\+A\+L\+I\+G\+\_\+\+A\+R\+G\+\_\+\+\_\+\+T\+Y\+P\+E}} -\/ use macro like this\+: {\ttfamily \hyperlink{tn__oldsymbols_8h_aa42d2e6b5b7ff37bd485803fa2cb70a8}{M\+A\+K\+E\+\_\+\+A\+L\+I\+G(struct my\+\_\+struct)}}, like in any other port.
+\end{DoxyItemize}
+
+By the way, I wrote to the author of T\+N\+Kernel (Yuri Tiomkin) about this mess, but he didn't answer anything. It's a pity of course, but we have what we have.\hypertarget{tnkernel_diff_tnkernel_new_api__convenience_macros_stack}{}\subsection{Convenience macros for stack arrays definition}\label{tnkernel_diff_tnkernel_new_api__convenience_macros_stack}
+You can still use \char`\"{}manual\char`\"{} definition of stack arrays, like that\+:
+
+
+\begin{DoxyCode}
+\hyperlink{tn__arch__example_8h_ae245dddb19cd7c12b7038a62d576fafa}{TN\_ARCH\_STK\_ATTR\_BEFORE}
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{TN\_UWord} my\_task\_stack[ MY\_TASK\_STACK\_SIZE ]
+\hyperlink{tn__arch__example_8h_ab082613959b539182b8b47bc87d18d6a}{TN\_ARCH\_STK\_ATTR\_AFTER};
+\end{DoxyCode}
+
+
+Although it is recommended to use convenience macro for that\+: {\ttfamily \hyperlink{tn__sys_8h_ad61af0f0e9ab96bdf1ac1bf1e03e3c75}{T\+N\+\_\+\+S\+T\+A\+C\+K\+\_\+\+A\+R\+R\+\_\+\+D\+E\+F()}}. See {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} for the usage example.\hypertarget{tnkernel_diff_tnkernel_new_api__convenience_macros_fmem}{}\subsection{Convenience macros for fixed memory block pool buffers definition}\label{tnkernel_diff_tnkernel_new_api__convenience_macros_fmem}
+Similarly to the previous section, you can still use \char`\"{}manual\char`\"{} definition of the buffer for fixed memory block pool, it is recommended to use convenience macro for that\+: {\ttfamily \hyperlink{tn__fmem_8h_ab45e9c2ad4a64345214f9a912bf76fc3}{T\+N\+\_\+\+F\+M\+E\+M\+\_\+\+B\+U\+F\+\_\+\+D\+E\+F()}}. See {\ttfamily \hyperlink{tn__fmem_8h_a56d47d4a1b6453d959336448a0ce96ac}{tn\+\_\+fmem\+\_\+create()}} for usage example.\hypertarget{tnkernel_diff_tnkernel_diff_api_rename}{}\subsection{Things renamed}\label{tnkernel_diff_tnkernel_diff_api_rename}
+There is a lot of inconsistency with naming stuff in original T\+N\+Kernel\+:
+
+
+\begin{DoxyItemize}
+\item Why do we have {\ttfamily \hyperlink{tn__dqueue_8h_af60c61c12ed90f4bcc7d13ca4da8562b}{tn\+\_\+queue\+\_\+send\+\_\+polling()}} / {\ttfamily \hyperlink{tn__dqueue_8h_ac059f15f07625ca25e4aac5790cce1ea}{tn\+\_\+queue\+\_\+isend\+\_\+polling()}} (notice the {\ttfamily i} letter before the verb, not before {\ttfamily polling}), but {\ttfamily \hyperlink{tn__fmem_8h_affea42ad41734fadfe8170b4234ca567}{tn\+\_\+fmem\+\_\+get\+\_\+polling()}} / {\ttfamily \hyperlink{tn__oldsymbols_8h_a4293c359514306825a9007f071b2ad3f}{tn\+\_\+fmem\+\_\+get\+\_\+ipolling()}} (notice the {\ttfamily i} letter before {\ttfamily polling})?
+\item All the system service names follow the naming scheme {\ttfamily tn\+\_\+$<$noun$>$\+\_\+$<$verb$>$\mbox{[}\+\_\+$<$adjustment$>$\mbox{]}()}, but the {\ttfamily \hyperlink{tn__oldsymbols_8h_a566625be14a6eed4a3574e3d31e776fc}{tn\+\_\+start\+\_\+system()}} is special, for some strange reason. To make it consistent, it should be named {\ttfamily tn\+\_\+system\+\_\+start()} or {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}};
+\item A lot of macros don't have {\ttfamily T\+N\+\_\+} prefix;
+\item etc
+\end{DoxyItemize}
+
+So, a lot of things (functions, macros, etc) has renamed. Old names are also available through {\ttfamily \hyperlink{tn__oldsymbols_8h}{tn\+\_\+oldsymbols.\+h}}, which is included automatically if {\ttfamily \hyperlink{tn__cfg__default_8h_ae9854c723c6a823c9126aa8390977d39}{T\+N\+\_\+\+O\+L\+D\+\_\+\+T\+N\+K\+E\+R\+N\+E\+L\+\_\+\+N\+A\+M\+E\+S}} option is non-\/zero.\hypertarget{tnkernel_diff_tnkernel_diff_api_rename_sem}{}\subsection{We should wait for semaphore, not acquire it}\label{tnkernel_diff_tnkernel_diff_api_rename_sem}
+One of the renamings deserves special mentioning\+: {\ttfamily \hyperlink{tn__oldsymbols_8h_abdc5c428590ff525cdb566da613015ce}{tn\+\_\+sem\+\_\+acquire()}} and friends are renamed to {\ttfamily \hyperlink{tn__sem_8h_acfed2a27719c87638d2eb6edfdeea150}{tn\+\_\+sem\+\_\+wait()}} and friends. That's because names acquire/release are actually misleading for the semaphore\+: semaphore is a {\itshape signaling mechanism}, and {\bfseries not} the locking mechanism.
+
+Actually, there's a lot of confusion about usage of mutexes/semaphores, so it's quite recommended to read small article by Michael Barr\+: \href{http://goo.gl/YprPBW}{\tt Mutexes and Semaphores Demystified}.
+
+Old names ({\ttfamily \hyperlink{tn__oldsymbols_8h_abdc5c428590ff525cdb566da613015ce}{tn\+\_\+sem\+\_\+acquire()}} and friends) are still available through {\ttfamily \hyperlink{tn__oldsymbols_8h}{tn\+\_\+oldsymbols.\+h}}.\hypertarget{tnkernel_diff_tnkernel_diff_other}{}\section{Changes that do not affect A\+P\+I directly}\label{tnkernel_diff_tnkernel_diff_other}
+\hypertarget{tnkernel_diff_tnkernel_diff_timer_task}{}\subsection{No timer task}\label{tnkernel_diff_tnkernel_diff_timer_task}
+Yes, timer task's job is important\+: it manages {\ttfamily tn\+\_\+wait\+\_\+timeout\+\_\+list}, i.\+e. it wakes up tasks whose timeout is expired. But it's actually better to do it right in {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} that is called from timer I\+S\+R, because presence of the special task provides significant overhead. Look at what happens when timer interrupt is fired (assume we don't use shadow register set for that, which is almost always the case)\+:
+
+(measurements were made at P\+I\+C32 port)
+
+
+\begin{DoxyItemize}
+\item Current context (23 words) is saved to the interrupt stack;
+\item I\+S\+R called\+: particularly, {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} is called;
+\item {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} disables interrupts, manages round-\/robin (if needed), then it wakes up {\ttfamily tn\+\_\+timer\+\_\+task}, sets {\ttfamily tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run}, and enables interrupts back;
+\item {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} finishes, so I\+S\+R macro checks that {\ttfamily tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} is different from {\ttfamily tn\+\_\+curr\+\_\+run\+\_\+task}, and sets {\ttfamily C\+S0} interrupt bit, so that context should be switched as soon as possible;
+\item Context (23 words) gets restored to whatever task we interrupted;
+\item {\ttfamily C\+S0} I\+S\+R is immediately called, so full context (32 words) gets saved on task's stack, and context of {\ttfamily tn\+\_\+timer\+\_\+task} is restored;
+\item {\ttfamily tn\+\_\+timer\+\_\+task} disables interrupts, performs its not so big job (manages {\ttfamily tn\+\_\+wait\+\_\+timeout\+\_\+list}), puts itself to wait, enables interrupts and pends context switching again;
+\item {\ttfamily C\+S0} I\+S\+R is immediately called, so full context of {\ttfamily tn\+\_\+timer\+\_\+task} gets saved in its stack, and then, after all, context of my own interrupted task gets restored and my task continues to run.
+\end{DoxyItemize}
+
+I've measured with M\+P\+L\+A\+B\+X's stopwatch how much time it takes\+: with just three tasks (idle task, timer task, my own task with priority 6), i.\+e. without any sleeping tasks, all this routine takes {\bfseries 682 cycles}. So I tried to get rid of {\ttfamily tn\+\_\+timer\+\_\+task} and perform its job right in the {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}}.
+
+Previously, application callback was called from timer task; since it is removed now, startup routine has changed, refer to \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel} for details.
+
+Now, the following steps are performed when timer interrupt is fired\+:
+
+
+\begin{DoxyItemize}
+\item Current context (23 words) is saved to the interrupt stack;
+\item I\+S\+R called\+: particularly, {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} is called;
+\item {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} disables interrupts, manages round-\/robin (if needed), manages {\ttfamily tn\+\_\+wait\+\_\+timeout\+\_\+list}, and enables interrupts back;
+\item {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} finishes, I\+S\+R macro checks that {\ttfamily tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} is the same as {\ttfamily tn\+\_\+curr\+\_\+run\+\_\+task}
+\item Context (23 words) gets restored to whatever task we interrupted;
+\end{DoxyItemize}
+
+That's all. It takes {\bfseries 251 cycles}\+: 2.\+7 times less.
+
+So, we need to make sure that interrupt stack size is enough for this (not big) job. As a result, R\+A\+M is saved (since you don't need to allocate stack for timer task) and things work much faster. Win-\/win. 

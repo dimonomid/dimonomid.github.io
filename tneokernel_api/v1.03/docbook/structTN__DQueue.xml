@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__DQueue">
+<title>TN_DQueue struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__dqueue_8h">&lt;tn_dqueue.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem wait_send_list<para><emphasis>list of tasks waiting to send data</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem wait_receive_list<para><emphasis>list of tasks waiting to receive data</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void ** data_fifo<para><emphasis>array of &lt;tt&gt;void *&lt;/tt&gt; to store data queue items. Can be &lt;tt&gt;NULL&lt;/tt&gt;.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int items_cnt<para><emphasis>capacity (total items count). Can be 0.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int filled_items_cnt<para><emphasis>count of non-free items in &lt;tt&gt;data_fifo&lt;/tt&gt;</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int head_idx<para><emphasis>index of the item which will be written next time</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int tail_idx<para><emphasis>index of the item which will be read next time</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_dque<para><emphasis>id for object validity verification</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_EGrpLink eventgrp_link<para><emphasis>connected event group</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Structure representing data queue object. </para>
+    </simplesect>
+</section>

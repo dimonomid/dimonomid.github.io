@@ -1,0 +1,202 @@
+Architecture-\/specific details\hypertarget{arch_specific_pic32_details}{}\section{P\+I\+C32 port details}\label{arch_specific_pic32_details}
+\hypertarget{arch_specific_pic32_context_switch}{}\subsection{Context switch}\label{arch_specific_pic32_context_switch}
+The context switch is implemented using the core software 0 interrupt ({\ttfamily C\+S0}), which is configured by the kernel to the lowest priority (1). This interrupt is handled completely by the kernel, application should never touch it.
+
+The interrupt priority level 1 should not be configured to use shadow register sets.
+
+Multi-\/vectored interrupt mode should be enabled.
+
+\begin{DoxyAttention}{Attention}
+if tneo is built as a separate library (which is typically the case), then the file {\ttfamily src/arch/pic32/tn\+\_\+arch\+\_\+pic32\+\_\+int\+\_\+vec1.\+S} must be included in the main project itself, in order to dispatch vector1 (core software interrupt 0) correctly. Do note that if we include this file in the T\+Neo library project, it doesn't work for vector, unfortunately.
+
+If you forgot to include this file, you got an error on the link step, like this\+: 
+\begin{DoxyCode}
+undefined reference to `\_you\_should\_add\_file\_\_\_tn\_arch\_pic32\_int\_vec1\_S\_\_\_to\_the\_project\textcolor{stringliteral}{'}
+\end{DoxyCode}
+ Which is much more informative than if you just get to {\ttfamily \+\_\+\+Default\+Interrupt} when it's time to switch context.
+\end{DoxyAttention}
+\hypertarget{arch_specific_pic32_interrupts}{}\subsection{Interrupts}\label{arch_specific_pic32_interrupts}
+For generic information about interrupts in T\+Neo, refer to the page \hyperlink{interrupts}{Interrupts}.
+
+P\+I\+C32 port has {\itshape system interrupts} only, there are no {\itshape user interrupts}.
+
+P\+I\+C32 port supports nested interrupts. The kernel provides C-\/language macros for calling C-\/language interrupt service routines, which can use either M\+I\+P\+S32 or M\+I\+P\+S16e mode. Both software and shadow register interrupt context saving is supported. Usage is as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{/* Timer 1 interrupt handler using software interrupt context saving */}
+\hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\_p32\_soft\_isr}(\_TIMER\_1\_VECTOR)
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+
+\textcolor{comment}{/* High-priority UART interrupt handler using shadow register set */}
+\hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\_p32\_srs\_isr}(\_UART\_1\_VECTOR)
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+\end{DoxyCode}
+
+
+In spite of the fact that the kernel provides separate stack for interrupt, this isn't a mandatory on P\+I\+C32\+: you're able to define your I\+S\+R in a standard way, making it use stask of interrupted task and work a bit faster. Like this\+:
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \_\_ISR(\_TIMER\_1\_VECTOR) timer\_1\_isr(\textcolor{keywordtype}{void})
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+\end{DoxyCode}
+
+
+There is always a tradeoff. There are {\bfseries no additional constraints} on I\+S\+R defined without kernel-\/provided macro\+: in either I\+S\+R, you can call the same set of kernel services.
+
+When you make a decision on whether particular I\+S\+R should use separate stack, consider the following\+:
+
+
+\begin{DoxyItemize}
+\item When I\+S\+R is defined in a standard way, and no function is called from that I\+S\+R, only necessary registers are saved on stack. If you have such an I\+S\+R (that doesn't call any function), and this I\+S\+R should work very fast, consider using standard way instead of kernel-\/provided macro.
+\item When I\+S\+R is defined in a standard way, but it calls any function and doesn't use shadow register set, compiler saves (almost) full context {\bfseries on the task's stack}, because it doesn't know which registers are used inside the function. In this case, it usually makes more sense to use kernel-\/provided macro (see below).
+\item Kernel-\/provided interrupt macros switch stack pointer between interrupt stack and task stack automatically, it takes additional time\+: e.\+g. on P\+I\+C32 it's about 20 cycles.
+\item Kernel-\/provided interrupt macro that doesn't use shadow register set always saves (almost) full context {\bfseries on the interrupt stack}, independently of whether any function is called from an I\+S\+R.
+\item Kernel-\/provided interrupt macro that uses shadow register set saves a little amount of registers {\bfseries on the interrupt stack}.
+\end{DoxyItemize}\hypertarget{arch_specific_pic32_building}{}\subsection{Building}\label{arch_specific_pic32_building}
+For generic information on building T\+Neo, refer to the page \hyperlink{building}{Building T\+Neo}.
+
+M\+P\+L\+A\+B\+X project for P\+I\+C32 port resides in the {\ttfamily lib\+\_\+project/pic32/tneo\+\_\+pic32.\+X} directory. This is a {\itshape library project} in terms of M\+P\+L\+A\+B\+X, so if you use M\+P\+L\+A\+B\+X you can easily add it to your application project by right-\/clicking {\ttfamily Libraries -\/$>$ Add Library Project ...}. Alternatively, of course you can just build it and use resulting {\ttfamily tneo\+\_\+pic32.\+X.\+a} file in whatever way you like.
+
+If you want to build T\+Neo manually, refer to the section \hyperlink{building_building_generic__manual}{Building manually} for generic notes about it, and there is a couple of arch-\/dependent sources you need to add to the project\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily src/arch/pic32/tn\+\_\+arch\+\_\+pic32.\+c}
+\item {\ttfamily src/arch/pic32/tn\+\_\+arch\+\_\+pic32mx\+\_\+xc32.\+S}
+\end{DoxyItemize}
+
+\begin{DoxyAttention}{Attention}
+There is one more file\+: {\ttfamily tn\+\_\+arch\+\_\+pic32\+\_\+int\+\_\+vec1.\+S}, which should be included {\bfseries in your application project} to make things work. It is needed to dispatch vector1 (Core Software Interrupt 0) correctly.
+\end{DoxyAttention}
+\hypertarget{arch_specific_pic24_details}{}\section{P\+I\+C24/ds\+P\+I\+C port details}\label{arch_specific_pic24_details}
+\hypertarget{arch_specific_pic24_context_switch}{}\subsection{Context switch}\label{arch_specific_pic24_context_switch}
+The context switch is implemented using the external interrupt 0 ({\ttfamily I\+N\+T0}). It is handled completely by the kernel, application should never touch it.\hypertarget{arch_specific_pic24_interrupts}{}\subsection{Interrupts}\label{arch_specific_pic24_interrupts}
+For generic information about interrupts in T\+Neo, refer to the page \hyperlink{interrupts}{Interrupts}.
+
+P\+I\+C24/ds\+P\+I\+C T\+Neo port supports nested interrupts. It allows to specify the range of {\itshape system interrupt priorities}. Refer to the subsection \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system interrupt}.
+
+System interrupts use separate interrupt stack instead of the task's stack. This approach saves a lot of R\+A\+M.
+
+The range is specified by just a single number\+: {\ttfamily \hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L}}, which represents maximum {\itshape system interrupt priority}. Here is a list of available priorities and their characteristics\+:
+
+
+\begin{DoxyItemize}
+\item priorities {\ttfamily \mbox{[}1 .. \hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L}\mbox{]}}\+:
+\begin{DoxyItemize}
+\item Kernel services {\bfseries are} allowed to call;
+\item The macro {\ttfamily \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr()}} {\bfseries must} be used.
+\item Separate interrupt stack is used by I\+S\+R;
+\item Interrupts of these priorities get disabled for short periods of time when modifying critical kernel data (for about 100 cycles or the like).
+\end{DoxyItemize}
+\item priorities {\ttfamily \mbox{[}(\hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L} + 1) .. 6\mbox{]}}\+:
+\begin{DoxyItemize}
+\item Kernel services {\bfseries are not} allowed to call;
+\item The macro {\ttfamily \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr()}} {\bfseries must not} be used.
+\item Task's stack is used by I\+S\+R;
+\item Interrupts of these priorities are not disabled when modifying critical kernel data, but they are disabled for 4..8 cycles by {\ttfamily disi} instruction when entering/exiting system I\+S\+R\+: we need to safely modify {\ttfamily S\+P} and {\ttfamily S\+P\+L\+I\+M}.
+\end{DoxyItemize}
+\item priority {\ttfamily 7}\+:
+\begin{DoxyItemize}
+\item Kernel services {\bfseries are not} allowed to call;
+\item The macro {\ttfamily \hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\+\_\+p24\+\_\+soft\+\_\+isr()}} {\bfseries must not} be used.
+\item Task's stack is used by I\+S\+R;
+\item Interrupts of these priorities are never disabled by the kernel (note that {\ttfamily disi} instruction leaves interrupts of priority 7 enabled).
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+The kernel provides C-\/language macro for calling C-\/language {\bfseries system} interrupt service routines.
+
+Usage is as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{/* }
+\textcolor{comment}{ * Timer 1 interrupt handler using software interrupt context saving,  }
+\textcolor{comment}{ * PSV is handled automatically:}
+\textcolor{comment}{ */}
+\hyperlink{tn__arch__pic24_8h_a0b184d3c15066f5504144379d2624ff3}{tn\_p24\_soft\_isr}(\_T1Interrupt, auto\_psv)
+\{
+   \textcolor{comment}{//-- clear interrupt flag}
+   IFS0bits.T1IF = 0;
+
+   \textcolor{comment}{//-- do something useful}
+\}
+\end{DoxyCode}
+
+
+\begin{DoxyAttention}{Attention}
+do {\bfseries not} use this macro for non-\/system interrupt (that is, for interrupt of priority higher than {\ttfamily \hyperlink{tn__cfg__default_8h_a4feb7eb34fc2f175167b7496b63c398a}{T\+N\+\_\+\+P24\+\_\+\+S\+Y\+S\+\_\+\+I\+P\+L}}). Use standard way to define it. If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is on, kernel checks it\+: if you violate this rule, debugger will be halted by the kernel when entering I\+S\+R. In release build, C\+P\+U is just reset.
+\end{DoxyAttention}
+\hypertarget{arch_specific_pic24_bfa}{}\subsection{Atomic access to the structure bit field}\label{arch_specific_pic24_bfa}
+The problem with P\+I\+C24/ds\+P\+I\+C is that when we write something like\+:
+
+
+\begin{DoxyCode}
+IPC0bits.INT0IP = 0x05;
+\end{DoxyCode}
+
+
+We actually have read-\/modify-\/write sequence which can be interrupted, so that resulting data could be corrupted. P\+I\+C24/ds\+P\+I\+C port provides several macros that offer atomic access to the structure bit field.
+
+The kernel would not probably provide that kind of functionality, but T\+Neo itself needs it, so, it is made public so that application can use it too.
+
+Refer to the page \hyperlink{tn__arch__pic24__bfa_8h}{Atomic bit-\/field access macros} for details.\hypertarget{arch_specific_pic24_building}{}\subsection{Building}\label{arch_specific_pic24_building}
+For generic information on building T\+Neo, refer to the page \hyperlink{building}{Building T\+Neo}.
+
+M\+P\+L\+A\+B\+X project for P\+I\+C24/ds\+P\+I\+C port resides in the {\ttfamily lib\+\_\+project/pic24\+\_\+dspic/tneo\+\_\+pic24\+\_\+dspic.\+X} directory. This is a {\itshape library project} in terms of M\+P\+L\+A\+B\+X, so if you use M\+P\+L\+A\+B\+X you can easily add it to your main project by right-\/clicking {\ttfamily Libraries -\/$>$ Add Library Project ...}.
+
+Alternatively, of course you can just build it and use resulting {\ttfamily .a} file in whatever way you like.
+
+\begin{DoxyAttention}{Attention}
+there are two configurations of this project\+: {\itshape eds} and {\itshape  no\+\_\+eds}, for devices with and without extended data space, respectively. When you add library project to your application project, you should select correct configuration for your device; otherwise, you get \char`\"{}undefined reference\char`\"{} errors at linker step.
+\end{DoxyAttention}
+If you want to build T\+Neo manually, refer to the section \hyperlink{building_building_generic__manual}{Building manually} for generic notes about it, and additionally you should add arch-\/dependent sources\+: all {\ttfamily .c} and {\ttfamily .S} files from {\ttfamily src/arch/pic24\+\_\+dspic}\hypertarget{arch_specific_cortex_m_details}{}\section{Cortex-\/\+M0/\+M0+/\+M3/\+M4/\+M4\+F port details}\label{arch_specific_cortex_m_details}
+\hypertarget{arch_specific_cortex_m_context_switch}{}\subsection{Context switch}\label{arch_specific_cortex_m_context_switch}
+The context switch is implemented in a standard for Cortex-\/\+M C\+P\+Us way\+: the Pend\+S\+V exception. S\+V\+C exception is used for {\ttfamily \hyperlink{tn__arch_8h_afd5f43f42f5645de164ba6d13d3a4bcf}{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave()}}. These two exceptions are configured by the kernel to the lowest priority.\hypertarget{arch_specific_cortex_m_interrupts}{}\subsection{Interrupts}\label{arch_specific_cortex_m_interrupts}
+For generic information about interrupts in T\+Neo, refer to the page \hyperlink{interrupts}{Interrupts}.
+
+Cortex-\/\+M port has {\itshape system interrupts} only, there are no {\itshape user interrupts}.
+
+Interrupts use separate interrupt stack, i.\+e. M\+S\+P (Main Stack Pointer). Tasks use P\+S\+P (Process Stack Pointer).
+
+There are no constraints on I\+S\+Rs\+: no special macros for I\+S\+R definition, or whatever. This is because Cortex-\/\+M processors are designed with O\+S applications in mind, so a number of featureas are available to make O\+S implementation easier and make O\+S operations more efficient.\hypertarget{arch_specific_cortex_m_building}{}\subsection{Building}\label{arch_specific_cortex_m_building}
+For generic information on building T\+Neo, refer to the page \hyperlink{building}{Building T\+Neo}.
+
+There are many environments for building for Cortex-\/\+M C\+P\+Us (Keil, Eclipse, Coo\+Cox), all available projects reside in {\ttfamily lib\+\_\+project/cortex\+\_\+m} directory. They usually are pretty enough if you want to just build the kernel with non-\/default configuration.
+
+If, however, you want to build it not using provided project, refer to the section \hyperlink{building_building_generic__manual}{Building manually} for generic notes about it, and additionally you should add arch-\/dependent sources\+: all {\ttfamily .c} and {\ttfamily .S} files from {\ttfamily src/arch/cortex\+\_\+m}.
+
+There are some additional tips depending on the build environment\+:
+
+{\bfseries Keil 5, A\+R\+M\+C\+C compiler}
+
+To satisfy \hyperlink{building_building_generic__manual}{building requirements}, a couple of actions needed\+:
+
+
+\begin{DoxyItemize}
+\item C99 is off by default. In project options, C/\+C++ tab, check \char`\"{}\+C99 Mode\char`\"{} checkbox.
+\item Assembler files ({\ttfamily .S}) aren't preprocessed by default, so, in project options, Asm tab, \char`\"{}\+Misc Controls\char`\"{} field, type the following\+: {\ttfamily -\/-\/cpreproc}
+\end{DoxyItemize}
+
+{\bfseries Keil 5, G\+C\+C compiler}
+
+Unfortunately, when G\+C\+C toolchain is used from Keil u\+Vision I\+D\+E, for {\ttfamily .S} files it calls {\ttfamily arm-\/none-\/eabi-\/as}, which does not call C preprocessor.
+
+Instead, {\ttfamily arm-\/none-\/eabi-\/gcc} should be used, but unfortunately I was unable to make Keil u\+Vision issue {\ttfamily arm-\/none-\/eabi-\/gcc} for {\ttfamily .S} files, the only way to use G\+C\+C toolchain in Keil u\+Vision that I'm aware of is to preprocess the file manually, like that\+: \begin{DoxyVerb}cpp -P -undef tn_arch_cortex_m.S                         \
+      -D __GNUC__ -D __ARM_ARCH -D __ARM_ARCH_7M__       \
+      -I ../.. -I ../../core                             \
+      > tn_arch_cortex_m3_gcc.s
+\end{DoxyVerb}
+
+
+(this example is for Cortex-\/\+M3, you may check the file {\ttfamily tn\+\_\+arch\+\_\+detect.\+h} to see what should you define instead of {\ttfamily \+\_\+\+\_\+\+A\+R\+M\+\_\+\+A\+R\+C\+H\+\_\+7\+M\+\_\+\+\_\+} for other cores)
+
+And then, add the output file {\ttfamily tn\+\_\+arch\+\_\+cortex\+\_\+m3\+\_\+gcc.\+s} to the project instead of {\ttfamily tn\+\_\+arch\+\_\+cortex\+\_\+m.\+S} 

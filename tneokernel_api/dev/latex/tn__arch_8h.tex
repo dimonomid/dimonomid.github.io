@@ -1,0 +1,260 @@
+\hypertarget{tn__arch_8h}{}\section{arch/tn\+\_\+arch.h File Reference}
+\label{tn__arch_8h}\index{arch/tn\+\_\+arch.\+h@{arch/tn\+\_\+arch.\+h}}
+
+
+\subsection{Detailed Description}
+Architecture-\/dependent routines declaration. 
+
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{tn__arch_8h_a2b3f2294ac42a599662c573394b14c75}{tn\+\_\+arch\+\_\+int\+\_\+dis} (void)
+\begin{DoxyCompactList}\small\item\em Unconditionally disable {\itshape system interrupts}. \end{DoxyCompactList}\item 
+void \hyperlink{tn__arch_8h_a2997c6d98ac43cb90216fc4e8137bcfb}{tn\+\_\+arch\+\_\+int\+\_\+en} (void)
+\begin{DoxyCompactList}\small\item\em Unconditionally enable interrupts. \end{DoxyCompactList}\item 
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis} (void)
+\begin{DoxyCompactList}\small\item\em Disable {\itshape system interrupts} and return previous value of status register, atomically. \end{DoxyCompactList}\item 
+void \hyperlink{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}{tn\+\_\+arch\+\_\+sr\+\_\+restore} (\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} sr)
+\begin{DoxyCompactList}\small\item\em Restore previously saved status register. \end{DoxyCompactList}\item 
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} \hyperlink{tn__arch_8h_a19e3b6ac25f75016b316ee217114e26d}{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save} (void)
+\begin{DoxyCompactList}\small\item\em Disable kernel scheduler and return previous state. \end{DoxyCompactList}\item 
+void \hyperlink{tn__arch_8h_ad607fcabe50af27f55f41082fde2ec3e}{tn\+\_\+arch\+\_\+sched\+\_\+restore} (\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} sched\+\_\+state)
+\begin{DoxyCompactList}\small\item\em Restore state of the kernel scheduler. \end{DoxyCompactList}\item 
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$ \hyperlink{tn__arch_8h_adfec508be4a01fd3b251dbbeec12d7d6}{\+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init} (\hyperlink{tn__common_8h_a603cbe1ffdafc7e6813ef692bbd7d22f}{T\+N\+\_\+\+Task\+Body} $\ast$task\+\_\+func, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$stack\+\_\+low\+\_\+addr, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$stack\+\_\+high\+\_\+addr, void $\ast$param)
+\begin{DoxyCompactList}\small\item\em Should put initial C\+PU context to the provided stack pointer for new task and return current stack pointer. \end{DoxyCompactList}\item 
+int \hyperlink{tn__arch_8h_a34ffbae8b6837f7f3014bca9991e2272}{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr} (void)
+\begin{DoxyCompactList}\small\item\em Should return 1 if {\itshape system I\+SR} is currently running, 0 otherwise. \end{DoxyCompactList}\item 
+int \hyperlink{tn__arch_8h_a024f41d79c823ecac5ed6b83c36f164e}{\+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled} (void)
+\begin{DoxyCompactList}\small\item\em Should return 1 if {\itshape system interrupts} are currently disabled, 0 otherwise. \end{DoxyCompactList}\item 
+void \hyperlink{tn__arch_8h_a28871f82c82d549092930dd4842e2980}{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend} (void)
+\begin{DoxyCompactList}\small\item\em Called whenever we need to switch context from one task to another. \end{DoxyCompactList}\item 
+void \hyperlink{tn__arch_8h_afd5f43f42f5645de164ba6d13d3a4bcf}{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave} (void)
+\begin{DoxyCompactList}\small\item\em Called whenever we need to switch context to new task, but don\textquotesingle{}t save current context. \end{DoxyCompactList}\item 
+void \hyperlink{tn__arch_8h_a8b4b954fc132b3426ca8b564a38efc20}{\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start} (\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$int\+\_\+stack, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} int\+\_\+stack\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Performs first context switch to the first task ({\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} is already set to needed task). \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{tn__arch_8h_a2b3f2294ac42a599662c573394b14c75}\label{tn__arch_8h_a2b3f2294ac42a599662c573394b14c75}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!tn\+\_\+arch\+\_\+int\+\_\+dis@{tn\+\_\+arch\+\_\+int\+\_\+dis}}
+\index{tn\+\_\+arch\+\_\+int\+\_\+dis@{tn\+\_\+arch\+\_\+int\+\_\+dis}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+arch\+\_\+int\+\_\+dis()}{tn\_arch\_int\_dis()}}
+{\footnotesize\ttfamily void tn\+\_\+arch\+\_\+int\+\_\+dis (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Unconditionally disable {\itshape system interrupts}. 
+
+Refer to the section \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system interrupt}. \mbox{\Hypertarget{tn__arch_8h_a2997c6d98ac43cb90216fc4e8137bcfb}\label{tn__arch_8h_a2997c6d98ac43cb90216fc4e8137bcfb}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!tn\+\_\+arch\+\_\+int\+\_\+en@{tn\+\_\+arch\+\_\+int\+\_\+en}}
+\index{tn\+\_\+arch\+\_\+int\+\_\+en@{tn\+\_\+arch\+\_\+int\+\_\+en}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+arch\+\_\+int\+\_\+en()}{tn\_arch\_int\_en()}}
+{\footnotesize\ttfamily void tn\+\_\+arch\+\_\+int\+\_\+en (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Unconditionally enable interrupts. 
+
+Refer to the section \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system interrupt}. \mbox{\Hypertarget{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}\label{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis@{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis}}
+\index{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis@{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}{tn\_arch\_sr\_save\_int\_dis()}}
+{\footnotesize\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Disable {\itshape system interrupts} and return previous value of status register, atomically. 
+
+Refer to the section \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system interrupt}.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}{tn\+\_\+arch\+\_\+sr\+\_\+restore()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}\label{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!tn\+\_\+arch\+\_\+sr\+\_\+restore@{tn\+\_\+arch\+\_\+sr\+\_\+restore}}
+\index{tn\+\_\+arch\+\_\+sr\+\_\+restore@{tn\+\_\+arch\+\_\+sr\+\_\+restore}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+arch\+\_\+sr\+\_\+restore()}{tn\_arch\_sr\_restore()}}
+{\footnotesize\ttfamily void tn\+\_\+arch\+\_\+sr\+\_\+restore (\begin{DoxyParamCaption}\item[{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}]{sr }\end{DoxyParamCaption})}
+
+
+
+Restore previously saved status register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sr} & status register value previously from {\ttfamily \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tn__arch_8h_a19e3b6ac25f75016b316ee217114e26d}\label{tn__arch_8h_a19e3b6ac25f75016b316ee217114e26d}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save@{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save}}
+\index{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save@{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save()}{tn\_arch\_sched\_dis\_save()}}
+{\footnotesize\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Disable kernel scheduler and return previous state. 
+
+\begin{DoxyReturn}{Returns}
+Scheduler state to be restored later by {\ttfamily \hyperlink{tn__arch_8h_ad607fcabe50af27f55f41082fde2ec3e}{tn\+\_\+arch\+\_\+sched\+\_\+restore()}}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{tn__arch_8h_ad607fcabe50af27f55f41082fde2ec3e}\label{tn__arch_8h_ad607fcabe50af27f55f41082fde2ec3e}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!tn\+\_\+arch\+\_\+sched\+\_\+restore@{tn\+\_\+arch\+\_\+sched\+\_\+restore}}
+\index{tn\+\_\+arch\+\_\+sched\+\_\+restore@{tn\+\_\+arch\+\_\+sched\+\_\+restore}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+arch\+\_\+sched\+\_\+restore()}{tn\_arch\_sched\_restore()}}
+{\footnotesize\ttfamily void tn\+\_\+arch\+\_\+sched\+\_\+restore (\begin{DoxyParamCaption}\item[{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}]{sched\+\_\+state }\end{DoxyParamCaption})}
+
+
+
+Restore state of the kernel scheduler. 
+
+See {\ttfamily \hyperlink{tn__arch_8h_a19e3b6ac25f75016b316ee217114e26d}{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save()}}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em sched\+\_\+state} & Value returned from {\ttfamily \hyperlink{tn__arch_8h_a19e3b6ac25f75016b316ee217114e26d}{tn\+\_\+arch\+\_\+sched\+\_\+dis\+\_\+save()}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{tn__arch_8h_adfec508be4a01fd3b251dbbeec12d7d6}\label{tn__arch_8h_adfec508be4a01fd3b251dbbeec12d7d6}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!\+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init@{\+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init}}
+\index{\+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init@{\+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init()}{\_tn\_arch\_stack\_init()}}
+{\footnotesize\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}$\ast$ \+\_\+tn\+\_\+arch\+\_\+stack\+\_\+init (\begin{DoxyParamCaption}\item[{\hyperlink{tn__common_8h_a603cbe1ffdafc7e6813ef692bbd7d22f}{T\+N\+\_\+\+Task\+Body} $\ast$}]{task\+\_\+func,  }\item[{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$}]{stack\+\_\+low\+\_\+addr,  }\item[{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$}]{stack\+\_\+high\+\_\+addr,  }\item[{void $\ast$}]{param }\end{DoxyParamCaption})}
+
+
+
+Should put initial C\+PU context to the provided stack pointer for new task and return current stack pointer. 
+
+When resulting context gets restored by {\ttfamily \hyperlink{tn__arch_8h_afd5f43f42f5645de164ba6d13d3a4bcf}{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave()}} or {\ttfamily \hyperlink{tn__arch_8h_a28871f82c82d549092930dd4842e2980}{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend()}}, the following conditions should be met\+:
+
+
+\begin{DoxyItemize}
+\item Interrupts are enabled;
+\item Return address is set to {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}}, so that when task body function returns, {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}} gets automatially called;
+\item Argument 0 contains {\ttfamily param} pointer
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em task\+\_\+func} & Pointer to task body function. \\
+\hline
+{\em stack\+\_\+low\+\_\+addr} & Lowest address of the stack, independently of the architecture stack implementation \\
+\hline
+{\em stack\+\_\+high\+\_\+addr} & Highest address of the stack, independently of the architecture stack implementation \\
+\hline
+{\em param} & User-\/provided parameter for task body function.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+current stack pointer (top of the stack) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{tn__arch_8h_a34ffbae8b6837f7f3014bca9991e2272}\label{tn__arch_8h_a34ffbae8b6837f7f3014bca9991e2272}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr@{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr}}
+\index{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr@{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr()}{\_tn\_arch\_inside\_isr()}}
+{\footnotesize\ttfamily int \+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Should return 1 if {\itshape system I\+SR} is currently running, 0 otherwise. 
+
+Refer to the section \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system I\+SR}. \mbox{\Hypertarget{tn__arch_8h_a024f41d79c823ecac5ed6b83c36f164e}\label{tn__arch_8h_a024f41d79c823ecac5ed6b83c36f164e}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!\+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled@{\+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled}}
+\index{\+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled@{\+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled()}{\_tn\_arch\_is\_int\_disabled()}}
+{\footnotesize\ttfamily int \+\_\+tn\+\_\+arch\+\_\+is\+\_\+int\+\_\+disabled (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Should return 1 if {\itshape system interrupts} are currently disabled, 0 otherwise. 
+
+Refer to the section \hyperlink{interrupts_interrupt_types}{Interrupt types} for details on what is {\itshape system interrupt}. \mbox{\Hypertarget{tn__arch_8h_a28871f82c82d549092930dd4842e2980}\label{tn__arch_8h_a28871f82c82d549092930dd4842e2980}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend@{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend}}
+\index{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend@{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend()}{\_tn\_arch\_context\_switch\_pend()}}
+{\footnotesize\ttfamily void \+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+pend (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Called whenever we need to switch context from one task to another. 
+
+This function typically does N\+OT switch context; it merely pends it, that is, it sets appropriate interrupt flag. If current level is an application level, interrupt is fired immediately, and context gets switched. Otherwise (if some I\+SR is currently running), context switch keeps pending until all I\+SR return.
+
+{\bfseries Preconditions\+:}
+
+
+\begin{DoxyItemize}
+\item interrupts are enabled;
+\item {\ttfamily \+\_\+tn\+\_\+curr\+\_\+run\+\_\+task} points to currently running (preempted) task;
+\item {\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} points to new task to run.
+\end{DoxyItemize}
+
+{\bfseries Actions to perform in actual context switching routine\+:}
+
+
+\begin{DoxyItemize}
+\item save context of the preempted task to its stack;
+\item if preprocessor macro {\ttfamily \hyperlink{tn__cfg__dispatch_8h_afafafccc47ed18807179e8909ef18bee}{\+\_\+\+T\+N\+\_\+\+O\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+S\+W\+I\+T\+C\+H\+\_\+\+H\+A\+N\+D\+L\+ER}} is non-\/zero, call {\ttfamily \+\_\+tn\+\_\+sys\+\_\+on\+\_\+context\+\_\+switch(\+\_\+tn\+\_\+curr\+\_\+run\+\_\+task, \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run);}.
+\item set {\ttfamily \+\_\+tn\+\_\+curr\+\_\+run\+\_\+task} to {\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run};
+\item restore context of the newly activated task from its stack.
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \+\_\+tn\+\_\+curr\+\_\+run\+\_\+task} 
+
+{\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tn__arch_8h_afd5f43f42f5645de164ba6d13d3a4bcf}\label{tn__arch_8h_afd5f43f42f5645de164ba6d13d3a4bcf}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave@{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave}}
+\index{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave@{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave()}{\_tn\_arch\_context\_switch\_now\_nosave()}}
+{\footnotesize\ttfamily void \+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Called whenever we need to switch context to new task, but don\textquotesingle{}t save current context. 
+
+This happens\+:
+\begin{DoxyItemize}
+\item At system start, inside {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}} (well, it is actually called indirectly but from {\ttfamily \hyperlink{tn__arch_8h_a8b4b954fc132b3426ca8b564a38efc20}{\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start()}});
+\item At task exit, inside {\ttfamily \hyperlink{tn__tasks_8h_a23e562731e616f01e325bc9830bcc021}{tn\+\_\+task\+\_\+exit()}}.
+\end{DoxyItemize}
+
+This function doesn\textquotesingle{}t need to pend context switch, it switches context immediately.
+
+{\bfseries Preconditions\+:}
+
+
+\begin{DoxyItemize}
+\item interrupts are disabled;
+\item {\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} is already set to needed task.
+\end{DoxyItemize}
+
+{\bfseries Actions to perform\+:}
+
+
+\begin{DoxyItemize}
+\item if preprocessor macro {\ttfamily \hyperlink{tn__cfg__dispatch_8h_afafafccc47ed18807179e8909ef18bee}{\+\_\+\+T\+N\+\_\+\+O\+N\+\_\+\+C\+O\+N\+T\+E\+X\+T\+\_\+\+S\+W\+I\+T\+C\+H\+\_\+\+H\+A\+N\+D\+L\+ER}} is non-\/zero, call {\ttfamily \+\_\+tn\+\_\+sys\+\_\+on\+\_\+context\+\_\+switch(\+\_\+tn\+\_\+curr\+\_\+run\+\_\+task, \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run);}.
+\item set {\ttfamily \+\_\+tn\+\_\+curr\+\_\+run\+\_\+task} to {\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run};
+\item restore context of the newly activated task from its stack.
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \+\_\+tn\+\_\+curr\+\_\+run\+\_\+task} 
+
+{\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tn__arch_8h_a8b4b954fc132b3426ca8b564a38efc20}\label{tn__arch_8h_a8b4b954fc132b3426ca8b564a38efc20}} 
+\index{tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}!\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start@{\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start}}
+\index{\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start@{\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start}!tn\+\_\+arch.\+h@{tn\+\_\+arch.\+h}}
+\subsubsection{\texorpdfstring{\+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start()}{\_tn\_arch\_sys\_start()}}
+{\footnotesize\ttfamily void \+\_\+tn\+\_\+arch\+\_\+sys\+\_\+start (\begin{DoxyParamCaption}\item[{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$}]{int\+\_\+stack,  }\item[{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}]{int\+\_\+stack\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Performs first context switch to the first task ({\ttfamily \+\_\+tn\+\_\+next\+\_\+task\+\_\+to\+\_\+run} is already set to needed task). 
+
+Typically, this function just calls {\ttfamily \hyperlink{tn__arch_8h_afd5f43f42f5645de164ba6d13d3a4bcf}{\+\_\+tn\+\_\+arch\+\_\+context\+\_\+switch\+\_\+now\+\_\+nosave()}}, but it also can perform any architecture-\/dependent actions first, if needed. 

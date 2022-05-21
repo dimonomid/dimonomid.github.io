@@ -1,0 +1,148 @@
+\hypertarget{structTN__Task}{\section{T\+N\+\_\+\+Task Struct Reference}
+\label{structTN__Task}\index{T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}}
+}
+
+
+\subsection{Detailed Description}
+Task. 
+
+Definition at line 241 of file tn\+\_\+tasks.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$ \hyperlink{structTN__Task_a6e31948663b2846ac9dddc05f529286a}{stack\+\_\+top}
+\begin{DoxyCompactList}\small\item\em pointer to task's current top of the stack; Note that this field {\bfseries must} be a first field in the struct, this fact is exploited by platform-\/specific routines. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a0772dfcd1f95d0ba10b9d2820fb9201b}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Task_a0772dfcd1f95d0ba10b9d2820fb9201b}{task\+\_\+queue}}\label{structTN__Task_a0772dfcd1f95d0ba10b9d2820fb9201b}
+
+\begin{DoxyCompactList}\small\item\em queue is used to include task in ready/wait lists \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_ac394d7ba177bab077969e9d96cddd8fb}{struct \hyperlink{structTN__Timer}{T\+N\+\_\+\+Timer} \hyperlink{structTN__Task_ac394d7ba177bab077969e9d96cddd8fb}{timer}}\label{structTN__Task_ac394d7ba177bab077969e9d96cddd8fb}
+
+\begin{DoxyCompactList}\small\item\em timer object to implement task waiting for timeout \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a971ab5689af53bed2548c62f3bcabdc5}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} $\ast$ \hyperlink{structTN__Task_a971ab5689af53bed2548c62f3bcabdc5}{pwait\+\_\+queue}}\label{structTN__Task_a971ab5689af53bed2548c62f3bcabdc5}
+
+\begin{DoxyCompactList}\small\item\em pointer to object's (semaphore, mutex, event, etc) wait list in which task is included for waiting \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_aedb23df723d259530f10a122fec42334}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Task_aedb23df723d259530f10a122fec42334}{create\+\_\+queue}}\label{structTN__Task_aedb23df723d259530f10a122fec42334}
+
+\begin{DoxyCompactList}\small\item\em queue is used to include task in creation list (currently, this list is used for statistics only) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_ad4decd7355c95a5b60a6774c3ee19eb9}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Task_ad4decd7355c95a5b60a6774c3ee19eb9}{mutex\+\_\+queue}}\label{structTN__Task_ad4decd7355c95a5b60a6774c3ee19eb9}
+
+\begin{DoxyCompactList}\small\item\em list of all mutexes that are locked by task \end{DoxyCompactList}\item 
+struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Task_a097e79851e01fb3c73f0346d99ea8b7e}{deadlock\+\_\+list}
+\begin{DoxyCompactList}\small\item\em list of other tasks involved in deadlock. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_ab617b455f497c1bf497208e5afb8cc77}{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$ \hyperlink{structTN__Task_ab617b455f497c1bf497208e5afb8cc77}{base\+\_\+stack\+\_\+top}}\label{structTN__Task_ab617b455f497c1bf497208e5afb8cc77}
+
+\begin{DoxyCompactList}\small\item\em base top of the stack for this task \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a18bd724533974648a39e965d10af83cb}{int \hyperlink{structTN__Task_a18bd724533974648a39e965d10af83cb}{stack\+\_\+size}}\label{structTN__Task_a18bd724533974648a39e965d10af83cb}
+
+\begin{DoxyCompactList}\small\item\em size of task's stack (in {\ttfamily sizeof(\+T\+N\+\_\+\+U\+Word)}, not bytes) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a69c06e09b4d2a8a258f0733b58324139}{\hyperlink{tn__common_8h_a82f7de9034cbbb373c4dbcff45942343}{T\+N\+\_\+\+Task\+Body} $\ast$ \hyperlink{structTN__Task_a69c06e09b4d2a8a258f0733b58324139}{task\+\_\+func\+\_\+addr}}\label{structTN__Task_a69c06e09b4d2a8a258f0733b58324139}
+
+\begin{DoxyCompactList}\small\item\em pointer to task's body function given to {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a55c62af79c5b4fdc2f1b414d409afe73}{void $\ast$ \hyperlink{structTN__Task_a55c62af79c5b4fdc2f1b414d409afe73}{task\+\_\+func\+\_\+param}}\label{structTN__Task_a55c62af79c5b4fdc2f1b414d409afe73}
+
+\begin{DoxyCompactList}\small\item\em pointer to task's parameter given to {\ttfamily \hyperlink{tn__tasks_8h_a548d5adda09d1b4e393b5df0e9e1a7a5}{tn\+\_\+task\+\_\+create()}} \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a7775b785b3f0b57918e9a0c88491a069}{int \hyperlink{structTN__Task_a7775b785b3f0b57918e9a0c88491a069}{base\+\_\+priority}}\label{structTN__Task_a7775b785b3f0b57918e9a0c88491a069}
+
+\begin{DoxyCompactList}\small\item\em base priority of the task (actual current priority may be higher than base priority because of mutex) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a43c9c73249da8faa1177587786c40616}{int \hyperlink{structTN__Task_a43c9c73249da8faa1177587786c40616}{priority}}\label{structTN__Task_a43c9c73249da8faa1177587786c40616}
+
+\begin{DoxyCompactList}\small\item\em current task priority \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a014a0a70ae6a23d08b1571ac6b017abd}{enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__Task_a014a0a70ae6a23d08b1571ac6b017abd}{id\+\_\+task}}\label{structTN__Task_a014a0a70ae6a23d08b1571ac6b017abd}
+
+\begin{DoxyCompactList}\small\item\em id for object validity verification \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a6a1ec466a27d43d68f21a62e2c6cf03d}{enum \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6}{T\+N\+\_\+\+Task\+State} \hyperlink{structTN__Task_a6a1ec466a27d43d68f21a62e2c6cf03d}{task\+\_\+state}}\label{structTN__Task_a6a1ec466a27d43d68f21a62e2c6cf03d}
+
+\begin{DoxyCompactList}\small\item\em task state \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a37d3c12db92b7dfc6c3bb661216f3c11}{enum \hyperlink{tn__tasks_8h_a343b0332013c15d6e878c2f60ed2c9b7}{T\+N\+\_\+\+Wait\+Reason} \hyperlink{structTN__Task_a37d3c12db92b7dfc6c3bb661216f3c11}{task\+\_\+wait\+\_\+reason}}\label{structTN__Task_a37d3c12db92b7dfc6c3bb661216f3c11}
+
+\begin{DoxyCompactList}\small\item\em reason for waiting (relevant if only {\ttfamily task\+\_\+state} is \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} or \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6ad010070ccc16a5c706c286baf2e3ee2a}{{\ttfamily W\+A\+I\+T+\+S\+U\+S\+P\+E\+N\+D}}) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_a367b92b74248f8702ed428a695079903}{enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{structTN__Task_a367b92b74248f8702ed428a695079903}{task\+\_\+wait\+\_\+rc}}\label{structTN__Task_a367b92b74248f8702ed428a695079903}
+
+\begin{DoxyCompactList}\small\item\em waiting result code (reason why waiting finished) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_ab3ca332d577071de47d85fb1371f6830}{int \hyperlink{structTN__Task_ab3ca332d577071de47d85fb1371f6830}{tslice\+\_\+count}}\label{structTN__Task_ab3ca332d577071de47d85fb1371f6830}
+
+\begin{DoxyCompactList}\small\item\em time slice counter \end{DoxyCompactList}\item 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \hyperlink{structTN__EGrpTaskWait}{TN\_EGrpTaskWait} \hyperlink{structTN__Task_a22c8cfe2e95d6f891aa568cafdb95936}{eventgrp}\\
+\>\>{\em fields specific to \hyperlink{tn__eventgrp_8h}{tn\_eventgrp.h} }\\
+\>struct \hyperlink{structTN__DQueueTaskWait}{TN\_DQueueTaskWait} \hyperlink{structTN__Task_aa536e1eba96904c006d1e61efc520378}{dqueue}\\
+\>\>{\em fields specific to \hyperlink{tn__dqueue_8h}{tn\_dqueue.h} }\\
+\>struct \hyperlink{structTN__FMemTaskWait}{TN\_FMemTaskWait} \hyperlink{structTN__Task_a31921e5384127319bffd5ae09debac1e}{fmem}\\
+\>\>{\em fields specific to \hyperlink{tn__fmem_8h}{tn\_fmem.h} }\\
+\} \hyperlink{structTN__Task_a7b1e431e2e2c65d8de74d48b44cf68ee}{subsys\_wait}\\
+
+\end{tabbing}\begin{DoxyCompactList}\small\item\em subsystem-\/specific fields that are used while task waits for something. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Task_aed03c90906ffe2dcbcc49d8badc74147}{const char $\ast$ \hyperlink{structTN__Task_aed03c90906ffe2dcbcc49d8badc74147}{name}}\label{structTN__Task_aed03c90906ffe2dcbcc49d8badc74147}
+
+\begin{DoxyCompactList}\small\item\em task name for debug purposes, user may want to set it by hand \end{DoxyCompactList}\item 
+unsigned \hyperlink{structTN__Task_abb4d22974c7317dd610f646b9048656d}{priority\+\_\+already\+\_\+updated}\+: 1
+\begin{DoxyCompactList}\small\item\em Internal flag used to optimize mutex priority algorithms. \end{DoxyCompactList}\item 
+unsigned \hyperlink{structTN__Task_a47c3a0a27be1ee526a1599a2ca8bb269}{waited}\+: 1
+\begin{DoxyCompactList}\small\item\em Flag indicates that task waited for something This flag is set automatially in {\ttfamily \+\_\+tn\+\_\+task\+\_\+set\+\_\+waiting()} Must be cleared manually before calling any service that could sleep, if the caller is interested in the relevant value of this flag. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structTN__Task_a6e31948663b2846ac9dddc05f529286a}{\index{T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}!stack\+\_\+top@{stack\+\_\+top}}
+\index{stack\+\_\+top@{stack\+\_\+top}!T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}}
+\subsubsection[{stack\+\_\+top}]{\setlength{\rightskip}{0pt plus 5cm}{\bf T\+N\+\_\+\+U\+Word}$\ast$ T\+N\+\_\+\+Task\+::stack\+\_\+top}}\label{structTN__Task_a6e31948663b2846ac9dddc05f529286a}
+
+
+pointer to task's current top of the stack; Note that this field {\bfseries must} be a first field in the struct, this fact is exploited by platform-\/specific routines. 
+
+
+
+Definition at line 245 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{structTN__Task_a097e79851e01fb3c73f0346d99ea8b7e}{\index{T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}!deadlock\+\_\+list@{deadlock\+\_\+list}}
+\index{deadlock\+\_\+list@{deadlock\+\_\+list}!T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}}
+\subsubsection[{deadlock\+\_\+list}]{\setlength{\rightskip}{0pt plus 5cm}struct {\bf T\+N\+\_\+\+List\+Item} T\+N\+\_\+\+Task\+::deadlock\+\_\+list}}\label{structTN__Task_a097e79851e01fb3c73f0346d99ea8b7e}
+
+
+list of other tasks involved in deadlock. 
+
+This list is non-\/empty only in emergency cases, and it is here to help you fix your bug that led to deadlock.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} 
+\end{DoxySeeAlso}
+
+
+Definition at line 272 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{structTN__Task_a7b1e431e2e2c65d8de74d48b44cf68ee}{\index{T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}!subsys\+\_\+wait@{subsys\+\_\+wait}}
+\index{subsys\+\_\+wait@{subsys\+\_\+wait}!T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}}
+\subsubsection[{subsys\+\_\+wait}]{\setlength{\rightskip}{0pt plus 5cm}union \{ ... \}   T\+N\+\_\+\+Task\+::subsys\+\_\+wait}}\label{structTN__Task_a7b1e431e2e2c65d8de74d48b44cf68ee}
+
+
+subsystem-\/specific fields that are used while task waits for something. 
+
+Do note that these fields are grouped by union, so, they must not interfere with each other. It's quite ok here because task can't wait for different things. \hypertarget{structTN__Task_abb4d22974c7317dd610f646b9048656d}{\index{T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}!priority\+\_\+already\+\_\+updated@{priority\+\_\+already\+\_\+updated}}
+\index{priority\+\_\+already\+\_\+updated@{priority\+\_\+already\+\_\+updated}!T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}}
+\subsubsection[{priority\+\_\+already\+\_\+updated}]{\setlength{\rightskip}{0pt plus 5cm}unsigned T\+N\+\_\+\+Task\+::priority\+\_\+already\+\_\+updated}}\label{structTN__Task_abb4d22974c7317dd610f646b9048656d}
+
+
+Internal flag used to optimize mutex priority algorithms. 
+
+For the comments on it, see file tn\+\_\+mutex.\+c, function {\ttfamily \+\_\+mutex\+\_\+do\+\_\+unlock()}. 
+
+Definition at line 343 of file tn\+\_\+tasks.\+h.
+
+\hypertarget{structTN__Task_a47c3a0a27be1ee526a1599a2ca8bb269}{\index{T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}!waited@{waited}}
+\index{waited@{waited}!T\+N\+\_\+\+Task@{T\+N\+\_\+\+Task}}
+\subsubsection[{waited}]{\setlength{\rightskip}{0pt plus 5cm}unsigned T\+N\+\_\+\+Task\+::waited}}\label{structTN__Task_a47c3a0a27be1ee526a1599a2ca8bb269}
+
+
+Flag indicates that task waited for something This flag is set automatially in {\ttfamily \+\_\+tn\+\_\+task\+\_\+set\+\_\+waiting()} Must be cleared manually before calling any service that could sleep, if the caller is interested in the relevant value of this flag. 
+
+
+
+Definition at line 349 of file tn\+\_\+tasks.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__tasks_8h}{tn\+\_\+tasks.\+h}\end{DoxyCompactItemize}

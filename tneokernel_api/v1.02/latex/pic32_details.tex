@@ -1,0 +1,41 @@
+P\+I\+C32 port implementation details\hypertarget{pic32_details_pic32_context_switch}{}\section{Context switch}\label{pic32_details_pic32_context_switch}
+The context switch is implemented using the core software 0 interrupt. It should be configured to use the lowest priority in the system\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{// set up the software interrupt 0 with a priority of 1, subpriority 0}
+INTSetVectorPriority(INT\_CORE\_SOFTWARE\_0\_VECTOR, INT\_PRIORITY\_LEVEL\_1);
+INTSetVectorSubPriority(INT\_CORE\_SOFTWARE\_0\_VECTOR, INT\_SUB\_PRIORITY\_LEVEL\_0);
+INTEnable(INT\_CS0, INT\_ENABLED);
+\end{DoxyCode}
+
+
+The interrupt priority level used by the context switch interrupt should not be configured to use shadow register sets.
+
+\begin{DoxyAttention}{Attention}
+if tneokernel is built as a separate library, then the file {\ttfamily src/arch/pic32/tn\+\_\+arch\+\_\+pic32\+\_\+int\+\_\+vec1.\+S} must be included in the main project itself, in order to dispatch vector1 (core software interrupt 0) correctly.
+\end{DoxyAttention}
+\hypertarget{pic32_details_pic32_interrupts}{}\section{Interrupts}\label{pic32_details_pic32_interrupts}
+P\+I\+C32 port supports nested interrupts. The kernel provides C-\/language macros for calling C-\/language interrupt service routines, which can use either M\+I\+P\+S32 or M\+I\+P\+S16e mode. Both software and shadow register interrupt context saving is supported. Usage is as follows\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{/* Timer 1 interrupt handler using software interrupt context saving */}
+\hyperlink{tn__arch__pic32_8h_a46a860d030e59e2c6aa827ca5ad36a37}{tn\_soft\_isr}(\_TIMER\_1\_VECTOR)
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+
+\textcolor{comment}{/* High-priority UART interrupt handler using shadow register set */}
+\hyperlink{tn__arch__pic32_8h_acb97f377bb993c30f6c83c582978d895}{tn\_srs\_isr}(\_UART\_1\_VECTOR)
+\{
+   \textcolor{comment}{/* here is your ISR code, including clearing of interrupt flag, and so on */}
+\}
+\end{DoxyCode}
+
+
+\begin{DoxyAttention}{Attention}
+every I\+S\+R in your system should use kernel-\/provided macro, either {\ttfamily tn\+\_\+soft\+\_\+isr} or {\ttfamily tn\+\_\+srs\+\_\+isr}, instead of {\ttfamily \+\_\+\+\_\+\+I\+S\+R} macro.
+\end{DoxyAttention}
+\hypertarget{pic32_details_pic32_interrupt_stack}{}\section{Interrupt stack}\label{pic32_details_pic32_interrupt_stack}
+P\+I\+C32 uses a separate stack for interrupt handlers. Switching stack pointers is done automatically in the I\+S\+R handler wrapper macros. User should allocate array for interrupt stack and pass it as an argument to {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}}. Refer to the \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel} section for the usage example and additional comments. 

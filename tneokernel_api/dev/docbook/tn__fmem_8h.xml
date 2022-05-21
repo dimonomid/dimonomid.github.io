@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__fmem_8h">
+    <title>tn_fmem.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+        <section>
+            <title> Data Structures </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__FMem">TN_FMem</link></para>
+<para><emphasis>Fixed memory blocks pool.</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__FMemTaskWait">TN_FMemTaskWait</link></para>
+<para><emphasis>FMem-specific fields related to waiting task,
+to be included in struct TN_Task.</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Macros</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__fmem_8h_1ab45e9c2ad4a64345214f9a912bf76fc3">TN_FMEM_BUF_DEF</link> <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> name[                                                 \
+        (size)                                                    \
+      * (<link linkend="tn__common_8h_1a3f48380e8a624edc643319a81192d88e">TN_MAKE_ALIG_SIZE</link>(sizeof(item_type)) / sizeof(<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link>)) \
+      ]<para><emphasis>Convenience macro for the definition of buffer for memory pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1a56d47d4a1b6453d959336448a0ce96ac">tn_fmem_create</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem, void * start_addr, unsigned int block_size, int blocks_cnt)<para><emphasis>Construct fixed memory blocks pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1ac9b8243577c7a14ce442879e9e68d98c">tn_fmem_delete</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem)<para><emphasis>Destruct fixed memory blocks pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1a2ecd094041dbd0e92d61b852b7952444">tn_fmem_get</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem, void ** p_data, <link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link> timeout)<para><emphasis>Get memory block from the pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1affea42ad41734fadfe8170b4234ca567">tn_fmem_get_polling</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem, void ** p_data)<para><emphasis>The same as &lt;tt&gt;tn_fmem_get()&lt;/tt&gt; with zero timeout.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1a24ef67ab8567f6dd4d08946711f756df">tn_fmem_iget_polling</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem, void ** p_data)<para><emphasis>The same as &lt;tt&gt;tn_fmem_get()&lt;/tt&gt; with zero timeout, but for using in the ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1adc5dfb589f4ef2347021c727cd4cc030">tn_fmem_release</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem, void * p_data)<para><emphasis>Release memory block back to the pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__fmem_8h_1a061edcb30a486dba289aa136af7b68f6">tn_fmem_irelease</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem, void * p_data)<para><emphasis>The same as &lt;tt&gt;tn_fmem_get()&lt;/tt&gt;, but for using in the ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="tn__fmem_8h_1ae8b80e0a0a8b07e11acbc4f15f3ef32d">tn_fmem_free_blocks_cnt_get</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem)<para><emphasis>Returns number of free blocks in the memory pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="tn__fmem_8h_1a2f23f2cdb3e6f3f2a1c1f9ebc4e6e8cb">tn_fmem_used_blocks_cnt_get</link> (
+struct <link linkend="structTN__FMem">TN_FMem</link> * fmem)<para><emphasis>Returns number of used (non-free) blocks in the memory pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Fixed memory blocks pool. </para>
+
+<para>A fixed-sized memory blocks pool is used for managing fixed-sized memory blocks dynamically. A pool has a memory area where fixed-sized memory blocks are allocated and the wait queue for acquiring a memory block. If there are no free memory blocks, a task trying to acquire a memory block will be placed into the wait queue until a free memory block arrives (another task returns it to the memory pool).</para>
+
+<para>The operations of getting the block from memory pool and releasing it back take O(1) time independently of number or size of the blocks.</para>
+
+<para>For the useful pattern on how to use fixed memory pool together with <link linkend="tn__dqueue_8h">queue</link>, refer to the example: <computeroutput>examples/queue</computeroutput>. Be sure to examine the readme there. </para>
+    <para>Definition in file /home/dimon/mydata/projects/tneo/src/core/tn_fmem.h</para>
+    </simplesect>
+</section>

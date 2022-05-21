@@ -1,0 +1,126 @@
+\hypertarget{tn__arch__pic32_8h}{}\section{arch/pic32/tn\+\_\+arch\+\_\+pic32.h File Reference}
+\label{tn__arch__pic32_8h}\index{arch/pic32/tn\+\_\+arch\+\_\+pic32.\+h@{arch/pic32/tn\+\_\+arch\+\_\+pic32.\+h}}
+
+
+\subsection{Detailed Description}
+P\+I\+C32 architecture-\/dependent routines. 
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\+\_\+p32\+\_\+soft\+\_\+isr}(vec)
+\begin{DoxyCompactList}\small\item\em Interrupt handler wrapper macro for software context saving. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\+\_\+p32\+\_\+srs\+\_\+isr}(vec)
+\begin{DoxyCompactList}\small\item\em Interrupt handler wrapper macro for shadow register context saving. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{tn__arch__pic32_8h_afde61cfabbeed1562ea2135fea8e919b}\label{tn__arch__pic32_8h_afde61cfabbeed1562ea2135fea8e919b}} 
+\#define \hyperlink{tn__arch__pic32_8h_afde61cfabbeed1562ea2135fea8e919b}{tn\+\_\+soft\+\_\+isr}~\hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\+\_\+p32\+\_\+soft\+\_\+isr}
+\begin{DoxyCompactList}\small\item\em For compatibility with old projects, old name of {\ttfamily \hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\+\_\+p32\+\_\+soft\+\_\+isr()}} macro is kept; please don\textquotesingle{}t use it in new code. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{tn__arch__pic32_8h_a714962dd7eb6b94feee7f4d769b601c0}\label{tn__arch__pic32_8h_a714962dd7eb6b94feee7f4d769b601c0}} 
+\#define \hyperlink{tn__arch__pic32_8h_a714962dd7eb6b94feee7f4d769b601c0}{tn\+\_\+srs\+\_\+isr}~\hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\+\_\+p32\+\_\+srs\+\_\+isr}
+\begin{DoxyCompactList}\small\item\em For compatibility with old projects, old name of {\ttfamily \hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\+\_\+p32\+\_\+srs\+\_\+isr()}} macro is kept; please don\textquotesingle{}t use it in new code. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+volatile int \hyperlink{tn__arch__pic32_8h_a20de0bafa66d054b8d280c9e60cbad4c}{tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count}
+\begin{DoxyCompactList}\small\item\em current interrupt nesting count. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{tn__arch__pic32_8h_aa2ef593f83b92d75837b4b884185d3fa}{tn\+\_\+p32\+\_\+user\+\_\+sp}
+\begin{DoxyCompactList}\small\item\em saved task stack pointer. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{tn__arch__pic32_8h_affc7724f74e4630699a105cb6a46422b}{tn\+\_\+p32\+\_\+int\+\_\+sp}
+\begin{DoxyCompactList}\small\item\em saved I\+SR stack pointer. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}\label{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}} 
+\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+p32\+\_\+soft\+\_\+isr@{tn\+\_\+p32\+\_\+soft\+\_\+isr}}
+\index{tn\+\_\+p32\+\_\+soft\+\_\+isr@{tn\+\_\+p32\+\_\+soft\+\_\+isr}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+p32\+\_\+soft\+\_\+isr}{tn\_p32\_soft\_isr}}
+{\footnotesize\ttfamily \#define tn\+\_\+p32\+\_\+soft\+\_\+isr(\begin{DoxyParamCaption}\item[{}]{vec }\end{DoxyParamCaption})}
+
+
+
+Interrupt handler wrapper macro for software context saving. 
+
+Usage looks like the following\+: \begin{DoxyVerb}tn_p32_soft_isr(_TIMER_1_VECTOR)
+{
+   INTClearFlag(INT_T1);
+
+   //-- do something useful
+}
+\end{DoxyVerb}
+
+
+Note that you should not use {\ttfamily \+\_\+\+\_\+\+I\+S\+R(\+\_\+\+T\+I\+M\+E\+R\+\_\+1\+\_\+\+V\+E\+C\+T\+O\+R)} macro for that.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & interrupt vector number, such as {\ttfamily \+\_\+\+T\+I\+M\+E\+R\+\_\+1\+\_\+\+V\+E\+C\+T\+OR}, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 344 of file tn\+\_\+arch\+\_\+pic32.\+h.
+
+\mbox{\Hypertarget{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}\label{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}} 
+\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+p32\+\_\+srs\+\_\+isr@{tn\+\_\+p32\+\_\+srs\+\_\+isr}}
+\index{tn\+\_\+p32\+\_\+srs\+\_\+isr@{tn\+\_\+p32\+\_\+srs\+\_\+isr}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+p32\+\_\+srs\+\_\+isr}{tn\_p32\_srs\_isr}}
+{\footnotesize\ttfamily \#define tn\+\_\+p32\+\_\+srs\+\_\+isr(\begin{DoxyParamCaption}\item[{}]{vec }\end{DoxyParamCaption})}
+
+
+
+Interrupt handler wrapper macro for shadow register context saving. 
+
+Usage looks like the following\+: \begin{DoxyVerb}tn_p32_srs_isr(_INT_UART_1_VECTOR)
+{
+   INTClearFlag(INT_U1);
+
+   //-- do something useful
+}
+\end{DoxyVerb}
+
+
+Note that you should not use {\ttfamily \+\_\+\+\_\+\+I\+S\+R(\+\_\+\+I\+N\+T\+\_\+\+U\+A\+R\+T\+\_\+1\+\_\+\+V\+E\+C\+T\+O\+R)} macro for that.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & interrupt vector number, such as {\ttfamily \+\_\+\+T\+I\+M\+E\+R\+\_\+1\+\_\+\+V\+E\+C\+T\+OR}, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 493 of file tn\+\_\+arch\+\_\+pic32.\+h.
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{tn__arch__pic32_8h_a20de0bafa66d054b8d280c9e60cbad4c}\label{tn__arch__pic32_8h_a20de0bafa66d054b8d280c9e60cbad4c}} 
+\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count@{tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count}}
+\index{tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count@{tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count}{tn\_p32\_int\_nest\_count}}
+{\footnotesize\ttfamily volatile int tn\+\_\+p32\+\_\+int\+\_\+nest\+\_\+count}
+
+
+
+current interrupt nesting count. 
+
+Used by macros {\ttfamily \hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\+\_\+p32\+\_\+soft\+\_\+isr()}} and {\ttfamily \hyperlink{tn__arch__pic32_8h_a523bb667617e6bb6f68a8f85855030a5}{tn\+\_\+p32\+\_\+srs\+\_\+isr()}}. \mbox{\Hypertarget{tn__arch__pic32_8h_aa2ef593f83b92d75837b4b884185d3fa}\label{tn__arch__pic32_8h_aa2ef593f83b92d75837b4b884185d3fa}} 
+\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+p32\+\_\+user\+\_\+sp@{tn\+\_\+p32\+\_\+user\+\_\+sp}}
+\index{tn\+\_\+p32\+\_\+user\+\_\+sp@{tn\+\_\+p32\+\_\+user\+\_\+sp}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+p32\+\_\+user\+\_\+sp}{tn\_p32\_user\_sp}}
+{\footnotesize\ttfamily void$\ast$ tn\+\_\+p32\+\_\+user\+\_\+sp}
+
+
+
+saved task stack pointer. 
+
+Needed when switching stack pointer from task stack to interrupt stack. \mbox{\Hypertarget{tn__arch__pic32_8h_affc7724f74e4630699a105cb6a46422b}\label{tn__arch__pic32_8h_affc7724f74e4630699a105cb6a46422b}} 
+\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+p32\+\_\+int\+\_\+sp@{tn\+\_\+p32\+\_\+int\+\_\+sp}}
+\index{tn\+\_\+p32\+\_\+int\+\_\+sp@{tn\+\_\+p32\+\_\+int\+\_\+sp}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection{\texorpdfstring{tn\+\_\+p32\+\_\+int\+\_\+sp}{tn\_p32\_int\_sp}}
+{\footnotesize\ttfamily void$\ast$ tn\+\_\+p32\+\_\+int\+\_\+sp}
+
+
+
+saved I\+SR stack pointer. 
+
+Needed when switching stack pointer from interrupt stack to task stack. 

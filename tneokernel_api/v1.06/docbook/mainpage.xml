@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>TNeo overview</title>
+
+<para>TNeo is a compact and fast real-time kernel for embedded 32/16 bits microprocessors. It performs a preemptive priority-based scheduling.</para>
+
+<para>TNeo was born as a thorough review and re-implementation of <link xlink:href="http://tnkernel.com">TNKernel</link> 2.7. The new kernel has well-formed code, <link linkend="why_reimplement_1why_reimplement__bugs">inherited bugs</link> are fixed as well as new features being added, it is well documented and tested carefully with unit-tests.</para>
+
+<para>Currently it is available for the following architectures:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Microchip: PIC32/PIC24/dsPIC</para>
+</listitem><listitem>
+<para>ARM Cortex-M cores: Cortex-M0/M0+/M1/M3/M4/M4F</para>
+</listitem></itemizedlist>
+</para>
+
+<para>API is <link linkend="tnkernel_diff">changed somewhat</link>, so it&apos;s not 100% compatible with TNKernel, hence the new name: TNeo.</para>
+
+<para>TNeo is hosted at bitbucket: <link xlink:href="http://bitbucket.org/dfrank/tneokernel">http://bitbucket.org/dfrank/tneokernel</link></para>
+
+<para>Related pages:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><link linkend="foreword">Foreword</link></para>
+</listitem><listitem>
+<para><link linkend="features">Features</link></para>
+</listitem><listitem>
+<para><link linkend="quick_guide">Quick guide</link></para>
+</listitem><listitem>
+<para><link linkend="time_ticks">Time ticks</link></para>
+</listitem><listitem>
+<para><link linkend="interrupts">Interrupts</link></para>
+</listitem><listitem>
+<para><link linkend="building">Building TNeo</link></para>
+</listitem><listitem>
+<para><link linkend="arch_specific">Architecture-specific details</link><itemizedlist>
+<listitem>
+<para><link linkend="arch_specific_1pic32_details">PIC32 port details</link></para>
+</listitem><listitem>
+<para><link linkend="arch_specific_1pic24_details">PIC24/dsPIC port details</link></para>
+</listitem><listitem>
+<para><link linkend="arch_specific_1cortex_m_details">Cortex-M0/M0+/M3/M4/M4F port details</link></para>
+</listitem></itemizedlist>
+</para>
+</listitem><listitem>
+<para><link linkend="why_reimplement">Why reimplement TNKernel</link></para>
+</listitem><listitem>
+<para><link linkend="tnkernel_diff">Differences from TNKernel API</link></para>
+</listitem><listitem>
+<para><link linkend="unit_tests">Unit tests</link></para>
+</listitem><listitem>
+<para><link linkend="plans">Plans</link></para>
+</listitem><listitem>
+<para><link linkend="changelog">Changelog</link></para>
+</listitem><listitem>
+<para><link linkend="thanks">Thanks</link></para>
+</listitem><listitem>
+<para><link linkend="license">License</link></para>
+</listitem><listitem>
+<para><link linkend="legend">Legend</link></para>
+</listitem></itemizedlist>
+</para>
+
+<para>API reference:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><link linkend="tn__sys_8h">System services</link></para>
+</listitem><listitem>
+<para><link linkend="tn__tasks_8h">Tasks</link></para>
+</listitem><listitem>
+<para><link linkend="tn__mutex_8h">Mutexes</link></para>
+</listitem><listitem>
+<para><link linkend="tn__sem_8h">Semaphores</link></para>
+</listitem><listitem>
+<para><link linkend="tn__fmem_8h">Fixed-size memory blocks</link></para>
+</listitem><listitem>
+<para><link linkend="tn__eventgrp_8h">Event groups</link></para>
+</listitem><listitem>
+<para><link linkend="tn__dqueue_8h">Data queues</link></para>
+</listitem><listitem>
+<para><link linkend="tn__timer_8h">Timers</link> </para>
+</listitem></itemizedlist>
+</para>
+
+</chapter>

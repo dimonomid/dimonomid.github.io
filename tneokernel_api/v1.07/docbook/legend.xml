@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Legend</title>
+
+<para>In the functions API documentation, the following designations are used:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>  Function can be called from task</para>
+</listitem><listitem>
+<para>  Function can be called from ISR</para>
+</listitem><listitem>
+<para>  Function can switch context to different task</para>
+</listitem><listitem>
+<para>  Function can sleep </para>
+</listitem></itemizedlist>
+</para>
+
+</chapter>

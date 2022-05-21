@@ -1,0 +1,84 @@
+\hypertarget{tn__arch__pic32_8h}{\section{arch/pic32/tn\+\_\+arch\+\_\+pic32.h File Reference}
+\label{tn__arch__pic32_8h}\index{arch/pic32/tn\+\_\+arch\+\_\+pic32.\+h@{arch/pic32/tn\+\_\+arch\+\_\+pic32.\+h}}
+}
+
+
+\subsection{Detailed Description}
+P\+I\+C32 architecture-\/dependent routines. 
+
+
+
+Definition in file \hyperlink{tn__arch__pic32_8h_source}{tn\+\_\+arch\+\_\+pic32.\+h}.
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__arch__pic32_8h_a46a860d030e59e2c6aa827ca5ad36a37}{tn\+\_\+soft\+\_\+isr}(vec)
+\begin{DoxyCompactList}\small\item\em Interrupt handler wrapper macro for software context saving. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__arch__pic32_8h_acb97f377bb993c30f6c83c582978d895}{tn\+\_\+srs\+\_\+isr}(vec)
+\begin{DoxyCompactList}\small\item\em Interrupt handler wrapper macro for shadow register context saving. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tn__arch__pic32_8h_a46a860d030e59e2c6aa827ca5ad36a37}{\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+soft\+\_\+isr@{tn\+\_\+soft\+\_\+isr}}
+\index{tn\+\_\+soft\+\_\+isr@{tn\+\_\+soft\+\_\+isr}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection[{tn\+\_\+soft\+\_\+isr}]{\setlength{\rightskip}{0pt plus 5cm}\#define tn\+\_\+soft\+\_\+isr(
+\begin{DoxyParamCaption}
+\item[{}]{vec}
+\end{DoxyParamCaption}
+)}}\label{tn__arch__pic32_8h_a46a860d030e59e2c6aa827ca5ad36a37}
+
+
+Interrupt handler wrapper macro for software context saving. 
+
+Usage looks like the following\+: \begin{DoxyVerb}tn_soft_isr(_TIMER_1_VECTOR)
+{
+   INTClearFlag(INT_T1);
+
+   //-- do something useful
+}
+\end{DoxyVerb}
+
+
+Note that you should not use {\ttfamily \+\_\+\+\_\+\+I\+S\+R(\+\_\+\+T\+I\+M\+E\+R\+\_\+1\+\_\+\+V\+E\+C\+T\+O\+R)} macro for that.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & interrupt vector number, such as {\ttfamily \+\_\+\+T\+I\+M\+E\+R\+\_\+1\+\_\+\+V\+E\+C\+T\+O\+R}, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 269 of file tn\+\_\+arch\+\_\+pic32.\+h.
+
+\hypertarget{tn__arch__pic32_8h_acb97f377bb993c30f6c83c582978d895}{\index{tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}!tn\+\_\+srs\+\_\+isr@{tn\+\_\+srs\+\_\+isr}}
+\index{tn\+\_\+srs\+\_\+isr@{tn\+\_\+srs\+\_\+isr}!tn\+\_\+arch\+\_\+pic32.\+h@{tn\+\_\+arch\+\_\+pic32.\+h}}
+\subsubsection[{tn\+\_\+srs\+\_\+isr}]{\setlength{\rightskip}{0pt plus 5cm}\#define tn\+\_\+srs\+\_\+isr(
+\begin{DoxyParamCaption}
+\item[{}]{vec}
+\end{DoxyParamCaption}
+)}}\label{tn__arch__pic32_8h_acb97f377bb993c30f6c83c582978d895}
+
+
+Interrupt handler wrapper macro for shadow register context saving. 
+
+Usage looks like the following\+: \begin{DoxyVerb}tn_srs_isr(_INT_UART_1_VECTOR)
+{
+   INTClearFlag(INT_U1);
+
+   //-- do something useful
+}
+\end{DoxyVerb}
+
+
+Note that you should not use {\ttfamily \+\_\+\+\_\+\+I\+S\+R(\+\_\+\+I\+N\+T\+\_\+\+U\+A\+R\+T\+\_\+1\+\_\+\+V\+E\+C\+T\+O\+R)} macro for that.
+
+
+\begin{DoxyParams}{Parameters}
+{\em vec} & interrupt vector number, such as {\ttfamily \+\_\+\+T\+I\+M\+E\+R\+\_\+1\+\_\+\+V\+E\+C\+T\+O\+R}, etc. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 429 of file tn\+\_\+arch\+\_\+pic32.\+h.
+

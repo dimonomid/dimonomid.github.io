@@ -1,0 +1,217 @@
+\hypertarget{tn__sem_8h}{\section{core/tn\+\_\+sem.h File Reference}
+\label{tn__sem_8h}\index{core/tn\+\_\+sem.\+h@{core/tn\+\_\+sem.\+h}}
+}
+
+
+\subsection{Detailed Description}
+A semaphore\+: an object to provide signaling mechanism. 
+
+There is a lot of confusion about differences between semaphores and mutexes, so, it's quite recommended to read small article by Michael Barr\+: \href{http://goo.gl/YprPBW}{\tt Mutexes and Semaphores Demystified}.
+
+Very short\+:
+
+While mutex is seemingly similar to a semaphore with maximum count of {\ttfamily 1} (the so-\/called binary semaphore), their usage is very different\+: the purpose of mutex is to protect shared resource. A locked mutex is \char`\"{}owned\char`\"{} by the task that locked it, and only the same task may unlock it. This ownership allows to implement algorithms to prevent priority inversion. So, mutex is a {\itshape locking mechanism}.
+
+Semaphore, on the other hand, is {\itshape signaling mechanism}. It's quite legal and encouraged for semaphore to be waited for in the task A, and then signaled from task B or even from I\+S\+R. It may be used in situations like \char`\"{}producer
+and consumer\char`\"{}, etc.
+
+In addition to the article mentioned above, you may want to look at the \href{http://goo.gl/ZBReHK}{\tt related question on stackoverflow.\+com}. 
+
+Definition in file \hyperlink{tn__sem_8h_source}{tn\+\_\+sem.\+h}.
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem}
+\begin{DoxyCompactList}\small\item\em Semaphore. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a302b9a0fbb1843e38d95fdc1390d5c31}{tn\+\_\+sem\+\_\+create} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem, int start\+\_\+count, int max\+\_\+count)
+\begin{DoxyCompactList}\small\item\em Construct the semaphore. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a427022246912c9f2bea8a14033b4d103}{tn\+\_\+sem\+\_\+delete} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem)
+\begin{DoxyCompactList}\small\item\em Destruct the semaphore. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a39f52729fc651ccef7696310d3642a24}{tn\+\_\+sem\+\_\+signal} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem)
+\begin{DoxyCompactList}\small\item\em Signal the semaphore. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a215fd97b86fc63192106bb30b0574d14}{tn\+\_\+sem\+\_\+isignal} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__sem_8h_a39f52729fc651ccef7696310d3642a24}{tn\+\_\+sem\+\_\+signal()}} but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem, \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout} timeout)
+\begin{DoxyCompactList}\small\item\em Wait for the semaphore. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a7dd4429a9f3942764b23025f2f2e364e}{tn\+\_\+sem\+\_\+wait\+\_\+polling} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait()}} with zero timeout. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__sem_8h_a22e181857dbc681f962cfda5d34d71c0}{tn\+\_\+sem\+\_\+iwait\+\_\+polling} (struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem} $\ast$sem)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait()}} with zero timeout, but for using in the I\+S\+R. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__sem_8h_a302b9a0fbb1843e38d95fdc1390d5c31}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+create@{tn\+\_\+sem\+\_\+create}}
+\index{tn\+\_\+sem\+\_\+create@{tn\+\_\+sem\+\_\+create}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+create}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem, }
+\item[{int}]{start\+\_\+count, }
+\item[{int}]{max\+\_\+count}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a302b9a0fbb1843e38d95fdc1390d5c31}
+
+
+Construct the semaphore. 
+
+{\ttfamily id\+\_\+sem} field should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976af358c7d5cb01d76f5a5d2d1e546c98a4}{T\+N\+\_\+\+I\+D\+\_\+\+S\+E\+M\+A\+P\+H\+O\+R\+E}}, otherwise, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & Pointer to already allocated {\ttfamily struct \hyperlink{structTN__Sem}{T\+N\+\_\+\+Sem}} \\
+\hline
+{\em start\+\_\+count} & Initial counter value, typically it is equal to {\ttfamily max\+\_\+count} \\
+\hline
+{\em max\+\_\+count} & Maximum counter value.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if semaphore was successfully created;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return code is available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__sem_8h_a427022246912c9f2bea8a14033b4d103}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+delete@{tn\+\_\+sem\+\_\+delete}}
+\index{tn\+\_\+sem\+\_\+delete@{tn\+\_\+sem\+\_\+delete}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+delete}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a427022246912c9f2bea8a14033b4d103}
+
+
+Destruct the semaphore. 
+
+All tasks that wait for the semaphore become runnable with {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}} code returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & semaphore to destruct\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if semaphore was successfully deleted;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__sem_8h_a39f52729fc651ccef7696310d3642a24}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+signal@{tn\+\_\+sem\+\_\+signal}}
+\index{tn\+\_\+sem\+\_\+signal@{tn\+\_\+sem\+\_\+signal}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+signal}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+signal (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a39f52729fc651ccef7696310d3642a24}
+
+
+Signal the semaphore. 
+
+If current semaphore counter ({\ttfamily count}) is less than {\ttfamily max\+\_\+count}, counter is incremented by one, and first task (if any) that \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{waits} for the semaphore becomes runnable with {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} returned from {\ttfamily \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait()}}.
+
+if semaphore counter is already has its max value, no action performed and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec}{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W}} is returned
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & semaphore to signal\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if successful
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec}{T\+N\+\_\+\+R\+C\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W}} if {\ttfamily count} is already at maximum value ({\ttfamily max\+\_\+count})
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__sem_8h_a215fd97b86fc63192106bb30b0574d14}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+isignal@{tn\+\_\+sem\+\_\+isignal}}
+\index{tn\+\_\+sem\+\_\+isignal@{tn\+\_\+sem\+\_\+isignal}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+isignal}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+isignal (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a215fd97b86fc63192106bb30b0574d14}
+
+
+The same as {\ttfamily \hyperlink{tn__sem_8h_a39f52729fc651ccef7696310d3642a24}{tn\+\_\+sem\+\_\+signal()}} but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+wait@{tn\+\_\+sem\+\_\+wait}}
+\index{tn\+\_\+sem\+\_\+wait@{tn\+\_\+sem\+\_\+wait}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+wait}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+wait (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem, }
+\item[{{\bf T\+N\+\_\+\+Timeout}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}
+
+
+Wait for the semaphore. 
+
+If the current semaphore counter ({\ttfamily count}) is non-\/zero, it is decremented and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} is returned. Otherwise, behavior depends on {\ttfamily timeout} value\+: task might switch to \hyperlink{tn__tasks_8h_a5e12e8a0ab280b515f44bf3fee1210a6aaa3dfaf2bb5992e0cef981618ce30d56}{{\ttfamily W\+A\+I\+T}} state until someone \hyperlink{tn__sem_8h_a39f52729fc651ccef7696310d3642a24}{signaled} the semaphore or until the {\ttfamily timeout} expired. refer to {\ttfamily \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout}}.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}    \includegraphics{attr_timeout.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sem} & semaphore to wait for \\
+\hline
+{\em timeout} & refer to {\ttfamily \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if waiting was successfull
+\item Other possible return codes depend on {\ttfamily timeout} value, refer to {\ttfamily \hyperlink{tn__common_8h_a34c07c1fa20ae71d17817d28a41957fe}{T\+N\+\_\+\+Timeout}}
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__sem_8h_a7dd4429a9f3942764b23025f2f2e364e}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+wait\+\_\+polling@{tn\+\_\+sem\+\_\+wait\+\_\+polling}}
+\index{tn\+\_\+sem\+\_\+wait\+\_\+polling@{tn\+\_\+sem\+\_\+wait\+\_\+polling}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+wait\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+wait\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a7dd4429a9f3942764b23025f2f2e364e}
+
+
+The same as {\ttfamily \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait()}} with zero timeout. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__sem_8h_a22e181857dbc681f962cfda5d34d71c0}{\index{tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}!tn\+\_\+sem\+\_\+iwait\+\_\+polling@{tn\+\_\+sem\+\_\+iwait\+\_\+polling}}
+\index{tn\+\_\+sem\+\_\+iwait\+\_\+polling@{tn\+\_\+sem\+\_\+iwait\+\_\+polling}!tn\+\_\+sem.\+h@{tn\+\_\+sem.\+h}}
+\subsubsection[{tn\+\_\+sem\+\_\+iwait\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+sem\+\_\+iwait\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Sem} $\ast$}]{sem}
+\end{DoxyParamCaption}
+)}}\label{tn__sem_8h_a22e181857dbc681f962cfda5d34d71c0}
+
+
+The same as {\ttfamily \hyperlink{tn__sem_8h_a6bf88a78f4f8b2799f72ee671b52ed97}{tn\+\_\+sem\+\_\+wait()}} with zero timeout, but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  

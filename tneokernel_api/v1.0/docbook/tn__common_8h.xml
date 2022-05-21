@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__common_8h">
+    <title>tn_common.h File Reference</title>
+    <programlisting>#include &quot;tn_cfg.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_cfg_default.h&quot;</programlisting>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1a04321413cf21754a05682b298df0493d">TN_API_MAKE_ALIG_ARG__TYPE</link> 1<para><emphasis>In this case, you should use macro like this: &lt;tt&gt;#TN_MAKE_ALIG(struct my_struct)&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1a4972bf0cbc72e51a7463cf7d786d2b64">TN_API_MAKE_ALIG_ARG__SIZE</link> 2<para><emphasis>In this case, you should use macro like this: &lt;tt&gt;#TN_MAKE_ALIG(sizeof(struct
+my_struct))&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1a070d2ce7b6bb7e5c05602aa8c308d0c4">NULL</link> ((void *)0)<para><emphasis>NULL pointer definition.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1ae4cc35dcc70810fa972cc8a5185a28fa">BOOL</link> int<para><emphasis>boolean type definition</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1aa8cecfc5c5c054d2875c03e77b7be15d">TRUE</link> (1 == 1)<para><emphasis>&lt;tt&gt;true&lt;/tt&gt; value definition for type &lt;tt&gt;#BOOL&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1aa93f0eb578d23995850d61f7d61c55c1">FALSE</link> (1 == 0)<para><emphasis>&lt;tt&gt;false&lt;/tt&gt; value definition for type &lt;tt&gt;#BOOL&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1a3f48380e8a624edc643319a81192d88e">TN_MAKE_ALIG_SIZE</link> (((a) + (sizeof(<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link>) - 1)) &amp; (~(sizeof(<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link>) - 1)))<para><emphasis>Macro for making a number a multiple of &lt;tt&gt;sizeof(#TN_UWord)&lt;/tt&gt;, should be used
+with fixed memory block pool.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__common_8h_1a9a19aa6a6d04aabfb896ddf913516d77">TN_MAKE_ALIG</link> <link linkend="tn__common_8h_1a3f48380e8a624edc643319a81192d88e">TN_MAKE_ALIG_SIZE</link>(a)<para><emphasis>The same as &lt;tt&gt;#TN_MAKE_ALIG_SIZE&lt;/tt&gt; but its behavior depends on the option
+&lt;tt&gt;#TN_API_MAKE_ALIG_ARG&lt;/tt&gt;</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Enumerations</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976">TN_ObjId</link> {
+<link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976aae057379663876e55fed5e40fe5d4091">TN_ID_TASK</link>= 0x47ABCF69,
+<link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976af358c7d5cb01d76f5a5d2d1e546c98a4">TN_ID_SEMAPHORE</link>= 0x6FA173EB,
+<link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976a9e091dc80dfaa58fd26a6b144019195e">TN_ID_EVENTGRP</link>= 0x5E224F25,
+<link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976aaedaabfef8c2a7312d6b8ac2bbeb07a4">TN_ID_DATAQUEUE</link>= 0x8C8A6C89,
+<link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976a4a74d3b34e5ced2c4080e8da18115892">TN_ID_FSMEMORYPOOL</link>= 0x26B7CE8B,
+<link linkend="tn__common_8h_1ae779dd1f6735f6e139fb70acd004d976abf9427ac5b7701a4bd1b6cff3004e5a5">TN_ID_MUTEX</link>= 0x17129E45
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> {
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639">TN_RC_OK</link>=   0,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a5b4d73fde6b5d1c9579c02e6aafce1fb">TN_RC_TIMEOUT</link>=  -1,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a77ac7e9b81ba707565e7fe5d4c793dec">TN_RC_OVERFLOW</link>=  -2,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d">TN_RC_WCONTEXT</link>=  -3,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a7b6d93374f52ba4b2fc01b38b783aa4c">TN_RC_WSTATE</link>=  -4,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68">TN_RC_WPARAM</link>=  -5,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c">TN_RC_ILLEGAL_USE</link>=  -6,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101">TN_RC_INVALID_OBJ</link>=  -7,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84">TN_RC_DELETED</link>=  -8,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876ae5cbacb0fb01805c9003046c08bf4356">TN_RC_FORCED</link>=  -9,
+<link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876adb7619ced1907316915b288dd4ae3c1a">TN_RC_INTERNAL</link>= -10
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__common_8h_1a82f7de9034cbbb373c4dbcff45942343">TN_TaskBody</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef unsigned long  <link linkend="tn__common_8h_1a34c07c1fa20ae71d17817d28a41957fe">TN_Timeout</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Definitions used through the whole kernel. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_common.h</para>
+    </simplesect>
+</section>

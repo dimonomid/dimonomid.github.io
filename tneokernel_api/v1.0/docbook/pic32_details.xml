@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>PIC32 details</title>
+
+<para>PIC32 port implementation details</para>
+<section xml:id="pic32_details_1pic32_context_switch">
+<title>Context switch</title>
+
+<para>The context switch is implemented using the core software 0 interrupt. It should be configured to use the lowest priority in the system:</para>
+
+<para><literallayout><computeroutput>//&#32;set&#32;up&#32;the&#32;software&#32;interrupt&#32;0&#32;with&#32;a&#32;priority&#32;of&#32;1,&#32;subpriority&#32;0
+INTSetVectorPriority(INT_CORE_SOFTWARE_0_VECTOR,&#32;INT_PRIORITY_LEVEL_1);
+INTSetVectorSubPriority(INT_CORE_SOFTWARE_0_VECTOR,&#32;INT_SUB_PRIORITY_LEVEL_0);
+INTEnable(INT_CS0,&#32;INT_ENABLED);
+</computeroutput></literallayout></para>
+
+<para>The interrupt priority level used by the context switch interrupt should not be configured to use shadow register sets.</para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>if tneokernel is built as a separate library, then the file <computeroutput>src/arch/pic32/tn_arch_pic32_int_vec1.S</computeroutput> must be included in the main project itself, in order to dispatch vector1 (core software interrupt 0) correctly.</para>
+</formalpara>
+</para>
+</section>
+<section xml:id="pic32_details_1pic32_interrupts">
+<title>Interrupts</title>
+
+<para>PIC32 port supports nested interrupts. The kernel provides C-language macros for calling C-language interrupt service routines, which can use either MIPS32 or MIPS16e mode. Both software and shadow register interrupt context saving is supported. Usage is as follows:</para>
+
+<para><literallayout><computeroutput>/*&#32;Timer&#32;1&#32;interrupt&#32;handler&#32;using&#32;software&#32;interrupt&#32;context&#32;saving&#32;*/
+tn_soft_isr(_TIMER_1_VECTOR)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+
+/*&#32;High-priority&#32;UART&#32;interrupt&#32;handler&#32;using&#32;shadow&#32;register&#32;set&#32;*/
+tn_srs_isr(_UART_1_VECTOR)
+{
+&#32;&#32;&#32;/*&#32;here&#32;is&#32;your&#32;ISR&#32;code,&#32;including&#32;clearing&#32;of&#32;interrupt&#32;flag,&#32;and&#32;so&#32;on&#32;*/
+}
+</computeroutput></literallayout></para>
+
+<para><formalpara><title>Attention: </title>
+
+<para>every ISR in your system should use kernel-provided macro, either <computeroutput>tn_soft_isr</computeroutput> or <computeroutput>tn_srs_isr</computeroutput>, instead of <computeroutput>__ISR</computeroutput> macro.</para>
+</formalpara>
+</para>
+</section>
+<section xml:id="pic32_details_1pic32_interrupt_stack">
+<title>Interrupt stack</title>
+
+<para>PIC32 uses a separate stack for interrupt handlers. Switching stack pointers is done automatically in the ISR handler wrapper macros. User should allocate array for interrupt stack and pass it as an argument to <computeroutput><link linkend="tn__sys_8h_1a62ab25d9d8ca01c02d368968f19e49bf">tn_sys_start()</link></computeroutput>. Refer to the <link linkend="quick_guide_1starting_the_kernel">Starting the kernel</link> section for the usage example and additional comments. </para>
+</section>
+
+</chapter>

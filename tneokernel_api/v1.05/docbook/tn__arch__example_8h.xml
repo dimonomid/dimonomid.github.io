@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch__example_8h">
+    <title>tn_arch_example.h File Reference</title>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1ab25ff526f86c290ce100816c5078b7b8">_TN_FFS</link> (32 - __builtin_clz((x) &amp; (0 - (x))))<para><emphasis>FFS - find first set bit.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a782f83184c608149ce6e02a461927bab">_TN_FATAL_ERROR</link> {__asm__ volatile(&quot; sdbbp 0&quot;); __asm__ volatile (&quot;nop&quot;);}<para><emphasis>Used by the kernel as a signal that something really bad happened.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1ae245dddb19cd7c12b7038a62d576fafa">TN_ARCH_STK_ATTR_BEFORE</link><para><emphasis>Compiler-specific attribute that should be placed &lt;strong&gt;before&lt;/strong&gt; declaration of
+array used for stack.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1ab082613959b539182b8b47bc87d18d6a">TN_ARCH_STK_ATTR_AFTER</link> __attribute__((aligned(0x8)))<para><emphasis>Compiler-specific attribute that should be placed &lt;strong&gt;after&lt;/strong&gt; declaration of
+array used for stack.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1ad465f81e8ea15a530747b1147dbe4605">TN_MIN_STACK_SIZE</link> 36<para><emphasis>Minimum task&apos;s stack size, in words, not in bytes; includes a space for
+context plus for parameters passed to task&apos;s body function.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a9f340cc02023c595904228372b9e7d12">TN_INT_WIDTH</link> 32<para><emphasis>Width of &lt;tt&gt;int&lt;/tt&gt; type.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a9809516063a01ca2c2f5f009294839d3">TN_PRIORITIES_MAX_CNT</link> <link linkend="tn__arch__example_8h_1a9f340cc02023c595904228372b9e7d12">TN_INT_WIDTH</link><para><emphasis>Maximum number of priorities available, this value usually matches
+&lt;tt&gt;#TN_INT_WIDTH&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a16909a2a05bc2bc628109d843208a76b">TN_WAIT_INFINITE</link> (<link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link>)0xFFFFFFFF<para><emphasis>Value for infinite waiting, usually matches &lt;tt&gt;ULONG_MAX&lt;/tt&gt;,
+because &lt;tt&gt;#TN_TickCnt&lt;/tt&gt; is declared as &lt;tt&gt;unsigned long&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a52a8b7006a0b8bfb051956c4528a812c">TN_FILL_STACK_VAL</link> 0xFEEDFACE<para><emphasis>Value for initializing the unused space of task&apos;s stack.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a58899c98640384b8a2cf7f9ba6f53a23">TN_INTSAVE_DATA</link> int tn_save_status_reg = 0;<para><emphasis>Declares variable that is used by macros &lt;tt&gt;TN_INT_DIS_SAVE()&lt;/tt&gt; and
+&lt;tt&gt;TN_INT_RESTORE()&lt;/tt&gt; for storing status register value.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1aa80a572e7b4874a2b281c6718f31809c">TN_INTSAVE_DATA_INT</link> <link linkend="tn__arch__example_8h_1a58899c98640384b8a2cf7f9ba6f53a23">TN_INTSAVE_DATA</link><para><emphasis>The same as &lt;tt&gt;#TN_INTSAVE_DATA&lt;/tt&gt; but for using in ISR together with
+&lt;tt&gt;TN_INT_IDIS_SAVE()&lt;/tt&gt;, &lt;tt&gt;TN_INT_IRESTORE()&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a213d605c9ff557fee2fe376e63cb559b">TN_INT_DIS_SAVE</link> tn_save_status_reg = <link linkend="tn__arch_8h_1a7078b776570ca67a51b89d2746bdb6f7">tn_arch_sr_save_int_dis</link>()<para><emphasis>Disable interrupts and return previous value of status register,
+atomically.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a727d4cdb7fb41f5fa5d15a676a4243b2">TN_INT_RESTORE</link> <link linkend="tn__arch_8h_1aa755327bd8c4e4303c87c2b0cbed0f17">tn_arch_sr_restore</link>(tn_save_status_reg)<para><emphasis>Restore previously saved status register.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a3d03bcbee89062cd936b953843a9e381">TN_INT_IDIS_SAVE</link> <link linkend="tn__arch__example_8h_1a213d605c9ff557fee2fe376e63cb559b">TN_INT_DIS_SAVE</link>()<para><emphasis>The same as &lt;tt&gt;TN_INT_DIS_SAVE()&lt;/tt&gt; but for using in ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a256d532ba3fa1a0762d54e7933921206">TN_INT_IRESTORE</link> <link linkend="tn__arch__example_8h_1a727d4cdb7fb41f5fa5d15a676a4243b2">TN_INT_RESTORE</link>()<para><emphasis>The same as &lt;tt&gt;TN_INT_RESTORE()&lt;/tt&gt; but for using in ISR.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a553f27305c21f230818a2329effb5bcc">TN_IS_INT_DISABLED</link> ((__builtin_mfc0(12, 0) &amp; 1) == 0)<para><emphasis>Returns nonzero if interrupts are disabled, zero otherwise.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1ab0de88929634e7e719a7a50b9f5b3f5f">_TN_CONTEXT_SWITCH_IPEND_IF_NEEDED</link> _tn_context_switch_pend_if_needed()<para><emphasis>Pend context switch from interrupt.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1af1305db9e9f6a4eb96957c3194f5e02f">_TN_SIZE_BYTES_TO_UWORDS</link> ((size_in_bytes) &gt;&gt; 2)<para><emphasis>Converts size in bytes to size in &lt;tt&gt;#TN_UWord&lt;/tt&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1ad7d8039ee539dd492556f83a7a27aba6">_TN_INLINE</link> inline<para><emphasis>If compiler does not conform to c99 standard, there&apos;s no inline keyword.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__example_8h_1a5b7a7de42a2672517fa626d2b15de142">_TN_VOLATILE_WORKAROUND</link> /* nothing */<para><emphasis>Sometimes compilers are buggy in high-optimization modes, and these
+bugs are often could be worked around by adding the &lt;tt&gt;volatile&lt;/tt&gt; keyword.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef unsigned int  <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef unsigned int  <link linkend="tn__arch__example_8h_1a8db91f8ae305eb6e2bf1f1866c3caf74">TN_UIntPtr</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Example of architecture-dependent routines. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/arch/example/tn_arch_example.h</para>
+    </simplesect>
+</section>

@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__timer_8h">
+    <title>tn_timer.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__Timer">TN_Timer</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Typedefs</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__timer_8h_1a98be38210cd5a636dc4170e087ea0e67">TN_TimerFunc</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef void(  <link linkend="tn__timer_8h_1ae69b982cc5443dc4072fe0d6493d96cd">TN_CBTickSchedule</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>typedef <link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link>(  <link linkend="tn__timer_8h_1a06ed8be45bc0445892789ec0a13f0704">TN_CBTickCntGet</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1a13fe1c64d32f7e554ac48d4331e7f5a2">tn_timer_create</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer, <link linkend="tn__timer_8h_1a98be38210cd5a636dc4170e087ea0e67">TN_TimerFunc</link> * func, void * p_user_data)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1af97725f0e7e3a92864846aee64e7a55f">tn_timer_delete</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1adaf86b592cd5016416571b8088280ceb">tn_timer_start</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer, <link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1adda7385799b66fd32a1d00927fcabcf9">tn_timer_cancel</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1aa81f018e8a8e511f288781acbf79af72">tn_timer_set_func</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer, <link linkend="tn__timer_8h_1a98be38210cd5a636dc4170e087ea0e67">TN_TimerFunc</link> * func, void * p_user_data)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1a7688a2a0246ebbdf2524b321211fe6a4">tn_timer_is_active</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer, <link linkend="tn__common_8h_1a9f76389d1506addfc7542f54e484a92c">TN_BOOL</link> * p_is_active)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__timer_8h_1a21cf3ec310ed334d062bd3134fe6fe24">tn_timer_time_left</link> (
+struct <link linkend="structTN__Timer">TN_Timer</link> * timer, <link linkend="tn__common_8h_1ac885b63d00c063de61cdbd80bf26d8aa">TN_TickCnt</link> * p_time_left)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Timer is a kernel object that is used to ask the kernel to call some user-provided function at a particular time in the future, based on the <emphasis><link linkend="time_ticks">system timer</link></emphasis> tick. </para>
+
+<para>If you need to repeatedly wake up particular task, you can create semaphore which you should <link linkend="tn__sem_8h_1acfed2a27719c87638d2eb6edfdeea150">wait for</link> in the task, and <link linkend="tn__sem_8h_1a215fd97b86fc63192106bb30b0574d14">signal</link> in the timer callback (remember that you should use <computeroutput><link linkend="tn__sem_8h_1a215fd97b86fc63192106bb30b0574d14">tn_sem_isignal()</link></computeroutput> in this callback, since it is called from an ISR).</para>
+
+<para>If you need to perform rather fast action (such as toggle some pin, or the like), consider doing that right in the timer callback, in order to avoid context switch overhead.</para>
+
+<para>The timer callback approach provides ultimate flexibility.</para>
+
+<para>In the spirit of TNeo, timers are as lightweight as possible. That&apos;s why there is only one type of timer: the single-shot timer. If you need your timer to fire repeatedly, you can easily restart it from the timer function by the <computeroutput><link linkend="tn__timer_8h_1adaf86b592cd5016416571b8088280ceb">tn_timer_start()</link></computeroutput>, so it&apos;s not a problem.</para>
+
+<para>When timer fires, the user-provided function is called. Be aware of the following:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Function is called from an ISR context (namely, from <emphasis><link linkend="time_ticks">system timer</link></emphasis> ISR, by the <computeroutput><link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing()</link></computeroutput>);</para>
+</listitem><listitem>
+<para>Function is called with global interrupts disabled.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Consequently:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>It&apos;s legal to call interrupt services from this function;</para>
+</listitem><listitem>
+<para>You should make sure that your interrupt stack is enough for this function;</para>
+</listitem><listitem>
+<para>The function should be as fast as possible;</para>
+</listitem><listitem>
+<para>The function should not enable interrupts unconditionally. Consider using <computeroutput><link linkend="tn__arch_8h_1a7078b776570ca67a51b89d2746bdb6f7">tn_arch_sr_save_int_dis()</link></computeroutput> and <computeroutput><link linkend="tn__arch_8h_1aa755327bd8c4e4303c87c2b0cbed0f17">tn_arch_sr_restore()</link></computeroutput> if you need.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>See <computeroutput><link linkend="tn__timer_8h_1a98be38210cd5a636dc4170e087ea0e67">TN_TimerFunc</link></computeroutput> for the prototype of the function that could be scheduled.</para>
+
+<para>TNeo offers two implementations of timers: static and dynamic. Refer to the page <link linkend="time_ticks">Time ticks</link> for details.</para>
+<section xml:id="tn__timer_8h_1timers_static_implementation">
+<title>Implementation of static timers</title>
+
+<para>Although you don&apos;t have to understand the implementation of timers to use them, it is probably worth knowing, particularly because the kernel have an option <computeroutput><link linkend="tn__cfg__default_8h_1afef2a6ec1baa81edaa979024af0c924a">TN_TICK_LISTS_CNT</link></computeroutput> to customize the balance between performance of <computeroutput><link linkend="tn__sys_8h_1a944d96c7a5d442d271115b6cb22a085b">tn_tick_int_processing()</link></computeroutput> and memory occupied by timers.</para>
+
+<para>The easiest implementation of timers could be something like this: we have just a single list with all active timers, and at every system tick we should walk through all the timers in this list, and do the following with each timer:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Decrement timeout by 1</para>
+</listitem><listitem>
+<para>If new timeout is 0, then remove that timer from the list (i.e. make timer inactive), and fire the appropriate timer function.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>This approach has drawbacks:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>We can&apos;t manage timers from the function called by timer. If we do so (say, if we start new timer), then the timer list gets modified. But we are currently iterating through this list, so, it&apos;s quite easy to mix things up.</para>
+</listitem><listitem>
+<para>It is inefficient on rather large amount of timers and/or with large timeouts: we should iterate through all of them each system tick.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>The latter is probably not so critical in the embedded world since large amount of timers is unlikely there; whereas the former is actually notable.</para>
+
+<para>So, different approach was applied. The main idea is taken from the mainline Linux kernel source, but the implementation was simplified much because (1) embedded systems have much less resources, and (2) the kernel doesn&apos;t need to scale as well as Linux does. You can read about Linux timers implementation in the book &quot;Linux Device Drivers&quot;, 3rd edition:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Time, Delays, and Deferred Work<itemizedlist>
+<listitem>
+<para>Kernel Timers<itemizedlist>
+<listitem>
+<para>The Implementation of Kernel Timers</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+</listitem></itemizedlist>
+</para>
+
+<para>This book is freely available at <link xlink:href="http://lwn.net/Kernel/LDD3/">http://lwn.net/Kernel/LDD3/</link> .</para>
+
+<para>So, TNeo&apos;s implementation:</para>
+
+<para>We have configurable value <computeroutput>N</computeroutput> that is a power of two, typical values are <computeroutput>4</computeroutput>, <computeroutput>8</computeroutput> or <computeroutput>16</computeroutput>.</para>
+
+<para>If the timer expires in the next <computeroutput>1</computeroutput> to <computeroutput>(N - 1)</computeroutput> system ticks, it is added to one of the <computeroutput>N</computeroutput> lists (the so-called &quot;tick&quot; lists) devoted to short-range timers using the least significant bits of the <computeroutput>timeout</computeroutput> value. If it expires farther in the future, it is added to the &quot;generic&quot; list.</para>
+
+<para>Each <computeroutput>N</computeroutput>-th system tick, all the timers from &quot;generic&quot; list are walked through, and the following is performed with each timer:</para>
+
+<para><itemizedlist>
+<listitem>
+<para><computeroutput>timeout</computeroutput> value decremented by <computeroutput>N</computeroutput></para>
+</listitem><listitem>
+<para>if resulting <computeroutput>timeout</computeroutput> is less than <computeroutput>N</computeroutput>, timer is moved to the appropriate &quot;tick&quot; list.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>At <emphasis>every</emphasis> system tick, all the timers from current &quot;tick&quot; list are fired unconditionally. This is an efficient and nice solution.</para>
+
+<para>The attentive reader may want to ask why do we use <computeroutput>(N - 1)</computeroutput> &quot;tick&quot; lists if we actually have <computeroutput>N</computeroutput> lists. That&apos;s because, again, we want to be able to modify timers from the timer function. If we use <computeroutput>N</computeroutput> lists, and user wants to add new timer with <computeroutput>timeout</computeroutput> equal to <computeroutput>N</computeroutput>, then new timer will be added to the same list which is iterated through at the moment, and things will be mixed up.</para>
+
+<para>If we use <computeroutput>(N - 1)</computeroutput> lists, we are guaranteed that new timers can&apos;t be added to the current &quot;tick&quot; list while we are iterating through it. (although timer can be deleted from that list, but it&apos;s ok)</para>
+
+<para>The <computeroutput>N</computeroutput> in the TNeo is configured by the compile-time option <computeroutput><link linkend="tn__cfg__default_8h_1afef2a6ec1baa81edaa979024af0c924a">TN_TICK_LISTS_CNT</link></computeroutput>. </para>
+</section>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_timer.h</para>
+    </simplesect>
+</section>

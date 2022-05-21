@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__app__check_8c">
+    <title>tn_app_check.c File Reference</title>
+    <programlisting>#include &quot;tn.h&quot;</programlisting>
+    <programlisting>#include &lt;string.h&gt;</programlisting>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__app__check_8c_1a415956e6508f95414002a7990c2d2a9e">you_should_add_file___tn_app_check_c___to_the_project</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>const struct <link linkend="struct__TN__BuildCfg">_TN_BuildCfg</link> * <link linkend="tn__app__check_8c_1a8f29a47a03e9da8edf56ee008b91cb0c">tn_app_build_cfg_get</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>If <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput> option is non-zero, this file needs to be included in the application project. </para>
+
+<para>For details, see the aforementioned option <computeroutput><link linkend="tn__cfg__default_8h_1aacdc913eb66492cf69cf02a5de73578e">TN_CHECK_BUILD_CFG</link></computeroutput>. </para>
+    <para>Definition in file /home/dimon/projects/tntest/lib/mc/tnkernel_df/src/tn_app_check.c</para>
+    </simplesect>
+</section>

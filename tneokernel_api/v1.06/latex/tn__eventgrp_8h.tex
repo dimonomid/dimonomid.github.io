@@ -1,0 +1,391 @@
+\hypertarget{tn__eventgrp_8h}{\section{core/tn\+\_\+eventgrp.h File Reference}
+\label{tn__eventgrp_8h}\index{core/tn\+\_\+eventgrp.\+h@{core/tn\+\_\+eventgrp.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Event group. 
+
+An event group has an internal variable (of type {\ttfamily \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word}}), which is interpreted as a bit pattern where each bit represents an event. An event group also has a wait queue for the tasks waiting on these events. A task may set specified bits when an event occurs and may clear specified bits when necessary.
+
+The tasks waiting for an event(s) are placed in the event group's wait queue. An event group is a very suitable synchronization object for cases where (for some reasons) one task has to wait for many tasks, or vice versa, many tasks have to wait for one task.\hypertarget{tn__eventgrp_8h_eventgrp_connect}{}\subsection{Connecting an event group to other system objects}\label{tn__eventgrp_8h_eventgrp_connect}
+Sometimes task needs to wait for different system events, the most common examples are\+:
+
+
+\begin{DoxyItemize}
+\item wait for a message from the queue(s) plus wait for some application-\/dependent event (such as a flag to finish the task, or whatever);
+\item wait for messages from multiple queues.
+\end{DoxyItemize}
+
+If the kernel doesn't offer a mechanism for that, programmer usually have to use polling services on these queues and sleep for a few system ticks. Obviously, this approach has serious drawbacks\+: we have a lot of useless context switches, and response for the message gets much slower. Actually, we lost the main goal of the preemptive kernel when we use polling services like that.
+
+T\+Neo offers a solution\+: an event group can be connected to other kernel objects, and these objects will maintain certain flags inside that event group automatically.
+
+So, in case of multiple queues, we can act as follows (assume we have two queues\+: Q1 and Q2) \+:
+
+
+\begin{DoxyItemize}
+\item create event group E\+G;
+\item connect E\+G with flag 1 to Q1;
+\item connect E\+G with flag 2 to Q2;
+\item when task needs to receive a message from either Q1 or Q2, it just waits for the any of flags 1 or 2 in the E\+G, this is done in the single call to {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}}.
+\item when that event happened, task checks which flag is set, and receive message from the appropriate queue.
+\end{DoxyItemize}
+
+Please note that task waiting for the event should {\bfseries not} clear the flag manually\+: this flag is maintained completely by the queue. If the queue is non-\/empty, the flag is set. If the queue becomes empty, the flag is cleared.
+
+For the information on system services related to queue, refer to the \hyperlink{tn__dqueue_8h}{queue reference}.
+
+There is an example project available that demonstrates event group connection technique\+: {\ttfamily examples/queue\+\_\+eventgrp\+\_\+conn}. Be sure to examine the readme there. 
+
+Definition in file \hyperlink{tn__eventgrp_8h_source}{tn\+\_\+eventgrp.\+h}.
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp}
+\begin{DoxyCompactList}\small\item\em Event group. \end{DoxyCompactList}\item 
+struct \hyperlink{structTN__EGrpTaskWait}{T\+N\+\_\+\+E\+Grp\+Task\+Wait}
+\begin{DoxyCompactList}\small\item\em Event\+Grp-\/specific fields related to waiting task, to be included in struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task}. \end{DoxyCompactList}\item 
+struct \hyperlink{structTN__EGrpLink}{T\+N\+\_\+\+E\+Grp\+Link}
+\begin{DoxyCompactList}\small\item\em A link to event group\+: used when event group can be connected to some kernel object, such as queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}{T\+N\+\_\+\+E\+Grp\+Wait\+Mode} \{ \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdae5b489c071cb5e8807877526221de4b0}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+O\+R} = (1 $<$$<$ 0), 
+\hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbda8eff85a7369195424724af772dfcc8fa}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+N\+D} = (1 $<$$<$ 1), 
+\hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R} = (1 $<$$<$ 2)
+ \}
+\begin{DoxyCompactList}\small\item\em Events waiting mode that should be given to {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}} and friends. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}{T\+N\+\_\+\+E\+Grp\+Op} \{ \hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a99218a684d58413298b6b05a8e939eab}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+S\+E\+T}, 
+\hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a96662be438016ecf6690ee4ab3b60c93}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+C\+L\+E\+A\+R}, 
+\hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a25a252a0fb358e51dd86cccafda33aa0}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+T\+O\+G\+G\+L\+E}
+ \}
+\begin{DoxyCompactList}\small\item\em Modify operation\+: set, clear or toggle. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3f}{T\+N\+\_\+\+E\+Grp\+Attr} \{ \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa43efdb2745838e224c83a99b1b193c5f}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E} = (1 $<$$<$ 0), 
+\hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa259a30414ed85922670df476cb675683}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I} = (1 $<$$<$ 1), 
+\hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fae1c96dbad9879c7cf30b3d718a11292a}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R} = (1 $<$$<$ 2), 
+\hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa1adfe6cfcb1dee045f59b2025537fd5a}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E} = (0)
+ \}
+\begin{DoxyCompactList}\small\item\em Attributes that could be given to the event group object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a772da8298e7d62ae5109c5dbe792f8f0}{tn\+\_\+eventgrp\+\_\+create\+\_\+wattr} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, enum \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3f}{T\+N\+\_\+\+E\+Grp\+Attr} attr, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} initial\+\_\+pattern)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a666279adbb670eb8a7f8fd0547d1d68e}{tn\+\_\+eventgrp\+\_\+create()}}, but takes additional argument\+: {\ttfamily attr}. \end{DoxyCompactList}\item 
+static \hyperlink{tn__arch__example_8h_ad7d8039ee539dd492556f83a7a27aba6}{\+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E} enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a666279adbb670eb8a7f8fd0547d1d68e}{tn\+\_\+eventgrp\+\_\+create} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} initial\+\_\+pattern)
+\begin{DoxyCompactList}\small\item\em Construct event group. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a422ce1b22908602cee6fa8301948ab35}{tn\+\_\+eventgrp\+\_\+delete} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp)
+\begin{DoxyCompactList}\small\item\em Destruct event group. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} wait\+\_\+pattern, enum \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}{T\+N\+\_\+\+E\+Grp\+Wait\+Mode} wait\+\_\+mode, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$p\+\_\+flags\+\_\+pattern, \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} timeout)
+\begin{DoxyCompactList}\small\item\em Wait for specified event(s) in the event group. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a787501b26f934aeb7a3a506805e253de}{tn\+\_\+eventgrp\+\_\+wait\+\_\+polling} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} wait\+\_\+pattern, enum \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}{T\+N\+\_\+\+E\+Grp\+Wait\+Mode} wait\+\_\+mode, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$p\+\_\+flags\+\_\+pattern)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}} with zero timeout. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a1203b6dd58325c8a60513180ad6b538d}{tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} wait\+\_\+pattern, enum \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}{T\+N\+\_\+\+E\+Grp\+Wait\+Mode} wait\+\_\+mode, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} $\ast$p\+\_\+flags\+\_\+pattern)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}} with zero timeout, but for using in the I\+S\+R. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a259b92fc12d98a203cb58c2be1b07cad}{tn\+\_\+eventgrp\+\_\+modify} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, enum \hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}{T\+N\+\_\+\+E\+Grp\+Op} operation, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} pattern)
+\begin{DoxyCompactList}\small\item\em Modify current events bit pattern in the event group. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__eventgrp_8h_a1a421a5ee44c2d619567656f52ea870f}{tn\+\_\+eventgrp\+\_\+imodify} (struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} $\ast$eventgrp, enum \hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}{T\+N\+\_\+\+E\+Grp\+Op} operation, \hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} pattern)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a259b92fc12d98a203cb58c2be1b07cad}{tn\+\_\+eventgrp\+\_\+modify()}}, but for using in the I\+S\+R. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+Grp\+Wait\+Mode@{T\+N\+\_\+\+E\+Grp\+Wait\+Mode}}
+\index{T\+N\+\_\+\+E\+Grp\+Wait\+Mode@{T\+N\+\_\+\+E\+Grp\+Wait\+Mode}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{T\+N\+\_\+\+E\+Grp\+Wait\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+E\+Grp\+Wait\+Mode}}}\label{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}
+
+
+Events waiting mode that should be given to {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}} and friends. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+O\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+O\+R}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+O\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+O\+R}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdae5b489c071cb5e8807877526221de4b0}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+O\+R}\label{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdae5b489c071cb5e8807877526221de4b0}
+}]Task waits for {\bfseries any} of the event bits from the {\ttfamily wait\+\_\+pattern} to be set in the event group. \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+N\+D@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+N\+D}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+N\+D@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+N\+D}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbda8eff85a7369195424724af772dfcc8fa}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+N\+D}\label{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbda8eff85a7369195424724af772dfcc8fa}
+}]Task waits for {\bfseries all} of the event bits from the {\ttfamily wait\+\_\+pattern} to be set in the event group. \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R}\label{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573}
+}]When a task {\bfseries successfully} ends waiting for event bit(s), these bits get cleared atomically and automatically. Other bits stay unchanged. \end{description}
+\end{Desc}
+
+
+Definition at line 124 of file tn\+\_\+eventgrp.\+h.
+
+\hypertarget{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+Grp\+Op@{T\+N\+\_\+\+E\+Grp\+Op}}
+\index{T\+N\+\_\+\+E\+Grp\+Op@{T\+N\+\_\+\+E\+Grp\+Op}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{T\+N\+\_\+\+E\+Grp\+Op}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+E\+Grp\+Op}}}\label{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}
+
+
+Modify operation\+: set, clear or toggle. 
+
+To be used in {\ttfamily \hyperlink{tn__eventgrp_8h_a259b92fc12d98a203cb58c2be1b07cad}{tn\+\_\+eventgrp\+\_\+modify()}} / {\ttfamily \hyperlink{tn__eventgrp_8h_a1a421a5ee44c2d619567656f52ea870f}{tn\+\_\+eventgrp\+\_\+imodify()}} functions. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+S\+E\+T@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+S\+E\+T}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+S\+E\+T@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+S\+E\+T}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a99218a684d58413298b6b05a8e939eab}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+S\+E\+T}\label{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a99218a684d58413298b6b05a8e939eab}
+}]Set flags that are set in given {\ttfamily pattern} argument. Note that this operation can lead to the context switch, since other high-\/priority task(s) might wait for the event. \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+C\+L\+E\+A\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+C\+L\+E\+A\+R}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+C\+L\+E\+A\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+C\+L\+E\+A\+R}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a96662be438016ecf6690ee4ab3b60c93}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+C\+L\+E\+A\+R}\label{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a96662be438016ecf6690ee4ab3b60c93}
+}]Clear flags that are set in the given {\ttfamily pattern} argument. This operation can {\bfseries not} lead to the context switch, since tasks can't wait for events to be cleared. \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+T\+O\+G\+G\+L\+E@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+T\+O\+G\+G\+L\+E}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+T\+O\+G\+G\+L\+E@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+T\+O\+G\+G\+L\+E}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a25a252a0fb358e51dd86cccafda33aa0}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+O\+P\+\_\+\+T\+O\+G\+G\+L\+E}\label{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335a25a252a0fb358e51dd86cccafda33aa0}
+}]Toggle flags that are set in the given {\ttfamily pattern} argument. Note that this operation can lead to the context switch, since other high-\/priority task(s) might wait for the event that was just set (if any). \end{description}
+\end{Desc}
+
+
+Definition at line 144 of file tn\+\_\+eventgrp.\+h.
+
+\hypertarget{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3f}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+Grp\+Attr@{T\+N\+\_\+\+E\+Grp\+Attr}}
+\index{T\+N\+\_\+\+E\+Grp\+Attr@{T\+N\+\_\+\+E\+Grp\+Attr}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{T\+N\+\_\+\+E\+Grp\+Attr}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+E\+Grp\+Attr}}}\label{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3f}
+
+
+Attributes that could be given to the event group object. 
+
+Makes sense if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero; otherwise, there's just one dummy attribute available\+: {\ttfamily \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa1adfe6cfcb1dee045f59b2025537fd5a}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E}}. \begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa43efdb2745838e224c83a99b1b193c5f}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E}\label{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa43efdb2745838e224c83a99b1b193c5f}
+}]\begin{DoxyAttention}{Attention}
+deprecated. Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero.
+\end{DoxyAttention}
+Indicates that only one task could wait for events in this event group. This flag is mutually exclusive with {\ttfamily \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa259a30414ed85922670df476cb675683}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I}} flag. \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa259a30414ed85922670df476cb675683}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+M\+U\+L\+T\+I}\label{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa259a30414ed85922670df476cb675683}
+}]\begin{DoxyAttention}{Attention}
+deprecated. Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero.
+\end{DoxyAttention}
+Indicates that multiple tasks could wait for events in this event group. This flag is mutually exclusive with {\ttfamily \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa43efdb2745838e224c83a99b1b193c5f}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E}} flag. \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fae1c96dbad9879c7cf30b3d718a11292a}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+C\+L\+R}\label{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fae1c96dbad9879c7cf30b3d718a11292a}
+}]\begin{DoxyAttention}{Attention}
+strongly deprecated. Available if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero. Use {\ttfamily \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbdaf45098235d31f72a2b09e30792686573}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+W\+M\+O\+D\+E\+\_\+\+A\+U\+T\+O\+C\+L\+R}} instead.
+\end{DoxyAttention}
+Can be specified only in conjunction with {\ttfamily \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa43efdb2745838e224c83a99b1b193c5f}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+S\+I\+N\+G\+L\+E}} flag. Indicates that {\bfseries A\+L\+L} flags in this event group should be cleared when task successfully waits for any event in it.
+
+This actually makes little sense to clear A\+L\+L events, but this is what compatibility mode is for (see {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}}) \index{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E@{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E}}\item[{\em 
+\hypertarget{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa1adfe6cfcb1dee045f59b2025537fd5a}{T\+N\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P\+\_\+\+A\+T\+T\+R\+\_\+\+N\+O\+N\+E}\label{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3fa1adfe6cfcb1dee045f59b2025537fd5a}
+}]Dummy attribute that does not change anything. It is needed only for the assistance of the events compatibility mode (see {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}}) \end{description}
+\end{Desc}
+
+
+Definition at line 169 of file tn\+\_\+eventgrp.\+h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__eventgrp_8h_a772da8298e7d62ae5109c5dbe792f8f0}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+create\+\_\+wattr@{tn\+\_\+eventgrp\+\_\+create\+\_\+wattr}}
+\index{tn\+\_\+eventgrp\+\_\+create\+\_\+wattr@{tn\+\_\+eventgrp\+\_\+create\+\_\+wattr}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+create\+\_\+wattr}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+create\+\_\+wattr (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{enum {\bf T\+N\+\_\+\+E\+Grp\+Attr}}]{attr, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{initial\+\_\+pattern}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a772da8298e7d62ae5109c5dbe792f8f0}
+
+
+The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a666279adbb670eb8a7f8fd0547d1d68e}{tn\+\_\+eventgrp\+\_\+create()}}, but takes additional argument\+: {\ttfamily attr}. 
+
+It makes sense if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero.
+
+
+\begin{DoxyParams}{Parameters}
+{\em eventgrp} & Pointer to already allocated struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} \\
+\hline
+{\em attr} & Attributes for that particular event group object, see {\ttfamily struct \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3f}{T\+N\+\_\+\+E\+Grp\+Attr}} \\
+\hline
+{\em initial\+\_\+pattern} & Initial events pattern. \\
+\hline
+\end{DoxyParams}
+\hypertarget{tn__eventgrp_8h_a666279adbb670eb8a7f8fd0547d1d68e}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+create@{tn\+\_\+eventgrp\+\_\+create}}
+\index{tn\+\_\+eventgrp\+\_\+create@{tn\+\_\+eventgrp\+\_\+create}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+create}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf \+\_\+\+T\+N\+\_\+\+I\+N\+L\+I\+N\+E} enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{initial\+\_\+pattern}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{tn__eventgrp_8h_a666279adbb670eb8a7f8fd0547d1d68e}
+
+
+Construct event group. 
+
+{\ttfamily id\+\_\+event} field should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976a9e091dc80dfaa58fd26a6b144019195e}{T\+N\+\_\+\+I\+D\+\_\+\+E\+V\+E\+N\+T\+G\+R\+P}}, otherwise, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em eventgrp} & Pointer to already allocated struct \hyperlink{structTN__EventGrp}{T\+N\+\_\+\+Event\+Grp} \\
+\hline
+{\em initial\+\_\+pattern} & Initial events pattern.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if event group was successfully created;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return code is available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+
+
+Definition at line 304 of file tn\+\_\+eventgrp.\+h.
+
+\hypertarget{tn__eventgrp_8h_a422ce1b22908602cee6fa8301948ab35}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+delete@{tn\+\_\+eventgrp\+\_\+delete}}
+\index{tn\+\_\+eventgrp\+\_\+delete@{tn\+\_\+eventgrp\+\_\+delete}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+delete}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a422ce1b22908602cee6fa8301948ab35}
+
+
+Destruct event group. 
+
+All tasks that wait for the event(s) become runnable with {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}} code returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em eventgrp} & Pointer to event groupt to be deleted.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if event group was successfully deleted;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+wait@{tn\+\_\+eventgrp\+\_\+wait}}
+\index{tn\+\_\+eventgrp\+\_\+wait@{tn\+\_\+eventgrp\+\_\+wait}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+wait}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+wait (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{wait\+\_\+pattern, }
+\item[{enum {\bf T\+N\+\_\+\+E\+Grp\+Wait\+Mode}}]{wait\+\_\+mode, }
+\item[{{\bf T\+N\+\_\+\+U\+Word} $\ast$}]{p\+\_\+flags\+\_\+pattern, }
+\item[{{\bf T\+N\+\_\+\+Tick\+Cnt}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}
+
+
+Wait for specified event(s) in the event group. 
+
+If the specified event is already active, function returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} immediately. Otherwise, behavior depends on {\ttfamily timeout} value\+: refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}    \includegraphics{attr_timeout.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em eventgrp} & Pointer to event group to wait events from \\
+\hline
+{\em wait\+\_\+pattern} & Events bit pattern for which task should wait \\
+\hline
+{\em wait\+\_\+mode} & Specifies whether task should wait for {\bfseries all} the event bits from {\ttfamily wait\+\_\+pattern} to be set, or for just {\bfseries any} of them (see enum {\ttfamily \hyperlink{tn__eventgrp_8h_a9d42ee61ae8da342f1cd6440b7e54bbd}{T\+N\+\_\+\+E\+Grp\+Wait\+Mode}}) \\
+\hline
+{\em p\+\_\+flags\+\_\+pattern} & Pointer to the {\ttfamily T\+N\+\_\+\+U\+Word} variable in which actual event pattern that caused task to stop waiting will be stored. May be {\ttfamily T\+N\+\_\+\+N\+U\+L\+L}. \\
+\hline
+{\em timeout} & refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if specified event is active (so the task can check variable pointed to by {\ttfamily p\+\_\+flags\+\_\+pattern} if it wasn't {\ttfamily T\+N\+\_\+\+N\+U\+L\+L}).
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item Other possible return codes depend on {\ttfamily timeout} value, refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__eventgrp_8h_a787501b26f934aeb7a3a506805e253de}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+wait\+\_\+polling@{tn\+\_\+eventgrp\+\_\+wait\+\_\+polling}}
+\index{tn\+\_\+eventgrp\+\_\+wait\+\_\+polling@{tn\+\_\+eventgrp\+\_\+wait\+\_\+polling}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+wait\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+wait\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{wait\+\_\+pattern, }
+\item[{enum {\bf T\+N\+\_\+\+E\+Grp\+Wait\+Mode}}]{wait\+\_\+mode, }
+\item[{{\bf T\+N\+\_\+\+U\+Word} $\ast$}]{p\+\_\+flags\+\_\+pattern}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a787501b26f934aeb7a3a506805e253de}
+
+
+The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}} with zero timeout. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__eventgrp_8h_a1203b6dd58325c8a60513180ad6b538d}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling@{tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling}}
+\index{tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling@{tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+iwait\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{wait\+\_\+pattern, }
+\item[{enum {\bf T\+N\+\_\+\+E\+Grp\+Wait\+Mode}}]{wait\+\_\+mode, }
+\item[{{\bf T\+N\+\_\+\+U\+Word} $\ast$}]{p\+\_\+flags\+\_\+pattern}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a1203b6dd58325c8a60513180ad6b538d}
+
+
+The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a16906b6c4633087a3865c8e732dcb958}{tn\+\_\+eventgrp\+\_\+wait()}} with zero timeout, but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__eventgrp_8h_a259b92fc12d98a203cb58c2be1b07cad}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+modify@{tn\+\_\+eventgrp\+\_\+modify}}
+\index{tn\+\_\+eventgrp\+\_\+modify@{tn\+\_\+eventgrp\+\_\+modify}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+modify}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+modify (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{enum {\bf T\+N\+\_\+\+E\+Grp\+Op}}]{operation, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{pattern}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a259b92fc12d98a203cb58c2be1b07cad}
+
+
+Modify current events bit pattern in the event group. 
+
+Behavior depends on the given {\ttfamily operation}\+: refer to {\ttfamily enum \hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}{T\+N\+\_\+\+E\+Grp\+Op}}
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em eventgrp} & Pointer to event group to modify events in \\
+\hline
+{\em operation} & Actual operation to perform\+: set, clear or toggle. Refer to {\ttfamily enum \hyperlink{tn__eventgrp_8h_ac9a2c46d690feaf04505ed7b7459d335}{T\+N\+\_\+\+E\+Grp\+Op}} \\
+\hline
+{\em pattern} & Events pattern to be applied (depending on {\ttfamily operation} value)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} on success;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__eventgrp_8h_a1a421a5ee44c2d619567656f52ea870f}{\index{tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}!tn\+\_\+eventgrp\+\_\+imodify@{tn\+\_\+eventgrp\+\_\+imodify}}
+\index{tn\+\_\+eventgrp\+\_\+imodify@{tn\+\_\+eventgrp\+\_\+imodify}!tn\+\_\+eventgrp.\+h@{tn\+\_\+eventgrp.\+h}}
+\subsubsection[{tn\+\_\+eventgrp\+\_\+imodify}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+eventgrp\+\_\+imodify (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Event\+Grp} $\ast$}]{eventgrp, }
+\item[{enum {\bf T\+N\+\_\+\+E\+Grp\+Op}}]{operation, }
+\item[{{\bf T\+N\+\_\+\+U\+Word}}]{pattern}
+\end{DoxyParamCaption}
+)}}\label{tn__eventgrp_8h_a1a421a5ee44c2d619567656f52ea870f}
+
+
+The same as {\ttfamily \hyperlink{tn__eventgrp_8h_a259b92fc12d98a203cb58c2be1b07cad}{tn\+\_\+eventgrp\+\_\+modify()}}, but for using in the I\+S\+R. 
+
+  \includegraphics{attr_call_int.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  

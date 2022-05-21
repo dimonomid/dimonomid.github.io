@@ -1,0 +1,24 @@
+T\+Neo has a complete set of common R\+T\+O\+S features plus some extras.
+
+Many features are optional, so that if you don't need them you can configure the kernel as you wish and probably save memory or improve speed.\hypertarget{features_feature_list}{}\section{Feature list}\label{features_feature_list}
+
+\begin{DoxyItemize}
+\item \hyperlink{tn__tasks_8h}{Tasks}, or threads\+: the most common feature for which the kernel is written in the first place;
+\item \hyperlink{tn__mutex_8h}{Mutexes}\+: objects for shared resources protection.
+\begin{DoxyItemize}
+\item {\bfseries Recursive mutexes}\+: optionally, mutexes allow nested locking. Refer to the {\ttfamily \hyperlink{tn__cfg__default_8h_a2557da78508c4241aceee92475df3581}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+R\+E\+C}} option for details;
+\item {\bfseries Mutex deadlock detection}\+: if deadlock occurs, the kernel can notify you about this problem by calling arbitrary function. Refer to the {\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} option for details.
+\end{DoxyItemize}
+\item \hyperlink{tn__sem_8h}{Semaphores}\+: objects for tasks synchronization;
+\item \hyperlink{tn__fmem_8h}{Fixed-\/size memory blocks}\+: simple and deterministic memory allocator;
+\item \hyperlink{tn__eventgrp_8h}{Event groups}\+: objects containing various event bits that tasks may set, clear and wait for;
+\begin{DoxyItemize}
+\item \hyperlink{tn__eventgrp_8h_eventgrp_connect}{Event group connection}\+: extremely useful feature when you need to wait, say, for messages from multiple queues, or for other set of different events.
+\end{DoxyItemize}
+\item \hyperlink{tn__dqueue_8h}{Data queues}\+: F\+I\+F\+O buffer of messages that tasks may send and receive;
+\item \hyperlink{tn__timer_8h}{Timers}\+: a tool to ask the kernel to call arbitrary function at a particular time in the future. The callback approach provides ultimate flexibility.
+\item {\bfseries Separate interrupt stack}\+: interrupts use separate stack, this approach saves a lot of R\+A\+M. Refer to the page \hyperlink{interrupts}{Interrupts} for details.
+\item {\bfseries Software stack overflow check}\+: extremely useful feature for architectures without hardware stack pointer limit. Refer to the {\ttfamily \hyperlink{tn__cfg__default_8h_ac6a9bbac3b3b25d9b5bc8c21d2e09955}{T\+N\+\_\+\+S\+T\+A\+C\+K\+\_\+\+O\+V\+E\+R\+F\+L\+O\+W\+\_\+\+C\+H\+E\+C\+K}} option for details.
+\item {\bfseries Dynamic tick}\+: if there's nothing to do, don't even bother to manage system timer tick each fixed period of time. Refer to the page \hyperlink{time_ticks}{Time ticks} for details.
+\item {\bfseries Profiler}\+: allows you to know how much time each of your tasks was actually running, get maximum consecutive running time of it, and other relevant information. Refer to the option {\ttfamily \hyperlink{tn__cfg__default_8h_a49a546b18cc1f75b51d4cf8b290634dd}{T\+N\+\_\+\+P\+R\+O\+F\+I\+L\+E\+R}} and {\ttfamily struct \hyperlink{structTN__TaskTiming}{T\+N\+\_\+\+Task\+Timing}} for details. 
+\end{DoxyItemize}

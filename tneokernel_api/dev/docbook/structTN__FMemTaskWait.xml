@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__FMemTaskWait">
+<title>TN_FMemTaskWait struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__fmem_8h">&lt;tn_fmem.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Data Fields</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * data_elem<para><emphasis>if task tries to receive data from memory pool,
+and there&apos;s no more free blocks in the pool, location to store 
+pointer is saved in this field</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>FMem-specific fields related to waiting task, to be included in struct <link linkend="structTN__Task">TN_Task</link>. </para>
+    </simplesect>
+        <section>
+            <title>Field Documentation</title>
+        </section>
+</section>

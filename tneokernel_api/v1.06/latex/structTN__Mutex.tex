@@ -1,0 +1,42 @@
+\hypertarget{structTN__Mutex}{\section{T\+N\+\_\+\+Mutex Struct Reference}
+\label{structTN__Mutex}\index{T\+N\+\_\+\+Mutex@{T\+N\+\_\+\+Mutex}}
+}
+
+
+\subsection{Detailed Description}
+Mutex. 
+
+Definition at line 122 of file tn\+\_\+mutex.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{structTN__Mutex_a65bc07cade239063ba47a140a7d46a92}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Mutex_a65bc07cade239063ba47a140a7d46a92}{wait\+\_\+queue}}\label{structTN__Mutex_a65bc07cade239063ba47a140a7d46a92}
+
+\begin{DoxyCompactList}\small\item\em List of tasks that wait a mutex. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_a3d9a36e9441d047a4ec04878cf4ca2fd}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Mutex_a3d9a36e9441d047a4ec04878cf4ca2fd}{mutex\+\_\+queue}}\label{structTN__Mutex_a3d9a36e9441d047a4ec04878cf4ca2fd}
+
+\begin{DoxyCompactList}\small\item\em To include in task's locked mutexes list (if any) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_afd61f3a49d4c2538a6784e2202893e47}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__Mutex_afd61f3a49d4c2538a6784e2202893e47}{deadlock\+\_\+list}}\label{structTN__Mutex_afd61f3a49d4c2538a6784e2202893e47}
+
+\begin{DoxyCompactList}\small\item\em List of other mutexes involved in deadlock (normally, this list is empty) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_a94cb6bc95a05bfd95c0a088c56712bab}{enum \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}{T\+N\+\_\+\+Mutex\+Protocol} \hyperlink{structTN__Mutex_a94cb6bc95a05bfd95c0a088c56712bab}{protocol}}\label{structTN__Mutex_a94cb6bc95a05bfd95c0a088c56712bab}
+
+\begin{DoxyCompactList}\small\item\em Mutex protocol\+: priority ceiling or priority inheritance. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_ae182682fa0d571716d03ce13e667254c}{struct \hyperlink{structTN__Task}{T\+N\+\_\+\+Task} $\ast$ \hyperlink{structTN__Mutex_ae182682fa0d571716d03ce13e667254c}{holder}}\label{structTN__Mutex_ae182682fa0d571716d03ce13e667254c}
+
+\begin{DoxyCompactList}\small\item\em Current mutex owner (task that locked mutex) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_a98bfc437aae2a8841fd5538f2b0c2618}{int \hyperlink{structTN__Mutex_a98bfc437aae2a8841fd5538f2b0c2618}{ceil\+\_\+priority}}\label{structTN__Mutex_a98bfc437aae2a8841fd5538f2b0c2618}
+
+\begin{DoxyCompactList}\small\item\em Used if only protocol is {\ttfamily \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G}}\+: maximum priority of task that may lock the mutex. \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_a7c367d7a5c5d8a640fd00b1fe4c9d461}{int \hyperlink{structTN__Mutex_a7c367d7a5c5d8a640fd00b1fe4c9d461}{cnt}}\label{structTN__Mutex_a7c367d7a5c5d8a640fd00b1fe4c9d461}
+
+\begin{DoxyCompactList}\small\item\em Lock count (for recursive locking) \end{DoxyCompactList}\item 
+\hypertarget{structTN__Mutex_a09b2fb7b45cab984dd3db1c9d1d3b5b4}{enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__Mutex_a09b2fb7b45cab984dd3db1c9d1d3b5b4}{id\+\_\+mutex}}\label{structTN__Mutex_a09b2fb7b45cab984dd3db1c9d1d3b5b4}
+
+\begin{DoxyCompactList}\small\item\em id for object validity verification \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__mutex_8h}{tn\+\_\+mutex.\+h}\end{DoxyCompactItemize}

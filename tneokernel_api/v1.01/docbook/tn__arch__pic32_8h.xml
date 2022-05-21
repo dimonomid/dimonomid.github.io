@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch__pic32_8h">
+    <title>tn_arch_pic32.h File Reference</title>
+    <programlisting>#include &quot;../../core/tn_common.h&quot;</programlisting>
+        <simplesect>
+            <title>Defines</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32_8h_1a46a860d030e59e2c6aa827ca5ad36a37">tn_soft_isr</link><para><emphasis>Interrupt handler wrapper macro for software context saving.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32_8h_1acb97f377bb993c30f6c83c582978d895">tn_srs_isr</link><para><emphasis>Interrupt handler wrapper macro for shadow register context saving.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>PIC32 architecture-dependent routines. </para>
+    <para>Definition in file /home/dimon/projects/strobo/lib/mc/tnkernel_df/src/arch/pic32/tn_arch_pic32.h</para>
+    </simplesect>
+</section>

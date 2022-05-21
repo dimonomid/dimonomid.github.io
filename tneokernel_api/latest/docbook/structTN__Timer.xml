@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structTN__Timer">
+<title>TN_Timer struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__timer_8h">&lt;tn_timer.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Data Fields</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_ObjId id_timer<para><emphasis>id for object validity verification.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_ListItem timer_queue<para><emphasis>A list item to be included in the $(TN_SYS_TIMER_LINK) queue.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_TimerFunc * func<para><emphasis>Function to be called by timer.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * p_user_data<para><emphasis>User data pointer that is given to user-provided &lt;tt&gt;func&lt;/tt&gt;.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_TickCnt start_tick_cnt<para><emphasis>$(TN_IF_ONLY_DYNAMIC_TICK_SET)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_TickCnt timeout<para><emphasis>$(TN_IF_ONLY_DYNAMIC_TICK_SET)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_TickCnt timeout_cur<para><emphasis>$(TN_IF_ONLY_DYNAMIC_TICK_NOT_SET)</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Timer. </para>
+    </simplesect>
+        <section>
+            <title>Field Documentation</title>
+            <simplesect>
+                <title>enum TN_ObjId TN_Timer::id_timer</title>                
+<para>This field is in the beginning of the structure to make it easier to detect memory corruption. </para>
+
+                <para>Definition at line 280 of file tn_timer.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_timer.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>TN_TickCnt TN_Timer::start_tick_cnt</title>                
+<para>Tick count value when timer was started </para>
+
+                <para>Definition at line 224 of file tn_timer.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_timer.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>TN_TickCnt TN_Timer::timeout</title>                
+<para>Timeout value (it is set just once, and stays unchanged until timer is expired, cancelled or restarted) </para>
+
+                <para>Definition at line 230 of file tn_timer.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_timer.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>TN_TickCnt TN_Timer::timeout_cur</title>                
+<para>Current (left) timeout value </para>
+
+                <para>Definition at line 238 of file tn_timer.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_timer.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </section>
+</section>

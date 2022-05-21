@@ -1,0 +1,42 @@
+The kernel needs to calculate timeouts.
+
+There are two schemes available\+: {\itshape static tick} and {\itshape dynamic tick}.\hypertarget{time_ticks_time_ticks__static_tick}{}\section{Static tick}\label{time_ticks_time_ticks__static_tick}
+Static tick is the easiest way to implement timeouts\+: there should be just some kind of hardware timer that generates interrupts periodically. Throughout this text, this timer is referred to as {\itshape system timer}. The period of this timer is determined by user (typically 1 ms, but user is free to set different value). In the I\+S\+R for this timer, it is only necessary to call the {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} function\+:
+
+
+\begin{DoxyCode}
+\textcolor{comment}{//-- example for PIC32, hardware timer 5 interrupt:}
+\hyperlink{tn__arch__pic32_8h_a02d853d8d573f928fb8da65ef0c2bc8e}{tn\_p32\_soft\_isr}(\_TIMER\_5\_VECTOR)
+\{
+   INTClearFlag(INT\_T5);
+   \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\_tick\_int\_processing}();
+\}
+\end{DoxyCode}
+
+
+But for some applications that spend a lot of time doing nothing this could be far from perfect\+: instead of being constantly in the power-\/saving mode while there's nothing to do, the C\+P\+U needs to wake up regularly. So, {\itshape dynamic tick} scheme was implemented\+:\hypertarget{time_ticks_time_ticks__dynamic_tick}{}\section{Dynamic tick}\label{time_ticks_time_ticks__dynamic_tick}
+The general idea is that there should be no useless calls to {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}}. If the kernel needs to wake up after 100 system ticks, then, {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} should be called exactly after 100 periods of system tick (but external asynchronous events still can happen and re-\/schedule that, of course).
+
+To this end, the kernel should be able to communicate with the application\+:
+
+
+\begin{DoxyItemize}
+\item To schedule next call to {\ttfamily \hyperlink{tn__sys_8h_aa44d297639e0520420890ef2bb7e2c1c}{tn\+\_\+tick\+\_\+int\+\_\+processing()}} after {\ttfamily N} ticks;
+\item To ask what time is now (i.\+e. get current system ticks count)
+\end{DoxyItemize}
+
+To use dynamic tick, turn the option {\ttfamily \hyperlink{tn__cfg__default_8h_aaee875834a86f961318c584095c366fe}{T\+N\+\_\+\+D\+Y\+N\+A\+M\+I\+C\+\_\+\+T\+I\+C\+K}} to {\ttfamily 1}.
+
+Then, a couple of callback prototypes becomes available\+:
+
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__timer_8h_ae69b982cc5443dc4072fe0d6493d96cd}{T\+N\+\_\+\+C\+B\+Tick\+Schedule}};
+\item {\ttfamily \hyperlink{tn__timer_8h_a06ed8be45bc0445892789ec0a13f0704}{T\+N\+\_\+\+C\+B\+Tick\+Cnt\+Get}}.
+\end{DoxyItemize}
+
+And you must provide these callbacks to {\ttfamily \hyperlink{tn__sys_8h_ab4e879240635c8f73e20905b8e499c1c}{tn\+\_\+callback\+\_\+dyn\+\_\+tick\+\_\+set()}} {\bfseries before} starting the system (i.\+e. before calling {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}})
+
+\begin{DoxyAttention}{Attention}
+In dynamic tick mode, \hyperlink{quick_guide_round_robin}{round-\/robin} is not yet supported. 
+\end{DoxyAttention}

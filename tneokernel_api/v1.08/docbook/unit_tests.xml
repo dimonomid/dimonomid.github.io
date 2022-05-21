@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Unit tests</title>
+
+<para>Brief information on the implementation of unit tests</para>
+<section xml:id="unit_tests_1tested_cpus">
+<title>Tested CPUs</title>
+
+<para>Currently, unit tests project is tested in the hardware on the following CPUs:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>PIC32MX440F512H</para>
+</listitem><listitem>
+<para>PIC24FJ256GB106</para>
+</listitem></itemizedlist>
+</para>
+</section>
+<section xml:id="unit_tests_1how_tests_are_implemented">
+<title>How tests are implemented</title>
+
+<para>Briefly: there is a high-priority task like &quot;test director&quot;, which creates worker tasks as well as various kernel objects (queues, mutexes, etc), and then orders to workers, like:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Task A, you lock the mutex M1</para>
+</listitem><listitem>
+<para>Task B, you lock the mutex M1</para>
+</listitem><listitem>
+<para>Task C, you lock the mutex M1</para>
+</listitem><listitem>
+<para>Task A, you delete the mutex M1</para>
+</listitem></itemizedlist>
+</para>
+
+<para>After each step it waits for workers to complete their job, and then checks if things are as expected: task states, task priorities, last return values of services, various properties of objects, etc.</para>
+
+<para>Detailed log is written to the UART. Typically, for each step, the following is written:</para>
+
+<para><itemizedlist>
+<listitem>
+<para>verbatim comment is written,</para>
+</listitem><listitem>
+<para>director writes what does it do,</para>
+</listitem><listitem>
+<para>each worker writes what does it do,</para>
+</listitem><listitem>
+<para>director checks things and writes detailed report.</para>
+</listitem></itemizedlist>
+</para>
+
+<para>Of course there is a mechanism for writing such scenarios. Here is a part of code that specifies the sequence with locking and deleting mutex explained above:</para>
+
+<para><literallayout><computeroutput>TNT_TEST_COMMENT(&quot;A&#32;locks&#32;M1&quot;);
+TNT_ITEM__SEND_CMD_MUTEX(TNT_TASK__A,&#32;MUTEX_LOCK,&#32;TNT_MUTEX__1);
+TNT_ITEM__WAIT_AND_CHECK_DIFF(
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__MUTEX(TNT_MUTEX__1,&#32;HOLDER,&#32;TNT_TASK__A);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__MUTEX(TNT_MUTEX__1,&#32;LOCK_CNT,&#32;1);
+
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__A,&#32;LAST_RETVAL,&#32;TN_RC_OK);
+&#32;&#32;&#32;&#32;&#32;&#32;);
+
+TNT_TEST_COMMENT(&quot;B&#32;tries&#32;to&#32;lock&#32;M1&#32;-&gt;&#32;B&#32;blocks,&#32;A&#32;has&#32;priority&#32;of&#32;B&quot;);
+TNT_ITEM__SEND_CMD_MUTEX(TNT_TASK__B,&#32;MUTEX_LOCK,&#32;TNT_MUTEX__1);
+TNT_ITEM__WAIT_AND_CHECK_DIFF(
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__B,&#32;LAST_RETVAL,&#32;TWORKER_MAN__LAST_RETVAL__UNKNOWN);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__B,&#32;WAIT_REASON,&#32;TSK_WAIT_REASON_MUTEX_I);
+
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__A,&#32;PRIORITY,&#32;priority_task_b);
+&#32;&#32;&#32;&#32;&#32;&#32;);
+
+TNT_TEST_COMMENT(&quot;C&#32;tries&#32;to&#32;lock&#32;M1&#32;-&gt;&#32;C&#32;blocks,&#32;A&#32;has&#32;priority&#32;of&#32;C&quot;);
+TNT_ITEM__SEND_CMD_MUTEX(TNT_TASK__C,&#32;MUTEX_LOCK,&#32;TNT_MUTEX__1);
+TNT_ITEM__WAIT_AND_CHECK_DIFF(
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__C,&#32;LAST_RETVAL,&#32;TWORKER_MAN__LAST_RETVAL__UNKNOWN);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__C,&#32;WAIT_REASON,&#32;TSK_WAIT_REASON_MUTEX_I);
+
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__A,&#32;PRIORITY,&#32;priority_task_c);
+&#32;&#32;&#32;&#32;&#32;&#32;);
+
+TNT_TEST_COMMENT(&quot;A&#32;deleted&#32;M1&#32;-&gt;&#32;B&#32;and&#32;C&#32;become&#32;runnable&#32;and&#32;have&#32;retval&#32;TN_RC_DELETED,&#32;A&#32;has&#32;its&#32;base&#32;priority&quot;);
+TNT_ITEM__SEND_CMD_MUTEX(TNT_TASK__A,&#32;MUTEX_DELETE,&#32;TNT_MUTEX__1);
+TNT_ITEM__WAIT_AND_CHECK_DIFF(
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__B,&#32;LAST_RETVAL,&#32;TN_RC_DELETED);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__C,&#32;LAST_RETVAL,&#32;TN_RC_DELETED);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__B,&#32;WAIT_REASON,&#32;TSK_WAIT_REASON_DQUE_WRECEIVE);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__C,&#32;WAIT_REASON,&#32;TSK_WAIT_REASON_DQUE_WRECEIVE);
+
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__TASK(TNT_TASK__A,&#32;PRIORITY,&#32;priority_task_a);
+
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__MUTEX(TNT_MUTEX__1,&#32;HOLDER,&#32;TNT_TASK__NONE);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__MUTEX(TNT_MUTEX__1,&#32;LOCK_CNT,&#32;0);
+&#32;&#32;&#32;&#32;&#32;&#32;TNT_CHECK__MUTEX(TNT_MUTEX__1,&#32;EXISTS,&#32;0);
+&#32;&#32;&#32;&#32;&#32;&#32;);
+</computeroutput></literallayout></para>
+
+<para>And here is the appropriate part of log that is echoed to the UART:</para>
+
+<para><literallayout><computeroutput>//--&#32;A&#32;locks&#32;M1&#32;(line&#32;404&#32;in&#32;../source/appl/appl_tntest/appl_tntest_mutex.c)&#32;
+[I]:&#32;tnt_item_proceed():2101:&#32;-----&#32;Command&#32;to&#32;task&#32;A:&#32;lock&#32;mutex&#32;M1&#32;(0xa0004c40)&#32;
+[I]:&#32;tnt_item_proceed():2160:&#32;Wait&#32;80&#32;ticks&#32;
+[I]:&#32;[Task&#32;A]:&#32;locking&#32;mutex&#32;(0xa0004c40)..&#32;
+[I]:&#32;[Task&#32;A]:&#32;mutex&#32;(0xa0004c40)&#32;locked&#32;
+[I]:&#32;[Task&#32;A]:&#32;waiting&#32;for&#32;command..&#32;
+[I]:&#32;tnt_item_proceed():2178:&#32;Checking:&#32;
+[I]:&#32;*&#32;Task&#32;A:&#32;priority=6&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=TN_RC_OK&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;B:&#32;priority=5&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=NOT-YET-RECEIVED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;C:&#32;priority=4&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=NOT-YET-RECEIVED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Mutex&#32;M1:&#32;holder=A&#32;(as&#32;expected),&#32;lock_cnt=1&#32;(as&#32;expected),&#32;exists=yes&#32;(as&#32;expected)&#32;
+
+//--&#32;B&#32;tries&#32;to&#32;lock&#32;M1&#32;-&gt;&#32;B&#32;blocks,&#32;A&#32;has&#32;priority&#32;of&#32;B&#32;(line&#32;413&#32;in&#32;../source/appl/appl_tntest/appl_tntest_mutex.c)&#32;
+[I]:&#32;tnt_item_proceed():2101:&#32;-----&#32;Command&#32;to&#32;task&#32;B:&#32;lock&#32;mutex&#32;M1&#32;(0xa0004c40)&#32;
+[I]:&#32;tnt_item_proceed():2160:&#32;Wait&#32;80&#32;ticks&#32;
+[I]:&#32;[Task&#32;B]:&#32;locking&#32;mutex&#32;(0xa0004c40)..&#32;
+[I]:&#32;tnt_item_proceed():2178:&#32;Checking:&#32;
+[I]:&#32;*&#32;Task&#32;A:&#32;priority=5&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=TN_RC_OK&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;B:&#32;priority=5&#32;(as&#32;expected),&#32;wait_reason=MUTEX_I&#32;(as&#32;expected),&#32;last_retval=NOT-YET-RECEIVED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;C:&#32;priority=4&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=NOT-YET-RECEIVED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Mutex&#32;M1:&#32;holder=A&#32;(as&#32;expected),&#32;lock_cnt=1&#32;(as&#32;expected),&#32;exists=yes&#32;(as&#32;expected)&#32;
+
+//--&#32;C&#32;tries&#32;to&#32;lock&#32;M1&#32;-&gt;&#32;B&#32;blocks,&#32;A&#32;has&#32;priority&#32;of&#32;C&#32;(line&#32;422&#32;in&#32;../source/appl/appl_tntest/appl_tntest_mutex.c)&#32;
+[I]:&#32;tnt_item_proceed():2101:&#32;-----&#32;Command&#32;to&#32;task&#32;C:&#32;lock&#32;mutex&#32;M1&#32;(0xa0004c40)&#32;
+[I]:&#32;tnt_item_proceed():2160:&#32;Wait&#32;80&#32;ticks&#32;
+[I]:&#32;[Task&#32;C]:&#32;locking&#32;mutex&#32;(0xa0004c40)..&#32;
+[I]:&#32;tnt_item_proceed():2178:&#32;Checking:&#32;
+[I]:&#32;*&#32;Task&#32;A:&#32;priority=4&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=TN_RC_OK&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;B:&#32;priority=5&#32;(as&#32;expected),&#32;wait_reason=MUTEX_I&#32;(as&#32;expected),&#32;last_retval=NOT-YET-RECEIVED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;C:&#32;priority=4&#32;(as&#32;expected),&#32;wait_reason=MUTEX_I&#32;(as&#32;expected),&#32;last_retval=NOT-YET-RECEIVED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Mutex&#32;M1:&#32;holder=A&#32;(as&#32;expected),&#32;lock_cnt=1&#32;(as&#32;expected),&#32;exists=yes&#32;(as&#32;expected)&#32;
+
+//--&#32;A&#32;deleted&#32;M1&#32;-&gt;&#32;B&#32;and&#32;C&#32;become&#32;runnable&#32;and&#32;have&#32;retval&#32;TN_RC_DELETED,&#32;A&#32;has&#32;its&#32;base&#32;priority&#32;(line&#32;431&#32;in&#32;../source/appl/appl_tntest/appl_tntest_mutex.c)&#32;
+[I]:&#32;tnt_item_proceed():2101:&#32;-----&#32;Command&#32;to&#32;task&#32;A:&#32;delete&#32;mutex&#32;M1&#32;(0xa0004c40)&#32;
+[I]:&#32;tnt_item_proceed():2160:&#32;Wait&#32;80&#32;ticks&#32;
+[I]:&#32;[Task&#32;A]:&#32;deleting&#32;mutex&#32;(0xa0004c40)..&#32;
+[I]:&#32;[Task&#32;C]:&#32;mutex&#32;(0xa0004c40)&#32;locking&#32;failed&#32;with&#32;err=-8&#32;
+[I]:&#32;[Task&#32;C]:&#32;waiting&#32;for&#32;command..&#32;
+[I]:&#32;[Task&#32;B]:&#32;mutex&#32;(0xa0004c40)&#32;locking&#32;failed&#32;with&#32;err=-8&#32;
+[I]:&#32;[Task&#32;B]:&#32;waiting&#32;for&#32;command..&#32;
+[I]:&#32;[Task&#32;A]:&#32;mutex&#32;(0xa0004c40)&#32;deleted&#32;
+[I]:&#32;[Task&#32;A]:&#32;waiting&#32;for&#32;command..&#32;
+[I]:&#32;tnt_item_proceed():2178:&#32;Checking:&#32;
+[I]:&#32;*&#32;Task&#32;A:&#32;priority=6&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=TN_RC_OK&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;B:&#32;priority=5&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=TN_RC_DELETED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Task&#32;C:&#32;priority=4&#32;(as&#32;expected),&#32;wait_reason=DQUE_WRECEIVE&#32;(as&#32;expected),&#32;last_retval=TN_RC_DELETED&#32;(as&#32;expected)&#32;
+[I]:&#32;*&#32;Mutex&#32;M1:&#32;holder=NONE&#32;(as&#32;expected),&#32;lock_cnt=0&#32;(as&#32;expected),&#32;exists=no&#32;(as&#32;expected)&#32;
+</computeroutput></literallayout></para>
+
+<para>If something goes wrong, there would be no <computeroutput>&quot;as expected&quot;</computeroutput>, but error and explanation what we expected and what we have. Tests halted.</para>
+
+<para>I do my best to model nearly all possible situations within the each single subsystem (such as mutexes, queues, etc), including various situations with suspended tasks, deleted tasks, deleted objects, and the like. It helps a lot to keep the kernel really stable.</para>
+</section>
+<section xml:id="unit_tests_1get_tests">
+<title>Get unit-tests</title>
+
+<para>Currently, there is a separate repository with unit tests for TNeo.</para>
+
+<para>Please note that code of unit tests project is not as polished as the code of the kernel itself. My open-source time is limited, and I prefer to invest it in the kernel as much as possible.</para>
+
+<para>Nevertheless, unit tests do their job efficiently, which is needed.</para>
+
+<para>There is an &quot;environment&quot; repository, which contains tests and all the necessary library subrepos: <link xlink:href="http://hg.dfrank.ru/tntest/_env">http://hg.dfrank.ru/tntest/_env</link></para>
+
+<para>You can clone it as follows: <literallayout>hg clone http://hg.dfrank.ru/tntest/_env tntest
+</literallayout></para>
+
+<para>The single repository with the tests resides here: <link xlink:href="http://hg.dfrank.ru/tntest/project_common">http://hg.dfrank.ru/tntest/project_common</link> </para>
+</section>
+
+</chapter>

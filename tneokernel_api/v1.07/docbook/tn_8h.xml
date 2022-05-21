@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn_8h">
+    <title>tn.h File Reference</title>
+    <programlisting>#include &quot;core/tn_sys.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_common.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_dqueue.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_eventgrp.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_fmem.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_mutex.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_sem.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_tasks.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_timer.h&quot;</programlisting>
+    <programlisting>#include &quot;core/tn_oldsymbols.h&quot;</programlisting>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>The main kernel header file that should be included by user application; it merely includes subsystem-specific kernel headers. </para>
+    <para>Definition in file /home/dimon/projects/tntest/lib/mc/tnkernel_df/src/tn.h</para>
+    </simplesect>
+</section>

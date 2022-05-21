@@ -1,0 +1,249 @@
+\hypertarget{tn__mutex_8h}{\section{core/tn\+\_\+mutex.h File Reference}
+\label{tn__mutex_8h}\index{core/tn\+\_\+mutex.\+h@{core/tn\+\_\+mutex.\+h}}
+}
+
+
+\subsection{Detailed Description}
+A mutex is an object used to protect shared resources. 
+
+There is a lot of confusion about the differences between semaphores and mutexes, so, it's highly recommended that you read a small article by Michael Barr\+: \href{http://goo.gl/YprPBW}{\tt Mutexes and Semaphores Demystified}.
+
+Very short\+:
+
+While a mutex is seemingly similar to a semaphore with a maximum count of {\ttfamily 1} (the so-\/called binary semaphore), their usage is very different\+: the purpose of mutex is to protect a shared resource. A locked mutex is \char`\"{}owned\char`\"{} by the task that locked it, and only that same task may unlock it. This ownership allows you to implement algorithms to prevent priority inversion. So, a mutex is a {\itshape locking mechanism}.
+
+A semaphore, on the other hand, is a {\itshape signaling mechanism}. It's quite legal and encouraged for a semaphore to be acquired in task A, and then signaled from task B or even from an I\+S\+R. It may be used in situations like \char`\"{}producer
+and consumer\char`\"{}, etc.
+
+In addition to the article mentioned above, you may want to look at the \href{http://goo.gl/ZBReHK}{\tt related question on stackoverflow.\+com}. 
+
+
+
+Mutex features in T\+Neo\+:
+
+
+\begin{DoxyItemize}
+\item Recursive locking is supported (if option {\ttfamily \hyperlink{tn__cfg__default_8h_a2557da78508c4241aceee92475df3581}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+R\+E\+C}} is non-\/zero);
+\item Deadlock detection (if option {\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}} is non-\/zero);
+\item Two protocols available to avoid unbounded priority inversion\+: priority inheritance and priority ceiling.
+\end{DoxyItemize}
+
+A discussion about the strengths and weaknesses of each protocol as well as the priority inversions problem is beyond the scope of this document.
+
+The priority inheritance protocol solves the priority inversion problem, but doesn't prevent deadlocks. However, the kernel can notify you if a deadlock has occurred (see {\ttfamily \hyperlink{tn__cfg__default_8h_a6ed3ec7b0d4338e7f60dde86b7ea5fa4}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+D\+E\+A\+D\+L\+O\+C\+K\+\_\+\+D\+E\+T\+E\+C\+T}}).
+
+The priority ceiling protocol prevents deadlocks and chained blocking but it is slower than the priority inheritance protocol.
+
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__cfg__default_8h_a7ce674edab5345c4b8d2ec251eea18eb}{T\+N\+\_\+\+U\+S\+E\+\_\+\+M\+U\+T\+E\+X\+E\+S}} 
+\end{DoxySeeAlso}
+
+
+Definition in file \hyperlink{tn__mutex_8h_source}{tn\+\_\+mutex.\+h}.
+
+\subsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex}
+\begin{DoxyCompactList}\small\item\em Mutex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}{T\+N\+\_\+\+Mutex\+Protocol} \{ \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G} = 1, 
+\hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40ab3f7543f3177c575342d345010b58fa8}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+I\+N\+H\+E\+R\+I\+T} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Mutex protocol for avoid priority inversion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__mutex_8h_a5ad69fd04d977538ac0d2c2a915e73ca}{tn\+\_\+mutex\+\_\+create} (struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex} $\ast$mutex, enum \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}{T\+N\+\_\+\+Mutex\+Protocol} protocol, int ceil\+\_\+priority)
+\begin{DoxyCompactList}\small\item\em Construct the mutex. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__mutex_8h_a9c935ae470f1d36f8d88c254a4d513e4}{tn\+\_\+mutex\+\_\+delete} (struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex} $\ast$mutex)
+\begin{DoxyCompactList}\small\item\em Destruct mutex. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__mutex_8h_af52ee42e086af12f699ebfccd057aade}{tn\+\_\+mutex\+\_\+lock} (struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex} $\ast$mutex, \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt} timeout)
+\begin{DoxyCompactList}\small\item\em Lock mutex. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__mutex_8h_ac5714615cc3623cc3efd404e3ad47787}{tn\+\_\+mutex\+\_\+lock\+\_\+polling} (struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex} $\ast$mutex)
+\begin{DoxyCompactList}\small\item\em The same as {\ttfamily \hyperlink{tn__mutex_8h_af52ee42e086af12f699ebfccd057aade}{tn\+\_\+mutex\+\_\+lock()}} with zero timeout. \end{DoxyCompactList}\item 
+enum \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876}{T\+N\+\_\+\+R\+Code} \hyperlink{tn__mutex_8h_ae0a23d98c287786f8115020036a1fb72}{tn\+\_\+mutex\+\_\+unlock} (struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex} $\ast$mutex)
+\begin{DoxyCompactList}\small\item\em Unlock mutex. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}{\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!T\+N\+\_\+\+Mutex\+Protocol@{T\+N\+\_\+\+Mutex\+Protocol}}
+\index{T\+N\+\_\+\+Mutex\+Protocol@{T\+N\+\_\+\+Mutex\+Protocol}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}
+\subsubsection[{T\+N\+\_\+\+Mutex\+Protocol}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Mutex\+Protocol}}}\label{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}
+
+
+Mutex protocol for avoid priority inversion. 
+
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G@{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G@{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G}}\item[{\em 
+\hypertarget{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G}\label{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67}
+}]Mutex uses priority ceiling protocol. \index{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+I\+N\+H\+E\+R\+I\+T@{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+I\+N\+H\+E\+R\+I\+T}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+I\+N\+H\+E\+R\+I\+T@{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+I\+N\+H\+E\+R\+I\+T}}\item[{\em 
+\hypertarget{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40ab3f7543f3177c575342d345010b58fa8}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+I\+N\+H\+E\+R\+I\+T}\label{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40ab3f7543f3177c575342d345010b58fa8}
+}]Mutex uses priority inheritance protocol. \end{description}
+\end{Desc}
+
+
+Definition at line 109 of file tn\+\_\+mutex.\+h.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{tn__mutex_8h_a5ad69fd04d977538ac0d2c2a915e73ca}{\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!tn\+\_\+mutex\+\_\+create@{tn\+\_\+mutex\+\_\+create}}
+\index{tn\+\_\+mutex\+\_\+create@{tn\+\_\+mutex\+\_\+create}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}
+\subsubsection[{tn\+\_\+mutex\+\_\+create}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+mutex\+\_\+create (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Mutex} $\ast$}]{mutex, }
+\item[{enum {\bf T\+N\+\_\+\+Mutex\+Protocol}}]{protocol, }
+\item[{int}]{ceil\+\_\+priority}
+\end{DoxyParamCaption}
+)}}\label{tn__mutex_8h_a5ad69fd04d977538ac0d2c2a915e73ca}
+
+
+Construct the mutex. 
+
+The field {\ttfamily id\+\_\+mutex} should not contain {\ttfamily \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976abf9427ac5b7701a4bd1b6cff3004e5a5}{T\+N\+\_\+\+I\+D\+\_\+\+M\+U\+T\+E\+X}}, otherwise, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} is returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_int.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mutex} & Pointer to already allocated {\ttfamily struct \hyperlink{structTN__Mutex}{T\+N\+\_\+\+Mutex}} \\
+\hline
+{\em protocol} & Mutex protocol\+: priority ceiling or priority inheritance. See {\ttfamily enum \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}{T\+N\+\_\+\+Mutex\+Protocol}}. \\
+\hline
+{\em ceil\+\_\+priority} & Used if only {\ttfamily protocol} is {\ttfamily \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G}}\+: maximum priority of the task that may lock the mutex.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if mutex was successfully created;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return code is available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__mutex_8h_a9c935ae470f1d36f8d88c254a4d513e4}{\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!tn\+\_\+mutex\+\_\+delete@{tn\+\_\+mutex\+\_\+delete}}
+\index{tn\+\_\+mutex\+\_\+delete@{tn\+\_\+mutex\+\_\+delete}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}
+\subsubsection[{tn\+\_\+mutex\+\_\+delete}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+mutex\+\_\+delete (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Mutex} $\ast$}]{mutex}
+\end{DoxyParamCaption}
+)}}\label{tn__mutex_8h_a9c935ae470f1d36f8d88c254a4d513e4}
+
+
+Destruct mutex. 
+
+All tasks that wait for lock the mutex become runnable with {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a3252967d2fdefcfbd4eb720ed4663d84}{T\+N\+\_\+\+R\+C\+\_\+\+D\+E\+L\+E\+T\+E\+D}} code returned.
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mutex} & mutex to destruct\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if mutex was successfully destroyed;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}
+\hypertarget{tn__mutex_8h_af52ee42e086af12f699ebfccd057aade}{\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!tn\+\_\+mutex\+\_\+lock@{tn\+\_\+mutex\+\_\+lock}}
+\index{tn\+\_\+mutex\+\_\+lock@{tn\+\_\+mutex\+\_\+lock}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}
+\subsubsection[{tn\+\_\+mutex\+\_\+lock}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+mutex\+\_\+lock (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Mutex} $\ast$}]{mutex, }
+\item[{{\bf T\+N\+\_\+\+Tick\+Cnt}}]{timeout}
+\end{DoxyParamCaption}
+)}}\label{tn__mutex_8h_af52ee42e086af12f699ebfccd057aade}
+
+
+Lock mutex. 
+
+
+\begin{DoxyItemize}
+\item If the mutex is not locked, function immediately locks the mutex and returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}}.
+\item If the mutex is already locked by the same task, lock count is merely incremented and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} is returned immediately.
+\item If the mutex is locked by different task, behavior depends on {\ttfamily timeout} value\+: refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}.
+\end{DoxyItemize}
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}    \includegraphics{attr_timeout.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+
+\begin{DoxyParams}{Parameters}
+{\em mutex} & mutex to lock \\
+\hline
+{\em timeout} & refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if mutex is successfully locked or if lock count was merely incremented (this is possible if recursive locking is enabled, see {\ttfamily \hyperlink{tn__cfg__default_8h_a2557da78508c4241aceee92475df3581}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+R\+E\+C}})
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c}{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E}}
+\begin{DoxyItemize}
+\item if mutex protocol is {\ttfamily \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40a8edebcfa37593a4d2d541954ce3aea67}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+P\+R\+O\+T\+\_\+\+C\+E\+I\+L\+I\+N\+G}} and calling task's priority is higher than {\ttfamily ceil\+\_\+priority} given to {\ttfamily \hyperlink{tn__mutex_8h_a5ad69fd04d977538ac0d2c2a915e73ca}{tn\+\_\+mutex\+\_\+create()}}
+\item if recursive locking is disabled (see {\ttfamily \hyperlink{tn__cfg__default_8h_a2557da78508c4241aceee92475df3581}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+R\+E\+C}}) and the mutex is already locked by calling task
+\end{DoxyItemize}
+\item Other possible return codes depend on {\ttfamily timeout} value, refer to {\ttfamily \hyperlink{tn__common_8h_ac885b63d00c063de61cdbd80bf26d8aa}{T\+N\+\_\+\+Tick\+Cnt}}
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}.
+\end{DoxyItemize}
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+{\ttfamily \hyperlink{tn__mutex_8h_a11357f7bb31a3b380cbe94e0913a5b40}{T\+N\+\_\+\+Mutex\+Protocol}} 
+\end{DoxySeeAlso}
+\hypertarget{tn__mutex_8h_ac5714615cc3623cc3efd404e3ad47787}{\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!tn\+\_\+mutex\+\_\+lock\+\_\+polling@{tn\+\_\+mutex\+\_\+lock\+\_\+polling}}
+\index{tn\+\_\+mutex\+\_\+lock\+\_\+polling@{tn\+\_\+mutex\+\_\+lock\+\_\+polling}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}
+\subsubsection[{tn\+\_\+mutex\+\_\+lock\+\_\+polling}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+mutex\+\_\+lock\+\_\+polling (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Mutex} $\ast$}]{mutex}
+\end{DoxyParamCaption}
+)}}\label{tn__mutex_8h_ac5714615cc3623cc3efd404e3ad47787}
+
+
+The same as {\ttfamily \hyperlink{tn__mutex_8h_af52ee42e086af12f699ebfccd057aade}{tn\+\_\+mutex\+\_\+lock()}} with zero timeout. 
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize  \hypertarget{tn__mutex_8h_ae0a23d98c287786f8115020036a1fb72}{\index{tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}!tn\+\_\+mutex\+\_\+unlock@{tn\+\_\+mutex\+\_\+unlock}}
+\index{tn\+\_\+mutex\+\_\+unlock@{tn\+\_\+mutex\+\_\+unlock}!tn\+\_\+mutex.\+h@{tn\+\_\+mutex.\+h}}
+\subsubsection[{tn\+\_\+mutex\+\_\+unlock}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+R\+Code} tn\+\_\+mutex\+\_\+unlock (
+\begin{DoxyParamCaption}
+\item[{struct {\bf T\+N\+\_\+\+Mutex} $\ast$}]{mutex}
+\end{DoxyParamCaption}
+)}}\label{tn__mutex_8h_ae0a23d98c287786f8115020036a1fb72}
+
+
+Unlock mutex. 
+
+
+\begin{DoxyItemize}
+\item If mutex is not locked or locked by different task, {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c}{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E}} is returned.
+\item If mutex is already locked by calling task, lock count is decremented. Now, if lock count is zero, mutex gets unlocked (and if there are task(s) waiting for mutex, the first one from the wait queue locks the mutex). Otherwise, mutex remains locked with lock count decremented and function returns {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}}.
+\end{DoxyItemize}
+
+  \includegraphics{attr_call_task.png}    \includegraphics{attr_call_ct_sw.png}  
+\footnotesize {\itshape (refer to \hyperlink{legend}{Legend} for details)}
+\normalsize 
+
+\begin{DoxyReturn}{Returns}
+
+\begin{DoxyItemize}
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876afb291924237186f5765865256c75e639}{T\+N\+\_\+\+R\+C\+\_\+\+O\+K}} if mutex is unlocked of if lock count was merely decremented (this is possible if recursive locking is enabled, see {\ttfamily \hyperlink{tn__cfg__default_8h_a2557da78508c4241aceee92475df3581}{T\+N\+\_\+\+M\+U\+T\+E\+X\+\_\+\+R\+E\+C}})
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a886368391507ae426bfdedc38284db9d}{T\+N\+\_\+\+R\+C\+\_\+\+W\+C\+O\+N\+T\+E\+X\+T}} if called from wrong context;
+\item {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2c83a60bf543df45b5045d6f7fbc7d0c}{T\+N\+\_\+\+R\+C\+\_\+\+I\+L\+L\+E\+G\+A\+L\+\_\+\+U\+S\+E}} if mutex is either not locked or locked by different task
+\item If {\ttfamily \hyperlink{tn__cfg__default_8h_a1f197294df3276fec431930545acafd5}{T\+N\+\_\+\+C\+H\+E\+C\+K\+\_\+\+P\+A\+R\+A\+M}} is non-\/zero, additional return codes are available\+: {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a89909a6426b477a38496a1be67590e68}{T\+N\+\_\+\+R\+C\+\_\+\+W\+P\+A\+R\+A\+M}} and {\ttfamily \hyperlink{tn__common_8h_aa43bd3da1ad4c1e61224b5f23b369876a2a2df8fecee990d279889924926bf101}{T\+N\+\_\+\+R\+C\+\_\+\+I\+N\+V\+A\+L\+I\+D\+\_\+\+O\+B\+J}}. 
+\end{DoxyItemize}
+\end{DoxyReturn}

@@ -1,0 +1,79 @@
+\hypertarget{tn__common__macros_8h}{\section{core/tn\+\_\+common\+\_\+macros.h File Reference}
+\label{tn__common__macros_8h}\index{core/tn\+\_\+common\+\_\+macros.\+h@{core/tn\+\_\+common\+\_\+macros.\+h}}
+}
+
+
+\subsection{Detailed Description}
+Macros that may be useful for any part of the kernel. 
+
+Note\+: only preprocessor macros allowed here, so that the file can be included in any source file (C, assembler, or whatever) 
+
+Definition in file \hyperlink{tn__common__macros_8h_source}{tn\+\_\+common\+\_\+macros.\+h}.
+
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{tn__common__macros_8h_a495a31178506fddea5e582d0c9dfcd39}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L}(x)~\#x
+\begin{DoxyCompactList}\small\item\em Macro that expands to string representation of its argument\+: for example,. \end{DoxyCompactList}\item 
+\#define \hyperlink{tn__common__macros_8h_a2c8d81e94b33f4274f88ee4a74a10117}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O}(x)~\hyperlink{tn__common__macros_8h_a495a31178506fddea5e582d0c9dfcd39}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L}(x)
+\begin{DoxyCompactList}\small\item\em Macro that expands to string representation of its argument, which is allowed to be a macro\+: for example,. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{tn__common__macros_8h_a495a31178506fddea5e582d0c9dfcd39}{\index{tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}!\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L}}
+\index{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L}!tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~\#x}}\label{tn__common__macros_8h_a495a31178506fddea5e582d0c9dfcd39}
+
+
+Macro that expands to string representation of its argument\+: for example,. 
+
+
+\begin{DoxyCode}
+\hyperlink{tn__common__macros_8h_a495a31178506fddea5e582d0c9dfcd39}{\_TN\_STRINGIZE\_LITERAL}(5)
+\end{DoxyCode}
+
+
+expands to\+:
+
+
+\begin{DoxyCode}
+\textcolor{stringliteral}{"5"}
+\end{DoxyCode}
+
+
+See also \hyperlink{tn__common__macros_8h_a2c8d81e94b33f4274f88ee4a74a10117}{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O()} 
+
+Definition at line 70 of file tn\+\_\+common\+\_\+macros.\+h.
+
+\hypertarget{tn__common__macros_8h_a2c8d81e94b33f4274f88ee4a74a10117}{\index{tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}!\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O}}
+\index{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O@{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O}!tn\+\_\+common\+\_\+macros.\+h@{tn\+\_\+common\+\_\+macros.\+h}}
+\subsubsection[{\+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O}]{\setlength{\rightskip}{0pt plus 5cm}\#define \+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+M\+A\+C\+R\+O(
+\begin{DoxyParamCaption}
+\item[{}]{x}
+\end{DoxyParamCaption}
+)~{\bf \+\_\+\+T\+N\+\_\+\+S\+T\+R\+I\+N\+G\+I\+Z\+E\+\_\+\+L\+I\+T\+E\+R\+A\+L}(x)}}\label{tn__common__macros_8h_a2c8d81e94b33f4274f88ee4a74a10117}
+
+
+Macro that expands to string representation of its argument, which is allowed to be a macro\+: for example,. 
+
+
+\begin{DoxyCode}
+\textcolor{preprocessor}{#define MY\_VALUE     10}
+\textcolor{preprocessor}{\_TN\_STRINGIZE\_MACRO(MY\_VALUE)}
+\end{DoxyCode}
+
+
+expands to\+:
+
+
+\begin{DoxyCode}
+\textcolor{stringliteral}{"10"}
+\end{DoxyCode}
+ 
+
+Definition at line 88 of file tn\+\_\+common\+\_\+macros.\+h.
+

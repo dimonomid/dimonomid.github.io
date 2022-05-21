@@ -1,0 +1,18 @@
+\hypertarget{interrupts_interrupt_stack}{}\section{Interrupt stack}\label{interrupts_interrupt_stack}
+T\+Neo provides a separate stack for interrupt handlers. This approach could save a lot of R\+AM\+: interrupt can happen at any moment of time, and if there\textquotesingle{}s no separate interrupt stack, then each task should have enough stack space for the worse case of interrupt nesting.
+
+Assume application\textquotesingle{}s I\+S\+Rs take max 64 words (64 $\ast$ 4 = 256 bytes on P\+I\+C32) and application has 4 tasks (plus one idle task). Then, each of 5 tasks must have 64 words for interrupts\+: 64 $\ast$ 5 $\ast$ 4 = 1280 bytes of R\+AM just for 64 words for I\+SR.
+
+With separate stack for interrupts, these 64 words should be allocated just once. Interrupt stack array should be given to {\ttfamily \hyperlink{tn__sys_8h_a62ab25d9d8ca01c02d368968f19e49bf}{tn\+\_\+sys\+\_\+start()}}. For additional information, refer to the section \hyperlink{quick_guide_starting_the_kernel}{Starting the kernel}.
+
+The way a separate interrupt stack is implemented is architecture-\/specific, as well as the way to define an I\+SR\+: some platforms require kernel-\/provided macro for that, some don\textquotesingle{}t. Refer to the section for particular architecture\+:
+
+
+\begin{DoxyItemize}
+\item \hyperlink{arch_specific_pic32_interrupts}{P\+I\+C32 interrupts},
+\item \hyperlink{arch_specific_pic24_interrupts}{P\+I\+C24/ds\+P\+IC interrupts}.
+\item \hyperlink{arch_specific_cortex_m_interrupts}{Cortex-\/M interrupts}.
+\end{DoxyItemize}\hypertarget{interrupts_interrupt_types}{}\section{Interrupt types}\label{interrupts_interrupt_types}
+On some platforms (namely, on P\+I\+C24/ds\+P\+IC), there are two types of interrups\+: {\itshape system interrupts} and {\itshape user interrupts}. Other platforms have {\itshape system interrupts} only. Kernel services are allowed to call only from {\itshape system interrupts}, and interrupt-\/related kernel services ({\ttfamily \hyperlink{tn__arch_8h_a7078b776570ca67a51b89d2746bdb6f7}{tn\+\_\+arch\+\_\+sr\+\_\+save\+\_\+int\+\_\+dis()}}, {\ttfamily \hyperlink{tn__arch_8h_aa755327bd8c4e4303c87c2b0cbed0f17}{tn\+\_\+arch\+\_\+sr\+\_\+restore()}}, {\ttfamily \hyperlink{tn__arch_8h_a34ffbae8b6837f7f3014bca9991e2272}{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr()}}, etc) affect {\bfseries only {\itshape system interrupts}}. Say, if {\ttfamily \hyperlink{tn__arch_8h_a34ffbae8b6837f7f3014bca9991e2272}{\+\_\+tn\+\_\+arch\+\_\+inside\+\_\+isr()}} is called from {\itshape user interrupt}, it returns {\ttfamily 0}.
+
+Particular platform might have additional constraints for each of these interrupt types, refer to the details of each supported platform for details. 

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__sem_8h">
+    <title>tn_sem.h File Reference</title>
+    <programlisting>#include &quot;tn_list.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_common.h&quot;</programlisting>
+        <simplesect>
+            <title> Classes </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structTN__Sem">TN_Sem</link></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+        <simplesect>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a302b9a0fbb1843e38d95fdc1390d5c31">tn_sem_create</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem, int start_count, int max_count)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a427022246912c9f2bea8a14033b4d103">tn_sem_delete</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a39f52729fc651ccef7696310d3642a24">tn_sem_signal</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a215fd97b86fc63192106bb30b0574d14">tn_sem_isignal</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a6bf88a78f4f8b2799f72ee671b52ed97">tn_sem_wait</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem, <link linkend="tn__common_8h_1a34c07c1fa20ae71d17817d28a41957fe">TN_Timeout</link> timeout)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a7dd4429a9f3942764b23025f2f2e364e">tn_sem_wait_polling</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum <link linkend="tn__common_8h_1aa43bd3da1ad4c1e61224b5f23b369876">TN_RCode</link> <link linkend="tn__sem_8h_1a22e181857dbc681f962cfda5d34d71c0">tn_sem_iwait_polling</link> (
+struct <link linkend="structTN__Sem">TN_Sem</link> * sem)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>A semaphore: an object to provide signaling mechanism. </para>
+
+<para>There is a lot of confusion about differences between semaphores and mutexes, so, it&apos;s quite recommended to read small article by Michael Barr: <link xlink:href="http://goo.gl/YprPBW">Mutexes and Semaphores Demystified</link>.</para>
+
+<para>Very short:</para>
+
+<para>While mutex is seemingly similar to a semaphore with maximum count of <computeroutput>1</computeroutput> (the so-called binary semaphore), their usage is very different: the purpose of mutex is to protect shared resource. A locked mutex is &quot;owned&quot; by the task that locked it, and only the same task may unlock it. This ownership allows to implement algorithms to prevent priority inversion. So, mutex is a <emphasis>locking mechanism</emphasis>.</para>
+
+<para>Semaphore, on the other hand, is <emphasis>signaling mechanism</emphasis>. It&apos;s quite legal and encouraged for semaphore to be waited for in the task A, and then signaled from task B or even from ISR. It may be used in situations like &quot;producer
+and consumer&quot;, etc.</para>
+
+<para>In addition to the article mentioned above, you may want to look at the <link xlink:href="http://goo.gl/ZBReHK">related question on stackoverflow.com</link>. </para>
+    <para>Definition in file /home/dimon/projects/rtos_check/lib/mc/tnkernel_df/src/core/tn_sem.h</para>
+    </simplesect>
+</section>

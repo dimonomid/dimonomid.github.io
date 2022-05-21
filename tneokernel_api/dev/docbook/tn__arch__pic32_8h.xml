@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch__pic32_8h">
+    <title>tn_arch_pic32.h File Reference</title>
+    <programlisting>#include &quot;../../core/tn_cfg_dispatch.h&quot;</programlisting>
+    <programlisting>#include &quot;tn_arch_pic32_bfa.h&quot;</programlisting>
+        <section>
+            <title>Macros</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr</link><para><emphasis>Interrupt handler wrapper macro for software context saving.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32_8h_1a523bb667617e6bb6f68a8f85855030a5">tn_p32_srs_isr</link><para><emphasis>Interrupt handler wrapper macro for shadow register context saving.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32_8h_1afde61cfabbeed1562ea2135fea8e919b">tn_soft_isr</link> <link linkend="tn__arch__pic32_8h_1a02d853d8d573f928fb8da65ef0c2bc8e">tn_p32_soft_isr</link><para><emphasis>For compatibility with old projects, old name of &lt;tt&gt;tn_p32_soft_isr()&lt;/tt&gt; macro
+is kept; please don&apos;t use it in new code.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para>#define <link linkend="tn__arch__pic32_8h_1a714962dd7eb6b94feee7f4d769b601c0">tn_srs_isr</link> <link linkend="tn__arch__pic32_8h_1a523bb667617e6bb6f68a8f85855030a5">tn_p32_srs_isr</link><para><emphasis>For compatibility with old projects, old name of &lt;tt&gt;tn_p32_srs_isr()&lt;/tt&gt; macro
+is kept; please don&apos;t use it in new code.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Variables</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>volatile int <link linkend="tn__arch__pic32_8h_1a20de0bafa66d054b8d280c9e60cbad4c">tn_p32_int_nest_count</link><para><emphasis>current interrupt nesting count.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * <link linkend="tn__arch__pic32_8h_1aa2ef593f83b92d75837b4b884185d3fa">tn_p32_user_sp</link><para><emphasis>saved task stack pointer.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void * <link linkend="tn__arch__pic32_8h_1affc7724f74e4630699a105cb6a46422b">tn_p32_int_sp</link><para><emphasis>saved ISR stack pointer.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>PIC32 architecture-dependent routines. </para>
+    <para>Definition in file /home/dimon/mydata/projects/tneo/src/arch/pic32/tn_arch_pic32.h</para>
+    </simplesect>
+</section>

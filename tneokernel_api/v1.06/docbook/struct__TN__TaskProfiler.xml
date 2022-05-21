@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="struct__TN__TaskProfiler">
+<title>_TN_TaskProfiler struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="tn__tasks_8h">&lt;tn_tasks.h&gt;</link></programlisting>
+</para>
+        <simplesect>
+            <title>Public Attributes</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>TN_TickCnt last_tick_cnt<para><emphasis>Tick count of when the task got running or non-running last time.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>enum TN_WaitReason last_wait_reason<para><emphasis>Available if only &lt;tt&gt;#TN_PROFILER_WAIT_TIME&lt;/tt&gt; option is non-zero.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct TN_TaskTiming timing<para><emphasis>Main timing structure managed by profiler.</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </simplesect>
+    <simplesect>
+        <title>Brief Description</title>
+
+<para>Internal kernel structure for profiling data of task. </para>
+    </simplesect>
+        <simplesect>
+            <title>Detailed Description</title>
+
+<para>Available if only <computeroutput><link linkend="tn__cfg__default_8h_1a49a546b18cc1f75b51d4cf8b290634dd">TN_PROFILER</link></computeroutput> option is non-zero. </para>
+                <para>Definition at line 302 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+        </simplesect>
+        <simplesect>
+            <title>Member Documentation</title>
+            <simplesect>
+                <title>enum TN_WaitReason _TN_TaskProfiler::last_wait_reason</title>                
+<para>Value of <computeroutput>task-&gt;task_wait_reason</computeroutput> when task got non-running last time. </para>
+
+                <para>Definition at line 305 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+            <simplesect>
+                <title>struct TN_TaskTiming _TN_TaskProfiler::timing</title>                
+<para>Contents of this structure can be read by <computeroutput><link linkend="tn__tasks_8h_1a8f90a88f54d2d49bb1de00886241edfe">tn_task_profiler_timing_get()</link></computeroutput> function. </para>
+
+                <para>Definition at line 305 of file tn_tasks.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>tn_tasks.h</para></listitem></itemizedlist></para>
+            </simplesect>
+        </simplesect>
+</section>

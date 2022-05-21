@@ -1,0 +1,53 @@
+\hypertarget{structTN__EventGrp}{\section{T\+N\+\_\+\+Event\+Grp Struct Reference}
+\label{structTN__EventGrp}\index{T\+N\+\_\+\+Event\+Grp@{T\+N\+\_\+\+Event\+Grp}}
+}
+
+
+\subsection{Detailed Description}
+Event group. 
+
+Definition at line 210 of file tn\+\_\+eventgrp.\+h.
+
+\subsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{tn__common_8h_ae779dd1f6735f6e139fb70acd004d976}{T\+N\+\_\+\+Obj\+Id} \hyperlink{structTN__EventGrp_a0bdf55b6117237122efeefcdf6802d37}{id\+\_\+event}
+\begin{DoxyCompactList}\small\item\em id for object validity verification. \end{DoxyCompactList}\item 
+\hypertarget{structTN__EventGrp_a93da04331cafe905f9c8b2fa2bad648b}{struct \hyperlink{structTN__ListItem}{T\+N\+\_\+\+List\+Item} \hyperlink{structTN__EventGrp_a93da04331cafe905f9c8b2fa2bad648b}{wait\+\_\+queue}}\label{structTN__EventGrp_a93da04331cafe905f9c8b2fa2bad648b}
+
+\begin{DoxyCompactList}\small\item\em task wait queue \end{DoxyCompactList}\item 
+\hypertarget{structTN__EventGrp_abf45ee25e11ea46636920be5003cdec2}{\hyperlink{tn__arch__example_8h_ab80cba0fe9ffcd9011d53dfeb9e39bf4}{T\+N\+\_\+\+U\+Word} \hyperlink{structTN__EventGrp_abf45ee25e11ea46636920be5003cdec2}{pattern}}\label{structTN__EventGrp_abf45ee25e11ea46636920be5003cdec2}
+
+\begin{DoxyCompactList}\small\item\em current flags pattern \end{DoxyCompactList}\item 
+enum \hyperlink{tn__eventgrp_8h_aca5ed3b60cdaa2e2db8b88f4b5e33d3f}{T\+N\+\_\+\+E\+Grp\+Attr} \hyperlink{structTN__EventGrp_ac247c74950bd8ae6f721ff220e5a2402}{attr}
+\begin{DoxyCompactList}\small\item\em Attributes that are given to that events group, available if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Field Documentation}
+\hypertarget{structTN__EventGrp_a0bdf55b6117237122efeefcdf6802d37}{\index{T\+N\+\_\+\+Event\+Grp@{T\+N\+\_\+\+Event\+Grp}!id\+\_\+event@{id\+\_\+event}}
+\index{id\+\_\+event@{id\+\_\+event}!T\+N\+\_\+\+Event\+Grp@{T\+N\+\_\+\+Event\+Grp}}
+\subsubsection[{id\+\_\+event}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+Obj\+Id} T\+N\+\_\+\+Event\+Grp\+::id\+\_\+event}}\label{structTN__EventGrp_a0bdf55b6117237122efeefcdf6802d37}
+
+
+id for object validity verification. 
+
+This field is in the beginning of the structure to make it easier to detect memory corruption. 
+
+Definition at line 215 of file tn\+\_\+eventgrp.\+h.
+
+\hypertarget{structTN__EventGrp_ac247c74950bd8ae6f721ff220e5a2402}{\index{T\+N\+\_\+\+Event\+Grp@{T\+N\+\_\+\+Event\+Grp}!attr@{attr}}
+\index{attr@{attr}!T\+N\+\_\+\+Event\+Grp@{T\+N\+\_\+\+Event\+Grp}}
+\subsubsection[{attr}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf T\+N\+\_\+\+E\+Grp\+Attr} T\+N\+\_\+\+Event\+Grp\+::attr}}\label{structTN__EventGrp_ac247c74950bd8ae6f721ff220e5a2402}
+
+
+Attributes that are given to that events group, available if only {\ttfamily \hyperlink{tn__cfg__default_8h_ac61d5f6a716cdcab205a2c8afbde4242}{T\+N\+\_\+\+O\+L\+D\+\_\+\+E\+V\+E\+N\+T\+\_\+\+A\+P\+I}} option is non-\/zero. 
+
+
+
+Definition at line 227 of file tn\+\_\+eventgrp.\+h.
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+core/\hyperlink{tn__eventgrp_8h}{tn\+\_\+eventgrp.\+h}\end{DoxyCompactItemize}

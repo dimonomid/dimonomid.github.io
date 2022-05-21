@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="tn__arch_8h">
+    <title>tn_arch.h File Reference</title>
+    <programlisting>#include &quot;../core/tn_common.h&quot;</programlisting>
+        <section>
+            <title>Functions</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a2b3f2294ac42a599662c573394b14c75">tn_arch_int_dis</link> (
+void )<para><emphasis>Unconditionally disable &lt;i&gt;system interrupts&lt;/i&gt;.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a2997c6d98ac43cb90216fc4e8137bcfb">tn_arch_int_en</link> (
+void )<para><emphasis>Unconditionally enable interrupts.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> <link linkend="tn__arch_8h_1a7078b776570ca67a51b89d2746bdb6f7">tn_arch_sr_save_int_dis</link> (
+void )<para><emphasis>Disable &lt;i&gt;system interrupts&lt;/i&gt; and return previous value of status
+register, atomically.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1aa755327bd8c4e4303c87c2b0cbed0f17">tn_arch_sr_restore</link> (
+<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> sr)<para><emphasis>Restore previously saved status register.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> <link linkend="tn__arch_8h_1a19e3b6ac25f75016b316ee217114e26d">tn_arch_sched_dis_save</link> (
+void )<para><emphasis>Disable kernel scheduler and return previous state.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1ad607fcabe50af27f55f41082fde2ec3e">tn_arch_sched_restore</link> (
+<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> sched_state)<para><emphasis>Restore state of the kernel scheduler.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para><link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * <link linkend="tn__arch_8h_1adfec508be4a01fd3b251dbbeec12d7d6">_tn_arch_stack_init</link> (
+<link linkend="tn__common_8h_1a603cbe1ffdafc7e6813ef692bbd7d22f">TN_TaskBody</link> * task_func, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * stack_low_addr, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * stack_high_addr, void * param)<para><emphasis>Should put initial CPU context to the provided stack pointer for new task
+and return current stack pointer.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="tn__arch_8h_1a34ffbae8b6837f7f3014bca9991e2272">_tn_arch_inside_isr</link> (
+void )<para><emphasis>Should return 1 if &lt;i&gt;system ISR&lt;/i&gt; is currently running, 0 otherwise.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="tn__arch_8h_1a024f41d79c823ecac5ed6b83c36f164e">_tn_arch_is_int_disabled</link> (
+void )<para><emphasis>Should return 1 if &lt;i&gt;system interrupts&lt;/i&gt; are currently disabled, 0
+otherwise.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a28871f82c82d549092930dd4842e2980">_tn_arch_context_switch_pend</link> (
+void )<para><emphasis>Called whenever we need to switch context from one task to another.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1afd5f43f42f5645de164ba6d13d3a4bcf">_tn_arch_context_switch_now_nosave</link> (
+void )<para><emphasis>Called whenever we need to switch context to new task, but don&apos;t save
+current context.</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="tn__arch_8h_1a8b4b954fc132b3426ca8b564a38efc20">_tn_arch_sys_start</link> (
+<link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> * int_stack, <link linkend="tn__arch__example_8h_1ab80cba0fe9ffcd9011d53dfeb9e39bf4">TN_UWord</link> int_stack_size)<para><emphasis>Performs first context switch to the first task (&lt;tt&gt;_tn_next_task_to_run&lt;/tt&gt; is 
+already set to needed task).</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Detailed Description</title>
+
+<para>Architecture-dependent routines declaration. </para>
+    <para>Definition in file /home/dimon/mydata/projects/tneo/src/arch/tn_arch.h</para>
+    </simplesect>
+</section>
