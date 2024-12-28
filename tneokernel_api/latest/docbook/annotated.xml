@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_annotated">
+<title>Data Structures</title>
+Here are the data structures with brief descriptions:<link linkend="_struct__TN__BuildCfg">_TN_BuildCfg</link>
+<para>Structure with build-time configurations values; it is needed for run-time check which ensures that build-time options for the kernel match ones for the application </para>
+<link linkend="_struct__TN__TaskProfiler">_TN_TaskProfiler</link>
+<para>Internal kernel structure for profiling data of task </para>
+<link linkend="_structTN__DQueue">TN_DQueue</link>
+<para>Structure representing data queue object </para>
+<link linkend="_structTN__DQueueTaskWait">TN_DQueueTaskWait</link>
+<para>DQueue-specific fields related to waiting task, to be included in struct <link linkend="_structTN__Task">TN_Task</link> </para>
+<link linkend="_structTN__EGrpLink">TN_EGrpLink</link>
+<para>A link to event group: used when event group can be connected to some kernel object, such as queue </para>
+<link linkend="_structTN__EGrpTaskWait">TN_EGrpTaskWait</link>
+<para>EventGrp-specific fields related to waiting task, to be included in struct <link linkend="_structTN__Task">TN_Task</link> </para>
+<link linkend="_structTN__EventGrp">TN_EventGrp</link>
+<para>Event group </para>
+<link linkend="_structTN__FMem">TN_FMem</link>
+<para>Fixed memory blocks pool </para>
+<link linkend="_structTN__FMemTaskWait">TN_FMemTaskWait</link>
+<para>FMem-specific fields related to waiting task, to be included in struct <link linkend="_structTN__Task">TN_Task</link> </para>
+<link linkend="_structTN__ListItem">TN_ListItem</link>
+<para>Circular doubly linked list item, for internal kernel usage </para>
+<link linkend="_structTN__Mutex">TN_Mutex</link>
+<para>Mutex </para>
+<link linkend="_structTN__Sem">TN_Sem</link>
+<para>Semaphore </para>
+<link linkend="_structTN__Task">TN_Task</link>
+<para>Task </para>
+<link linkend="_structTN__TaskTiming">TN_TaskTiming</link>
+<para>Timing structure that is managed by profiler and can be read by <computeroutput>#<link linkend="_tn__tasks_8h_1a8f90a88f54d2d49bb1de00886241edfe">tn_task_profiler_timing_get()</link></computeroutput> function </para>
+<link linkend="_structTN__Timer">TN_Timer</link>
+<para>Timer </para>
+</section>

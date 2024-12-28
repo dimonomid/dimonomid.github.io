@@ -1,0 +1,419 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Neo overview}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Foreword}{3}{chapter.2}%
+\contentsline {chapter}{\numberline {3}Features}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Feature list}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Quick guide}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Using T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Neo in your application}{7}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Time ticks}{7}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Starting the kernel}{8}{section.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.0.1}Quick guide on startup process}{8}{subsubsection.4.3.0.1}%
+\contentsline {subsubsection}{\numberline {4.3.0.2}Basic example for P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}C32}{8}{subsubsection.4.3.0.2}%
+\contentsline {section}{\numberline {4.4}Round-\/robin scheduling}{11}{section.4.4}%
+\contentsline {chapter}{\numberline {5}Time ticks}{13}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Static tick}{13}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Dynamic tick}{13}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Interrupts}{15}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Interrupt stack}{15}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Interrupt types}{15}{section.6.2}%
+\contentsline {chapter}{\numberline {7}Building T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Neo}{17}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Configuration file}{17}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Makefile or library projects}{17}{section.7.2}%
+\contentsline {subsection}{\numberline {7.2.1}Makefile}{18}{subsection.7.2.1}%
+\contentsline {subsection}{\numberline {7.2.2}Library project}{19}{subsection.7.2.2}%
+\contentsline {section}{\numberline {7.3}Building manually}{19}{section.7.3}%
+\contentsline {chapter}{\numberline {8}Architecture-\/specific details}{21}{chapter.8}%
+\contentsline {section}{\numberline {8.1}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}C32 port details}{21}{section.8.1}%
+\contentsline {subsection}{\numberline {8.1.1}Context switch}{21}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {8.1.2}Interrupts}{21}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {8.1.3}Building}{22}{subsection.8.1.3}%
+\contentsline {section}{\numberline {8.2}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}C24/ds\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}C port details}{23}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}Context switch}{23}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}Interrupts}{23}{subsection.8.2.2}%
+\contentsline {subsection}{\numberline {8.2.3}Atomic access to the structure bit field}{24}{subsection.8.2.3}%
+\contentsline {subsection}{\numberline {8.2.4}Building}{24}{subsection.8.2.4}%
+\contentsline {section}{\numberline {8.3}Cortex-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M0/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M0+/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M3/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M4/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}M4\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}F port details}{24}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}Context switch}{24}{subsection.8.3.1}%
+\contentsline {subsection}{\numberline {8.3.2}Interrupts}{24}{subsection.8.3.2}%
+\contentsline {subsection}{\numberline {8.3.3}Building}{25}{subsection.8.3.3}%
+\contentsline {chapter}{\numberline {9}Why reimplement T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Kernel}{27}{chapter.9}%
+\contentsline {section}{\numberline {9.1}Essential problems of T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Kernel}{27}{section.9.1}%
+\contentsline {section}{\numberline {9.2}Examples of poor implementation}{27}{section.9.2}%
+\contentsline {subsection}{\numberline {9.2.1}One entry point, one exit point}{27}{subsection.9.2.1}%
+\contentsline {subsection}{\numberline {9.2.2}Don\textquotesingle {}t repeat yourself}{29}{subsection.9.2.2}%
+\contentsline {subsection}{\numberline {9.2.3}Macros that return from function}{29}{subsection.9.2.3}%
+\contentsline {subsection}{\numberline {9.2.4}Code for doubly-\/linked lists}{30}{subsection.9.2.4}%
+\contentsline {section}{\numberline {9.3}Bugs of T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Kernel 2.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}7}{30}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Differences from T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Kernel A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PI}{33}{chapter.10}%
+\contentsline {section}{\numberline {10.1}Incompatible A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I changes}{33}{section.10.1}%
+\contentsline {subsection}{\numberline {10.1.1}System startup}{33}{subsection.10.1.1}%
+\contentsline {subsection}{\numberline {10.1.2}Task creation A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}PI}{33}{subsection.10.1.2}%
+\contentsline {subsection}{\numberline {10.1.3}Task wakeup count, activate count, suspend count}{34}{subsection.10.1.3}%
+\contentsline {subsection}{\numberline {10.1.4}Fixed memory pool\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}: non-\/aligned address or block size}{34}{subsection.10.1.4}%
+\contentsline {subsection}{\numberline {10.1.5}Task service return values cleaned}{35}{subsection.10.1.5}%
+\contentsline {subsection}{\numberline {10.1.6}Force task releasing from wait}{35}{subsection.10.1.6}%
+\contentsline {subsection}{\numberline {10.1.7}Return code of tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sleep()}{35}{subsection.10.1.7}%
+\contentsline {subsection}{\numberline {10.1.8}Events A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I is changed almost completely}{35}{subsection.10.1.8}%
+\contentsline {subsection}{\numberline {10.1.9}Zero timeout given to system functions}{36}{subsection.10.1.9}%
+\contentsline {section}{\numberline {10.2}New features}{36}{section.10.2}%
+\contentsline {section}{\numberline {10.3}Compatible A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I changes}{36}{section.10.3}%
+\contentsline {subsection}{\numberline {10.3.1}Macro M\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}K\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}L\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}G()}{36}{subsection.10.3.1}%
+\contentsline {subsection}{\numberline {10.3.2}Convenience macros for stack arrays definition}{36}{subsection.10.3.2}%
+\contentsline {subsection}{\numberline {10.3.3}Convenience macros for fixed memory block pool buffers definition}{37}{subsection.10.3.3}%
+\contentsline {subsection}{\numberline {10.3.4}Things renamed}{37}{subsection.10.3.4}%
+\contentsline {subsection}{\numberline {10.3.5}We should wait for semaphore, not acquire it}{37}{subsection.10.3.5}%
+\contentsline {section}{\numberline {10.4}Changes that do not affect A\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}I directly}{37}{section.10.4}%
+\contentsline {subsection}{\numberline {10.4.1}No timer task}{37}{subsection.10.4.1}%
+\contentsline {chapter}{\numberline {11}Unit tests}{39}{chapter.11}%
+\contentsline {section}{\numberline {11.1}Tested C\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Us}{39}{section.11.1}%
+\contentsline {section}{\numberline {11.2}How tests are implemented}{39}{section.11.2}%
+\contentsline {section}{\numberline {11.3}Get unit-\/tests}{41}{section.11.3}%
+\contentsline {chapter}{\numberline {12}Plans}{43}{chapter.12}%
+\contentsline {chapter}{\numberline {13}Contribution}{45}{chapter.13}%
+\contentsline {section}{\numberline {13.1}Contribution}{45}{section.13.1}%
+\contentsline {section}{\numberline {13.2}Coding standard}{45}{section.13.2}%
+\contentsline {chapter}{\numberline {14}Changelog}{47}{chapter.14}%
+\contentsline {section}{\numberline {14.1}Current development version (\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}B\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}A)}{47}{section.14.1}%
+\contentsline {section}{\numberline {14.2}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}09}{47}{section.14.2}%
+\contentsline {section}{\numberline {14.3}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}08}{48}{section.14.3}%
+\contentsline {section}{\numberline {14.4}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}07}{48}{section.14.4}%
+\contentsline {section}{\numberline {14.5}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}06}{49}{section.14.5}%
+\contentsline {section}{\numberline {14.6}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}04}{49}{section.14.6}%
+\contentsline {section}{\numberline {14.7}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}03}{50}{section.14.7}%
+\contentsline {section}{\numberline {14.8}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}02}{50}{section.14.8}%
+\contentsline {section}{\numberline {14.9}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}01}{50}{section.14.9}%
+\contentsline {section}{\numberline {14.10}v1.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}0}{50}{section.14.10}%
+\contentsline {chapter}{\numberline {15}Thanks}{51}{chapter.15}%
+\contentsline {chapter}{\numberline {16}License}{53}{chapter.16}%
+\contentsline {chapter}{\numberline {17}Legend}{55}{chapter.17}%
+\contentsline {chapter}{\numberline {18}Data Structure Index}{57}{chapter.18}%
+\contentsline {section}{\numberline {18.1}Data Structures}{57}{section.18.1}%
+\contentsline {chapter}{\numberline {19}File Index}{59}{chapter.19}%
+\contentsline {section}{\numberline {19.1}File List}{59}{section.19.1}%
+\contentsline {chapter}{\numberline {20}Data Structure Documentation}{61}{chapter.20}%
+\contentsline {section}{\numberline {20.1}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Build\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Cfg Struct Reference}{61}{section.20.1}%
+\contentsline {subsection}{\numberline {20.1.1}Detailed Description}{61}{subsection.20.1.1}%
+\contentsline {section}{\numberline {20.2}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Profiler Struct Reference}{62}{section.20.2}%
+\contentsline {subsection}{\numberline {20.2.1}Detailed Description}{62}{subsection.20.2.1}%
+\contentsline {subsection}{\numberline {20.2.2}Field Documentation}{62}{subsection.20.2.2}%
+\contentsline {subsubsection}{\numberline {20.2.2.1}last\_wait\_reason}{63}{subsubsection.20.2.2.1}%
+\contentsline {subsubsection}{\numberline {20.2.2.2}timing}{63}{subsubsection.20.2.2.2}%
+\contentsline {section}{\numberline {20.3}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Queue Struct Reference}{63}{section.20.3}%
+\contentsline {subsection}{\numberline {20.3.1}Detailed Description}{63}{subsection.20.3.1}%
+\contentsline {subsection}{\numberline {20.3.2}Field Documentation}{64}{subsection.20.3.2}%
+\contentsline {subsubsection}{\numberline {20.3.2.1}id\_dque}{64}{subsubsection.20.3.2.1}%
+\contentsline {section}{\numberline {20.4}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}D\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Queue\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Wait Struct Reference}{64}{section.20.4}%
+\contentsline {subsection}{\numberline {20.4.1}Detailed Description}{64}{subsection.20.4.1}%
+\contentsline {section}{\numberline {20.5}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Grp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Link Struct Reference}{64}{section.20.5}%
+\contentsline {subsection}{\numberline {20.5.1}Detailed Description}{64}{subsection.20.5.1}%
+\contentsline {section}{\numberline {20.6}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Grp\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Wait Struct Reference}{65}{section.20.6}%
+\contentsline {subsection}{\numberline {20.6.1}Detailed Description}{65}{subsection.20.6.1}%
+\contentsline {section}{\numberline {20.7}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Event\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Grp Struct Reference}{65}{section.20.7}%
+\contentsline {subsection}{\numberline {20.7.1}Detailed Description}{65}{subsection.20.7.1}%
+\contentsline {subsection}{\numberline {20.7.2}Field Documentation}{66}{subsection.20.7.2}%
+\contentsline {subsubsection}{\numberline {20.7.2.1}id\_event}{66}{subsubsection.20.7.2.1}%
+\contentsline {section}{\numberline {20.8}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mem Struct Reference}{66}{section.20.8}%
+\contentsline {subsection}{\numberline {20.8.1}Detailed Description}{66}{subsection.20.8.1}%
+\contentsline {subsection}{\numberline {20.8.2}Field Documentation}{67}{subsection.20.8.2}%
+\contentsline {subsubsection}{\numberline {20.8.2.1}id\_fmp}{67}{subsubsection.20.8.2.1}%
+\contentsline {subsubsection}{\numberline {20.8.2.2}block\_size}{67}{subsubsection.20.8.2.2}%
+\contentsline {subsubsection}{\numberline {20.8.2.3}free\_list}{67}{subsubsection.20.8.2.3}%
+\contentsline {section}{\numberline {20.9}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}F\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mem\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Wait Struct Reference}{67}{section.20.9}%
+\contentsline {subsection}{\numberline {20.9.1}Detailed Description}{67}{subsection.20.9.1}%
+\contentsline {section}{\numberline {20.10}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}List\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Item Struct Reference}{68}{section.20.10}%
+\contentsline {subsection}{\numberline {20.10.1}Detailed Description}{68}{subsection.20.10.1}%
+\contentsline {section}{\numberline {20.11}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Mutex Struct Reference}{68}{section.20.11}%
+\contentsline {subsection}{\numberline {20.11.1}Detailed Description}{68}{subsection.20.11.1}%
+\contentsline {subsection}{\numberline {20.11.2}Field Documentation}{69}{subsection.20.11.2}%
+\contentsline {subsubsection}{\numberline {20.11.2.1}id\_mutex}{69}{subsubsection.20.11.2.1}%
+\contentsline {section}{\numberline {20.12}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Sem Struct Reference}{69}{section.20.12}%
+\contentsline {subsection}{\numberline {20.12.1}Detailed Description}{69}{subsection.20.12.1}%
+\contentsline {subsection}{\numberline {20.12.2}Field Documentation}{70}{subsection.20.12.2}%
+\contentsline {subsubsection}{\numberline {20.12.2.1}id\_sem}{70}{subsubsection.20.12.2.1}%
+\contentsline {section}{\numberline {20.13}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Task Struct Reference}{70}{section.20.13}%
+\contentsline {subsection}{\numberline {20.13.1}Detailed Description}{70}{subsection.20.13.1}%
+\contentsline {subsection}{\numberline {20.13.2}Field Documentation}{72}{subsection.20.13.2}%
+\contentsline {subsubsection}{\numberline {20.13.2.1}id\_task}{72}{subsubsection.20.13.2.1}%
+\contentsline {subsubsection}{\numberline {20.13.2.2}deadlock\_list}{72}{subsubsection.20.13.2.2}%
+\contentsline {subsubsection}{\numberline {20.13.2.3}stack\_low\_addr}{72}{subsubsection.20.13.2.3}%
+\contentsline {subsubsection}{\numberline {20.13.2.4}stack\_high\_addr}{73}{subsubsection.20.13.2.4}%
+\contentsline {subsubsection}{\numberline {20.13.2.5}subsys\_wait}{73}{subsubsection.20.13.2.5}%
+\contentsline {subsubsection}{\numberline {20.13.2.6}priority\_already\_updated}{73}{subsubsection.20.13.2.6}%
+\contentsline {section}{\numberline {20.14}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Task\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Timing Struct Reference}{73}{section.20.14}%
+\contentsline {subsection}{\numberline {20.14.1}Detailed Description}{73}{subsection.20.14.1}%
+\contentsline {subsection}{\numberline {20.14.2}Field Documentation}{74}{subsection.20.14.2}%
+\contentsline {subsubsection}{\numberline {20.14.2.1}total\_run\_time}{74}{subsubsection.20.14.2.1}%
+\contentsline {subsubsection}{\numberline {20.14.2.2}got\_running\_cnt}{74}{subsubsection.20.14.2.2}%
+\contentsline {subsubsection}{\numberline {20.14.2.3}total\_wait\_time}{75}{subsubsection.20.14.2.3}%
+\contentsline {subsubsection}{\numberline {20.14.2.4}max\_consecutive\_wait\_time}{75}{subsubsection.20.14.2.4}%
+\contentsline {section}{\numberline {20.15}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Timer Struct Reference}{75}{section.20.15}%
+\contentsline {subsection}{\numberline {20.15.1}Detailed Description}{75}{subsection.20.15.1}%
+\contentsline {subsection}{\numberline {20.15.2}Field Documentation}{76}{subsection.20.15.2}%
+\contentsline {subsubsection}{\numberline {20.15.2.1}id\_timer}{76}{subsubsection.20.15.2.1}%
+\contentsline {subsubsection}{\numberline {20.15.2.2}start\_tick\_cnt}{76}{subsubsection.20.15.2.2}%
+\contentsline {subsubsection}{\numberline {20.15.2.3}timeout}{77}{subsubsection.20.15.2.3}%
+\contentsline {subsubsection}{\numberline {20.15.2.4}timeout\_cur}{77}{subsubsection.20.15.2.4}%
+\contentsline {chapter}{\numberline {21}File Documentation}{79}{chapter.21}%
+\contentsline {section}{\numberline {21.1}arch/cortex\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}m/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cortex\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}m.h File Reference}{79}{section.21.1}%
+\contentsline {subsection}{\numberline {21.1.1}Detailed Description}{79}{subsection.21.1.1}%
+\contentsline {section}{\numberline {21.2}arch/example/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}example.h File Reference}{79}{section.21.2}%
+\contentsline {subsection}{\numberline {21.2.1}Detailed Description}{79}{subsection.21.2.1}%
+\contentsline {subsection}{\numberline {21.2.2}Macro Definition Documentation}{80}{subsection.21.2.2}%
+\contentsline {subsubsection}{\numberline {21.2.2.1}\_TN\_FFS}{80}{subsubsection.21.2.2.1}%
+\contentsline {subsubsection}{\numberline {21.2.2.2}\_TN\_FATAL\_ERRORF}{81}{subsubsection.21.2.2.2}%
+\contentsline {subsubsection}{\numberline {21.2.2.3}TN\_ARCH\_STK\_ATTR\_BEFORE}{81}{subsubsection.21.2.2.3}%
+\contentsline {subsubsection}{\numberline {21.2.2.4}TN\_ARCH\_STK\_ATTR\_AFTER}{81}{subsubsection.21.2.2.4}%
+\contentsline {subsubsection}{\numberline {21.2.2.5}TN\_PRIORITIES\_MAX\_CNT}{82}{subsubsection.21.2.2.5}%
+\contentsline {subsubsection}{\numberline {21.2.2.6}TN\_INTSAVE\_DATA}{82}{subsubsection.21.2.2.6}%
+\contentsline {subsubsection}{\numberline {21.2.2.7}TN\_INTSAVE\_DATA\_INT}{82}{subsubsection.21.2.2.7}%
+\contentsline {subsubsection}{\numberline {21.2.2.8}TN\_INT\_DIS\_SAVE}{83}{subsubsection.21.2.2.8}%
+\contentsline {subsubsection}{\numberline {21.2.2.9}TN\_INT\_RESTORE}{83}{subsubsection.21.2.2.9}%
+\contentsline {subsubsection}{\numberline {21.2.2.10}TN\_INT\_IDIS\_SAVE}{83}{subsubsection.21.2.2.10}%
+\contentsline {subsubsection}{\numberline {21.2.2.11}TN\_INT\_IRESTORE}{84}{subsubsection.21.2.2.11}%
+\contentsline {subsubsection}{\numberline {21.2.2.12}\_TN\_SIZE\_BYTES\_TO\_UWORDS}{84}{subsubsection.21.2.2.12}%
+\contentsline {subsubsection}{\numberline {21.2.2.13}\_TN\_INLINE}{84}{subsubsection.21.2.2.13}%
+\contentsline {subsubsection}{\numberline {21.2.2.14}\_TN\_VOLATILE\_WORKAROUND}{84}{subsubsection.21.2.2.14}%
+\contentsline {subsection}{\numberline {21.2.3}Typedef Documentation}{85}{subsection.21.2.3}%
+\contentsline {subsubsection}{\numberline {21.2.3.1}TN\_UWord}{85}{subsubsection.21.2.3.1}%
+\contentsline {subsubsection}{\numberline {21.2.3.2}TN\_UIntPtr}{85}{subsubsection.21.2.3.2}%
+\contentsline {section}{\numberline {21.3}arch/pic24\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dspic/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}pic24.h File Reference}{85}{section.21.3}%
+\contentsline {subsection}{\numberline {21.3.1}Detailed Description}{85}{subsection.21.3.1}%
+\contentsline {subsection}{\numberline {21.3.2}Macro Definition Documentation}{85}{subsection.21.3.2}%
+\contentsline {subsubsection}{\numberline {21.3.2.1}tn\_p24\_soft\_isr}{86}{subsubsection.21.3.2.1}%
+\contentsline {section}{\numberline {21.4}arch/pic24\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dspic/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}pic24\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}bfa.h File Reference}{86}{section.21.4}%
+\contentsline {subsection}{\numberline {21.4.1}Detailed Description}{86}{subsection.21.4.1}%
+\contentsline {subsection}{\numberline {21.4.2}Macro Definition Documentation}{87}{subsection.21.4.2}%
+\contentsline {subsubsection}{\numberline {21.4.2.1}TN\_BFA}{87}{subsubsection.21.4.2.1}%
+\contentsline {subsubsection}{\numberline {21.4.2.2}TN\_BFAR}{88}{subsubsection.21.4.2.2}%
+\contentsline {section}{\numberline {21.5}arch/pic32/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}pic32.h File Reference}{88}{section.21.5}%
+\contentsline {subsection}{\numberline {21.5.1}Detailed Description}{88}{subsection.21.5.1}%
+\contentsline {subsection}{\numberline {21.5.2}Macro Definition Documentation}{89}{subsection.21.5.2}%
+\contentsline {subsubsection}{\numberline {21.5.2.1}tn\_p32\_soft\_isr}{89}{subsubsection.21.5.2.1}%
+\contentsline {subsubsection}{\numberline {21.5.2.2}tn\_p32\_srs\_isr}{89}{subsubsection.21.5.2.2}%
+\contentsline {subsection}{\numberline {21.5.3}Variable Documentation}{90}{subsection.21.5.3}%
+\contentsline {subsubsection}{\numberline {21.5.3.1}tn\_p32\_int\_nest\_count}{90}{subsubsection.21.5.3.1}%
+\contentsline {subsubsection}{\numberline {21.5.3.2}tn\_p32\_user\_sp}{90}{subsubsection.21.5.3.2}%
+\contentsline {subsubsection}{\numberline {21.5.3.3}tn\_p32\_int\_sp}{90}{subsubsection.21.5.3.3}%
+\contentsline {section}{\numberline {21.6}arch/pic32/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}pic32\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}bfa.h File Reference}{91}{section.21.6}%
+\contentsline {subsection}{\numberline {21.6.1}Detailed Description}{91}{subsection.21.6.1}%
+\contentsline {subsection}{\numberline {21.6.2}Macro Definition Documentation}{91}{subsection.21.6.2}%
+\contentsline {subsubsection}{\numberline {21.6.2.1}TN\_BFA}{91}{subsubsection.21.6.2.1}%
+\contentsline {subsubsection}{\numberline {21.6.2.2}TN\_BFAR}{92}{subsubsection.21.6.2.2}%
+\contentsline {section}{\numberline {21.7}arch/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}arch.h File Reference}{93}{section.21.7}%
+\contentsline {subsection}{\numberline {21.7.1}Detailed Description}{93}{subsection.21.7.1}%
+\contentsline {subsection}{\numberline {21.7.2}Function Documentation}{94}{subsection.21.7.2}%
+\contentsline {subsubsection}{\numberline {21.7.2.1}tn\_arch\_int\_dis()}{94}{subsubsection.21.7.2.1}%
+\contentsline {subsubsection}{\numberline {21.7.2.2}tn\_arch\_int\_en()}{94}{subsubsection.21.7.2.2}%
+\contentsline {subsubsection}{\numberline {21.7.2.3}tn\_arch\_sr\_save\_int\_dis()}{94}{subsubsection.21.7.2.3}%
+\contentsline {subsubsection}{\numberline {21.7.2.4}tn\_arch\_sr\_restore()}{94}{subsubsection.21.7.2.4}%
+\contentsline {subsubsection}{\numberline {21.7.2.5}tn\_arch\_sched\_dis\_save()}{95}{subsubsection.21.7.2.5}%
+\contentsline {subsubsection}{\numberline {21.7.2.6}tn\_arch\_sched\_restore()}{95}{subsubsection.21.7.2.6}%
+\contentsline {subsubsection}{\numberline {21.7.2.7}\_tn\_arch\_stack\_init()}{95}{subsubsection.21.7.2.7}%
+\contentsline {subsubsection}{\numberline {21.7.2.8}\_tn\_arch\_inside\_isr()}{96}{subsubsection.21.7.2.8}%
+\contentsline {subsubsection}{\numberline {21.7.2.9}\_tn\_arch\_is\_int\_disabled()}{96}{subsubsection.21.7.2.9}%
+\contentsline {subsubsection}{\numberline {21.7.2.10}\_tn\_arch\_context\_switch\_pend()}{96}{subsubsection.21.7.2.10}%
+\contentsline {subsubsection}{\numberline {21.7.2.11}\_tn\_arch\_context\_switch\_now\_nosave()}{97}{subsubsection.21.7.2.11}%
+\contentsline {subsubsection}{\numberline {21.7.2.12}\_tn\_arch\_sys\_start()}{98}{subsubsection.21.7.2.12}%
+\contentsline {section}{\numberline {21.8}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cfg\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dispatch.h File Reference}{98}{section.21.8}%
+\contentsline {subsection}{\numberline {21.8.1}Detailed Description}{98}{subsection.21.8.1}%
+\contentsline {subsection}{\numberline {21.8.2}Macro Definition Documentation}{98}{subsection.21.8.2}%
+\contentsline {subsubsection}{\numberline {21.8.2.1}TN\_API\_MAKE\_ALIG\_ARG\_\_TYPE}{98}{subsubsection.21.8.2.1}%
+\contentsline {subsubsection}{\numberline {21.8.2.2}TN\_API\_MAKE\_ALIG\_ARG\_\_SIZE}{99}{subsubsection.21.8.2.2}%
+\contentsline {section}{\numberline {21.9}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}common.h File Reference}{99}{section.21.9}%
+\contentsline {subsection}{\numberline {21.9.1}Detailed Description}{99}{subsection.21.9.1}%
+\contentsline {subsection}{\numberline {21.9.2}Macro Definition Documentation}{100}{subsection.21.9.2}%
+\contentsline {subsubsection}{\numberline {21.9.2.1}TN\_MAKE\_ALIG\_SIZE}{100}{subsubsection.21.9.2.1}%
+\contentsline {subsubsection}{\numberline {21.9.2.2}\_TN\_UNUSED}{100}{subsubsection.21.9.2.2}%
+\contentsline {subsection}{\numberline {21.9.3}Typedef Documentation}{100}{subsection.21.9.3}%
+\contentsline {subsubsection}{\numberline {21.9.3.1}TN\_TickCnt}{101}{subsubsection.21.9.3.1}%
+\contentsline {subsection}{\numberline {21.9.4}Enumeration Type Documentation}{101}{subsection.21.9.4}%
+\contentsline {subsubsection}{\numberline {21.9.4.1}TN\_ObjId}{101}{subsubsection.21.9.4.1}%
+\contentsline {subsubsection}{\numberline {21.9.4.2}TN\_RCode}{102}{subsubsection.21.9.4.2}%
+\contentsline {section}{\numberline {21.10}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}common\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}macros.h File Reference}{103}{section.21.10}%
+\contentsline {subsection}{\numberline {21.10.1}Detailed Description}{103}{subsection.21.10.1}%
+\contentsline {subsection}{\numberline {21.10.2}Macro Definition Documentation}{103}{subsection.21.10.2}%
+\contentsline {subsubsection}{\numberline {21.10.2.1}\_TN\_STRINGIFY\_LITERAL}{104}{subsubsection.21.10.2.1}%
+\contentsline {subsubsection}{\numberline {21.10.2.2}\_TN\_STRINGIFY\_MACRO}{104}{subsubsection.21.10.2.2}%
+\contentsline {section}{\numberline {21.11}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dqueue.h File Reference}{104}{section.21.11}%
+\contentsline {subsection}{\numberline {21.11.1}Detailed Description}{104}{subsection.21.11.1}%
+\contentsline {subsection}{\numberline {21.11.2}Function Documentation}{105}{subsection.21.11.2}%
+\contentsline {subsubsection}{\numberline {21.11.2.1}tn\_queue\_create()}{105}{subsubsection.21.11.2.1}%
+\contentsline {subsubsection}{\numberline {21.11.2.2}tn\_queue\_delete()}{106}{subsubsection.21.11.2.2}%
+\contentsline {subsubsection}{\numberline {21.11.2.3}tn\_queue\_send()}{106}{subsubsection.21.11.2.3}%
+\contentsline {subsubsection}{\numberline {21.11.2.4}tn\_queue\_send\_polling()}{108}{subsubsection.21.11.2.4}%
+\contentsline {subsubsection}{\numberline {21.11.2.5}tn\_queue\_isend\_polling()}{108}{subsubsection.21.11.2.5}%
+\contentsline {subsubsection}{\numberline {21.11.2.6}tn\_queue\_receive()}{109}{subsubsection.21.11.2.6}%
+\contentsline {subsubsection}{\numberline {21.11.2.7}tn\_queue\_receive\_polling()}{109}{subsubsection.21.11.2.7}%
+\contentsline {subsubsection}{\numberline {21.11.2.8}tn\_queue\_ireceive\_polling()}{110}{subsubsection.21.11.2.8}%
+\contentsline {subsubsection}{\numberline {21.11.2.9}tn\_queue\_free\_items\_cnt\_get()}{110}{subsubsection.21.11.2.9}%
+\contentsline {subsubsection}{\numberline {21.11.2.10}tn\_queue\_used\_items\_cnt\_get()}{110}{subsubsection.21.11.2.10}%
+\contentsline {subsubsection}{\numberline {21.11.2.11}tn\_queue\_eventgrp\_connect()}{111}{subsubsection.21.11.2.11}%
+\contentsline {subsubsection}{\numberline {21.11.2.12}tn\_queue\_eventgrp\_disconnect()}{111}{subsubsection.21.11.2.12}%
+\contentsline {section}{\numberline {21.12}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}eventgrp.h File Reference}{111}{section.21.12}%
+\contentsline {subsection}{\numberline {21.12.1}Detailed Description}{111}{subsection.21.12.1}%
+\contentsline {subsection}{\numberline {21.12.2}Connecting an event group to other system objects}{112}{subsection.21.12.2}%
+\contentsline {subsection}{\numberline {21.12.3}Enumeration Type Documentation}{113}{subsection.21.12.3}%
+\contentsline {subsubsection}{\numberline {21.12.3.1}TN\_EGrpWaitMode}{113}{subsubsection.21.12.3.1}%
+\contentsline {subsubsection}{\numberline {21.12.3.2}TN\_EGrpOp}{114}{subsubsection.21.12.3.2}%
+\contentsline {subsubsection}{\numberline {21.12.3.3}TN\_EGrpAttr}{114}{subsubsection.21.12.3.3}%
+\contentsline {subsection}{\numberline {21.12.4}Function Documentation}{115}{subsection.21.12.4}%
+\contentsline {subsubsection}{\numberline {21.12.4.1}tn\_eventgrp\_create\_wattr()}{115}{subsubsection.21.12.4.1}%
+\contentsline {subsubsection}{\numberline {21.12.4.2}tn\_eventgrp\_create()}{115}{subsubsection.21.12.4.2}%
+\contentsline {subsubsection}{\numberline {21.12.4.3}tn\_eventgrp\_delete()}{116}{subsubsection.21.12.4.3}%
+\contentsline {subsubsection}{\numberline {21.12.4.4}tn\_eventgrp\_wait()}{116}{subsubsection.21.12.4.4}%
+\contentsline {subsubsection}{\numberline {21.12.4.5}tn\_eventgrp\_wait\_polling()}{117}{subsubsection.21.12.4.5}%
+\contentsline {subsubsection}{\numberline {21.12.4.6}tn\_eventgrp\_iwait\_polling()}{117}{subsubsection.21.12.4.6}%
+\contentsline {subsubsection}{\numberline {21.12.4.7}tn\_eventgrp\_modify()}{118}{subsubsection.21.12.4.7}%
+\contentsline {subsubsection}{\numberline {21.12.4.8}tn\_eventgrp\_imodify()}{118}{subsubsection.21.12.4.8}%
+\contentsline {section}{\numberline {21.13}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}fmem.h File Reference}{118}{section.21.13}%
+\contentsline {subsection}{\numberline {21.13.1}Detailed Description}{118}{subsection.21.13.1}%
+\contentsline {subsection}{\numberline {21.13.2}Macro Definition Documentation}{119}{subsection.21.13.2}%
+\contentsline {subsubsection}{\numberline {21.13.2.1}TN\_FMEM\_BUF\_DEF}{119}{subsubsection.21.13.2.1}%
+\contentsline {subsection}{\numberline {21.13.3}Function Documentation}{120}{subsection.21.13.3}%
+\contentsline {subsubsection}{\numberline {21.13.3.1}tn\_fmem\_create()}{120}{subsubsection.21.13.3.1}%
+\contentsline {subsubsection}{\numberline {21.13.3.2}tn\_fmem\_delete()}{121}{subsubsection.21.13.3.2}%
+\contentsline {subsubsection}{\numberline {21.13.3.3}tn\_fmem\_get()}{121}{subsubsection.21.13.3.3}%
+\contentsline {subsubsection}{\numberline {21.13.3.4}tn\_fmem\_get\_polling()}{122}{subsubsection.21.13.3.4}%
+\contentsline {subsubsection}{\numberline {21.13.3.5}tn\_fmem\_iget\_polling()}{122}{subsubsection.21.13.3.5}%
+\contentsline {subsubsection}{\numberline {21.13.3.6}tn\_fmem\_release()}{122}{subsubsection.21.13.3.6}%
+\contentsline {subsubsection}{\numberline {21.13.3.7}tn\_fmem\_irelease()}{123}{subsubsection.21.13.3.7}%
+\contentsline {subsubsection}{\numberline {21.13.3.8}tn\_fmem\_free\_blocks\_cnt\_get()}{123}{subsubsection.21.13.3.8}%
+\contentsline {subsubsection}{\numberline {21.13.3.9}tn\_fmem\_used\_blocks\_cnt\_get()}{123}{subsubsection.21.13.3.9}%
+\contentsline {section}{\numberline {21.14}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}list.h File Reference}{124}{section.21.14}%
+\contentsline {subsection}{\numberline {21.14.1}Detailed Description}{124}{subsection.21.14.1}%
+\contentsline {section}{\numberline {21.15}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}mutex.h File Reference}{124}{section.21.15}%
+\contentsline {subsection}{\numberline {21.15.1}Detailed Description}{124}{subsection.21.15.1}%
+\contentsline {subsection}{\numberline {21.15.2}Enumeration Type Documentation}{125}{subsection.21.15.2}%
+\contentsline {subsubsection}{\numberline {21.15.2.1}TN\_MutexProtocol}{125}{subsubsection.21.15.2.1}%
+\contentsline {subsection}{\numberline {21.15.3}Function Documentation}{126}{subsection.21.15.3}%
+\contentsline {subsubsection}{\numberline {21.15.3.1}tn\_mutex\_create()}{126}{subsubsection.21.15.3.1}%
+\contentsline {subsubsection}{\numberline {21.15.3.2}tn\_mutex\_delete()}{126}{subsubsection.21.15.3.2}%
+\contentsline {subsubsection}{\numberline {21.15.3.3}tn\_mutex\_lock()}{126}{subsubsection.21.15.3.3}%
+\contentsline {subsubsection}{\numberline {21.15.3.4}tn\_mutex\_lock\_polling()}{127}{subsubsection.21.15.3.4}%
+\contentsline {subsubsection}{\numberline {21.15.3.5}tn\_mutex\_unlock()}{127}{subsubsection.21.15.3.5}%
+\contentsline {section}{\numberline {21.16}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}oldsymbols.h File Reference}{128}{section.21.16}%
+\contentsline {subsection}{\numberline {21.16.1}Detailed Description}{128}{subsection.21.16.1}%
+\contentsline {subsection}{\numberline {21.16.2}Macro Definition Documentation}{131}{subsection.21.16.2}%
+\contentsline {subsubsection}{\numberline {21.16.2.1}MAKE\_ALIG}{131}{subsubsection.21.16.2.1}%
+\contentsline {subsubsection}{\numberline {21.16.2.2}TN\_EVENT\_ATTR\_SINGLE}{131}{subsubsection.21.16.2.2}%
+\contentsline {subsubsection}{\numberline {21.16.2.3}TN\_EVENT\_ATTR\_MULTI}{132}{subsubsection.21.16.2.3}%
+\contentsline {subsubsection}{\numberline {21.16.2.4}TN\_EVENT\_ATTR\_CLR}{132}{subsubsection.21.16.2.4}%
+\contentsline {subsubsection}{\numberline {21.16.2.5}tn\_event\_create}{132}{subsubsection.21.16.2.5}%
+\contentsline {subsubsection}{\numberline {21.16.2.6}tn\_event\_delete}{132}{subsubsection.21.16.2.6}%
+\contentsline {subsubsection}{\numberline {21.16.2.7}tn\_event\_wait}{132}{subsubsection.21.16.2.7}%
+\contentsline {subsubsection}{\numberline {21.16.2.8}tn\_event\_wait\_polling}{133}{subsubsection.21.16.2.8}%
+\contentsline {subsubsection}{\numberline {21.16.2.9}tn\_event\_iwait}{133}{subsubsection.21.16.2.9}%
+\contentsline {subsubsection}{\numberline {21.16.2.10}tn\_event\_set}{133}{subsubsection.21.16.2.10}%
+\contentsline {subsubsection}{\numberline {21.16.2.11}tn\_event\_iset}{133}{subsubsection.21.16.2.11}%
+\contentsline {subsubsection}{\numberline {21.16.2.12}tn\_event\_clear}{133}{subsubsection.21.16.2.12}%
+\contentsline {subsubsection}{\numberline {21.16.2.13}tn\_event\_iclear}{134}{subsubsection.21.16.2.13}%
+\contentsline {section}{\numberline {21.17}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sem.h File Reference}{134}{section.21.17}%
+\contentsline {subsection}{\numberline {21.17.1}Detailed Description}{134}{subsection.21.17.1}%
+\contentsline {subsection}{\numberline {21.17.2}Function Documentation}{135}{subsection.21.17.2}%
+\contentsline {subsubsection}{\numberline {21.17.2.1}tn\_sem\_create()}{135}{subsubsection.21.17.2.1}%
+\contentsline {subsubsection}{\numberline {21.17.2.2}tn\_sem\_delete()}{135}{subsubsection.21.17.2.2}%
+\contentsline {subsubsection}{\numberline {21.17.2.3}tn\_sem\_signal()}{135}{subsubsection.21.17.2.3}%
+\contentsline {subsubsection}{\numberline {21.17.2.4}tn\_sem\_isignal()}{136}{subsubsection.21.17.2.4}%
+\contentsline {subsubsection}{\numberline {21.17.2.5}tn\_sem\_wait()}{136}{subsubsection.21.17.2.5}%
+\contentsline {subsubsection}{\numberline {21.17.2.6}tn\_sem\_wait\_polling()}{136}{subsubsection.21.17.2.6}%
+\contentsline {subsubsection}{\numberline {21.17.2.7}tn\_sem\_iwait\_polling()}{137}{subsubsection.21.17.2.7}%
+\contentsline {section}{\numberline {21.18}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}sys.h File Reference}{137}{section.21.18}%
+\contentsline {subsection}{\numberline {21.18.1}Detailed Description}{137}{subsection.21.18.1}%
+\contentsline {subsection}{\numberline {21.18.2}Macro Definition Documentation}{138}{subsection.21.18.2}%
+\contentsline {subsubsection}{\numberline {21.18.2.1}TN\_STACK\_ARR\_DEF}{139}{subsubsection.21.18.2.1}%
+\contentsline {subsubsection}{\numberline {21.18.2.2}\_TN\_BUILD\_CFG\_ARCH\_STRUCT\_FILL}{139}{subsubsection.21.18.2.2}%
+\contentsline {subsubsection}{\numberline {21.18.2.3}\_TN\_BUILD\_CFG\_STRUCT\_FILL}{139}{subsubsection.21.18.2.3}%
+\contentsline {subsection}{\numberline {21.18.3}Typedef Documentation}{139}{subsection.21.18.3}%
+\contentsline {subsubsection}{\numberline {21.18.3.1}TN\_CBUserTaskCreate}{140}{subsubsection.21.18.3.1}%
+\contentsline {subsubsection}{\numberline {21.18.3.2}TN\_CBIdle}{140}{subsubsection.21.18.3.2}%
+\contentsline {subsubsection}{\numberline {21.18.3.3}TN\_CBStackOverflow}{140}{subsubsection.21.18.3.3}%
+\contentsline {subsubsection}{\numberline {21.18.3.4}TN\_CBDeadlock}{141}{subsubsection.21.18.3.4}%
+\contentsline {subsection}{\numberline {21.18.4}Enumeration Type Documentation}{141}{subsection.21.18.4}%
+\contentsline {subsubsection}{\numberline {21.18.4.1}TN\_StateFlag}{141}{subsubsection.21.18.4.1}%
+\contentsline {subsubsection}{\numberline {21.18.4.2}TN\_Context}{141}{subsubsection.21.18.4.2}%
+\contentsline {subsection}{\numberline {21.18.5}Function Documentation}{142}{subsection.21.18.5}%
+\contentsline {subsubsection}{\numberline {21.18.5.1}tn\_sys\_start()}{142}{subsubsection.21.18.5.1}%
+\contentsline {subsubsection}{\numberline {21.18.5.2}tn\_tick\_int\_processing()}{142}{subsubsection.21.18.5.2}%
+\contentsline {subsubsection}{\numberline {21.18.5.3}tn\_sys\_tslice\_set()}{143}{subsubsection.21.18.5.3}%
+\contentsline {subsubsection}{\numberline {21.18.5.4}tn\_sys\_time\_get()}{143}{subsubsection.21.18.5.4}%
+\contentsline {subsubsection}{\numberline {21.18.5.5}tn\_callback\_deadlock\_set()}{143}{subsubsection.21.18.5.5}%
+\contentsline {subsubsection}{\numberline {21.18.5.6}tn\_callback\_stack\_overflow\_set()}{144}{subsubsection.21.18.5.6}%
+\contentsline {subsubsection}{\numberline {21.18.5.7}tn\_sys\_state\_flags\_get()}{144}{subsubsection.21.18.5.7}%
+\contentsline {subsubsection}{\numberline {21.18.5.8}tn\_sys\_context\_get()}{144}{subsubsection.21.18.5.8}%
+\contentsline {subsubsection}{\numberline {21.18.5.9}tn\_is\_task\_context()}{144}{subsubsection.21.18.5.9}%
+\contentsline {subsubsection}{\numberline {21.18.5.10}tn\_is\_isr\_context()}{144}{subsubsection.21.18.5.10}%
+\contentsline {subsubsection}{\numberline {21.18.5.11}tn\_cur\_task\_get()}{145}{subsubsection.21.18.5.11}%
+\contentsline {subsubsection}{\numberline {21.18.5.12}tn\_cur\_task\_body\_get()}{145}{subsubsection.21.18.5.12}%
+\contentsline {subsubsection}{\numberline {21.18.5.13}tn\_sched\_dis\_save()}{145}{subsubsection.21.18.5.13}%
+\contentsline {subsubsection}{\numberline {21.18.5.14}tn\_sched\_restore()}{145}{subsubsection.21.18.5.14}%
+\contentsline {subsubsection}{\numberline {21.18.5.15}tn\_callback\_dyn\_tick\_set()}{146}{subsubsection.21.18.5.15}%
+\contentsline {section}{\numberline {21.19}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tasks.h File Reference}{146}{section.21.19}%
+\contentsline {subsection}{\numberline {21.19.1}Detailed Description}{146}{subsection.21.19.1}%
+\contentsline {subsection}{\numberline {21.19.2}Task}{146}{subsection.21.19.2}%
+\contentsline {subsection}{\numberline {21.19.3}Task states}{146}{subsection.21.19.3}%
+\contentsline {subsection}{\numberline {21.19.4}Creating/starting tasks}{146}{subsection.21.19.4}%
+\contentsline {subsection}{\numberline {21.19.5}Stopping/deleting tasks}{146}{subsection.21.19.5}%
+\contentsline {subsection}{\numberline {21.19.6}Scheduling rules}{147}{subsection.21.19.6}%
+\contentsline {subsection}{\numberline {21.19.7}Idle task}{147}{subsection.21.19.7}%
+\contentsline {subsection}{\numberline {21.19.8}Enumeration Type Documentation}{148}{subsection.21.19.8}%
+\contentsline {subsubsection}{\numberline {21.19.8.1}TN\_TaskState}{148}{subsubsection.21.19.8.1}%
+\contentsline {subsubsection}{\numberline {21.19.8.2}TN\_WaitReason}{149}{subsubsection.21.19.8.2}%
+\contentsline {subsubsection}{\numberline {21.19.8.3}TN\_TaskCreateOpt}{150}{subsubsection.21.19.8.3}%
+\contentsline {subsubsection}{\numberline {21.19.8.4}TN\_TaskExitOpt}{150}{subsubsection.21.19.8.4}%
+\contentsline {subsection}{\numberline {21.19.9}Function Documentation}{150}{subsection.21.19.9}%
+\contentsline {subsubsection}{\numberline {21.19.9.1}tn\_task\_create()}{150}{subsubsection.21.19.9.1}%
+\contentsline {subsubsection}{\numberline {21.19.9.2}tn\_task\_suspend()}{151}{subsubsection.21.19.9.2}%
+\contentsline {subsubsection}{\numberline {21.19.9.3}tn\_task\_resume()}{152}{subsubsection.21.19.9.3}%
+\contentsline {subsubsection}{\numberline {21.19.9.4}tn\_task\_sleep()}{152}{subsubsection.21.19.9.4}%
+\contentsline {subsubsection}{\numberline {21.19.9.5}tn\_task\_wakeup()}{153}{subsubsection.21.19.9.5}%
+\contentsline {subsubsection}{\numberline {21.19.9.6}tn\_task\_iwakeup()}{153}{subsubsection.21.19.9.6}%
+\contentsline {subsubsection}{\numberline {21.19.9.7}tn\_task\_activate()}{153}{subsubsection.21.19.9.7}%
+\contentsline {subsubsection}{\numberline {21.19.9.8}tn\_task\_iactivate()}{154}{subsubsection.21.19.9.8}%
+\contentsline {subsubsection}{\numberline {21.19.9.9}tn\_task\_release\_wait()}{154}{subsubsection.21.19.9.9}%
+\contentsline {subsubsection}{\numberline {21.19.9.10}tn\_task\_irelease\_wait()}{154}{subsubsection.21.19.9.10}%
+\contentsline {subsubsection}{\numberline {21.19.9.11}tn\_task\_exit()}{155}{subsubsection.21.19.9.11}%
+\contentsline {subsubsection}{\numberline {21.19.9.12}tn\_task\_terminate()}{155}{subsubsection.21.19.9.12}%
+\contentsline {subsubsection}{\numberline {21.19.9.13}tn\_task\_delete()}{156}{subsubsection.21.19.9.13}%
+\contentsline {subsubsection}{\numberline {21.19.9.14}tn\_task\_state\_get()}{156}{subsubsection.21.19.9.14}%
+\contentsline {subsubsection}{\numberline {21.19.9.15}tn\_task\_profiler\_timing\_get()}{156}{subsubsection.21.19.9.15}%
+\contentsline {subsubsection}{\numberline {21.19.9.16}tn\_task\_change\_priority()}{157}{subsubsection.21.19.9.16}%
+\contentsline {section}{\numberline {21.20}core/tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}timer.h File Reference}{157}{section.21.20}%
+\contentsline {subsection}{\numberline {21.20.1}Detailed Description}{157}{subsection.21.20.1}%
+\contentsline {subsection}{\numberline {21.20.2}Implementation of static timers}{157}{subsection.21.20.2}%
+\contentsline {subsection}{\numberline {21.20.3}Typedef Documentation}{159}{subsection.21.20.3}%
+\contentsline {subsubsection}{\numberline {21.20.3.1}TN\_TimerFunc}{159}{subsubsection.21.20.3.1}%
+\contentsline {subsubsection}{\numberline {21.20.3.2}TN\_CBTickSchedule}{159}{subsubsection.21.20.3.2}%
+\contentsline {subsubsection}{\numberline {21.20.3.3}TN\_CBTickCntGet}{160}{subsubsection.21.20.3.3}%
+\contentsline {subsection}{\numberline {21.20.4}Function Documentation}{160}{subsection.21.20.4}%
+\contentsline {subsubsection}{\numberline {21.20.4.1}tn\_timer\_create()}{160}{subsubsection.21.20.4.1}%
+\contentsline {subsubsection}{\numberline {21.20.4.2}tn\_timer\_delete()}{160}{subsubsection.21.20.4.2}%
+\contentsline {subsubsection}{\numberline {21.20.4.3}tn\_timer\_start()}{161}{subsubsection.21.20.4.3}%
+\contentsline {subsubsection}{\numberline {21.20.4.4}tn\_timer\_cancel()}{161}{subsubsection.21.20.4.4}%
+\contentsline {subsubsection}{\numberline {21.20.4.5}tn\_timer\_set\_func()}{162}{subsubsection.21.20.4.5}%
+\contentsline {subsubsection}{\numberline {21.20.4.6}tn\_timer\_is\_active()}{162}{subsubsection.21.20.4.6}%
+\contentsline {subsubsection}{\numberline {21.20.4.7}tn\_timer\_time\_left()}{162}{subsubsection.21.20.4.7}%
+\contentsline {section}{\numberline {21.21}tn.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{163}{section.21.21}%
+\contentsline {subsection}{\numberline {21.21.1}Detailed Description}{163}{subsection.21.21.1}%
+\contentsline {section}{\numberline {21.22}tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}app\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}check.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}c File Reference}{163}{section.21.22}%
+\contentsline {subsection}{\numberline {21.22.1}Detailed Description}{163}{subsection.21.22.1}%
+\contentsline {subsection}{\numberline {21.22.2}Function Documentation}{163}{subsection.21.22.2}%
+\contentsline {subsubsection}{\numberline {21.22.2.1}you\_should\_add\_file\_\_\_tn\_app\_check\_c\_\_\_to\_the\_project()}{163}{subsubsection.21.22.2.1}%
+\contentsline {section}{\numberline {21.23}tn\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}cfg\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}default.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h File Reference}{163}{section.21.23}%
+\contentsline {subsection}{\numberline {21.23.1}Detailed Description}{163}{subsection.21.23.1}%
+\contentsline {subsection}{\numberline {21.23.2}Macro Definition Documentation}{165}{subsection.21.23.2}%
+\contentsline {subsubsection}{\numberline {21.23.2.1}TN\_CHECK\_BUILD\_CFG}{165}{subsubsection.21.23.2.1}%
+\contentsline {subsubsection}{\numberline {21.23.2.2}TN\_PRIORITIES\_CNT}{165}{subsubsection.21.23.2.2}%
+\contentsline {subsubsection}{\numberline {21.23.2.3}TN\_CHECK\_PARAM}{165}{subsubsection.21.23.2.3}%
+\contentsline {subsubsection}{\numberline {21.23.2.4}TN\_DEBUG}{166}{subsubsection.21.23.2.4}%
+\contentsline {subsubsection}{\numberline {21.23.2.5}TN\_OLD\_TNKERNEL\_NAMES}{166}{subsubsection.21.23.2.5}%
+\contentsline {subsubsection}{\numberline {21.23.2.6}TN\_MUTEX\_DEADLOCK\_DETECT}{166}{subsubsection.21.23.2.6}%
+\contentsline {subsubsection}{\numberline {21.23.2.7}TN\_TICK\_LISTS\_CNT}{166}{subsubsection.21.23.2.7}%
+\contentsline {subsubsection}{\numberline {21.23.2.8}TN\_API\_MAKE\_ALIG\_ARG}{166}{subsubsection.21.23.2.8}%
+\contentsline {subsubsection}{\numberline {21.23.2.9}TN\_PROFILER}{167}{subsubsection.21.23.2.9}%
+\contentsline {subsubsection}{\numberline {21.23.2.10}TN\_PROFILER\_WAIT\_TIME}{167}{subsubsection.21.23.2.10}%
+\contentsline {subsubsection}{\numberline {21.23.2.11}TN\_INIT\_INTERRUPT\_STACK\_SPACE}{167}{subsubsection.21.23.2.11}%
+\contentsline {subsubsection}{\numberline {21.23.2.12}TN\_STACK\_OVERFLOW\_CHECK}{167}{subsubsection.21.23.2.12}%
+\contentsline {subsubsection}{\numberline {21.23.2.13}TN\_OLD\_EVENT\_API}{168}{subsubsection.21.23.2.13}%
+\contentsline {subsubsection}{\numberline {21.23.2.14}TN\_MAX\_INLINE}{168}{subsubsection.21.23.2.14}%
+\contentsline {subsubsection}{\numberline {21.23.2.15}TN\_P24\_SYS\_IPL}{168}{subsubsection.21.23.2.15}%
+\contentsline {chapter}{Index}{169}{section*.58}%
